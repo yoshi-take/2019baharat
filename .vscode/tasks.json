@@ -1,0 +1,32 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Build",
+            "type": "shell",
+            "command": "C:/Program Files (x86)/Renesas Electronics/CS+/CC/CubeSuite+.exe",
+            "args":[    // 引数指定
+                "/bb",  // ビルドを実行
+                "C:/Users/TAKERU/OneDrive/denken/2019baharat_vscode/2019baharat.mtpj",  // プロジェクトファイル(.mtpj)をディレクトリから指定する
+            ],
+            "group":{
+                "kind": "build",
+                "isDefault": true
+            }
+
+        },
+        {
+            "label": "Flash",    // マイコンへの書き込み
+            "type": "shell",
+            "command":"C:/Program Files (x86)/Renesas Electronics/Programming Tools/Renesas Flash Programmer V3.02/RFPV3.exe",
+            "args":[
+                "/silent",   // GUI非表示で起動
+                "C:/Users/TAKERU/Documents/Renesas Flash Programmer/V3.02/2019baharat_vscode/2019baharat_vscode.rpj",   // プロジェクトファイルが存在するディレクトリ
+                "/log",     // ログを保存
+                "C:/Users/TAKERU/Documents/Renesas Flash Programmer/Flash Programmer.log", // ログを保存する場所
+            ],
+        }
+    ]
+}

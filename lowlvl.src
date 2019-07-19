@@ -1,0 +1,27 @@
+;------------------------------------------------------------------------
+;                                                                       |
+;   FILE        :lowlvl.src                                             |
+;   DATE        :Tue, Jul 08, 2008                                      |
+;   DESCRIPTION :Program of Low level                                   |
+;   CPU TYPE    :                                                       |
+;                                                                       |
+;   NOTE:THIS IS A TYPICAL EXAMPLE.                                     |
+;                                                                       |
+;------------------------------------------------------------------------
+                  
+
+         .GLB    _charput
+         .GLB    _charget
+
+SIM_IO   .EQU 0h
+
+         .SECTION   P,CODE
+
+;-----------------------------------------------------------------------
+;  I/O Buffer
+;-----------------------------------------------------------------------
+         .SECTION  B,DATA,ALIGN=4
+PARM:    .BLKL     1
+         .SECTION  B_1,DATA
+IO_BUF:  .BLKB     1
+         .END

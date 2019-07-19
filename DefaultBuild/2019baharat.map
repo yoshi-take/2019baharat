@@ -1,0 +1,98 @@
+Renesas Optimizing Linker (W2.08.00 )             14-Jul-2019 17:08:12
+
+*** Options ***
+
+-subcommand=DefaultBuild\2019baharat.clnk
+-library=DefaultBuild\2019baharat.lib
+-input=DefaultBuild\2019baharat.obj
+-input=DefaultBuild\dbsct.obj
+-input=DefaultBuild\intprg.obj
+-input=DefaultBuild\resetprg.obj
+-input=DefaultBuild\sbrk.obj
+-input=DefaultBuild\vecttbl.obj
+-input=DefaultBuild\hal_led.obj
+-input=DefaultBuild\mode.obj
+-input=DefaultBuild\lowlvl.obj
+-input=DefaultBuild\lowsrc.obj
+-input=DefaultBuild\hal_sci.obj
+-input=DefaultBuild\hal_battery.obj
+-input=DefaultBuild\hal_spk.obj
+-input=DefaultBuild\hal_gyro.obj
+-input=DefaultBuild\hal_spi.obj
+-input=DefaultBuild\hal_dist.obj
+-input=DefaultBuild\parameter.obj
+-input=DefaultBuild\hal_dcm.obj
+-input=DefaultBuild\hal_dcmCtrl.obj
+-input=DefaultBuild\hal_enc.obj
+-noprelink
+-output=DefaultBuild\2019baharat.abs
+-list=DefaultBuild\2019baharat.map
+-nooptimize
+-start=B_1,R_1,B_2,R_2,B,R,SU,SI/04,PResetPRG/0FFF80000,C_1,C_2,C,C$DSEC,C$BSEC,C$INIT,C$VTBL,C$VECT,D_1,D_2,D,P,PIntPRG,W_1,W_2,W,L/0FFF80100,FIXEDVECT/0FFFFFFD0
+-rom=D=R,D_1=R_1,D_2=R_2
+-nologo
+-end
+
+*** Error information ***
+
+*** Mapping List ***
+
+SECTION                            START      END         SIZE   ALIGN
+B_1
+                                  00000004  0000002e        2b   1
+R_1
+                                  0000002f  00000081        53   1
+B_2
+                                  00000082  000000d1        50   2
+R_2
+                                  000000d2  000000df         e   2
+B
+                                  000000e0  00000557       478   4
+R
+                                  00000558  0000086b       314   4
+SU
+                                  0000086c  0000096b       100   4
+SI
+                                  0000096c  00000c6b       300   4
+PResetPRG
+                                  fff80000  fff80034        35   1
+C_1
+                                  fff80100  fff801d1        d2   1
+C_2
+                                  fff801d2  fff803d3       202   2
+C
+                                  fff803d4  fff8172b      1358   4
+C$DSEC
+                                  fff8172c  fff8174f        24   4
+C$BSEC
+                                  fff81750  fff81767        18   4
+C$INIT
+                                  fff81768  fff81768         0   1
+C$VTBL
+                                  fff81768  fff81768         0   1
+C$VECT
+                                  fff81768  fff81b67       400   4
+D_1
+                                  fff81b68  fff81bba        53   1
+D_2
+                                  fff81bbc  fff81bc9         e   2
+D
+                                  fff81bcc  fff81edf       314   4
+P
+                                  fff81ee0  fff87693      57b4   1
+PIntPRG
+                                  fff87694  fff87879       1e6   1
+W_1
+                                  fff8787a  fff8789e        25   1
+W_2
+                                  fff878a0  fff878c3        24   2
+W
+                                  fff878c4  fff878c4         0   4
+L
+                                  fff878c4  fff87b9c       2d9   4
+$ADDR_C_FFFFFF80
+                                  ffffff80  ffffff83         4   1
+$ADDR_C_FFFFFFA0
+                                  ffffffa0  ffffffaf        10   1
+FIXEDVECT
+                                  ffffffd0  ffffffff        30   4
