@@ -1,219 +1,218 @@
 // *************************************************************************
-//   ï¿½ï¿½ï¿½{ï¿½bï¿½gï¿½ï¿½	ï¿½F Baharatï¿½iï¿½oï¿½nï¿½ï¿½ï¿½bï¿½gï¿½j
-//   ï¿½Tï¿½v		ï¿½F ï¿½Tï¿½ï¿½ï¿½Vï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½ï¿½HALï¿½iï¿½nï¿½[ï¿½hï¿½Eï¿½Gï¿½Aï¿½ï¿½ï¿½Û‘wï¿½jï¿½tï¿½@ï¿½Cï¿½ï¿½
-//   ï¿½ï¿½ï¿½ï¿½		ï¿½F ï¿½È‚ï¿½
-//   ï¿½ï¿½ï¿½ï¿½		ï¿½F parameter
-//   ï¿½ï¿½ï¿½ï¿½		ï¿½F ï¿½È‚ï¿½
-//   ï¿½Ô‚ï¿½l		ï¿½F ï¿½È‚ï¿½
-// **************************    ï¿½ï¿½    ï¿½ï¿½    *******************************
-// 		v1.0		2019.5.5			TKR			ï¿½Vï¿½Kï¿½iï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ÌƒCï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½[ï¿½hï¿½j
+//   ???{?b?g??	?F Baharat?i?o?n???b?g?j
+//   ?T?v		?F ?T???V???C????HAL?i?n?[?h?E?G?A????w?j?t?@?C??
+//   ????		?F ???
+//   ????		?F parameter
+//   ????		?F ???
+//   ???l		?F ???
+// **************************    ??    ??    *******************************
+// 		v1.0		2019.5.5			TKR			?V?K?i?t?@?C????C???N???[?h?j
 // *************************************************************************/
 
-// ï¿½ï¿½ï¿½dï¿½Rï¿½ï¿½ï¿½pï¿½Cï¿½ï¿½ï¿½}ï¿½~
+// ???d?R???p?C???}?~
 #ifndef _PARAMETER_H
 #define _PARAMETER_H
 
 //**************************************************
-// ï¿½Cï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½[ï¿½hï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½iincludeï¿½j
+// ?C???N???[?h?t?@?C???iinclude?j
 //**************************************************
-#include <typedefine.h>					// ï¿½ï¿½`
-#include <common_define.h>				// ï¿½ï¿½ï¿½Ê’ï¿½`
+#include <typedefine.h>					// ??`
+#include <common_define.h>				// ?????`
 #include <iodefine.h>					// I/O
-#include <stdio.h>						// ï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½oï¿½ï¿½
+#include <stdio.h>						// ?W?????o??
 		
 
 //**************************************************
-// ï¿½ï¿½`ï¿½iï¿½@ï¿½\ï¿½Iï¿½ï¿½ï¿½j                               
+// ??`?i?@?\?I???j                               
 //**************************************************
-//#define FUNC_DIST_AUTO_THRESH											// ï¿½Zï¿½ï¿½ï¿½Tè‡’lï¿½`ï¿½ï¿½ï¿½[ï¿½jï¿½ï¿½ï¿½Oï¿½@ï¿½\ï¿½iï¿½ï¿½`ï¿½Fï¿½Lï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½ï¿½`ï¿½Fï¿½ï¿½ï¿½ï¿½ï¿½iï¿½Zï¿½ï¿½ï¿½Tï¿½ÌŒÅ’ï¿½lï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½ï¿½ï¿½jï¿½j
+//#define FUNC_DIST_AUTO_THRESH											// ?Z???T?l?`???[?j???O?@?\?i??`?F?L???A????`?F?????i?Z???T????l???g?p?????j?j
 
 //**************************************************
-// ï¿½ï¿½`ï¿½idefineï¿½j
+// ??`?idefine?j
 //**************************************************
-/* ï¿½ñ’²ï¿½ï¿½pï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½^ */
-#define PI					( 3.14159f )			// ï¿½ï¿½
-#define	ENC_CONV			( 0.2222f )				// ï¿½sï¿½jï¿½Iï¿½ï¿½8Tï¿½Cï¿½Xï¿½pï¿½[36T
+/* ????p?????[?^ */
+#define PI					( 3.14159f )			// ??
+#define	ENC_CONV			( 0.2222f )				// ?s?j?I??8T?C?X?p?[36T
 
-/* ï¿½ï¿½ï¿½ï¿½ï¿½pï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½^ */
-/*ï¿½ï¿½ hal.cï¿½ï¿½ï¿½ï¿½ÚA*/
-#define TIRE_R						( 25.0f )								// ï¿½^ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½a [mm]
-#define ROTATE_PULSE				( 2048 )								// ï¿½ï¿½ï¿½[ï¿½^ï¿½[1ï¿½ï¿½ï¿½Ìƒpï¿½ï¿½ï¿½Xï¿½ï¿½
+/* ?????p?????[?^ */
+/*?? hal.c?????A*/
+#define TIRE_R						( 25.0f )								// ?^?C?????a [mm]
+#define ROTATE_PULSE				( 2048 )								// ???[?^?[1????p???X??
 
-#define ADJ_1STEP_SEARCH			( 1 )									// 1stepï¿½Ì’ï¿½ï¿½ï¿½ï¿½Qï¿½Cï¿½ï¿½ï¿½Aï¿½Tï¿½ï¿½ï¿½ï¿½ï¿½sï¿½p  (ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ã‚°ï¿½ï¿½Æ‘ï¿½Rï¿½iï¿½ï¿½)
-#define ADJ_1STEP_DIRECT			( 1 )								// 1stepï¿½Ì’ï¿½ï¿½ï¿½ï¿½Qï¿½Cï¿½ï¿½ï¿½ADriveï¿½ï¿½ï¿½sï¿½p  (ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ã‚°ï¿½ï¿½Æ‘ï¿½Rï¿½iï¿½ï¿½)
-#define DIST_1STEP(adj)				( PI * TIRE_R / ROTATE_PULSE * adj)		// 1ï¿½pï¿½ï¿½ï¿½Xï¿½Åiï¿½Þ‹ï¿½ï¿½ï¿½ [mm]
+#define ADJ_1STEP_SEARCH			( 1 )									// 1step??????Q?C???A?T?????s?p  (??????ƒO????R?i??)
+#define ADJ_1STEP_DIRECT			( 1 )								// 1step??????Q?C???ADrive???s?p  (??????ƒO????R?i??)
+#define DIST_1STEP(adj)				( PI * TIRE_R / ROTATE_PULSE * adj)		// 1?p???X??i????? [mm]
 
-#define ENTRY_ADD					(2)										// ï¿½iï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì’Ç‰ï¿½4
-#define ESCAPE_ADD					(2)									// ï¿½Þ”ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì’Ç‰ï¿½5
+#define ENTRY_ADD					(2)										// ?i??????????4
+#define ESCAPE_ADD					(2)									// ???????????5
 
-/* ï¿½ï¿½ï¿½Hï¿½ï¿½ï¿½Å‚Ì‘Ò‚ï¿½ï¿½ï¿½ï¿½ï¿½ */
-#define MAP_TURN_WAIT				( 100 )								// ï¿½ï¿½ï¿½Mï¿½nï¿½ï¿½ï¿½ï¿½Tï¿½ï¿½ï¿½Ì“ï¿½ï¿½ï¿½Ø‚ï¿½Ö‚ï¿½ï¿½Ò‚ï¿½ï¿½ï¿½ï¿½ï¿½
-#define MAP_SLA_WAIT				( 150 )								// ï¿½Xï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Tï¿½ï¿½ï¿½Ì“ï¿½ï¿½ï¿½Ø‚ï¿½Ö‚ï¿½ï¿½Ò‚ï¿½ï¿½ï¿½ï¿½ï¿½
+/* ???H??????????? */
+#define MAP_TURN_WAIT				( 100 )								// ???M?n????T??????????????????
+#define MAP_SLA_WAIT				( 150 )								// ?X?????[???T??????????????????
 
-/* ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½x */
-#define SEN_BACK_CHK_SPEED			( 180 ) 							// ï¿½Zï¿½ï¿½ï¿½Tï¿½`ï¿½ï¿½ï¿½[ï¿½jï¿½ï¿½ï¿½Oï¿½Ì‚ï¿½ï¿½ß‚ÌˆÚ“ï¿½ï¿½Å‘å‘¬ï¿½x[mm/s]
+/* ???s???x */
+#define SEN_BACK_CHK_SPEED			( 180 ) 							// ?Z???T?`???[?j???O????????????x[mm/s]
 
-/* ï¿½ï¿½ï¿½ï¿½ */
-#define MOT_BACK_SEN_ADJ			( 73.0f )							// ï¿½Ç`ï¿½ï¿½+aï¿½Ü‚Åiï¿½Zï¿½ï¿½ï¿½Tï¿½Iï¿½[ï¿½gï¿½`ï¿½ï¿½ï¿½[ï¿½jï¿½ï¿½ï¿½Oï¿½ÉŽgï¿½pï¿½ï¿½ï¿½ï¿½j
+/* ???? */
+#define MOT_BACK_SEN_ADJ			( 73.0f )							// ??`??+a???i?Z???T?I?[?g?`???[?j???O??g?p????j
 
-/* ï¿½Aï¿½hï¿½ï¿½ï¿½X */
-#define	ADR_MAP						( 0x00100000 )						// ï¿½ï¿½ï¿½Hï¿½oï¿½bï¿½Nï¿½Aï¿½bï¿½vï¿½pï¿½Aï¿½hï¿½ï¿½ï¿½X
-#define	ADR_SEN						( 0x00101000 )						// ï¿½Zï¿½ï¿½ï¿½Tï¿½pï¿½fï¿½[ï¿½^ï¿½tï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½Aï¿½hï¿½ï¿½ï¿½X
+/* ?A?h???X */
+#define	ADR_MAP						( 0x00100000 )						// ???H?o?b?N?A?b?v?p?A?h???X
+#define	ADR_SEN						( 0x00101000 )						// ?Z???T?p?f?[?^?t???b?V???A?h???X
 
-/* ï¿½ï¿½ï¿½ï¿½ï¿½Zï¿½ï¿½ï¿½T(ï¿½Â‹ï¿½ï¿½Ï‰ï¿½ï¿½ÈŠO) */
-#define SEN_WAIT_CNT				( 175 )								// ï¿½Zï¿½ï¿½ï¿½Tï¿½Ì”ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò‚ï¿½ï¿½iï¿½ï¿½ï¿½ï¿½ï¿½lï¿½j
-#define DIST_NO_WALL_DIV_FILTER		( 30 )								// ï¿½Ç‚È‚ï¿½ï¿½Æ‚ï¿½ï¿½é·ï¿½ï¿½ï¿½l
-#define DIST_REF_UP					( 400 )								// ï¿½Ç‚È‚ï¿½ï¿½Æ”ï¿½ï¿½fï¿½ï¿½ï¿½ï¿½Û‚ÉŠî€ï¿½lï¿½É‰ï¿½ï¿½Zï¿½ï¿½ï¿½ï¿½l
-#define DIST_NEAR_WALL				( 800 )								// ï¿½Nï¿½ï¿½ï¿½ï¿½ï¿½Ìƒ`ï¿½ï¿½ï¿½[ï¿½jï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Oï¿½Ç‚ï¿½è‡’l
+/* ?????Z???T(????ƒÖ???O) */
+#define SEN_WAIT_CNT				( 175 )								// ?Z???T????????????i?????l?j
+#define DIST_NO_WALL_DIV_FILTER		( 30 )								// ????????????l
+#define DIST_REF_UP					( 400 )								// ????????f????????l????Z????l
+#define DIST_NEAR_WALL				( 800 )								// ?N??????`???[?j???O??????O????l
 
-/* ï¿½ï¿½ï¿½ï¿½ï¿½Zï¿½ï¿½ï¿½T(ï¿½Â‹ï¿½ï¿½Ï‰ï¿½) */
-#define R_FRONT_WALL_GAIN			( 1.0f )							// ï¿½Eï¿½Oï¿½ÇƒQï¿½Cï¿½ï¿½ï¿½iï¿½î€ï¿½lï¿½É‘Î‚ï¿½ï¿½Äjï¿½Aï¿½ÇŒï¿½ï¿½mï¿½l
-#define L_FRONT_WALL_GAIN			( 1.0f )							// ï¿½ï¿½ï¿½Oï¿½ÇƒQï¿½Cï¿½ï¿½ï¿½iï¿½î€ï¿½lï¿½É‘Î‚ï¿½ï¿½Äjï¿½Aï¿½ÇŒï¿½ï¿½mï¿½l
-//#define R_45_WALL_GAIN				( 1.0f )							// ï¿½E45ï¿½xï¿½Qï¿½Cï¿½ï¿½ï¿½iï¿½î€ï¿½lï¿½É‘Î‚ï¿½ï¿½Äjï¿½Aï¿½ÇŒï¿½ï¿½mï¿½l
-#define R_SIDE_WALL_GAIN			( 1.0f )							// ï¿½Eï¿½ï¿½ï¿½ÇƒQï¿½Cï¿½ï¿½ï¿½iï¿½î€ï¿½lï¿½É‘Î‚ï¿½ï¿½Äjï¿½Aï¿½ÇŒï¿½ï¿½mï¿½l
-//#define L_45_WALL_GAIN				( 1.0f )							// ï¿½ï¿½45ï¿½xï¿½Qï¿½Cï¿½ï¿½ï¿½iï¿½î€ï¿½lï¿½É‘Î‚ï¿½ï¿½Äjï¿½Aï¿½ÇŒï¿½ï¿½mï¿½l
-#define L_SIDE_WALL_GAIN			( 1.0f )							// ï¿½ï¿½ï¿½ï¿½ï¿½ÇƒQï¿½Cï¿½ï¿½ï¿½iï¿½î€ï¿½lï¿½É‘Î‚ï¿½ï¿½Äjï¿½Aï¿½ÇŒï¿½ï¿½mï¿½l
-#define R_FRONT_WALL_CTRL_GAIN		( 1.0f )							// ï¿½Eï¿½Oï¿½ÇƒQï¿½Cï¿½ï¿½ï¿½iï¿½î€ï¿½lï¿½É‘Î‚ï¿½ï¿½Äjï¿½Aï¿½ï¿½ï¿½ï¿½Èï¿½ß‚ï¿½ï¿½Æï¿½ï¿½ä‚·ï¿½ï¿½l
-#define L_FRONT_WALL_CTRL_GAIN		( 1.0f )							// ï¿½ï¿½ï¿½Oï¿½ÇƒQï¿½Cï¿½ï¿½ï¿½iï¿½î€ï¿½lï¿½É‘Î‚ï¿½ï¿½Äjï¿½Aï¿½ï¿½ï¿½ï¿½Èï¿½ß‚ï¿½ï¿½Æï¿½ï¿½ä‚·ï¿½ï¿½l
-#define R_FRONT_WALL_NO_CTRL_GAIN	( 1.0f )							// ï¿½Eï¿½Oï¿½ÇƒQï¿½Cï¿½ï¿½ï¿½iï¿½î€ï¿½lï¿½É‘Î‚ï¿½ï¿½Äjï¿½Aï¿½ï¿½ï¿½ï¿½Èï¿½ß‚ï¿½ï¿½Æï¿½ï¿½ä‚µï¿½È‚ï¿½ï¿½l
-#define L_FRONT_WALL_NO_CTRL_GAIN	( 1.0f )							// ï¿½ï¿½ï¿½Oï¿½ÇƒQï¿½Cï¿½ï¿½ï¿½iï¿½î€ï¿½lï¿½É‘Î‚ï¿½ï¿½Äjï¿½Aï¿½ï¿½ï¿½ï¿½Èï¿½ß‚ï¿½ï¿½Æï¿½ï¿½ä‚µï¿½È‚ï¿½ï¿½l
-#define R_FRONT_WALL_HIT_GAIN		( 1.0f )							// ï¿½Eï¿½Oï¿½ÇƒQï¿½Cï¿½ï¿½ï¿½iï¿½î€ï¿½lï¿½É‘Î‚ï¿½ï¿½Äjï¿½Aï¿½Ç‚É“ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½lï¿½iï¿½Oï¿½Ç‚Æƒ}ï¿½Eï¿½Xï¿½Ô‚ï¿½ï¿½ï¿½2mmï¿½ÌŽï¿½ï¿½Ì’lï¿½j
-#define L_FRONT_WALL_HIT_GAIN		( 1.0f )							// ï¿½ï¿½ï¿½Oï¿½ÇƒQï¿½Cï¿½ï¿½ï¿½iï¿½î€ï¿½lï¿½É‘Î‚ï¿½ï¿½Äjï¿½Aï¿½Ç‚É“ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½lï¿½iï¿½Oï¿½Ç‚Æƒ}ï¿½Eï¿½Xï¿½Ô‚ï¿½ï¿½ï¿½2mmï¿½ÌŽï¿½ï¿½Ì’lï¿½j
-#define R_FRONT_SKEW_ERR1_GAIN		( 0.0f )							// ï¿½Eï¿½Oï¿½ÇAï¿½Î‚ß‘ï¿½ï¿½sï¿½ï¿½ï¿½Ì•â³è‡’l1
-#define R_FRONT_SKEW_ERR2_GAIN		( 0.0f )							// ï¿½Eï¿½Oï¿½ÇAï¿½Î‚ß‘ï¿½ï¿½sï¿½ï¿½ï¿½Ì•â³è‡’l2
-#define R_FRONT_SKEW_ERR3_GAIN		( 0.0f )							// ï¿½Eï¿½Oï¿½ÇAï¿½Î‚ß‘ï¿½ï¿½sï¿½ï¿½ï¿½Ì•â³è‡’l3
-#define L_FRONT_SKEW_ERR1_GAIN		( 0.0f )							// ï¿½ï¿½ï¿½Oï¿½ÇAï¿½Î‚ß‘ï¿½ï¿½sï¿½ï¿½ï¿½Ì•â³è‡’l1
-#define L_FRONT_SKEW_ERR2_GAIN		( 0.0f )							// ï¿½ï¿½ï¿½Oï¿½ÇAï¿½Î‚ß‘ï¿½ï¿½sï¿½ï¿½ï¿½Ì•â³è‡’l2
-#define L_FRONT_SKEW_ERR3_GAIN		( 0.0f )							// ï¿½ï¿½ï¿½Oï¿½ÇAï¿½Î‚ß‘ï¿½ï¿½sï¿½ï¿½ï¿½Ì•â³è‡’l3
+/* ?????Z???T(????ƒÖ?) */
+#define R_FRONT_WALL_GAIN			( 1.0f )							// ?E?O??Q?C???i???l??????j?A????m?l
+#define L_FRONT_WALL_GAIN			( 1.0f )							// ???O??Q?C???i???l??????j?A????m?l
+//#define R_45_WALL_GAIN				( 1.0f )							// ?E45?x?Q?C???i???l??????j?A????m?l
+#define R_SIDE_WALL_GAIN			( 1.0f )							// ?E????Q?C???i???l??????j?A????m?l
+//#define L_45_WALL_GAIN				( 1.0f )							// ??45?x?Q?C???i???l??????j?A????m?l
+#define L_SIDE_WALL_GAIN			( 1.0f )							// ??????Q?C???i???l??????j?A????m?l
+#define R_FRONT_WALL_CTRL_GAIN		( 1.0f )							// ?E?O??Q?C???i???l??????j?A???????????????l
+#define L_FRONT_WALL_CTRL_GAIN		( 1.0f )							// ???O??Q?C???i???l??????j?A???????????????l
+#define R_FRONT_WALL_NO_CTRL_GAIN	( 1.0f )							// ?E?O??Q?C???i???l??????j?A?????????????????l
+#define L_FRONT_WALL_NO_CTRL_GAIN	( 1.0f )							// ???O??Q?C???i???l??????j?A?????????????????l
+#define R_FRONT_WALL_HIT_GAIN		( 1.0f )							// ?E?O??Q?C???i???l??????j?A??????????????????????????l?i?O???}?E?X?????2mm?????l?j
+#define L_FRONT_WALL_HIT_GAIN		( 1.0f )							// ???O??Q?C???i???l??????j?A??????????????????????????l?i?O???}?E?X?????2mm?????l?j
+#define R_FRONT_SKEW_ERR1_GAIN		( 0.0f )							// ?E?O??A?????s??????l1
+#define R_FRONT_SKEW_ERR2_GAIN		( 0.0f )							// ?E?O??A?????s??????l2
+#define R_FRONT_SKEW_ERR3_GAIN		( 0.0f )							// ?E?O??A?????s??????l3
+#define L_FRONT_SKEW_ERR1_GAIN		( 0.0f )							// ???O??A?????s??????l1
+#define L_FRONT_SKEW_ERR2_GAIN		( 0.0f )							// ???O??A?????s??????l2
+#define L_FRONT_SKEW_ERR3_GAIN		( 0.0f )							// ???O??A?????s??????l3
 
-/* ï¿½ï¿½ï¿½ÌƒZï¿½ï¿½ï¿½Tï¿½lï¿½ÍAFUNC_DIST_AUTO_THRESHï¿½ï¿½ï¿½Lï¿½ï¿½ï¿½È‚ï¿½ï¿½FALSHï¿½Ìƒfï¿½[ï¿½^ï¿½Åã‘ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÄAï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½Îï¿½ï¿½ï¿½ï¿½lï¿½Æ‚ï¿½ï¿½ÄŽgï¿½pï¿½ï¿½ï¿½ï¿½ï¿½ */
-#define R_FRONT_REF					( 379 )							// ï¿½Eï¿½Oï¿½ÇAï¿½î€ï¿½l
-#define L_FRONT_REF					( 300 )							// ï¿½ï¿½ï¿½Oï¿½ÇAï¿½î€ï¿½l
-//#define R_45_REF					( 580 )							// ï¿½E45ï¿½xï¿½Aï¿½î€ï¿½l
-//#define L_45_REF					( 440 )							// ï¿½ï¿½45ï¿½xï¿½Aï¿½î€ï¿½l
-#define R_SIDE_REF					( 173 )							// ï¿½Eï¿½ï¿½ï¿½ÇAï¿½î€ï¿½l
-#define L_SIDE_REF					( 206 )							// ï¿½ï¿½ï¿½ï¿½ï¿½ÇAï¿½î€ï¿½l
-#define R_FRONT_WALL				( 43 )							// ï¿½Eï¿½Oï¿½ÇAï¿½ÇŒï¿½ï¿½mï¿½l
-#define L_FRONT_WALL				( 53 )							// ï¿½ï¿½ï¿½Oï¿½ÇAï¿½ÇŒï¿½ï¿½mï¿½l
-//#define R_45_WALL					( 270 )							// ï¿½E45ï¿½xï¿½Aï¿½ÇŒï¿½ï¿½mï¿½l
-#define R_SIDE_WALL					( 63 )							// ï¿½Eï¿½ï¿½ï¿½ÇAï¿½ÇŒï¿½ï¿½mï¿½l
-//#define L_45_WALL					( 180 )							// ï¿½ï¿½45ï¿½xï¿½Aï¿½ÇŒï¿½ï¿½mï¿½l
-#define L_SIDE_WALL					( 81 )							// ï¿½ï¿½ï¿½ï¿½ï¿½ÇAï¿½ÇŒï¿½ï¿½mï¿½l
-#define R_FRONT_WALL_CTRL			( 82 )							// ï¿½Eï¿½Oï¿½ÇAï¿½ï¿½ï¿½ï¿½Èï¿½ß‚ï¿½ï¿½Æï¿½ï¿½ä‚·ï¿½ï¿½l
-#define L_FRONT_WALL_CTRL			( 100 )							// ï¿½ï¿½ï¿½Oï¿½ÇAï¿½ï¿½ï¿½ï¿½Èï¿½ß‚ï¿½ï¿½Æï¿½ï¿½ä‚·ï¿½ï¿½l
-#define R_FRONT_WALL_NO_CTRL		( 390 )							// ï¿½Eï¿½Oï¿½ÇAï¿½ï¿½ï¿½ï¿½Èï¿½ß‚ï¿½ï¿½Æï¿½ï¿½ä‚µï¿½È‚ï¿½ï¿½l
-#define L_FRONT_WALL_NO_CTRL		( 320 )							// ï¿½ï¿½ï¿½Oï¿½ÇAï¿½ï¿½ï¿½ï¿½Èï¿½ß‚ï¿½ï¿½Æï¿½ï¿½ä‚µï¿½È‚ï¿½ï¿½l
-#define R_FRONT_WALL_HIT			( 1050 )						// ï¿½Eï¿½Oï¿½ÇAï¿½Ç‚É“ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½lï¿½iï¿½Oï¿½Ç‚Æƒ}ï¿½Eï¿½Xï¿½Ô‚ï¿½ï¿½ï¿½2mmï¿½ÌŽï¿½ï¿½Ì’lï¿½j
-#define L_FRONT_WALL_HIT			( 1550 )						// ï¿½ï¿½ï¿½Oï¿½ÇAï¿½Ç‚É“ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½lï¿½iï¿½Oï¿½Ç‚Æƒ}ï¿½Eï¿½Xï¿½Ô‚ï¿½ï¿½ï¿½2mmï¿½ÌŽï¿½ï¿½Ì’lï¿½j
+/* ????Z???T?l??AFUNC_DIST_AUTO_THRESH???L??????FALSH??f?[?^??????????A????????????l?????g?p????? */
+#define R_FRONT_REF					( 379 )							// ?E?O??A???l
+#define L_FRONT_REF					( 300 )							// ???O??A???l
+//#define R_45_REF					( 580 )							// ?E45?x?A???l
+//#define L_45_REF					( 440 )							// ??45?x?A???l
+#define R_SIDE_REF					( 173 )							// ?E????A???l
+#define L_SIDE_REF					( 206 )							// ??????A???l
+#define R_FRONT_WALL				( 43 )							// ?E?O??A????m?l
+#define L_FRONT_WALL				( 53 )							// ???O??A????m?l
+//#define R_45_WALL					( 270 )							// ?E45?x?A????m?l
+#define R_SIDE_WALL					( 63 )							// ?E????A????m?l
+//#define L_45_WALL					( 180 )							// ??45?x?A????m?l
+#define L_SIDE_WALL					( 81 )							// ??????A????m?l
+#define R_FRONT_WALL_CTRL			( 82 )							// ?E?O??A???????????????l
+#define L_FRONT_WALL_CTRL			( 100 )							// ???O??A???????????????l
+#define R_FRONT_WALL_NO_CTRL		( 390 )							// ?E?O??A?????????????????l
+#define L_FRONT_WALL_NO_CTRL		( 320 )							// ???O??A?????????????????l
+#define R_FRONT_WALL_HIT			( 1050 )						// ?E?O??A??????????????????????????l?i?O???}?E?X?????2mm?????l?j
+#define L_FRONT_WALL_HIT			( 1550 )						// ???O??A??????????????????????????l?i?O???}?E?X?????2mm?????l?j
 
-/* ï¿½ï¿½ï¿½O */
-#define CTRL_LOG				( 1800 )							// 1msecï¿½ï¿½ï¿½É‹Lï¿½^ï¿½ï¿½ï¿½é§ï¿½äƒï¿½Oï¿½ÌŒÂï¿½
-#define CTRL_LOG_CYCLE			( 2 )								// ï¿½ï¿½ï¿½Ì‹Lï¿½^ï¿½ï¿½ï¿½ï¿½[msec]ï¿½i1ï¿½ï¿½è¬ï¿½ï¿½ï¿½ï¿½ï¿½lï¿½ï¿½NGï¿½j
-#define SET_LOG					( 100 )								// ï¿½Ý’è‚µï¿½ï¿½ï¿½ï¿½ï¿½ï¿½fï¿½[ï¿½^ï¿½Ìƒï¿½ï¿½Oï¿½ï¿½
-#define DIST_LOG				( 5 )								// ï¿½ï¿½ï¿½ï¿½ï¿½Zï¿½ï¿½ï¿½Tï¿½Ìƒï¿½ï¿½Oï¿½ÌŒÂï¿½
-#define POS_LOG					( 5 )								// 1msecï¿½ï¿½ï¿½É‹Lï¿½^ï¿½ï¿½ï¿½ï¿½Ê’uï¿½ï¿½ñƒƒOï¿½ÌŒÂï¿½
-#define POS_LOG_INTERVAL		( 5 )								// ï¿½ï¿½msecï¿½ï¿½ï¿½É‹Lï¿½^
+/* ???O */
+#define CTRL_LOG				( 1800 )							// 1msec????L?^???????O????
+#define CTRL_LOG_CYCLE			( 2 )								// ????L?^????[msec]?i1????????l??NG?j
+#define SET_LOG					( 100 )								// ?????????f?[?^????O??
+#define DIST_LOG				( 5 )								// ?????Z???T????O????
+#define POS_LOG					( 5 )								// 1msec????L?^?????u???O????
+#define POS_LOG_INTERVAL		( 5 )								// ??msec????L?^
 
 #define GYRO_SCALE_FACTOR			(16.4f)							
 #define TEMP_SCALE_FACTOR			(333.87f)	
 #define ACC_SCALE_FACTOR			(8192.0f)						
 
 //**************************************************
-// ï¿½Oï¿½ï¿½ï¿½[ï¿½oï¿½ï¿½ï¿½Ïï¿½
+// ?O???[?o?????
 //**************************************************
 
 
 //**************************************************
-// ï¿½ñ‹“‘Ìienumï¿½j
+// —ñ‹“‘Ìienumj
 //**************************************************
 
-/* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½@ */
+/* §Œä•û–@ */
 typedef enum{
 	
 	/* ========================================== */ 
-	/*  ï¿½pï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½^ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½Û‚ÉŽgï¿½pï¿½ï¿½ï¿½ï¿½Vï¿½ï¿½ï¿½{ï¿½ï¿½  */ 
+	/*  ƒpƒ‰ƒ[ƒ^‚ðŽæ“¾‚·‚éÛ‚ÉŽg—p‚·‚éƒVƒ“ƒ{ƒ‹  */ 
 	/* ========================================== */ 
 	/* ---------- */
-	/*  ï¿½ï¿½ï¿½iï¿½ï¿½ï¿½ï¿½  */
+	/*  ’¼i§Œä  */
 	/* ---------- */
-	PARAM_ST_TOP = 0,				// ï¿½Jï¿½Eï¿½ï¿½ï¿½gï¿½p
-	// ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ç‰ï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½É‚Í‚ï¿½ï¿½ÌŠÔ‚É‹Lï¿½ï¿½
+	PARAM_ST_TOP = 0,				// ƒJƒEƒ“ƒg—p
+	// « “®ì‚ð’Ç‰Á‚·‚éê‡‚É‚Í‚±‚ÌŠÔ‚É‹LÚ
 
-		PARAM_ACC,					// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(ï¿½ï¿½ï¿½i)
-		PARAM_CONST,				// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(ï¿½ï¿½ï¿½i)
-		PARAM_DEC,					// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(ï¿½ï¿½ï¿½i)
-		PARAM_BACK_ACC,				// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(ï¿½ï¿½i)
-		PARAM_BACK_CONST,			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(ï¿½ï¿½i)
-		PARAM_BACK_DEC,				// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(ï¿½ï¿½i)
-		PARAM_SKEW_ACC,				// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(ï¿½Î‚ï¿½)
-		PARAM_SKEW_CONST,			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(ï¿½Î‚ï¿½)
-		PARAM_SKEW_DEC,				// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(ï¿½Î‚ï¿½)
-		PARAM_HIT_WALL,				// ï¿½Ç‚ï¿½ï¿½Äï¿½ï¿½ï¿½
-		PARAM_ACC_SMOOTH,			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(ï¿½ï¿½ï¿½i cosï¿½ßŽï¿½)
-		PARAM_CONST_SMOOTH,			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(ï¿½ï¿½ï¿½i cosï¿½ßŽï¿½)
-		PARAM_DEC_SMOOTH,			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(ï¿½ï¿½ï¿½i cosï¿½ßŽï¿½)
+		PARAM_ACC,					// ‰Á‘¬’†(’¼i)
+		PARAM_CONST,				// “™‘¬’†(’¼i)
+		PARAM_DEC,					// Œ¸‘¬’†(’¼i)
+		PARAM_BACK_ACC,				// ‰Á‘¬’†(Œãi)
+		PARAM_BACK_CONST,			// “™‘¬’†(Œãi)
+		PARAM_BACK_DEC,				// Œ¸‘¬’†(Œãi)
+		PARAM_SKEW_ACC,				// ‰Á‘¬’†(ŽÎ‚ß)
+		PARAM_SKEW_CONST,			// “™‘¬’†(ŽÎ‚ß)
+		PARAM_SKEW_DEC,				// Œ¸‘¬’†(ŽÎ‚ß)
+		PARAM_HIT_WALL,				// •Ç‚ ‚Ä§Œä
+		PARAM_ACC_SMOOTH,			// ‰Á‘¬’†(’¼i cos‹ßŽ—)
+		PARAM_CONST_SMOOTH,			// “™‘¬’†(’¼i cos‹ßŽ—)
+		PARAM_DEC_SMOOTH,			// Œ¸‘¬’†(’¼i cos‹ßŽ—)
 
-	// ï¿½ï¿½  ï¿½ï¿½ï¿½ï¿½ï¿½Ç‰ï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½É‚Í‚ï¿½ï¿½ÌŠÔ‚É‹Lï¿½ï¿½
-	PARAM_ST_BTM,					// ï¿½Jï¿½Eï¿½ï¿½ï¿½gï¿½p
+	// ª  “®ì‚ð’Ç‰Á‚·‚éê‡‚É‚Í‚±‚ÌŠÔ‚É‹LÚ
+	PARAM_ST_BTM,					// ƒJƒEƒ“ƒg—p
 	
 	/* -------- */
-	/*  ï¿½^ï¿½[ï¿½ï¿½  */
+	/*  ƒ^[ƒ“  */
 	/* -------- */
-	PARAM_TURN_TOP,					// ï¿½Jï¿½Eï¿½ï¿½ï¿½gï¿½p
-	// ï¿½ï¿½  ï¿½ï¿½ï¿½ï¿½ï¿½Ç‰ï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½É‚Í‚ï¿½ï¿½ÌŠÔ‚É‹Lï¿½ï¿½
+	PARAM_TURN_TOP,					// ƒJƒEƒ“ƒg—p
+	// «  “®ì‚ð’Ç‰Á‚·‚éê‡‚É‚Í‚±‚ÌŠÔ‚É‹LÚ
 
-		PARAM_ACC_TURN,				// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(ï¿½ï¿½ï¿½nï¿½Mï¿½ï¿½ï¿½ï¿½)
-		PARAM_CONST_TURN,			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(ï¿½ï¿½ï¿½nï¿½Mï¿½ï¿½ï¿½ï¿½)
-		PARAM_DEC_TURN,				// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(ï¿½ï¿½ï¿½nï¿½Mï¿½ï¿½ï¿½ï¿½)
+		PARAM_ACC_TURN,				// ‰Á‘¬’†(’´’nMù‰ñ)
+		PARAM_CONST_TURN,			// “™‘¬’†(’´’nMù‰ñ)
+		PARAM_DEC_TURN,				// Œ¸‘¬’†(’´’nMù‰ñ)
 
-	// ï¿½ï¿½  ï¿½ï¿½ï¿½ï¿½ï¿½Ç‰ï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½É‚Í‚ï¿½ï¿½ÌŠÔ‚É‹Lï¿½ï¿½
-	PARAM_TURN_BTM,					// ï¿½Jï¿½Eï¿½ï¿½ï¿½gï¿½p
+	// ª  “®ì‚ð’Ç‰Á‚·‚éê‡‚É‚Í‚±‚ÌŠÔ‚É‹LÚ
+	PARAM_TURN_BTM,					// ƒJƒEƒ“ƒg—p
 	
 	/* ------------ */
-	/*  ï¿½Xï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½ï¿½  */
+	/*  ƒXƒ‰ƒ[ƒ€  */
 	/* ------------ */
-	PARAM_SLA_TOP,					// ï¿½Jï¿½Eï¿½ï¿½ï¿½gï¿½p
-	// ï¿½ï¿½  ï¿½ï¿½ï¿½ï¿½ï¿½Ç‰ï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½É‚Í‚ï¿½ï¿½ÌŠÔ‚É‹Lï¿½ï¿½
+	PARAM_SLA_TOP,					// ƒJƒEƒ“ƒg—p
+	// «  “®ì‚ð’Ç‰Á‚·‚éê‡‚É‚Í‚±‚ÌŠÔ‚É‹LÚ
 
-		PARAM_ENTRY_SURA,			// ï¿½Xï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Oï¿½Ì‘Oï¿½iï¿½ï¿½ï¿½ï¿½(ï¿½Xï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½ï¿½)
-		PARAM_ACC_SURA,				// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(ï¿½Xï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½ï¿½)
-		PARAM_CONST_SURA,			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(ï¿½Xï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½ï¿½)
-		PARAM_DEC_SURA,				// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(ï¿½Xï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½ï¿½)
-		PARAM_EXIT_SURA,			// ï¿½Xï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½Ì‘Oï¿½iï¿½ï¿½ï¿½ï¿½(ï¿½Xï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½ï¿½)
+		PARAM_ENTRY_SURA,			// ƒXƒ‰ƒ[ƒ€‘O‚Ì‘Oi“®ì(ƒXƒ‰ƒ[ƒ€)
+		PARAM_ACC_SURA,				// ‰Á‘¬’†(ƒXƒ‰ƒ[ƒ€)
+		PARAM_CONST_SURA,			// “™‘¬’†(ƒXƒ‰ƒ[ƒ€)
+		PARAM_DEC_SURA,				// Œ¸‘¬’†(ƒXƒ‰ƒ[ƒ€)
+		PARAM_EXIT_SURA,			// ƒXƒ‰ƒ[ƒ€Œã‚Ì‘Oi“®ì(ƒXƒ‰ƒ[ƒ€)
 
-	// ï¿½ï¿½  ï¿½ï¿½ï¿½ï¿½ï¿½Ç‰ï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½É‚Í‚ï¿½ï¿½ÌŠÔ‚É‹Lï¿½ï¿½
-	PARAM_SLA_BTM,					// ï¿½Jï¿½Eï¿½ï¿½ï¿½gï¿½p
+	// ª  “®ì‚ð’Ç‰Á‚·‚éê‡‚É‚Í‚±‚ÌŠÔ‚É‹LÚ
+	PARAM_SLA_BTM,					// ƒJƒEƒ“ƒg—p
 	
 	
 	/* ===================================================================== */ 
-	/*  PARAM_setGainType()ï¿½É‚Äƒï¿½ï¿½[ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½ß‚ï¿½Û‚Éˆï¿½ï¿½ï¿½ï¿½Æ‚ï¿½ï¿½ÄŽgï¿½pï¿½ï¿½ï¿½ï¿½Vï¿½ï¿½ï¿½{ï¿½ï¿½  */ 
+	/*  PARAM_setGainType()‚É‚Äƒ‚[ƒh‚ðŒˆ‚ß‚éÛ‚Éˆø”‚Æ‚µ‚ÄŽg—p‚·‚éƒVƒ“ƒ{ƒ‹  */ 
 	/* ===================================================================== */ 
-	PARAM_ST,						// ï¿½ï¿½ï¿½iï¿½ï¿½ï¿½ï¿½
-	PARAM_TURN,						// ï¿½ï¿½ï¿½ñ§Œï¿½
-	PARAM_SLA,						// ï¿½Xï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	PARAM_ST,						// ’¼i§Œä
+	PARAM_TURN,						// ù‰ñ§Œä
+	PARAM_SLA,						// ƒXƒ‰ƒ[ƒ€§Œä
 	
 	
 	/* ====================================================== */ 
-	/*  ï¿½ì¬ï¿½ï¿½ï¿½ï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½Jï¿½Eï¿½ï¿½ï¿½gï¿½ï¿½ï¿½é‚½ï¿½ß‚ÉŽgï¿½pï¿½ï¿½ï¿½ï¿½Vï¿½ï¿½ï¿½{ï¿½ï¿½  */ 
+	/*  ì¬‚·‚éƒf[ƒ^”‚ðƒJƒEƒ“ƒg‚·‚é‚½‚ß‚ÉŽg—p‚·‚éƒVƒ“ƒ{ƒ‹  */ 
 	/* ====================================================== */ 
-	PARAM_ST_MAX		= PARAM_ST_BTM   - PARAM_ST_TOP,		// ï¿½ï¿½ï¿½iï¿½Å‘å”
-	PARAM_TURN_MAX		= PARAM_TURN_BTM - PARAM_TURN_TOP,		// ï¿½ï¿½ï¿½ï¿½Å‘å”
-	PARAM_SULA_MAX		= PARAM_SLA_BTM  - PARAM_SLA_TOP,		// ï¿½Xï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Å‘å”
+	PARAM_ST_MAX		= PARAM_ST_BTM   - PARAM_ST_TOP,		// ’¼iÅ‘å”
+	PARAM_TURN_MAX		= PARAM_TURN_BTM - PARAM_TURN_TOP,		// ù‰ñÅ‘å”
+	PARAM_SULA_MAX		= PARAM_SLA_BTM  - PARAM_SLA_TOP,		// ƒXƒ‰ƒ[ƒ€Å‘å”
 	
 	
 	PARAM_NC = 0xff,
 	
 }enPARAM_MODE;
 
-
-/* ï¿½ï¿½ï¿½ì‘¬ï¿½x */
+/* “®ì‘¬“x */
 typedef enum{
 	
-	PARAM_VERY_SLOW = 0,	// ï¿½ï¿½ï¿½á‘¬
-	PARAM_SLOW,				// ï¿½á‘¬
-	PARAM_NORMAL,			// ï¿½Êï¿½
-	PARAM_FAST,				// ï¿½ï¿½ï¿½ï¿½
-	PARAM_VERY_FAST,		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	PARAM_VERY_SLOW = 0,	// ’´’á‘¬
+	PARAM_SLOW,				// ’á‘¬
+	PARAM_NORMAL,			// ’Êí
+	PARAM_FAST,				// ‚‘¬
+	PARAM_VERY_FAST,		// ’´‚‘¬
 	
 	PARAM_MOVE_SPEED_MAX
 	
@@ -226,31 +225,31 @@ typedef enum{
 }enSlaCorrDist;
 
 //**************************************************
-// ï¿½\ï¿½ï¿½ï¿½Ìistructï¿½j
+// \‘¢‘Ìistructj
 //**************************************************
-/* ï¿½ï¿½ï¿½xï¿½fï¿½[ï¿½^ */
+/* ‘¬“xƒf[ƒ^ */
 typedef struct{
-	FLOAT			f_acc;					// ï¿½ï¿½ï¿½ï¿½ï¿½xï¿½iï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½j
-	FLOAT			f_dec;					// ï¿½ï¿½ï¿½ï¿½ï¿½xï¿½iï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½j
-	FLOAT			f_accAngle;				// ï¿½pï¿½ï¿½ï¿½ï¿½ï¿½xï¿½iï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½j
-	FLOAT			f_decAngle;				// ï¿½pï¿½ï¿½ï¿½ï¿½ï¿½xï¿½iï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½j
+	FLOAT			f_acc;					// ‰Á‘¬“xi‰Á‘¬Žžj
+	FLOAT			f_dec;					// ‰Á‘¬“xiŒ¸‘¬Žžj
+	FLOAT			f_accAngle;				// Šp‰Á‘¬“xi‰Á‘¬Žžj
+	FLOAT			f_decAngle;				// Šp‰Á‘¬“xiŒ¸‘¬Žžj
 }stSPEED;
 
-/* ï¿½Qï¿½Cï¿½ï¿½ */
-typedef struct{
-	FLOAT			f_FF;					// ï¿½tï¿½Bï¿½[ï¿½hï¿½tï¿½Hï¿½ï¿½ï¿½[ï¿½h
-	FLOAT 			f_FB_speed_kp;			// ï¿½tï¿½Bï¿½[ï¿½hï¿½oï¿½bï¿½Nï¿½Aï¿½ï¿½ï¿½x ï¿½ï¿½á§ï¿½ï¿½
-	FLOAT			f_FB_dist_kp;			// ï¿½tï¿½Bï¿½[ï¿½hï¿½oï¿½bï¿½Nï¿½Aï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½á§ï¿½ï¿½
-	FLOAT 			f_FB_dist_ki;			// ï¿½tï¿½Bï¿½[ï¿½hï¿½oï¿½bï¿½Nï¿½Aï¿½ï¿½ï¿½ï¿½ ï¿½Ï•ï¿½ï¿½ï¿½ï¿½ï¿½
-	FLOAT			f_FB_angleS_kp;			// ï¿½tï¿½Bï¿½[ï¿½hï¿½oï¿½bï¿½Nï¿½Aï¿½pï¿½ï¿½ï¿½x ï¿½ï¿½á§ï¿½ï¿½
-	FLOAT			f_FB_angle_kp;			// ï¿½tï¿½Bï¿½[ï¿½hï¿½oï¿½bï¿½Nï¿½Aï¿½pï¿½x ï¿½ï¿½á§ï¿½ï¿½
-	FLOAT			f_FB_angle_ki;			// ï¿½tï¿½Bï¿½[ï¿½hï¿½oï¿½bï¿½Nï¿½Aï¿½pï¿½x ï¿½Ï•ï¿½ï¿½ï¿½ï¿½ï¿½
-	FLOAT			f_FB_wall_kp;			// ï¿½tï¿½Bï¿½[ï¿½hï¿½oï¿½bï¿½Nï¿½Aï¿½ï¿½ ï¿½ï¿½á§ï¿½ï¿½
-	FLOAT			f_FB_wall_kd;			// ï¿½tï¿½Bï¿½[ï¿½hï¿½oï¿½bï¿½Nï¿½Aï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+/* ƒQƒCƒ“ */
+typedef struct {
+	FLOAT			f_FF;					// ƒtƒB[ƒhƒtƒHƒ[ƒh
+	FLOAT 			f_FB_speed_kp;			// ƒtƒB[ƒhƒoƒbƒNA‘¬“x ”ä—á§Œä
+	FLOAT			f_FB_dist_kp;			// ƒtƒB[ƒhƒoƒbƒNA‹——£ ”ä—á§Œä
+	FLOAT 			f_FB_dist_ki;			// ƒtƒB[ƒhƒoƒbƒNA‹——£ Ï•ª§Œä
+	FLOAT			f_FB_angleS_kp;			// ƒtƒB[ƒhƒoƒbƒNAŠp‘¬“x ”ä—á§Œä
+	FLOAT			f_FB_angle_kp;			// ƒtƒB[ƒhƒoƒbƒNAŠp“x ”ä—á§Œä
+	FLOAT			f_FB_angle_ki;			// ƒtƒB[ƒhƒoƒbƒNAŠp“x Ï•ª§Œä
+	FLOAT			f_FB_wall_kp;			// ƒtƒB[ƒhƒoƒbƒNA•Ç ”ä—á§Œä
+	FLOAT			f_FB_wall_kd;			// ƒtƒB[ƒhƒoƒbƒNA•Ç ”÷•ª§Œä
 }stGAIN;
 
 //**************************************************
-// ï¿½vï¿½ï¿½ï¿½gï¿½^ï¿½Cï¿½vï¿½éŒ¾ï¿½iï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½Å•Kï¿½vï¿½È‚ï¿½ï¿½Ì‚ï¿½ï¿½ï¿½ï¿½Lï¿½qï¿½j
+// ƒvƒƒgƒ^ƒCƒvéŒ¾iƒtƒ@ƒCƒ‹“à‚Å•K—v‚È‚à‚Ì‚¾‚¯‹Lqj
 //**************************************************
 PUBLIC 	void 	PARAM_setCntType( BOOL bl_type );
 PUBLIC 	FLOAT 	F_CNT2MM( LONG l_cnt );

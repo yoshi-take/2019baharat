@@ -1,20 +1,20 @@
 // *************************************************************************
-//   гѓ­гѓњгѓѓгѓ€еђЌ	пјљ Baharatпј€гѓђгѓЏгѓ©гѓѓгѓ€пј‰
-//   ж¦‚и¦Ѓ		пјљ г‚µгѓіг‚·гѓЈг‚¤гѓігЃ®HALпј€гѓЏгѓјгѓ‰г‚¦г‚Ёг‚ўжЉЅи±Ўе±¤пј‰гѓ•г‚Ўг‚¤гѓ«
-//   жіЁж„Џ		пјљ гЃЄгЃ—
-//   гѓЎгѓў		пјљ гѓћг‚¦г‚№гЃ®е‹•дЅњ
-//   еј•ж•°		пјљ гЃЄгЃ—
-//   иї”г‚ЉеЂ¤		пјљ гЃЄгЃ—
-// **************************    е±Ґ    ж­ґ    *******************************
-// 		v1.0		2019.4.25			TKR			ж–°и¦Џпј€гѓ•г‚Ўг‚¤гѓ«гЃ®г‚¤гѓіг‚Їгѓ«гѓјгѓ‰пј‰
+//   ѓЌѓ{ѓbѓg–ј	ЃF BaharatЃiѓoѓnѓ‰ѓbѓgЃj
+//   ЉT—v		ЃF ѓTѓ“ѓVѓѓѓCѓ“‚МHALЃiѓnЃ[ѓhѓEѓGѓA’ЉЏЫ‘wЃjѓtѓ@ѓCѓ‹
+//   ’Ќ€У		ЃF ‚И‚µ
+//   ѓЃѓ‚		ЃF ѓ}ѓEѓX‚М“®Ќм
+//   €шђ”		ЃF ‚И‚µ
+//   •Ф‚и’l		ЃF ‚И‚µ
+// **************************    —љ    —р    *******************************
+// 		v1.0		2019.4.25			TKR			ђV‹KЃiѓtѓ@ѓCѓ‹‚МѓCѓ“ѓNѓ‹Ѓ[ѓhЃj
 // *************************************************************************/
 
 //**************************************************
-// г‚¤гѓіг‚Їгѓ«гѓјгѓ‰гѓ•г‚Ўг‚¤гѓ«пј€includeпј‰
+// ѓCѓ“ѓNѓ‹Ѓ[ѓhѓtѓ@ѓCѓ‹ЃiincludeЃj
 //**************************************************
-#include <typedefine.h>						// е®љзѕ©
+#include <typedefine.h>						// ’и‹`
 #include <iodefine.h>						// I/O
-#include <stdio.h>							// жЁ™жє–е…Ґе‡єеЉ›
+#include <stdio.h>							// •WЏЂ“ьЏo—Н
 
 #include <hal_dcm.h>						// DCM
 #include <hal_dcmCtrl.h>					// DCM_CTRL
@@ -23,113 +23,113 @@
 #include <parameter.h>						// parameter
 
 //**************************************************
-// е®љзѕ©пј€defineпј‰
+// ’и‹`ЃidefineЃj
 //**************************************************
-#define A1_MIN						( 20 )			// з¬¬1жњЂдЅЋз§»е‹•и§’еє¦
-#define A2_MIN						( 30 )			// з¬¬2жњЂдЅЋз§»е‹•и§’еє¦
-#define A3_MIN						( 20 )			// з¬¬3жњЂдЅЋз§»е‹•и§’еє¦
+#define A1_MIN						( 20 )			// ‘ж1ЌЕ’б€Ъ“®Љp“x
+#define A2_MIN						( 30 )			// ‘ж2ЌЕ’б€Ъ“®Љp“x
+#define A3_MIN						( 20 )			// ‘ж3ЌЕ’б€Ъ“®Љp“x
 
-#define ANGLE_OFFSET_R90			( 2.5 )			// и§’еє¦гЃ®г‚Єгѓ•г‚»гѓѓгѓ€еЂ¤пј€гѓђгѓѓгѓ•г‚ЎгѓЄгѓіг‚°гЃ«г‚€г‚‹иЄ¤е·®г‚’еџ‹г‚Ѓг‚‹гЃџг‚ЃгЃ®еЂ¤пј‰
-#define ANGLE_OFFSET_L90			( 0 )			// и§’еє¦гЃ®г‚Єгѓ•г‚»гѓѓгѓ€еЂ¤пј€гѓђгѓѓгѓ•г‚ЎгѓЄгѓіг‚°гЃ«г‚€г‚‹иЄ¤е·®г‚’еџ‹г‚Ѓг‚‹гЃџг‚ЃгЃ®еЂ¤пј‰
-#define ANGLE_OFFSET_R180			( 0 )			// и§’еє¦гЃ®г‚Єгѓ•г‚»гѓѓгѓ€еЂ¤пј€гѓђгѓѓгѓ•г‚ЎгѓЄгѓіг‚°гЃ«г‚€г‚‹иЄ¤е·®г‚’еџ‹г‚Ѓг‚‹гЃџг‚ЃгЃ®еЂ¤пј‰
-#define ANGLE_OFFSET_L180			( 0 )			// и§’еє¦гЃ®г‚Єгѓ•г‚»гѓѓгѓ€еЂ¤пј€гѓђгѓѓгѓ•г‚ЎгѓЄгѓіг‚°гЃ«г‚€г‚‹иЄ¤е·®г‚’еџ‹г‚Ѓг‚‹гЃџг‚ЃгЃ®еЂ¤пј‰
+#define ANGLE_OFFSET_R90			( 2.5 )			// Љp“x‚МѓIѓtѓZѓbѓg’lЃiѓoѓbѓtѓ@ѓЉѓ“ѓO‚Й‚ж‚йЊлЌ·‚р–„‚Я‚й‚Ѕ‚Я‚М’lЃj
+#define ANGLE_OFFSET_L90			( 0 )			// Љp“x‚МѓIѓtѓZѓbѓg’lЃiѓoѓbѓtѓ@ѓЉѓ“ѓO‚Й‚ж‚йЊлЌ·‚р–„‚Я‚й‚Ѕ‚Я‚М’lЃj
+#define ANGLE_OFFSET_R180			( 0 )			// Љp“x‚МѓIѓtѓZѓbѓg’lЃiѓoѓbѓtѓ@ѓЉѓ“ѓO‚Й‚ж‚йЊлЌ·‚р–„‚Я‚й‚Ѕ‚Я‚М’lЃj
+#define ANGLE_OFFSET_L180			( 0 )			// Љp“x‚МѓIѓtѓZѓbѓg’lЃiѓoѓbѓtѓ@ѓЉѓ“ѓO‚Й‚ж‚йЊлЌ·‚р–„‚Я‚й‚Ѕ‚Я‚М’lЃj
 
-#define MOT_MOVE_ST_THRESHOLD		( 45 )			// з›ґйЂІз§»е‹•и·ќй›ўгЃ®й–ѕеЂ¤[mm]
-#define MOT_MOVE_ST_MIN				( 0  )          // з›ґйЂІз§»е‹•и·ќй›ўгЃ®жњЂдЅЋз§»е‹•й‡Џ[mm]
+#define MOT_MOVE_ST_THRESHOLD		( 45 )			// ’јђi€Ъ“®‹——Ј‚Ми‡’l[mm]
+#define MOT_MOVE_ST_MIN				( 0  )          // ’јђi€Ъ“®‹——Ј‚МЌЕ’б€Ъ“®—К[mm]
 
 //**************************************************
-// е€—жЊ™дЅ“пј€enumпј‰
+// —с‹“‘МЃienumЃj
 //**************************************************
-/* е‹•дЅњг‚їг‚¤гѓ— */
+/* “®Ќмѓ^ѓCѓv */
 typedef enum{
 	MOT_ST_NC    =  0,
-	MOT_ACC_CONST_DEC,				// [01] еЏ°еЅўеЉ йЂџ
-	MOT_ACC_CONST_DEC_CUSTOM,	 	// [02] еЏ°еЅўеЉ йЂџпј€з­‰йЂџеЂ¤е¤‰ж›ґпј‰
-	MOT_ACC_CONST,					// [03] еЉ йЂџпј‹з­‰йЂџ
-	MOT_ACC_CONST_CUSTOM,		   	// [04] еЉ йЂџпј‹з­‰йЂџпј€еЉ йЂџеЂ¤е¤‰ж›ґпј‰
-	MOT_CONST_DEC,					// [05] з­‰йЂџпј‹жё›йЂџ
-	MOT_CONST_DEC_CUSTOM,			// [06] з­‰йЂџпј‹жё›йЂџпј€жё›йЂџеЂ¤е¤‰ж›ґпј‰
+	MOT_ACC_CONST_DEC,				// [01] ‘дЊ`‰Б‘¬
+	MOT_ACC_CONST_DEC_CUSTOM,	 	// [02] ‘дЊ`‰Б‘¬Ѓi“™‘¬’l•ПЌXЃj
+	MOT_ACC_CONST,					// [03] ‰Б‘¬Ѓ{“™‘¬
+	MOT_ACC_CONST_CUSTOM,		   	// [04] ‰Б‘¬Ѓ{“™‘¬Ѓi‰Б‘¬’l•ПЌXЃj
+	MOT_CONST_DEC,					// [05] “™‘¬Ѓ{Њё‘¬
+	MOT_CONST_DEC_CUSTOM,			// [06] “™‘¬Ѓ{Њё‘¬ЃiЊё‘¬’l•ПЌXЃj
 	
-	/* cosиї‘дјј */
-	MOT_ACC_CONST_DEC_SMOOTH,			// [07] еЏ°еЅўеЉ йЂџ
-	MOT_ACC_CONST_DEC_SMOOTH_CUSTOM,	// [08] еЏ°еЅўеЉ йЂџпј€з­‰йЂџеЂ¤е¤‰ж›ґпј‰
-	MOT_ACC_CONST_SMOOTH,				// [09] еЉ йЂџпј‹з­‰йЂџ
-	MOT_ACC_CONST_SMOOTH_CUSTOM,		// [10] еЉ йЂџпј‹з­‰йЂџпј€еЉ йЂџеЂ¤е¤‰ж›ґпј‰
-	MOT_CONST_DEC_SMOOTH,				// [11] з­‰йЂџпј‹жё›йЂџ
-	MOT_CONST_DEC_SMOOTH_CUSTOM,		// [12] з­‰йЂџпј‹жё›йЂџпј€жё›йЂџеЂ¤е¤‰ж›ґпј‰
+	/* cos‹ЯЋ— */
+	MOT_ACC_CONST_DEC_SMOOTH,			// [07] ‘дЊ`‰Б‘¬
+	MOT_ACC_CONST_DEC_SMOOTH_CUSTOM,	// [08] ‘дЊ`‰Б‘¬Ѓi“™‘¬’l•ПЌXЃj
+	MOT_ACC_CONST_SMOOTH,				// [09] ‰Б‘¬Ѓ{“™‘¬
+	MOT_ACC_CONST_SMOOTH_CUSTOM,		// [10] ‰Б‘¬Ѓ{“™‘¬Ѓi‰Б‘¬’l•ПЌXЃj
+	MOT_CONST_DEC_SMOOTH,				// [11] “™‘¬Ѓ{Њё‘¬
+	MOT_CONST_DEC_SMOOTH_CUSTOM,		// [12] “™‘¬Ѓ{Њё‘¬ЃiЊё‘¬’l•ПЌXЃj
 	
 	MOT_ST_MAX,
 }enMOT_ST_TYPE;
 
-/* з›ґйЂІг‚їг‚¤гѓ— */
+/* ’јђiѓ^ѓCѓv */
 typedef enum{
-	MOT_GO_ST_NORMAL    =  0,	// йЂљеёёгЃ®з›ґйЂІ
-	MOT_GO_ST_SKEW,				// ж–њг‚ЃгЃ®з›ґйЂІ
-	MOT_GO_ST_SMOOTH,			// cosиї‘дјјз›ґйЂІ
+	MOT_GO_ST_NORMAL    =  0,	// ’КЏн‚М’јђi
+	MOT_GO_ST_SKEW,				// ЋО‚Я‚М’јђi
+	MOT_GO_ST_SMOOTH,			// cos‹ЯЋ—’јђi
 	MOT_GO_ST_MAX,
 }enMOT_GO_ST_TYPE;
 
 //**************************************************
-// ж§‹йЂ дЅ“пј€structпј‰
+// Ќ\‘ў‘МЃistructЃj
 //**************************************************
-/* е‹•дЅњжѓ…е ± */
+/* “®ЌмЏо•с */
 typedef struct{
 
-	FLOAT			f_time;			// ж™‚й–“					[msec]
+	FLOAT			f_time;			// ЋћЉФ					[msec]
 
-	/* йЂџеє¦е€¶еѕЎ */
-	FLOAT			f_acc1;			// еЉ йЂџеє¦1				[mm/s2]
-	FLOAT			f_acc3;			// еЉ йЂџеє¦3				[mm/s2]
-	FLOAT			f_now;			// зЏѕењЁйЂџеє¦				[mm/s]
-	FLOAT			f_trgt;			// еЉ йЂџеѕЊгЃ®з›®жЁ™йЂџеє¦		[mm/s]
-	FLOAT			f_last;			// жё›йЂџеѕЊгЃ®жњЂзµ‚йЂџеє¦		[mm/s]
+	/* ‘¬“xђ§Њд */
+	FLOAT			f_acc1;			// ‰Б‘¬“x1				[mm/s2]
+	FLOAT			f_acc3;			// ‰Б‘¬“x3				[mm/s2]
+	FLOAT			f_now;			// Њ»ЌЭ‘¬“x				[mm/s]
+	FLOAT			f_trgt;			// ‰Б‘¬Њг‚М–Ъ•W‘¬“x		[mm/s]
+	FLOAT			f_last;			// Њё‘¬Њг‚МЌЕЏI‘¬“x		[mm/s]
 
-	/* и·ќй›ўе€¶еѕЎ */
-	FLOAT			f_dist;			// з§»е‹•и·ќй›ў				[mm]
-	FLOAT			f_l1;			// з¬¬1з§»е‹•и·ќй›ў			[mm]
-	FLOAT			f_l1_2;			// з¬¬1+2з§»е‹•и·ќй›ў		[mm]
+	/* ‹——Јђ§Њд */
+	FLOAT			f_dist;			// €Ъ“®‹——Ј				[mm]
+	FLOAT			f_l1;			// ‘ж1€Ъ“®‹——Ј			[mm]
+	FLOAT			f_l1_2;			// ‘ж1+2€Ъ“®‹——Ј		[mm]
 
-	/* и§’йЂџеє¦е€¶еѕЎ */
-	FLOAT			f_accAngleS1;	// и§’еЉ йЂџеє¦1			[rad/s2]
-	FLOAT			f_accAngleS3;	// и§’еЉ йЂџеє¦3			[rad/s2]
-	FLOAT			f_nowAngleS;	// зЏѕењЁи§’йЂџеє¦			[rad/s]
-	FLOAT			f_trgtAngleS;	// еЉ йЂџеѕЊгЃ®з›®жЁ™и§’йЂџеє¦	[rad/s]
-	FLOAT			f_lastAngleS;	// жё›йЂџеѕЊгЃ®жњЂзµ‚и§’йЂџеє¦	[rad/s]
+	/* Љp‘¬“xђ§Њд */
+	FLOAT			f_accAngleS1;	// Љp‰Б‘¬“x1			[rad/s2]
+	FLOAT			f_accAngleS3;	// Љp‰Б‘¬“x3			[rad/s2]
+	FLOAT			f_nowAngleS;	// Њ»ЌЭЉp‘¬“x			[rad/s]
+	FLOAT			f_trgtAngleS;	// ‰Б‘¬Њг‚М–Ъ•WЉp‘¬“x	[rad/s]
+	FLOAT			f_lastAngleS;	// Њё‘¬Њг‚МЌЕЏIЉp‘¬“x	[rad/s]
 
-	/* и§’еє¦е€¶еѕЎ */
-	FLOAT			f_angle;		// з§»е‹•и§’еє¦				[rad]
-	FLOAT			f_angle1;		// з¬¬1з§»е‹•и§’еє¦			[rad]
-	FLOAT			f_angle1_2;		// з¬¬1+2з§»е‹•и§’еє¦		[rad]
+	/* Љp“xђ§Њд */
+	FLOAT			f_angle;		// €Ъ“®Љp“x				[rad]
+	FLOAT			f_angle1;		// ‘ж1€Ъ“®Љp“x			[rad]
+	FLOAT			f_angle1_2;		// ‘ж1+2€Ъ“®Љp“x		[rad]
 }stMOT_DATA;
 
 //**************************************************
-// е¤‰ж•°
+// •Пђ”
 //**************************************************
-/* е‹•дЅњ */
-PRIVATE FLOAT 				f_MotNowSpeed 			= 0.0f;		// зЏѕењЁйЂџеє¦
-PRIVATE FLOAT 				f_MotTrgtSpeed 			= 300.0f;	// з›®жЁ™йЂџеє¦
-PRIVATE FLOAT 				f_MotSlaStaSpeed 		= 0.0f;		// г‚№гѓ©гѓ­гѓјгѓ й–‹е§‹йЂџеє¦
-PRIVATE	stMOT_DATA 			st_Info;							// г‚·гѓјг‚±гѓіг‚№гѓ‡гѓјг‚ї
+/* “®Ќм */
+PRIVATE FLOAT 				f_MotNowSpeed 			= 0.0f;		// Њ»ЌЭ‘¬“x
+PRIVATE FLOAT 				f_MotTrgtSpeed 			= 300.0f;	// –Ъ•W‘¬“x
+PRIVATE FLOAT 				f_MotSlaStaSpeed 		= 0.0f;		// ѓXѓ‰ѓЌЃ[ѓЂЉJЋn‘¬“x
+PRIVATE	stMOT_DATA 			st_Info;							// ѓVЃ[ѓPѓ“ѓXѓfЃ[ѓ^
 
-/* еЈЃе€‡г‚Њй–ўдї‚ */
-PRIVATE enMOT_WALL_EDGE_TYPE		en_WallEdge 		= MOT_WALL_EDGE_NONE;	//еЈЃе€‡г‚ЊиЈњж­Ј
-PRIVATE BOOL						bl_IsWallEdge		= false;				//еЈЃе€‡г‚Њж¤њзџҐ(true:ж¤њзџҐгЂЂfalse:йќћж¤њзџҐ)
-PRIVATE FLOAT						f_WallEdgeAddDist	= 0;					//еЈЃе€‡г‚ЊиЈњж­ЈеѕЊгЃ®з§»е‹•и·ќй›ў
+/* •ЗђШ‚кЉЦЊW */
+PRIVATE enMOT_WALL_EDGE_TYPE		en_WallEdge 		= MOT_WALL_EDGE_NONE;	//•ЗђШ‚к•вђі
+PRIVATE BOOL						bl_IsWallEdge		= false;				//•ЗђШ‚кЊџ’m(true:Њџ’mЃ@false:”сЊџ’m)
+PRIVATE FLOAT						f_WallEdgeAddDist	= 0;					//•ЗђШ‚к•вђіЊг‚М€Ъ“®‹——Ј
 
 
 //**************************************************
-// гѓ—гѓ­гѓ€г‚їг‚¤гѓ—е®ЈиЁЂпј€гѓ•г‚Ўг‚¤гѓ«е†…гЃ§еї…и¦ЃгЃЄг‚‚гЃ®гЃ гЃ‘иЁиї°пј‰
+// ѓvѓЌѓgѓ^ѓCѓvђйЊѕЃiѓtѓ@ѓCѓ‹“а‚Е•K—v‚И‚а‚М‚ѕ‚Ї‹LЏqЃj
 //**************************************************
 
 
 // *************************************************************************
-//   ж©џиѓЅ		пјљ еЉ йЂџеє¦г‚’еЏ–еѕ—гЃ™г‚‹
-//   жіЁж„Џ		пјљ гЃЄгЃ—
-//   гѓЎгѓў		пјљ гЃЄгЃ—
-//   еј•ж•°		пјљ гЃЄгЃ—
-//   иї”г‚ЉеЂ¤		пјљ еЉ йЂџеє¦[mm/s^2]
-// **************************    е±Ґ    ж­ґ    *******************************
-// 		v1.0		2019.4.26			TKR			ж–°и¦Џ
+//   ‹@”\		ЃF ‰Б‘¬“x‚рЋж“ѕ‚·‚й
+//   ’Ќ€У		ЃF ‚И‚µ
+//   ѓЃѓ‚		ЃF ‚И‚µ
+//   €шђ”		ЃF ‚И‚µ
+//   •Ф‚и’l		ЃF ‰Б‘¬“x[mm/s^2]
+// **************************    —љ    —р    *******************************
+// 		v1.0		2019.4.26			TKR			ђV‹K
 // *************************************************************************/
 PUBLIC  FLOAT   MOT_getAcc1( void ){
 
@@ -138,13 +138,13 @@ PUBLIC  FLOAT   MOT_getAcc1( void ){
 }
 
 // *************************************************************************
-//   ж©џиѓЅ		пјљ жё›йЂџеє¦г‚’еЏ–еѕ—гЃ™г‚‹
-//   жіЁж„Џ		пјљ ж­ЈгЃ®еЂ¤(зµ¶еЇѕеЂ¤)гЃ§жЊ‡е®љ
-//   гѓЎгѓў		пјљ гЃЄгЃ—
-//   еј•ж•°		пјљ гЃЄгЃ—
-//   иї”г‚ЉеЂ¤		пјљ жё›йЂџеє¦[mm/s^2]
-// **************************    е±Ґ    ж­ґ    *******************************
-// 		v1.0		2019.4.26			TKR			ж–°и¦Џ
+//   ‹@”\		ЃF Њё‘¬“x‚рЋж“ѕ‚·‚й
+//   ’Ќ€У		ЃF ђі‚М’l(ђв‘О’l)‚ЕЋw’и
+//   ѓЃѓ‚		ЃF ‚И‚µ
+//   €шђ”		ЃF ‚И‚µ
+//   •Ф‚и’l		ЃF Њё‘¬“x[mm/s^2]
+// **************************    —љ    —р    *******************************
+// 		v1.0		2019.4.26			TKR			ђV‹K
 // *************************************************************************/
 PUBLIC  FLOAT   MOT_getAcc3( void ){
 
@@ -153,13 +153,13 @@ PUBLIC  FLOAT   MOT_getAcc3( void ){
 }
 
 // *************************************************************************
-//   ж©џиѓЅ		пјљ еЉ йЂџеє¦г‚’еЏ–еѕ—гЃ™г‚‹(cosиї‘дјј)
-//   жіЁж„Џ		пјљ гЃЄгЃ—
-//   гѓЎгѓў		пјљ гЃЄгЃ—
-//   еј•ж•°		пјљ гЃЄгЃ—
-//   иї”г‚ЉеЂ¤		пјљ жњЂе¤§еЉ йЂџеє¦[mm/s2]
-// **************************    е±Ґ    ж­ґ    *******************************
-// 		v1.0		2019.4.26			еђ‰з”°			ж–°и¦Џ
+//   ‹@”\		ЃF ‰Б‘¬“x‚рЋж“ѕ‚·‚й(cos‹ЯЋ—)
+//   ’Ќ€У		ЃF ‚И‚µ
+//   ѓЃѓ‚		ЃF ‚И‚µ
+//   €шђ”		ЃF ‚И‚µ
+//   •Ф‚и’l		ЃF ЌЕ‘е‰Б‘¬“x[mm/s2]
+// **************************    —љ    —р    *******************************
+// 		v1.0		2019.4.26			‹g“c			ђV‹K
 // *************************************************************************/
 PUBLIC FLOAT MOT_getAcc1_Smooth( void )
 {	
@@ -168,13 +168,13 @@ PUBLIC FLOAT MOT_getAcc1_Smooth( void )
 
 
 // *************************************************************************
-//   ж©џиѓЅ		пјљ жё›йЂџеє¦г‚’еЏ–еѕ—гЃ™г‚‹(cosиї‘дјј)
-//   жіЁж„Џ		пјљ гѓ—гѓ©г‚№гЃ§жЊ‡е®љ
-//   гѓЎгѓў		пјљ гЃЄгЃ—
-//   еј•ж•°		пјљ гЃЄгЃ—
-//   иї”г‚ЉеЂ¤		пјљ жњЂе¤§еЉ йЂџеє¦[mm/s2]
-// **************************    е±Ґ    ж­ґ    *******************************
-// 		v1.0		2019.4.26			еђ‰з”°			ж–°и¦Џ
+//   ‹@”\		ЃF Њё‘¬“x‚рЋж“ѕ‚·‚й(cos‹ЯЋ—)
+//   ’Ќ€У		ЃF ѓvѓ‰ѓX‚ЕЋw’и
+//   ѓЃѓ‚		ЃF ‚И‚µ
+//   €шђ”		ЃF ‚И‚µ
+//   •Ф‚и’l		ЃF ЌЕ‘е‰Б‘¬“x[mm/s2]
+// **************************    —љ    —р    *******************************
+// 		v1.0		2019.4.26			‹g“c			ђV‹K
 // *************************************************************************/
 PUBLIC FLOAT MOT_getAcc3_Smooth( void )
 {	
@@ -182,13 +182,13 @@ PUBLIC FLOAT MOT_getAcc3_Smooth( void )
 }
 
 // *************************************************************************
-//   ж©џиѓЅ		пјљ и§’еЉ йЂџеє¦г‚’еЏ–еѕ—гЃ™г‚‹
-//   жіЁж„Џ		пјљ гЃЄгЃ—
-//   гѓЎгѓў		пјљ гЃЄгЃ—
-//   еј•ж•°		пјљ гЃЄгЃ—
-//   иї”г‚ЉеЂ¤		пјљ и§’еЉ йЂџеє¦[rad/s2]
-// **************************    е±Ґ    ж­ґ    *******************************
-// 		v1.0		2017.4.26			еђ‰з”°			ж–°и¦Џ
+//   ‹@”\		ЃF Љp‰Б‘¬“x‚рЋж“ѕ‚·‚й
+//   ’Ќ€У		ЃF ‚И‚µ
+//   ѓЃѓ‚		ЃF ‚И‚µ
+//   €шђ”		ЃF ‚И‚µ
+//   •Ф‚и’l		ЃF Љp‰Б‘¬“x[rad/s2]
+// **************************    —љ    —р    *******************************
+// 		v1.0		2017.4.26			‹g“c			ђV‹K
 // *************************************************************************/
 PUBLIC FLOAT MOT_getAccAngle1( void )
 {
@@ -196,13 +196,13 @@ PUBLIC FLOAT MOT_getAccAngle1( void )
 }
 
 // *************************************************************************
-//   ж©џиѓЅ		пјљ и§’жё›йЂџеє¦г‚’еЏ–еѕ—гЃ™г‚‹
-//   жіЁж„Џ		пјљ гЃЄгЃ—
-//   гѓЎгѓў		пјљ гЃЄгЃ—
-//   еј•ж•°		пјљ гЃЄгЃ—
-//   иї”г‚ЉеЂ¤		пјљ и§’жё›йЂџеє¦[rad/s2]
-// **************************    е±Ґ    ж­ґ    *******************************
-// 		v1.0		2018.4.26			еђ‰з”°			ж–°и¦Џ
+//   ‹@”\		ЃF ЉpЊё‘¬“x‚рЋж“ѕ‚·‚й
+//   ’Ќ€У		ЃF ‚И‚µ
+//   ѓЃѓ‚		ЃF ‚И‚µ
+//   €шђ”		ЃF ‚И‚µ
+//   •Ф‚и’l		ЃF ЉpЊё‘¬“x[rad/s2]
+// **************************    —љ    —р    *******************************
+// 		v1.0		2018.4.26			‹g“c			ђV‹K
 // *************************************************************************/
 PUBLIC FLOAT MOT_getAccAngle3( void )
 {
@@ -210,25 +210,25 @@ PUBLIC FLOAT MOT_getAccAngle3( void )
 }
 
 // *************************************************************************
-//   ж©џиѓЅ		пјљ з›ґйЂІгЃ™г‚‹
-//   жіЁж„Џ		пјљ MOT_go_FinSpeedгЃ®гЃїе®џиЎЊеЏЇиѓЅ
-//   гѓЎгѓў		пјљ еЊєз”»ж•°гЃЇ1.5еЊєз”»гЃЄгЃ©гЃ®жЊ‡е®љг‚’гЃ—гЃџгЃ„е ґеђ€гЃЇгЂЃ"1.5"г‚’жЊ‡е®љгЃ™г‚‹гЂ‚ж–њг‚Ѓиµ°иЎЊгЃЁе…±йЂље‡¦зђ†гЂ‚
-//   еј•ж•°		пјљ еЊєз”»ж•°гЂЃжњЂзµ‚йЂџеє¦гЂЃз›ґйЂІг‚їг‚¤гѓ—пј€йЂљеёёorж–њг‚Ѓпј‰
-//   иї”г‚ЉеЂ¤		пјљ е‰ЌйЂІгЃ®г‚їг‚¤гѓ—
-// **************************    е±Ґ    ж­ґ    *******************************
-// 		v1.0		2013.12.14			е¤–е·ќ			ж–°и¦Џ
+//   ‹@”\		ЃF ’јђi‚·‚й
+//   ’Ќ€У		ЃF MOT_go_FinSpeed‚М‚ЭЋАЌs‰В”\
+//   ѓЃѓ‚		ЃF ‹ж‰жђ”‚Н1.5‹ж‰ж‚И‚З‚МЋw’и‚р‚µ‚Ѕ‚ўЏкЌ‡‚НЃA"1.5"‚рЋw’и‚·‚йЃBЋО‚Я‘–Ќs‚Ж‹¤’КЏ€—ќЃB
+//   €шђ”		ЃF ‹ж‰жђ”ЃAЌЕЏI‘¬“xЃA’јђiѓ^ѓCѓvЃi’КЏнorЋО‚ЯЃj
+//   •Ф‚и’l		ЃF ‘Oђi‚Мѓ^ѓCѓv
+// **************************    —љ    —р    *******************************
+// 		v1.0		2013.12.14			ЉOђм			ђV‹K
 // *************************************************************************/
 PRIVATE void MOT_goBlock_AccConstDec( FLOAT f_fin, enMOT_ST_TYPE en_type, enMOT_GO_ST_TYPE en_goType )
 {
-	stCTRL_DATA		st_data;					// е€¶еѕЎгѓ‡гѓјг‚ї
+	stCTRL_DATA		st_data;					// ђ§ЊдѓfЃ[ѓ^
 
 	
 	f_WallEdgeAddDist = 0;
 	/* ================ */
-	/*      е®џе‹•дЅњ      */
+	/*      ЋА“®Ќм      */
 	/* ================ */
 	/* ------ */
-	/*  еЉ йЂџ  */
+	/*  ‰Б‘¬  */
 	/* ------ */
 	if( ( en_type != MOT_CONST_DEC ) && ( en_type != MOT_CONST_DEC_CUSTOM ) && ( en_type != MOT_CONST_DEC_SMOOTH ) && ( en_type != MOT_CONST_DEC_SMOOTH_CUSTOM ) ){
 			
@@ -242,26 +242,26 @@ PRIVATE void MOT_goBlock_AccConstDec( FLOAT f_fin, enMOT_ST_TYPE en_type, enMOT_
 			st_data.en_type		= CTRL_SKEW_ACC;
 		}
 		
-		st_data.f_acc			= st_Info.f_acc1;			// еЉ йЂџеє¦жЊ‡е®љ
-		st_data.f_now			= st_Info.f_now;			// зЏѕењЁйЂџеє¦
-		st_data.f_trgt			= st_Info.f_trgt;			// з›®жЁ™йЂџеє¦
-		st_data.f_nowDist		= 0;					// йЂІг‚“гЃ§гЃ„гЃЄгЃ„
-		st_data.f_dist			= st_Info.f_l1;				// еЉ йЂџи·ќй›ў
-		st_data.f_accAngleS		= 0;					// и§’еЉ йЂџеє¦
-		st_data.f_nowAngleS		= 0;					// зЏѕењЁи§’йЂџеє¦
-		st_data.f_trgtAngleS	= 0;						// з›®жЁ™и§’еє¦
-		st_data.f_nowAngle		= 0;					// зЏѕењЁи§’еє¦
-		st_data.f_angle			= 0;					// з›®жЁ™и§’еє¦
-		st_data.f_time 			= 0;					// з›®жЁ™ж™‚й–“ [sec] в†ђ жЊ‡е®љгЃ—гЃЄгЃ„
-		CTRL_clrData();								// иЁ­е®љгѓ‡гѓјг‚їг‚’г‚ЇгѓЄг‚ў
-		CTRL_setData( &st_data );						// гѓ‡гѓјг‚їг‚»гѓѓгѓ€
-		DCM_staMotAll();							// гѓўгѓјг‚їON
+		st_data.f_acc			= st_Info.f_acc1;			// ‰Б‘¬“xЋw’и
+		st_data.f_now			= st_Info.f_now;			// Њ»ЌЭ‘¬“x
+		st_data.f_trgt			= st_Info.f_trgt;			// –Ъ•W‘¬“x
+		st_data.f_nowDist		= 0;					// ђi‚с‚Е‚ў‚И‚ў
+		st_data.f_dist			= st_Info.f_l1;				// ‰Б‘¬‹——Ј
+		st_data.f_accAngleS		= 0;					// Љp‰Б‘¬“x
+		st_data.f_nowAngleS		= 0;					// Њ»ЌЭЉp‘¬“x
+		st_data.f_trgtAngleS	= 0;						// –Ъ•WЉp“x
+		st_data.f_nowAngle		= 0;					// Њ»ЌЭЉp“x
+		st_data.f_angle			= 0;					// –Ъ•WЉp“x
+		st_data.f_time 			= 0;					// –Ъ•WЋћЉФ [sec] Ѓ© Ћw’и‚µ‚И‚ў
+		CTRL_clrData();								// ђЭ’иѓfЃ[ѓ^‚рѓNѓЉѓA
+		CTRL_setData( &st_data );						// ѓfЃ[ѓ^ѓZѓbѓg
+		DCM_staMotAll();							// ѓ‚Ѓ[ѓ^ON
 		
-		//printf("еЉ йЂџи·ќй›ўпјљ%5.4f \n\r",st_Info.f_l1 );
+		//printf("‰Б‘¬‹——ЈЃF%5.4f \n\r",st_Info.f_l1 );
 		
-		while( f_NowDist < st_Info.f_l1 ){					// жЊ‡е®љи·ќй›ўе€°йЃ”еѕ…гЃЎ
+		while( f_NowDist < st_Info.f_l1 ){					// Ћw’и‹——Ј“ћ’B‘Т‚ї
 			
-			/*еЉ йЂџгѓ‡гѓђгѓѓг‚°*/
+			/*‰Б‘¬ѓfѓoѓbѓO*/
 			/*if(f_NowDist>=st_Info.f_l1*0.25){
 				LED8=0x01;
 				if(f_NowDist>=st_Info.f_l1*0.5){
@@ -272,21 +272,21 @@ PRIVATE void MOT_goBlock_AccConstDec( FLOAT f_fin, enMOT_ST_TYPE en_type, enMOT_
 				}
 			}*/
 			
-			/*и„±е‡є*/
+			/*’EЏo*/
 			if(SW_ON == SW_INC_PIN){
-				CTRL_stop();				// е€¶еѕЎеЃњж­ў
+				CTRL_stop();				// ђ§Њд’вЋ~
 				break;
 			}
 			
-			MOT_setWallEdgeDIST();		// еЈЃе€‡г‚ЊиЈњж­Јг‚’е®џиЎЊгЃ™г‚‹и·ќй›ўг‚’иЁ­е®љ
+			MOT_setWallEdgeDIST();		// •ЗђШ‚к•вђі‚рЋАЌs‚·‚й‹——Ј‚рђЭ’и
 			
 		}
 		
-		//printf("еЉ йЂџзµ‚дє†(*Вґв–ЅпЅЂ*) \n\r");
+		//printf("‰Б‘¬ЏI—№(*ЃLЃ¤ЃM*) \n\r");
 	}
 	
 	/* ------ */
-	/*  з­‰йЂџ  */
+	/*  “™‘¬  */
 	/* ------ */
 	if( MOT_GO_ST_NORMAL == en_goType ){
 		st_data.en_type		= CTRL_CONST;
@@ -298,32 +298,32 @@ PRIVATE void MOT_goBlock_AccConstDec( FLOAT f_fin, enMOT_ST_TYPE en_type, enMOT_
 		st_data.en_type		= CTRL_SKEW_CONST;
 	}
 	
-	st_data.f_acc			= 0;						// еЉ йЂџеє¦жЊ‡е®љ
-	st_data.f_now			= st_Info.f_trgt;				// зЏѕењЁйЂџеє¦
-	st_data.f_trgt			= st_Info.f_trgt;				// з›®жЁ™йЂџеє¦
-	st_data.f_nowDist		= st_Info.f_l1;					// зЏѕењЁдЅЌзЅ®
-	st_data.f_dist			= st_Info.f_l1_2;				// з­‰йЂџе®Њдє†дЅЌзЅ®
-	st_data.f_accAngleS		= 0;						// и§’еЉ йЂџеє¦
-	st_data.f_nowAngleS		= 0;						// зЏѕењЁи§’йЂџеє¦
-	st_data.f_trgtAngleS	= 0;						// з›®жЁ™и§’еє¦
-	st_data.f_nowAngle		= 0;						// зЏѕењЁи§’еє¦
-	st_data.f_angle			= 0;						// з›®жЁ™и§’еє¦
-	st_data.f_time 			= 0;						// з›®жЁ™ж™‚й–“ [sec] в†ђ жЊ‡е®љгЃ—гЃЄгЃ„
+	st_data.f_acc			= 0;						// ‰Б‘¬“xЋw’и
+	st_data.f_now			= st_Info.f_trgt;				// Њ»ЌЭ‘¬“x
+	st_data.f_trgt			= st_Info.f_trgt;				// –Ъ•W‘¬“x
+	st_data.f_nowDist		= st_Info.f_l1;					// Њ»ЌЭ€К’u
+	st_data.f_dist			= st_Info.f_l1_2;				// “™‘¬Љ®—№€К’u
+	st_data.f_accAngleS		= 0;						// Љp‰Б‘¬“x
+	st_data.f_nowAngleS		= 0;						// Њ»ЌЭЉp‘¬“x
+	st_data.f_trgtAngleS	= 0;						// –Ъ•WЉp“x
+	st_data.f_nowAngle		= 0;						// Њ»ЌЭЉp“x
+	st_data.f_angle			= 0;						// –Ъ•WЉp“x
+	st_data.f_time 			= 0;						// –Ъ•WЋћЉФ [sec] Ѓ© Ћw’и‚µ‚И‚ў
 
 	if( ( en_type == MOT_CONST_DEC ) || ( en_type == MOT_CONST_DEC_CUSTOM ) || ( en_type == MOT_CONST_DEC_SMOOTH ) || ( en_type == MOT_CONST_DEC_SMOOTH_CUSTOM ) ){
-		CTRL_clrData();										// иЁ­е®љгѓ‡гѓјг‚їг‚’г‚ЇгѓЄг‚ў
+		CTRL_clrData();										// ђЭ’иѓfЃ[ѓ^‚рѓNѓЉѓA
 	}
 	
-	CTRL_setData( &st_data );							// гѓ‡гѓјг‚їг‚»гѓѓгѓ€
+	CTRL_setData( &st_data );							// ѓfЃ[ѓ^ѓZѓbѓg
 	
-	//printf("з­‰йЂџгѓўгѓјгѓ‰ \n\r");
-	//printf("з­‰йЂџе®Њдє†дЅЌзЅ®пјљ%5.4f \n\r",st_Info.f_l1_2 );
-	//printf("з›®жЁ™йЂџеє¦пјљ%5.4f \n\r",st_Info.f_trgt);
+	//printf("“™‘¬ѓ‚Ѓ[ѓh \n\r");
+	//printf("“™‘¬Љ®—№€К’uЃF%5.4f \n\r",st_Info.f_l1_2 );
+	//printf("–Ъ•W‘¬“xЃF%5.4f \n\r",st_Info.f_trgt);
 	
 	
-	while( f_NowDist < (st_Info.f_l1_2 ) ){				// жЊ‡е®љи·ќй›ўе€°йЃ”еѕ…гЃЎ	
+	while( f_NowDist < (st_Info.f_l1_2 ) ){				// Ћw’и‹——Ј“ћ’B‘Т‚ї	
 		//LED_SYS=0;
-		/*з­‰йЂџгѓ‡гѓђгѓѓг‚°*/
+		/*“™‘¬ѓfѓoѓbѓO*/
 		/*if(f_NowDist>=st_Info.f_l1){
 			LED8=0x04;
 			if(f_NowDist>=((st_Info.f_l1_2-st_Info.f_l1)*0.25+st_Info.f_l1)){
@@ -337,19 +337,19 @@ PRIVATE void MOT_goBlock_AccConstDec( FLOAT f_fin, enMOT_ST_TYPE en_type, enMOT_
 			}
 		}*/
 		
-		/*и„±е‡є*/
+		/*’EЏo*/
 		if(SW_ON == SW_INC_PIN){
-			CTRL_stop();				// е€¶еѕЎеЃњж­ў
+			CTRL_stop();				// ђ§Њд’вЋ~
 			break;
 		}
 		
-		MOT_setWallEdgeDIST();	// еЈЃе€‡г‚ЊиЈњж­Јг‚’е®џиЎЊгЃ™г‚‹и·ќй›ўг‚’иЁ­е®љ
+		MOT_setWallEdgeDIST();	// •ЗђШ‚к•вђі‚рЋАЌs‚·‚й‹——Ј‚рђЭ’и
 	}
 	//LED8=0xff;
-	//printf("з­‰йЂџзµ‚дє†(*Вґв–ЅпЅЂ*) \n\r");
+	//printf("“™‘¬ЏI—№(*ЃLЃ¤ЃM*) \n\r");
 	
 	/* ------ */
-	/*  жё›йЂџ  */
+	/*  Њё‘¬  */
 	/* ------ */
 	if( ( en_type != MOT_ACC_CONST ) && ( en_type != MOT_ACC_CONST_CUSTOM ) && ( en_type != MOT_ACC_CONST_SMOOTH ) && ( en_type != MOT_ACC_CONST_SMOOTH_CUSTOM ) ){	
 			
@@ -363,26 +363,26 @@ PRIVATE void MOT_goBlock_AccConstDec( FLOAT f_fin, enMOT_ST_TYPE en_type, enMOT_
 			st_data.en_type		= CTRL_SKEW_DEC;
 		}
 		
-		st_data.f_acc			= st_Info.f_acc3;			// жё›йЂџ
-		st_data.f_now			= st_Info.f_trgt;			// зЏѕењЁйЂџеє¦
-		st_data.f_trgt			= st_Info.f_last;			// жњЂзµ‚йЂџеє¦
-		st_data.f_nowDist		= st_Info.f_l1_2;			// з­‰йЂџе®Њдє†дЅЌзЅ®
-		st_data.f_dist			= st_Info.f_dist;			// е…Ёз§»е‹•е®Њдє†дЅЌзЅ®
-		st_data.f_accAngleS		= 0;						// и§’еЉ йЂџеє¦
-		st_data.f_nowAngleS		= 0;						// зЏѕењЁи§’йЂџеє¦
-		st_data.f_trgtAngleS	= 0;						// з›®жЁ™и§’еє¦
-		st_data.f_nowAngle		= 0;						// зЏѕењЁи§’еє¦
-		st_data.f_angle			= 0;						// з›®жЁ™и§’еє¦
-		st_data.f_time 			= 0;						// з›®жЁ™ж™‚й–“ [sec] в†ђ жЊ‡е®љгЃ—гЃЄгЃ„
-		CTRL_setData( &st_data );							// гѓ‡гѓјг‚їг‚»гѓѓгѓ€
+		st_data.f_acc			= st_Info.f_acc3;			// Њё‘¬
+		st_data.f_now			= st_Info.f_trgt;			// Њ»ЌЭ‘¬“x
+		st_data.f_trgt			= st_Info.f_last;			// ЌЕЏI‘¬“x
+		st_data.f_nowDist		= st_Info.f_l1_2;			// “™‘¬Љ®—№€К’u
+		st_data.f_dist			= st_Info.f_dist;			// ‘S€Ъ“®Љ®—№€К’u
+		st_data.f_accAngleS		= 0;						// Љp‰Б‘¬“x
+		st_data.f_nowAngleS		= 0;						// Њ»ЌЭЉp‘¬“x
+		st_data.f_trgtAngleS	= 0;						// –Ъ•WЉp“x
+		st_data.f_nowAngle		= 0;						// Њ»ЌЭЉp“x
+		st_data.f_angle			= 0;						// –Ъ•WЉp“x
+		st_data.f_time 			= 0;						// –Ъ•WЋћЉФ [sec] Ѓ© Ћw’и‚µ‚И‚ў
+		CTRL_setData( &st_data );							// ѓfЃ[ѓ^ѓZѓbѓg
 		
-		//printf("жё›йЂџи·ќй›ўпјљ%5.4f \n\r",st_Info.f_dist-st_Info.f_l1_2);
-		//printf("жё›йЂџй–‹е§‹(*Вґв–ЅпЅЂ*) \n\r");
-		while( f_NowDist < ( st_Info.f_dist ) ){		// жЂЄгЃ—гЃ„
+		//printf("Њё‘¬‹——ЈЃF%5.4f \n\r",st_Info.f_dist-st_Info.f_l1_2);
+		//printf("Њё‘¬ЉJЋn(*ЃLЃ¤ЃM*) \n\r");
+		while( f_NowDist < ( st_Info.f_dist ) ){		// ‰ц‚µ‚ў
 			/*if(f_NowDist>=st_Info.f_l1_2){
 				LED8=0x80;
 			}*/
-			/*жё›йЂџгѓ‡гѓђгѓѓг‚°*/
+			/*Њё‘¬ѓfѓoѓbѓO*/
 			/*
 			if( f_NowDist < (st_Info.f_dist-st_Info.f_l1_2-0.02)*0.25+st_Info.f_l1_2){
 				LED8=0x81;
@@ -395,708 +395,708 @@ PRIVATE void MOT_goBlock_AccConstDec( FLOAT f_fin, enMOT_ST_TYPE en_type, enMOT_
 			}
 			*/
 			
-			/*и„±е‡є*/
+			/*’EЏo*/
 			if(SW_ON == SW_INC_PIN){
-				CTRL_stop();				// е€¶еѕЎеЃњж­ў
+				CTRL_stop();				// ђ§Њд’вЋ~
 				break;
 			}
 			
-			MOT_setWallEdgeDIST();		// еЈЃе€‡г‚ЊиЈњж­Јг‚’е®џиЎЊгЃ™г‚‹и·ќй›ўг‚’иЁ­е®љ
+			MOT_setWallEdgeDIST();		// •ЗђШ‚к•вђі‚рЋАЌs‚·‚й‹——Ј‚рђЭ’и
 			
 		}
 
 	}
 
 	/* ------------------ */
-	/*  з­‰йЂџ(еЈЃгЃ®е€‡г‚Њз›®)  */
+	/*  “™‘¬(•З‚МђШ‚к–Ъ)  */
 	/* ------------------ */
-	/* еЈЃе€‡г‚ЊгЃЊгЃѕгЃ и¦‹гЃ¤гЃ‹г‚‰гЃЄгЃ„зЉ¶ж…‹пј€еЈЃе€‡г‚ЊиЁ­е®љг‚’гЃ—гЃ¦гЃ„г‚‹гЃ®гЃ«гЂЃг‚Ёгѓѓг‚ёг‚’и¦‹гЃ¤гЃ‘гЃ¦гЃ„гЃЄгЃ„пј‰ */
+	/* •ЗђШ‚к‚Є‚Ь‚ѕЊ©‚В‚©‚з‚И‚ўЏу‘ФЃi•ЗђШ‚кђЭ’и‚р‚µ‚Д‚ў‚й‚М‚ЙЃAѓGѓbѓW‚рЊ©‚В‚Ї‚Д‚ў‚И‚ўЃj */
 
 	if( ( en_WallEdge != MOT_WALL_EDGE_NONE)  && ( bl_IsWallEdge == false) ){
 		
 		st_data.en_type			= CTRL_CONST;
-		st_data.f_acc			= 0;					// еЉ йЂџеє¦жЊ‡е®љ
-		st_data.f_now			= st_Info.f_last;		// зЏѕењЁйЂџеє¦
-		st_data.f_trgt			= st_Info.f_last;		// з›®жЁ™йЂџеє¦
-		st_data.f_nowDist		= f_NowDist;			// зЏѕењЁдЅЌзЅ®
-		st_data.f_dist			= f_NowDist + 180.0f;	// з­‰йЂџе®Њдє†дЅЌзЅ®
-		st_data.f_accAngleS		= 0;					// и§’еЉ йЂџеє¦
-		st_data.f_nowAngleS		= 0;					// зЏѕењЁи§’йЂџеє¦
-		st_data.f_trgtAngleS	= 0;					// з›®жЁ™и§’йЂџеє¦
-		st_data.f_nowAngle		= 0;					// зЏѕењЁи§’еє¦
-		st_data.f_angle			= 0;					// з›®жЁ™и§’еє¦
-		st_data.f_time			= 0;					// з›®жЁ™ж™‚й–“[sec]гЂЂв†ђжЊ‡е®љгЃ—гЃЄгЃ„
+		st_data.f_acc			= 0;					// ‰Б‘¬“xЋw’и
+		st_data.f_now			= st_Info.f_last;		// Њ»ЌЭ‘¬“x
+		st_data.f_trgt			= st_Info.f_last;		// –Ъ•W‘¬“x
+		st_data.f_nowDist		= f_NowDist;			// Њ»ЌЭ€К’u
+		st_data.f_dist			= f_NowDist + 180.0f;	// “™‘¬Љ®—№€К’u
+		st_data.f_accAngleS		= 0;					// Љp‰Б‘¬“x
+		st_data.f_nowAngleS		= 0;					// Њ»ЌЭЉp‘¬“x
+		st_data.f_trgtAngleS	= 0;					// –Ъ•WЉp‘¬“x
+		st_data.f_nowAngle		= 0;					// Њ»ЌЭЉp“x
+		st_data.f_angle			= 0;					// –Ъ•WЉp“x
+		st_data.f_time			= 0;					// –Ъ•WЋћЉФ[sec]Ѓ@Ѓ©Ћw’и‚µ‚И‚ў
 		
-		CTRL_clrData();									// гѓћг‚¦г‚№гЃ®зЏѕењЁдЅЌзЅ®/и§’еє¦г‚’г‚ЇгѓЄг‚ў
-		CTRL_setData( &st_data );						// гѓ‡гѓјг‚їг‚»гѓѓгѓ€
+		CTRL_clrData();									// ѓ}ѓEѓX‚МЊ»ЌЭ€К’u/Љp“x‚рѓNѓЉѓA
+		CTRL_setData( &st_data );						// ѓfЃ[ѓ^ѓZѓbѓg
 		
-		while( f_NowDist < st_data.f_dist ){			// жЊ‡е®љи·ќй›ўе€°йЃ”еѕ…гЃЎ
+		while( f_NowDist < st_data.f_dist ){			// Ћw’и‹——Ј“ћ’B‘Т‚ї
 			
-			if( MOT_setWallEdgeDIST_LoopWait() == true ) break;			// еЈЃе€‡г‚ЊиЈњж­Јг‚’е®џиЎЊгЃ™г‚‹и·ќй›ўг‚’иЁ­е®љ
+			if( MOT_setWallEdgeDIST_LoopWait() == true ) break;			// •ЗђШ‚к•вђі‚рЋАЌs‚·‚й‹——Ј‚рђЭ’и
 			//LED8= 0xff;
 			
 		}
 	}
 		
-	/* еЈЃе€‡г‚ЊгЃѕгЃ§з›ґйЂІе‹•дЅњг‚’иЎЊгЃ† */
+	/* •ЗђШ‚к‚Ь‚Е’јђi“®Ќм‚рЌs‚¤ */
 	if( ( MOT_GO_ST_NORMAL == en_goType) &&
 		( f_WallEdgeAddDist != 0.0f ) &&
 		( f_fin != 0.0f )
 	){
 		st_data.en_type			= CTRL_CONST;
-		st_data.f_acc			= 0;					// еЉ йЂџеє¦жЊ‡е®љ
-		st_data.f_now			= st_Info.f_last;		// зЏѕењЁйЂџеє¦
-		st_data.f_trgt			= st_Info.f_last;		// з›®жЁ™йЂџеє¦
-		st_data.f_nowDist		= 0;					// зЏѕењЁдЅЌзЅ®
-		st_data.f_dist			= f_WallEdgeAddDist;	// з­‰йЂџе®Њдє†дЅЌзЅ®
-		st_data.f_accAngleS		= 0;					// и§’еЉ йЂџеє¦
-		st_data.f_nowAngleS		= 0;					// зЏѕењЁи§’йЂџеє¦
-		st_data.f_trgtAngleS	= 0;					// з›®жЁ™и§’йЂџеє¦
-		st_data.f_nowAngle		= 0;					// зЏѕењЁи§’еє¦
-		st_data.f_angle			= 0;					// з›®жЁ™и§’еє¦
-		st_data.f_time			= 0;					// з›®жЁ™ж™‚й–“[sec]гЂЂв†ђжЊ‡е®љгЃ—гЃЄгЃ„
+		st_data.f_acc			= 0;					// ‰Б‘¬“xЋw’и
+		st_data.f_now			= st_Info.f_last;		// Њ»ЌЭ‘¬“x
+		st_data.f_trgt			= st_Info.f_last;		// –Ъ•W‘¬“x
+		st_data.f_nowDist		= 0;					// Њ»ЌЭ€К’u
+		st_data.f_dist			= f_WallEdgeAddDist;	// “™‘¬Љ®—№€К’u
+		st_data.f_accAngleS		= 0;					// Љp‰Б‘¬“x
+		st_data.f_nowAngleS		= 0;					// Њ»ЌЭЉp‘¬“x
+		st_data.f_trgtAngleS	= 0;					// –Ъ•WЉp‘¬“x
+		st_data.f_nowAngle		= 0;					// Њ»ЌЭЉp“x
+		st_data.f_angle			= 0;					// –Ъ•WЉp“x
+		st_data.f_time			= 0;					// –Ъ•WЋћЉФ[sec]Ѓ@Ѓ©Ћw’и‚µ‚И‚ў
 		
-		CTRL_clrData();									// гѓћг‚¦г‚№гЃ®зЏѕењЁдЅЌзЅ®/и§’еє¦г‚’г‚ЇгѓЄг‚ў
-		CTRL_setData( &st_data );						// гѓ‡гѓјг‚їг‚»гѓѓгѓ€
+		CTRL_clrData();									// ѓ}ѓEѓX‚МЊ»ЌЭ€К’u/Љp“x‚рѓNѓЉѓA
+		CTRL_setData( &st_data );						// ѓfЃ[ѓ^ѓZѓbѓg
 		
-		while( f_NowDist < st_data.f_dist ){			// жЊ‡е®љи·ќй›ўе€°йЃ”еѕ…гЃЎ
+		while( f_NowDist < st_data.f_dist ){			// Ћw’и‹——Ј“ћ’B‘Т‚ї
 		}
 		
 	}
 	
-	/* еЃњж­ў */
+	/* ’вЋ~ */
 	if( 0.0f == f_fin ){
-		TIME_wait(500);				// е®‰е®љеѕ…гЃЎ
-	 	CTRL_stop();				// е€¶еѕЎеЃњж­ў
-		DCM_brakeMot( DCM_R );	// гѓ–гѓ¬гѓјг‚­
-		DCM_brakeMot( DCM_L );	// гѓ–гѓ¬гѓјг‚­
-		//TIME_wait(500);				// е®‰е®љеѕ…гЃЎ
-		//printf("еЃњж­ў(*Вґв–ЅпЅЂ*)");
+		TIME_wait(500);				// €А’и‘Т‚ї
+	 	CTRL_stop();				// ђ§Њд’вЋ~
+		DCM_brakeMot( DCM_R );	// ѓuѓЊЃ[ѓL
+		DCM_brakeMot( DCM_L );	// ѓuѓЊЃ[ѓL
+		//TIME_wait(500);				// €А’и‘Т‚ї
+		//printf("’вЋ~(*ЃLЃ¤ЃM*)");
 	}
 	//TIME_wait( 50 );
 	
-	f_MotNowSpeed = f_fin;			// зЏѕењЁйЂџеє¦ж›ґж–°
+	f_MotNowSpeed = f_fin;			// Њ»ЌЭ‘¬“xЌXђV
 }
 
 // *************************************************************************
-//   ж©џиѓЅ		пјљ еЊєз”» е‰ЌйЂІгЂЃе‹•дЅњгѓ‡гѓјг‚їдЅњж€ђпј€еЏ°еЅўеЉ йЂџпј‰
-//   жіЁж„Џ		пјљ MOT_go_FinSpeedгЃ®гЃїе®џиЎЊеЏЇиѓЅ
-//   гѓЎгѓў		пјљ еЊєз”»ж•°гЃЇ1.5еЊєз”»гЃЄгЃ©гЃ®жЊ‡е®љг‚’гЃ—гЃџгЃ„е ґеђ€гЃЇгЂЃ"1.5"г‚’жЊ‡е®љгЃ™г‚‹гЂ‚ж–њг‚Ѓиµ°иЎЊгЃЁе…±йЂље‡¦зђ†гЂ‚
-//   еј•ж•°		пјљ еЊєз”»ж•°гЂЃжњЂзµ‚йЂџеє¦гЂЃз›ґйЂІг‚їг‚¤гѓ—пј€йЂљеёёorж–њг‚Ѓпј‰
-//   иї”г‚ЉеЂ¤		пјљ е‰ЌйЂІгЃ®г‚їг‚¤гѓ—
-// **************************    е±Ґ    ж­ґ    *******************************
-// 		v1.0		2019.4.26			TKR			ж–°и¦Џ
+//   ‹@”\		ЃF ‹ж‰ж ‘OђiЃA“®ЌмѓfЃ[ѓ^Ќмђ¬Ѓi‘дЊ`‰Б‘¬Ѓj
+//   ’Ќ€У		ЃF MOT_go_FinSpeed‚М‚ЭЋАЌs‰В”\
+//   ѓЃѓ‚		ЃF ‹ж‰жђ”‚Н1.5‹ж‰ж‚И‚З‚МЋw’и‚р‚µ‚Ѕ‚ўЏкЌ‡‚НЃA"1.5"‚рЋw’и‚·‚йЃBЋО‚Я‘–Ќs‚Ж‹¤’КЏ€—ќЃB
+//   €шђ”		ЃF ‹ж‰жђ”ЃAЌЕЏI‘¬“xЃA’јђiѓ^ѓCѓvЃi’КЏнorЋО‚ЯЃj
+//   •Ф‚и’l		ЃF ‘Oђi‚Мѓ^ѓCѓv
+// **************************    —љ    —р    *******************************
+// 		v1.0		2019.4.26			TKR			ђV‹K
 // *************************************************************************/
 PRIVATE void MOT_setData_ACC_CONST_DEC( FLOAT f_num, FLOAT f_fin, enMOT_GO_ST_TYPE en_type )
 {
-	FLOAT			f_l3;						// з¬¬3з§»е‹•и·ќй›ў[mm]
-	FLOAT			f_1blockDist;				// 1еЊєз”»гЃ®и·ќй›ў[mm]
+	FLOAT			f_l3;						// ‘ж3€Ъ“®‹——Ј[mm]
+	FLOAT			f_1blockDist;				// 1‹ж‰ж‚М‹——Ј[mm]
 	
-	//printf("---------еЏ°еЅўеЉ йЂџ--------- \n\r");
+	//printf("---------‘дЊ`‰Б‘¬--------- \n\r");
 	
-	/* 1еЊєз”»гЃ®и·ќй›ў */
-	if( MOT_GO_ST_NORMAL == en_type ){		// йЂљеёёгЃ®з›ґйЂІ
+	/* 1‹ж‰ж‚М‹——Ј */
+	if( MOT_GO_ST_NORMAL == en_type ){		// ’КЏн‚М’јђi
 		f_1blockDist = BLOCK;
 	}
-	else{									// ж–њг‚ЃгЃ®з›ґйЂІ
+	else{									// ЋО‚Я‚М’јђi
 		f_1blockDist = BLOCK_SKEW;
 	}
 	
-	/* еЉ йЂџеє¦ */
-	st_Info.f_acc1 		= MOT_getAcc1();													// еЉ йЂџеє¦1[mm/s^2]
-	st_Info.f_acc3 		= MOT_getAcc3();													// еЉ йЂџеє¦3[mm/s^2]
+	/* ‰Б‘¬“x */
+	st_Info.f_acc1 		= MOT_getAcc1();													// ‰Б‘¬“x1[mm/s^2]
+	st_Info.f_acc3 		= MOT_getAcc3();													// ‰Б‘¬“x3[mm/s^2]
 
-	/* йЂџеє¦ */
-	st_Info.f_now		= f_MotNowSpeed;													// зЏѕењЁйЂџеє¦	
-	st_Info.f_trgt		= f_MotTrgtSpeed;													// з›®жЁ™йЂџеє¦
-	st_Info.f_last		= f_fin;															// жњЂзµ‚йЂџеє¦
-	//printf("зЏѕењЁйЂџеє¦пјљ%5.4f \n\r",st_Info.f_now);
-	//printf("з›®жЁ™йЂџеє¦пјљ%5.4f \n\r",st_Info.f_trgt);
-	//printf("жњЂзµ‚йЂџеє¦пјљ%5.4f \n\r",st_Info.f_last);
+	/* ‘¬“x */
+	st_Info.f_now		= f_MotNowSpeed;													// Њ»ЌЭ‘¬“x	
+	st_Info.f_trgt		= f_MotTrgtSpeed;													// –Ъ•W‘¬“x
+	st_Info.f_last		= f_fin;															// ЌЕЏI‘¬“x
+	//printf("Њ»ЌЭ‘¬“xЃF%5.4f \n\r",st_Info.f_now);
+	//printf("–Ъ•W‘¬“xЃF%5.4f \n\r",st_Info.f_trgt);
+	//printf("ЌЕЏI‘¬“xЃF%5.4f \n\r",st_Info.f_last);
 
-	/* и·ќй›ў */
-	st_Info.f_dist		= f_num * f_1blockDist;												// з§»е‹•и·ќй›ў[mm]
-	st_Info.f_l1		= ( f_MotTrgtSpeed * f_MotTrgtSpeed - f_MotNowSpeed * f_MotNowSpeed ) / ( st_Info.f_acc1 * 2 );			// з¬¬1з§»е‹•и·ќй›ў[mm]
-	f_l3			= ( f_fin * f_fin - f_MotTrgtSpeed * f_MotTrgtSpeed ) / ( ( st_Info.f_acc3 * -1 ) * 2 );			// з¬¬3з§»е‹•и·ќй›ў[mm]
-	st_Info.f_l1_2		= st_Info.f_dist - f_l3;											// з¬¬1+2з§»е‹•и·ќй›ў[mm]
+	/* ‹——Ј */
+	st_Info.f_dist		= f_num * f_1blockDist;												// €Ъ“®‹——Ј[mm]
+	st_Info.f_l1		= ( f_MotTrgtSpeed * f_MotTrgtSpeed - f_MotNowSpeed * f_MotNowSpeed ) / ( st_Info.f_acc1 * 2 );			// ‘ж1€Ъ“®‹——Ј[mm]
+	f_l3			= ( f_fin * f_fin - f_MotTrgtSpeed * f_MotTrgtSpeed ) / ( ( st_Info.f_acc3 * -1 ) * 2 );			// ‘ж3€Ъ“®‹——Ј[mm]
+	st_Info.f_l1_2		= st_Info.f_dist - f_l3;											// ‘ж1+2€Ъ“®‹——Ј[mm]
 	
-	//printf("з¬¬1з§»е‹•и·ќй›ўпјљ%5.4f \n\r",st_Info.f_l1);
-	//printf("з­‰йЂџи·ќй›ўпјљ%5.4f \n\r",st_Info.f_l1_2 - st_Info.f_l1);
-	//printf("з¬¬3з§»е‹•и·ќй›ўпјљ%5.4f \n\r",f_l3);
+	//printf("‘ж1€Ъ“®‹——ЈЃF%5.4f \n\r",st_Info.f_l1);
+	//printf("“™‘¬‹——ЈЃF%5.4f \n\r",st_Info.f_l1_2 - st_Info.f_l1);
+	//printf("‘ж3€Ъ“®‹——ЈЃF%5.4f \n\r",f_l3);
 	
 }
 
 // *************************************************************************
-//   ж©џиѓЅ		пјљ еЊєз”» е‰ЌйЂІгЂЃе‹•дЅњгѓ‡гѓјг‚їдЅњж€ђпј€еЏ°еЅўеЉ йЂџпј€з­‰йЂџпј‰пј‰
-//   жіЁж„Џ		пјљ MOT_go_FinSpeedгЃ®гЃїе®џиЎЊеЏЇиѓЅ
-//   гѓЎгѓў		пјљ еЊєз”»ж•°гЃЇ1.5еЊєз”»гЃЄгЃ©гЃ®жЊ‡е®љг‚’гЃ—гЃџгЃ„е ґеђ€гЃЇгЂЃ"1.5"г‚’жЊ‡е®љгЃ™г‚‹гЂ‚ж–њг‚Ѓиµ°иЎЊгЃЁе…±йЂље‡¦зђ†гЂ‚
-//   еј•ж•°		пјљ еЊєз”»ж•°гЂЃжњЂзµ‚йЂџеє¦гЂЃз›ґйЂІг‚їг‚¤гѓ—пј€йЂљеёёorж–њг‚Ѓпј‰
-//   иї”г‚ЉеЂ¤		пјљ е‰ЌйЂІгЃ®г‚їг‚¤гѓ—
-// **************************    е±Ґ    ж­ґ    *******************************
-// 		v1.0		2019.4.26			TKR			ж–°и¦Џ
+//   ‹@”\		ЃF ‹ж‰ж ‘OђiЃA“®ЌмѓfЃ[ѓ^Ќмђ¬Ѓi‘дЊ`‰Б‘¬Ѓi“™‘¬ЃjЃj
+//   ’Ќ€У		ЃF MOT_go_FinSpeed‚М‚ЭЋАЌs‰В”\
+//   ѓЃѓ‚		ЃF ‹ж‰жђ”‚Н1.5‹ж‰ж‚И‚З‚МЋw’и‚р‚µ‚Ѕ‚ўЏкЌ‡‚НЃA"1.5"‚рЋw’и‚·‚йЃBЋО‚Я‘–Ќs‚Ж‹¤’КЏ€—ќЃB
+//   €шђ”		ЃF ‹ж‰жђ”ЃAЌЕЏI‘¬“xЃA’јђiѓ^ѓCѓvЃi’КЏнorЋО‚ЯЃj
+//   •Ф‚и’l		ЃF ‘Oђi‚Мѓ^ѓCѓv
+// **************************    —љ    —р    *******************************
+// 		v1.0		2019.4.26			TKR			ђV‹K
 // *************************************************************************/
 PRIVATE void MOT_setData_MOT_ACC_CONST_DEC_CUSTOM( FLOAT f_num, FLOAT f_fin, enMOT_GO_ST_TYPE en_type )
 {
-	FLOAT			f_l3;						// з¬¬3з§»е‹•и·ќй›ў[mm]
-	FLOAT			f_1blockDist;				// 1еЊєз”»гЃ®и·ќй›ў[mm]
+	FLOAT			f_l3;						// ‘ж3€Ъ“®‹——Ј[mm]
+	FLOAT			f_1blockDist;				// 1‹ж‰ж‚М‹——Ј[mm]
 	FLOAT check;
 	check = MOT_MOVE_ST_MIN;
-	printf("---------еЏ°еЅўеЉ йЂџ(з­‰йЂџ)---------\n\r");
+	printf("---------‘дЊ`‰Б‘¬(“™‘¬)---------\n\r");
 	
-	/* 1еЊєз”»гЃ®и·ќй›ў */
-	if( MOT_GO_ST_NORMAL == en_type ){		// йЂљеёёгЃ®з›ґйЂІ
+	/* 1‹ж‰ж‚М‹——Ј */
+	if( MOT_GO_ST_NORMAL == en_type ){		// ’КЏн‚М’јђi
 		f_1blockDist = BLOCK;
 	}
-	else{									// ж–њг‚ЃгЃ®з›ґйЂІ
+	else{									// ЋО‚Я‚М’јђi
 		f_1blockDist = BLOCK_SKEW;
 	}
 
-	/* еЉ йЂџеє¦ */
-	st_Info.f_acc1 		= MOT_getAcc1();													// еЉ йЂџеє¦1[mm/s^2]
-	st_Info.f_acc3 		= MOT_getAcc3();													// еЉ йЂџеє¦3[mm/s^2]
+	/* ‰Б‘¬“x */
+	st_Info.f_acc1 		= MOT_getAcc1();													// ‰Б‘¬“x1[mm/s^2]
+	st_Info.f_acc3 		= MOT_getAcc3();													// ‰Б‘¬“x3[mm/s^2]
 
 
-	/* и·ќй›ў */
-	st_Info.f_dist		= f_num * f_1blockDist;												// з§»е‹•и·ќй›ў[mm]
+	/* ‹——Ј */
+	st_Info.f_dist		= f_num * f_1blockDist;												// €Ъ“®‹——Ј[mm]
 
-	/* йЂџеє¦ */
-	st_Info.f_now		= f_MotNowSpeed;													// зЏѕењЁйЂџеє¦	
-	st_Info.f_last		= f_fin;		// жњЂзµ‚йЂџеє¦
+	/* ‘¬“x */
+	st_Info.f_now		= f_MotNowSpeed;													// Њ»ЌЭ‘¬“x	
+	st_Info.f_last		= f_fin;		// ЌЕЏI‘¬“x
 	
-	st_Info.f_trgt		= sqrt( 1 / ( ( st_Info.f_acc3 * -1 ) - st_Info.f_acc1 ) *					// з›®жЁ™йЂџеє¦
+	st_Info.f_trgt		= sqrt( 1 / ( ( st_Info.f_acc3 * -1 ) - st_Info.f_acc1 ) *					// –Ъ•W‘¬“x
 								( 2 * st_Info.f_acc1 * ( st_Info.f_acc3 * -1 ) * ( st_Info.f_dist - MOT_MOVE_ST_MIN ) + 
 								 ( st_Info.f_acc3 * -1 ) * f_MotNowSpeed * f_MotNowSpeed - st_Info.f_acc1 * f_fin * f_fin ) );
 	
 	
 								 
-	printf("st_Info.f_acc1пјљ%5.4f \n\r",st_Info.f_acc1);							 
-	printf("st_Info.f_acc3пјљ%5.4f \n\r",st_Info.f_acc3);	
-	printf("st_Info.f_distпјљ%5.4f \n\r",st_Info.f_dist);
-	printf("MOT_MOVE_ST_MINпјљ%5.4f \n\r",check);
-	printf("жњЂзµ‚йЂџеє¦гЂЂf_finпјљ%5.4f \n\r",f_fin);
-	printf("зЏѕењЁйЂџеє¦пјљ%5.4f \n\r",st_Info.f_now);
-	printf("з›®жЁ™йЂџеє¦ st_Info.f_trgtпјљ%5.4f \n\r",st_Info.f_trgt);
-	printf("жњЂзµ‚йЂџеє¦пјљ%5.4f \n\r",st_Info.f_last);
+	printf("st_Info.f_acc1ЃF%5.4f \n\r",st_Info.f_acc1);							 
+	printf("st_Info.f_acc3ЃF%5.4f \n\r",st_Info.f_acc3);	
+	printf("st_Info.f_distЃF%5.4f \n\r",st_Info.f_dist);
+	printf("MOT_MOVE_ST_MINЃF%5.4f \n\r",check);
+	printf("ЌЕЏI‘¬“xЃ@f_finЃF%5.4f \n\r",f_fin);
+	printf("Њ»ЌЭ‘¬“xЃF%5.4f \n\r",st_Info.f_now);
+	printf("–Ъ•W‘¬“x st_Info.f_trgtЃF%5.4f \n\r",st_Info.f_trgt);
+	printf("ЌЕЏI‘¬“xЃF%5.4f \n\r",st_Info.f_last);
 
-	st_Info.f_l1		= ( st_Info.f_trgt * st_Info.f_trgt - f_MotNowSpeed * f_MotNowSpeed ) / ( st_Info.f_acc1 * 2 );			// з¬¬1з§»е‹•и·ќй›ў[mm]
-	f_l3				= ( f_fin * f_fin - st_Info.f_trgt * st_Info.f_trgt ) / ( ( st_Info.f_acc3  * -1 ) * 2 );		// з¬¬3з§»е‹•и·ќй›ў[mm]
-	st_Info.f_l1_2		= st_Info.f_dist - f_l3;											// з¬¬1+2з§»е‹•и·ќй›ў[mm]
+	st_Info.f_l1		= ( st_Info.f_trgt * st_Info.f_trgt - f_MotNowSpeed * f_MotNowSpeed ) / ( st_Info.f_acc1 * 2 );			// ‘ж1€Ъ“®‹——Ј[mm]
+	f_l3				= ( f_fin * f_fin - st_Info.f_trgt * st_Info.f_trgt ) / ( ( st_Info.f_acc3  * -1 ) * 2 );		// ‘ж3€Ъ“®‹——Ј[mm]
+	st_Info.f_l1_2		= st_Info.f_dist - f_l3;											// ‘ж1+2€Ъ“®‹——Ј[mm]
 	
-	printf("з¬¬1з§»е‹•и·ќй›ўпјљ%5.4f \n\r",st_Info.f_l1);
-	printf("з­‰йЂџи·ќй›ўпјљ%5.4f \n\r",st_Info.f_l1_2 - st_Info.f_l1);
-	printf("з¬¬3з§»е‹•и·ќй›ўпјљ%5.4f \n\r",f_l3);
+	printf("‘ж1€Ъ“®‹——ЈЃF%5.4f \n\r",st_Info.f_l1);
+	printf("“™‘¬‹——ЈЃF%5.4f \n\r",st_Info.f_l1_2 - st_Info.f_l1);
+	printf("‘ж3€Ъ“®‹——ЈЃF%5.4f \n\r",f_l3);
 }
 
 // *************************************************************************
-//   ж©џиѓЅ		пјљ еЊєз”» е‰ЌйЂІгЂЃе‹•дЅњгѓ‡гѓјг‚їдЅњж€ђпј€еЏ°еЅўеЉ йЂџ cosиї‘дјјпј‰
-//   жіЁж„Џ		пјљ MOT_go_FinSpeedгЃ®гЃїе®џиЎЊеЏЇиѓЅ
-//   гѓЎгѓў		пјљ еЊєз”»ж•°гЃЇ1.5еЊєз”»гЃЄгЃ©гЃ®жЊ‡е®љг‚’гЃ—гЃџгЃ„е ґеђ€гЃЇгЂЃ"1.5"г‚’жЊ‡е®љгЃ™г‚‹гЂ‚ж–њг‚Ѓиµ°иЎЊгЃЁе…±йЂље‡¦зђ†гЂ‚
-//   еј•ж•°		пјљ еЊєз”»ж•°гЂЃжњЂзµ‚йЂџеє¦гЂЃз›ґйЂІг‚їг‚¤гѓ—пј€йЂљеёёorж–њг‚Ѓпј‰
-//   иї”г‚ЉеЂ¤		пјљ е‰ЌйЂІгЃ®г‚їг‚¤гѓ—
-// **************************    е±Ґ    ж­ґ    *******************************
-//		v1.0		2019.4.26			TKR			cosиї‘дјјиїЅеЉ 
+//   ‹@”\		ЃF ‹ж‰ж ‘OђiЃA“®ЌмѓfЃ[ѓ^Ќмђ¬Ѓi‘дЊ`‰Б‘¬ cos‹ЯЋ—Ѓj
+//   ’Ќ€У		ЃF MOT_go_FinSpeed‚М‚ЭЋАЌs‰В”\
+//   ѓЃѓ‚		ЃF ‹ж‰жђ”‚Н1.5‹ж‰ж‚И‚З‚МЋw’и‚р‚µ‚Ѕ‚ўЏкЌ‡‚НЃA"1.5"‚рЋw’и‚·‚йЃBЋО‚Я‘–Ќs‚Ж‹¤’КЏ€—ќЃB
+//   €шђ”		ЃF ‹ж‰жђ”ЃAЌЕЏI‘¬“xЃA’јђiѓ^ѓCѓvЃi’КЏнorЋО‚ЯЃj
+//   •Ф‚и’l		ЃF ‘Oђi‚Мѓ^ѓCѓv
+// **************************    —љ    —р    *******************************
+//		v1.0		2019.4.26			TKR			cos‹ЯЋ—’З‰Б
 // *************************************************************************/
 PRIVATE void MOT_setData_ACC_CONST_DEC_SMOOTH( FLOAT f_num, FLOAT f_fin, enMOT_GO_ST_TYPE en_type )
 {
-	FLOAT			f_l3;						// з¬¬3з§»е‹•и·ќй›ў[mm]
-	FLOAT			f_1blockDist;				// 1еЊєз”»гЃ®и·ќй›ў[mm]
+	FLOAT			f_l3;						// ‘ж3€Ъ“®‹——Ј[mm]
+	FLOAT			f_1blockDist;				// 1‹ж‰ж‚М‹——Ј[mm]
 	
-	printf("---------еЏ°еЅўеЉ йЂџ(cosиї‘дјј)--------- \n\r");
+	printf("---------‘дЊ`‰Б‘¬(cos‹ЯЋ—)--------- \n\r");
 	
-	/* 1еЊєз”»гЃ®и·ќй›ў */
-	if( MOT_GO_ST_SMOOTH == en_type ){		// йЂљеёёгЃ®з›ґйЂІ
+	/* 1‹ж‰ж‚М‹——Ј */
+	if( MOT_GO_ST_SMOOTH == en_type ){		// ’КЏн‚М’јђi
 		f_1blockDist = BLOCK;
 	}
-	else{									// ж–њг‚ЃгЃ®з›ґйЂІ
+	else{									// ЋО‚Я‚М’јђi
 		f_1blockDist = BLOCK_SKEW;
 	}
 	
-	/* еЉ йЂџеє¦ */
-	st_Info.f_acc1 		= MOT_getAcc1_Smooth();													// жњЂе¤§еЉ йЂџеє¦1[mm/s^2]
-	st_Info.f_acc3 		= MOT_getAcc3_Smooth();													// жњЂе¤§еЉ йЂџеє¦3[mm/s^2]
+	/* ‰Б‘¬“x */
+	st_Info.f_acc1 		= MOT_getAcc1_Smooth();													// ЌЕ‘е‰Б‘¬“x1[mm/s^2]
+	st_Info.f_acc3 		= MOT_getAcc3_Smooth();													// ЌЕ‘е‰Б‘¬“x3[mm/s^2]
 
-	/* йЂџеє¦ */
-	st_Info.f_now		= f_MotNowSpeed;													// зЏѕењЁйЂџеє¦	
-	st_Info.f_trgt		= f_MotTrgtSpeed;													// з›®жЁ™йЂџеє¦
-	st_Info.f_last		= f_fin;															// жњЂзµ‚йЂџеє¦
+	/* ‘¬“x */
+	st_Info.f_now		= f_MotNowSpeed;													// Њ»ЌЭ‘¬“x	
+	st_Info.f_trgt		= f_MotTrgtSpeed;													// –Ъ•W‘¬“x
+	st_Info.f_last		= f_fin;															// ЌЕЏI‘¬“x
 	
-	printf("st_Info.f_acc1пјљ%5.4f \n\r",st_Info.f_acc1);							 
-	printf("st_Info.f_acc3пјљ%5.4f \n\r",st_Info.f_acc3);	
-	printf("зЏѕењЁйЂџеє¦пјљ%5.4f \n\r",st_Info.f_now);
-	printf("з›®жЁ™йЂџеє¦пјљ%5.4f \n\r",st_Info.f_trgt);
-	printf("жњЂзµ‚йЂџеє¦пјљ%5.4f \n\r",st_Info.f_last);
+	printf("st_Info.f_acc1ЃF%5.4f \n\r",st_Info.f_acc1);							 
+	printf("st_Info.f_acc3ЃF%5.4f \n\r",st_Info.f_acc3);	
+	printf("Њ»ЌЭ‘¬“xЃF%5.4f \n\r",st_Info.f_now);
+	printf("–Ъ•W‘¬“xЃF%5.4f \n\r",st_Info.f_trgt);
+	printf("ЌЕЏI‘¬“xЃF%5.4f \n\r",st_Info.f_last);
 
-	/* и·ќй›ў */
-	st_Info.f_dist		= f_num * f_1blockDist;												// з§»е‹•и·ќй›ў[mm]
+	/* ‹——Ј */
+	st_Info.f_dist		= f_num * f_1blockDist;												// €Ъ“®‹——Ј[mm]
 	
-	st_Info.f_l1		= ( ( f_MotTrgtSpeed * f_MotTrgtSpeed - f_MotNowSpeed * f_MotNowSpeed )* 3.1416f)/ ( 4*st_Info.f_acc1 );			// з¬¬1з§»е‹•и·ќй›ў[mm]
-	f_l3				= ( ( f_fin * f_fin - f_MotTrgtSpeed * f_MotTrgtSpeed )* 3.1416f) / ( ( st_Info.f_acc3 * -1 ) * 4 );				// з¬¬3з§»е‹•и·ќй›ў[mm]
-	st_Info.f_l1_2		= st_Info.f_dist - f_l3;											// з¬¬1+2з§»е‹•и·ќй›ў[mm]
+	st_Info.f_l1		= ( ( f_MotTrgtSpeed * f_MotTrgtSpeed - f_MotNowSpeed * f_MotNowSpeed )* 3.1416f)/ ( 4*st_Info.f_acc1 );			// ‘ж1€Ъ“®‹——Ј[mm]
+	f_l3				= ( ( f_fin * f_fin - f_MotTrgtSpeed * f_MotTrgtSpeed )* 3.1416f) / ( ( st_Info.f_acc3 * -1 ) * 4 );				// ‘ж3€Ъ“®‹——Ј[mm]
+	st_Info.f_l1_2		= st_Info.f_dist - f_l3;											// ‘ж1+2€Ъ“®‹——Ј[mm]
 	
-	printf("з¬¬1з§»е‹•и·ќй›ўпјљ%5.4f \n\r",st_Info.f_l1);
-	printf("з­‰йЂџи·ќй›ўпјљ%5.4f \n\r",st_Info.f_l1_2 - st_Info.f_l1);
-	printf("з¬¬3з§»е‹•и·ќй›ўпјљ%5.4f \n\r",f_l3);
+	printf("‘ж1€Ъ“®‹——ЈЃF%5.4f \n\r",st_Info.f_l1);
+	printf("“™‘¬‹——ЈЃF%5.4f \n\r",st_Info.f_l1_2 - st_Info.f_l1);
+	printf("‘ж3€Ъ“®‹——ЈЃF%5.4f \n\r",f_l3);
 	
 }
 
 // *************************************************************************
-//   ж©џиѓЅ		пјљ еЊєз”» е‰ЌйЂІгЂЃе‹•дЅњгѓ‡гѓјг‚їдЅњж€ђпј€еЏ°еЅўеЉ йЂџпј€з­‰йЂџпј‰ cosиї‘дјјпј‰
-//   жіЁж„Џ		пјљ MOT_go_FinSpeedгЃ®гЃїе®џиЎЊеЏЇиѓЅ
-//   гѓЎгѓў		пјљ еЊєз”»ж•°гЃЇ1.5еЊєз”»гЃЄгЃ©гЃ®жЊ‡е®љг‚’гЃ—гЃџгЃ„е ґеђ€гЃЇгЂЃ"1.5"г‚’жЊ‡е®љгЃ™г‚‹гЂ‚ж–њг‚Ѓиµ°иЎЊгЃЁе…±йЂље‡¦зђ†гЂ‚
-//   еј•ж•°		пјљ еЊєз”»ж•°гЂЃжњЂзµ‚йЂџеє¦гЂЃз›ґйЂІг‚їг‚¤гѓ—пј€йЂљеёёorж–њг‚Ѓпј‰
-//   иї”г‚ЉеЂ¤		пјљ е‰ЌйЂІгЃ®г‚їг‚¤гѓ—
-// **************************    е±Ґ    ж­ґ    *******************************
-//		v1.0		2019.4.26			TKR			cosиї‘дјјиїЅеЉ 
+//   ‹@”\		ЃF ‹ж‰ж ‘OђiЃA“®ЌмѓfЃ[ѓ^Ќмђ¬Ѓi‘дЊ`‰Б‘¬Ѓi“™‘¬Ѓj cos‹ЯЋ—Ѓj
+//   ’Ќ€У		ЃF MOT_go_FinSpeed‚М‚ЭЋАЌs‰В”\
+//   ѓЃѓ‚		ЃF ‹ж‰жђ”‚Н1.5‹ж‰ж‚И‚З‚МЋw’и‚р‚µ‚Ѕ‚ўЏкЌ‡‚НЃA"1.5"‚рЋw’и‚·‚йЃBЋО‚Я‘–Ќs‚Ж‹¤’КЏ€—ќЃB
+//   €шђ”		ЃF ‹ж‰жђ”ЃAЌЕЏI‘¬“xЃA’јђiѓ^ѓCѓvЃi’КЏнorЋО‚ЯЃj
+//   •Ф‚и’l		ЃF ‘Oђi‚Мѓ^ѓCѓv
+// **************************    —љ    —р    *******************************
+//		v1.0		2019.4.26			TKR			cos‹ЯЋ—’З‰Б
 // *************************************************************************/
 PRIVATE void MOT_setData_MOT_ACC_CONST_DEC_SMOOTH_CUSTOM( FLOAT f_num, FLOAT f_fin, enMOT_GO_ST_TYPE en_type )
 {
-	FLOAT			f_l3;						// з¬¬3з§»е‹•и·ќй›ў[mm]
-	FLOAT			f_1blockDist;				// 1еЊєз”»гЃ®и·ќй›ў[mm]
+	FLOAT			f_l3;						// ‘ж3€Ъ“®‹——Ј[mm]
+	FLOAT			f_1blockDist;				// 1‹ж‰ж‚М‹——Ј[mm]
 	FLOAT check;
 	check = MOT_MOVE_ST_MIN;
-	printf("---------еЏ°еЅўеЉ йЂџ(з­‰йЂџ) cosиї‘дјј---------\n\r");
+	printf("---------‘дЊ`‰Б‘¬(“™‘¬) cos‹ЯЋ—---------\n\r");
 	
-	/* 1еЊєз”»гЃ®и·ќй›ў */
-	if( MOT_GO_ST_SMOOTH == en_type ){		// йЂљеёёгЃ®з›ґйЂІ
+	/* 1‹ж‰ж‚М‹——Ј */
+	if( MOT_GO_ST_SMOOTH == en_type ){		// ’КЏн‚М’јђi
 		f_1blockDist = BLOCK;
 	}
-	else{									// ж–њг‚ЃгЃ®з›ґйЂІ
+	else{									// ЋО‚Я‚М’јђi
 		f_1blockDist = BLOCK_SKEW;
 	}
 
-	/* еЉ йЂџеє¦ */
-	st_Info.f_acc1 		= MOT_getAcc1_Smooth();													// жњЂе¤§еЉ йЂџеє¦1[mm/s^2]
-	st_Info.f_acc3 		= MOT_getAcc3_Smooth();													// жњЂе¤§еЉ йЂџеє¦3[mm/s^2]
+	/* ‰Б‘¬“x */
+	st_Info.f_acc1 		= MOT_getAcc1_Smooth();													// ЌЕ‘е‰Б‘¬“x1[mm/s^2]
+	st_Info.f_acc3 		= MOT_getAcc3_Smooth();													// ЌЕ‘е‰Б‘¬“x3[mm/s^2]
 
 
-	/* и·ќй›ў */
-	st_Info.f_dist		= f_num * f_1blockDist;												// з§»е‹•и·ќй›ў[mm]
+	/* ‹——Ј */
+	st_Info.f_dist		= f_num * f_1blockDist;												// €Ъ“®‹——Ј[mm]
 
-	/* йЂџеє¦ */
-	st_Info.f_now		= f_MotNowSpeed;													// зЏѕењЁйЂџеє¦	
-	st_Info.f_last		= f_fin;															// жњЂзµ‚йЂџеє¦
+	/* ‘¬“x */
+	st_Info.f_now		= f_MotNowSpeed;													// Њ»ЌЭ‘¬“x	
+	st_Info.f_last		= f_fin;															// ЌЕЏI‘¬“x
 	
-	st_Info.f_trgt		= sqrt( ( 2*st_Info.f_acc1*(st_Info.f_dist - MOT_MOVE_ST_MIN) ) / (3.1416f) + ( ( f_MotNowSpeed * f_MotNowSpeed + f_fin * f_fin ) / 2 ) );					// з›®жЁ™йЂџеє¦
+	st_Info.f_trgt		= sqrt( ( 2*st_Info.f_acc1*(st_Info.f_dist - MOT_MOVE_ST_MIN) ) / (3.1416f) + ( ( f_MotNowSpeed * f_MotNowSpeed + f_fin * f_fin ) / 2 ) );					// –Ъ•W‘¬“x
 							
 	
-	printf("st_Info.f_acc1пјљ%5.4f \n\r",st_Info.f_acc1);							 
-	printf("st_Info.f_acc3пјљ%5.4f \n\r",st_Info.f_acc3);	
-	printf("st_Info.f_distпјљ%5.4f \n\r",st_Info.f_dist);
-	printf("MOT_MOVE_ST_MINпјљ%5.4f \n\r",check);
-	printf("жњЂзµ‚йЂџеє¦гЂЂf_finпјљ%5.4f \n\r",f_fin);
-	printf("зЏѕењЁйЂџеє¦пјљ%5.4f \n\r",st_Info.f_now);
-	printf("з›®жЁ™йЂџеє¦ st_Info.f_trgtпјљ%5.4f \n\r",st_Info.f_trgt);
-	printf("жњЂзµ‚йЂџеє¦пјљ%5.4f \n\r",st_Info.f_last);
+	printf("st_Info.f_acc1ЃF%5.4f \n\r",st_Info.f_acc1);							 
+	printf("st_Info.f_acc3ЃF%5.4f \n\r",st_Info.f_acc3);	
+	printf("st_Info.f_distЃF%5.4f \n\r",st_Info.f_dist);
+	printf("MOT_MOVE_ST_MINЃF%5.4f \n\r",check);
+	printf("ЌЕЏI‘¬“xЃ@f_finЃF%5.4f \n\r",f_fin);
+	printf("Њ»ЌЭ‘¬“xЃF%5.4f \n\r",st_Info.f_now);
+	printf("–Ъ•W‘¬“x st_Info.f_trgtЃF%5.4f \n\r",st_Info.f_trgt);
+	printf("ЌЕЏI‘¬“xЃF%5.4f \n\r",st_Info.f_last);
 
-	st_Info.f_l1		= ( ( st_Info.f_trgt * st_Info.f_trgt - f_MotNowSpeed * f_MotNowSpeed ) *3.1416f) / ( st_Info.f_acc1 * 4 );			// з¬¬1з§»е‹•и·ќй›ў[mm]
-	f_l3				= ( (f_fin * f_fin - st_Info.f_trgt * st_Info.f_trgt ) *3.1416f) / ( ( st_Info.f_acc3  * -1 ) * 4 );				// з¬¬3з§»е‹•и·ќй›ў[mm]
-	st_Info.f_l1_2		= st_Info.f_dist - f_l3;											// з¬¬1+2з§»е‹•и·ќй›ў[mm]
+	st_Info.f_l1		= ( ( st_Info.f_trgt * st_Info.f_trgt - f_MotNowSpeed * f_MotNowSpeed ) *3.1416f) / ( st_Info.f_acc1 * 4 );			// ‘ж1€Ъ“®‹——Ј[mm]
+	f_l3				= ( (f_fin * f_fin - st_Info.f_trgt * st_Info.f_trgt ) *3.1416f) / ( ( st_Info.f_acc3  * -1 ) * 4 );				// ‘ж3€Ъ“®‹——Ј[mm]
+	st_Info.f_l1_2		= st_Info.f_dist - f_l3;											// ‘ж1+2€Ъ“®‹——Ј[mm]
 	
-	printf("з¬¬1з§»е‹•и·ќй›ўпјљ%5.4f \n\r",st_Info.f_l1);
-	printf("з­‰йЂџи·ќй›ўпјљ%5.4f \n\r",st_Info.f_l1_2 - st_Info.f_l1);
-	printf("з¬¬3з§»е‹•и·ќй›ўпјљ%5.4f \n\r",f_l3);
+	printf("‘ж1€Ъ“®‹——ЈЃF%5.4f \n\r",st_Info.f_l1);
+	printf("“™‘¬‹——ЈЃF%5.4f \n\r",st_Info.f_l1_2 - st_Info.f_l1);
+	printf("‘ж3€Ъ“®‹——ЈЃF%5.4f \n\r",f_l3);
 }
 
 // *************************************************************************
-//   ж©џиѓЅ		пјљ еЊєз”» е‰ЌйЂІгЂЃе‹•дЅњгѓ‡гѓјг‚їдЅњж€ђпј€еЉ йЂџпј‹з­‰йЂџпј‰
-//   жіЁж„Џ		пјљ MOT_go_FinSpeedгЃ®гЃїе®џиЎЊеЏЇиѓЅ
-//   гѓЎгѓў		пјљ еЊєз”»ж•°гЃЇ1.5еЊєз”»гЃЄгЃ©гЃ®жЊ‡е®љг‚’гЃ—гЃџгЃ„е ґеђ€гЃЇгЂЃ"1.5"г‚’жЊ‡е®љгЃ™г‚‹гЂ‚ж–њг‚Ѓиµ°иЎЊгЃЁе…±йЂље‡¦зђ†гЂ‚
-//   еј•ж•°		пјљ еЊєз”»ж•°гЂЃжњЂзµ‚йЂџеє¦гЂЃз›ґйЂІг‚їг‚¤гѓ—пј€йЂљеёёorж–њг‚Ѓпј‰
-//   иї”г‚ЉеЂ¤		пјљ е‰ЌйЂІгЃ®г‚їг‚¤гѓ—
-// **************************    е±Ґ    ж­ґ    *******************************
-// 		v1.0		2019.4.26			TKR			ж–°и¦Џ
+//   ‹@”\		ЃF ‹ж‰ж ‘OђiЃA“®ЌмѓfЃ[ѓ^Ќмђ¬Ѓi‰Б‘¬Ѓ{“™‘¬Ѓj
+//   ’Ќ€У		ЃF MOT_go_FinSpeed‚М‚ЭЋАЌs‰В”\
+//   ѓЃѓ‚		ЃF ‹ж‰жђ”‚Н1.5‹ж‰ж‚И‚З‚МЋw’и‚р‚µ‚Ѕ‚ўЏкЌ‡‚НЃA"1.5"‚рЋw’и‚·‚йЃBЋО‚Я‘–Ќs‚Ж‹¤’КЏ€—ќЃB
+//   €шђ”		ЃF ‹ж‰жђ”ЃAЌЕЏI‘¬“xЃA’јђiѓ^ѓCѓvЃi’КЏнorЋО‚ЯЃj
+//   •Ф‚и’l		ЃF ‘Oђi‚Мѓ^ѓCѓv
+// **************************    —љ    —р    *******************************
+// 		v1.0		2019.4.26			TKR			ђV‹K
 // *************************************************************************/
 PRIVATE void MOT_setData_MOT_ACC_CONST( FLOAT f_num, FLOAT f_fin, enMOT_GO_ST_TYPE en_type )
 {
-	FLOAT			f_1blockDist;				// 1еЊєз”»гЃ®и·ќй›ў[mm]
+	FLOAT			f_1blockDist;				// 1‹ж‰ж‚М‹——Ј[mm]
 	
-	/* 1еЊєз”»гЃ®и·ќй›ў */
-	if( MOT_GO_ST_NORMAL == en_type ){		// йЂљеёёгЃ®з›ґйЂІ
+	/* 1‹ж‰ж‚М‹——Ј */
+	if( MOT_GO_ST_NORMAL == en_type ){		// ’КЏн‚М’јђi
 		f_1blockDist = BLOCK;
 	}
-	else{									// ж–њг‚ЃгЃ®з›ґйЂІ
+	else{									// ЋО‚Я‚М’јђi
 		f_1blockDist = BLOCK_SKEW;
 	}
 
-	/* еЉ йЂџеє¦ */
-	st_Info.f_acc1 		= MOT_getAcc1();													// еЉ йЂџеє¦1[mm/s^2]
-	st_Info.f_acc3 		= 0;																// еЉ йЂџеє¦3[mm/s^2](жњЄдЅїз”Ё)
+	/* ‰Б‘¬“x */
+	st_Info.f_acc1 		= MOT_getAcc1();													// ‰Б‘¬“x1[mm/s^2]
+	st_Info.f_acc3 		= 0;																// ‰Б‘¬“x3[mm/s^2](–ўЋg—p)
 
-	/* йЂџеє¦ */
-	st_Info.f_now		= f_MotNowSpeed;													// зЏѕењЁйЂџеє¦	
-	st_Info.f_trgt		= f_fin;															// з›®жЁ™йЂџеє¦
-	st_Info.f_last		= 0;																// жњЂзµ‚йЂџеє¦(жњЄдЅїз”Ё)
+	/* ‘¬“x */
+	st_Info.f_now		= f_MotNowSpeed;													// Њ»ЌЭ‘¬“x	
+	st_Info.f_trgt		= f_fin;															// –Ъ•W‘¬“x
+	st_Info.f_last		= 0;																// ЌЕЏI‘¬“x(–ўЋg—p)
 
-	/* и·ќй›ў */
-	st_Info.f_dist		= f_num * f_1blockDist;												// з§»е‹•и·ќй›ў[mm]
-	st_Info.f_l1		= ( f_fin * f_fin - f_MotNowSpeed * f_MotNowSpeed ) / ( st_Info.f_acc1 * 2 );			// з¬¬1з§»е‹•и·ќй›ў[mm]
-	st_Info.f_l1_2		= st_Info.f_dist;													// з¬¬1+2з§»е‹•и·ќй›ў[mm]
+	/* ‹——Ј */
+	st_Info.f_dist		= f_num * f_1blockDist;												// €Ъ“®‹——Ј[mm]
+	st_Info.f_l1		= ( f_fin * f_fin - f_MotNowSpeed * f_MotNowSpeed ) / ( st_Info.f_acc1 * 2 );			// ‘ж1€Ъ“®‹——Ј[mm]
+	st_Info.f_l1_2		= st_Info.f_dist;													// ‘ж1+2€Ъ“®‹——Ј[mm]
 
-	printf("---------еЉ йЂџ+з­‰йЂџ---------\n\r");
-	printf("st_Info.f_acc1пјљ%5.4f \n\r",st_Info.f_acc1);							 
-	printf("st_Info.f_acc3пјљ%5.4f \n\r",st_Info.f_acc3);	
-	printf("st_Info.f_distпјљ%5.4f \n\r",st_Info.f_dist);
-	printf("жњЂзµ‚йЂџеє¦гЂЂf_finпјљ%5.4f \n\r",f_fin);
-	printf("зЏѕењЁйЂџеє¦пјљ%5.4f \n\r",st_Info.f_now);
-	printf("з›®жЁ™йЂџеє¦ st_Info.f_trgtпјљ%5.4f \n\r",st_Info.f_trgt);
-	printf("жњЂзµ‚йЂџеє¦пјљ%5.4f \n\r",st_Info.f_last);
-	printf("з§»е‹•и·ќй›ўпјљ%5.4f \n\r",st_Info.f_l1_2);
-	printf("з¬¬1з§»е‹•и·ќй›ўпјљ%5.4f \n\r",st_Info.f_l1);
-	printf("з­‰йЂџи·ќй›ўпјљ%5.4f \n\r",st_Info.f_l1_2 - st_Info.f_l1);
+	printf("---------‰Б‘¬+“™‘¬---------\n\r");
+	printf("st_Info.f_acc1ЃF%5.4f \n\r",st_Info.f_acc1);							 
+	printf("st_Info.f_acc3ЃF%5.4f \n\r",st_Info.f_acc3);	
+	printf("st_Info.f_distЃF%5.4f \n\r",st_Info.f_dist);
+	printf("ЌЕЏI‘¬“xЃ@f_finЃF%5.4f \n\r",f_fin);
+	printf("Њ»ЌЭ‘¬“xЃF%5.4f \n\r",st_Info.f_now);
+	printf("–Ъ•W‘¬“x st_Info.f_trgtЃF%5.4f \n\r",st_Info.f_trgt);
+	printf("ЌЕЏI‘¬“xЃF%5.4f \n\r",st_Info.f_last);
+	printf("€Ъ“®‹——ЈЃF%5.4f \n\r",st_Info.f_l1_2);
+	printf("‘ж1€Ъ“®‹——ЈЃF%5.4f \n\r",st_Info.f_l1);
+	printf("“™‘¬‹——ЈЃF%5.4f \n\r",st_Info.f_l1_2 - st_Info.f_l1);
 }
 
 // *************************************************************************
-//   ж©џиѓЅ		пјљ еЊєз”» е‰ЌйЂІгЂЃе‹•дЅњгѓ‡гѓјг‚їдЅњж€ђпј€еЉ йЂџпј‹з­‰йЂџпј€з­‰йЂџпј‰пј‰
-//   жіЁж„Џ		пјљ MOT_go_FinSpeedгЃ®гЃїе®џиЎЊеЏЇиѓЅ
-//   гѓЎгѓў		пјљ еЊєз”»ж•°гЃЇ1.5еЊєз”»гЃЄгЃ©гЃ®жЊ‡е®љг‚’гЃ—гЃџгЃ„е ґеђ€гЃЇгЂЃ"1.5"г‚’жЊ‡е®љгЃ™г‚‹гЂ‚ж–њг‚Ѓиµ°иЎЊгЃЁе…±йЂље‡¦зђ†гЂ‚
-//   еј•ж•°		пјљ еЊєз”»ж•°гЂЃжњЂзµ‚йЂџеє¦гЂЃз›ґйЂІг‚їг‚¤гѓ—пј€йЂљеёёorж–њг‚Ѓпј‰
-//   иї”г‚ЉеЂ¤		пјљ е‰ЌйЂІгЃ®г‚їг‚¤гѓ—
-// **************************    е±Ґ    ж­ґ    *******************************
-// 		v1.0		2019.4.26			TKR			ж–°и¦Џ
+//   ‹@”\		ЃF ‹ж‰ж ‘OђiЃA“®ЌмѓfЃ[ѓ^Ќмђ¬Ѓi‰Б‘¬Ѓ{“™‘¬Ѓi“™‘¬ЃjЃj
+//   ’Ќ€У		ЃF MOT_go_FinSpeed‚М‚ЭЋАЌs‰В”\
+//   ѓЃѓ‚		ЃF ‹ж‰жђ”‚Н1.5‹ж‰ж‚И‚З‚МЋw’и‚р‚µ‚Ѕ‚ўЏкЌ‡‚НЃA"1.5"‚рЋw’и‚·‚йЃBЋО‚Я‘–Ќs‚Ж‹¤’КЏ€—ќЃB
+//   €шђ”		ЃF ‹ж‰жђ”ЃAЌЕЏI‘¬“xЃA’јђiѓ^ѓCѓvЃi’КЏнorЋО‚ЯЃj
+//   •Ф‚и’l		ЃF ‘Oђi‚Мѓ^ѓCѓv
+// **************************    —љ    —р    *******************************
+// 		v1.0		2019.4.26			TKR			ђV‹K
 // *************************************************************************/
 PRIVATE void MOT_setData_MOT_ACC_CONST_CUSTOM( FLOAT f_num, FLOAT f_fin, enMOT_GO_ST_TYPE en_type )
 {
-	FLOAT			f_1blockDist;				// 1еЊєз”»гЃ®и·ќй›ў[mm]
+	FLOAT			f_1blockDist;				// 1‹ж‰ж‚М‹——Ј[mm]
 	
-	/* 1еЊєз”»гЃ®и·ќй›ў */
-	if( MOT_GO_ST_NORMAL == en_type ){		// йЂљеёёгЃ®з›ґйЂІ
+	/* 1‹ж‰ж‚М‹——Ј */
+	if( MOT_GO_ST_NORMAL == en_type ){		// ’КЏн‚М’јђi
 		f_1blockDist = BLOCK;
 	}
-	else{									// ж–њг‚ЃгЃ®з›ґйЂІ
+	else{									// ЋО‚Я‚М’јђi
 		f_1blockDist = BLOCK_SKEW;
 	}
 
-	/* йЂџеє¦ */
-	st_Info.f_now		= f_MotNowSpeed;													// зЏѕењЁйЂџеє¦	
-	st_Info.f_trgt		= f_fin;															// з›®жЁ™йЂџеє¦
-	st_Info.f_last		= 0;																// жњЂзµ‚йЂџеє¦(жњЄдЅїз”Ё)
+	/* ‘¬“x */
+	st_Info.f_now		= f_MotNowSpeed;													// Њ»ЌЭ‘¬“x	
+	st_Info.f_trgt		= f_fin;															// –Ъ•W‘¬“x
+	st_Info.f_last		= 0;																// ЌЕЏI‘¬“x(–ўЋg—p)
 
-	/* и·ќй›ў */
-	st_Info.f_dist		= f_num * f_1blockDist;												// з§»е‹•и·ќй›ў[mm]
+	/* ‹——Ј */
+	st_Info.f_dist		= f_num * f_1blockDist;												// €Ъ“®‹——Ј[mm]
 
-	/* еЉ йЂџеє¦ */
-	st_Info.f_acc1 		= ( f_fin * f_fin - f_MotNowSpeed * f_MotNowSpeed ) / ( ( st_Info.f_dist - MOT_MOVE_ST_MIN ) * 2.0f );	// еЉ йЂџеє¦1[mm/s^2]пј€еј·е€¶зљ„гЃ«ж›ёгЃЌжЏ›гЃ€пј‰
-	st_Info.f_acc3 		= 0;																// еЉ йЂџеє¦3[mm/s^2](жњЄдЅїз”Ё)
+	/* ‰Б‘¬“x */
+	st_Info.f_acc1 		= ( f_fin * f_fin - f_MotNowSpeed * f_MotNowSpeed ) / ( ( st_Info.f_dist - MOT_MOVE_ST_MIN ) * 2.0f );	// ‰Б‘¬“x1[mm/s^2]Ѓi‹­ђ§“I‚ЙЏ‘‚«Љ·‚¦Ѓj
+	st_Info.f_acc3 		= 0;																// ‰Б‘¬“x3[mm/s^2](–ўЋg—p)
 
-	/* и·ќй›ў */
-	st_Info.f_l1		= ( f_fin * f_fin - f_MotNowSpeed * f_MotNowSpeed ) / ( st_Info.f_acc1 * 2 );			// з¬¬1з§»е‹•и·ќй›ў[mm]
-	st_Info.f_l1_2		= st_Info.f_dist;													// з¬¬1+2з§»е‹•и·ќй›ў[mm]
+	/* ‹——Ј */
+	st_Info.f_l1		= ( f_fin * f_fin - f_MotNowSpeed * f_MotNowSpeed ) / ( st_Info.f_acc1 * 2 );			// ‘ж1€Ъ“®‹——Ј[mm]
+	st_Info.f_l1_2		= st_Info.f_dist;													// ‘ж1+2€Ъ“®‹——Ј[mm]
 
-	printf("---------еЉ йЂџ+з­‰йЂџ(з­‰йЂџ)---------\n\r");
-	printf("st_Info.f_acc1пјљ%5.4f \n\r",st_Info.f_acc1);							 
-	printf("st_Info.f_acc3пјљ%5.4f \n\r",st_Info.f_acc3);	
-	printf("st_Info.f_distпјљ%5.4f \n\r",st_Info.f_dist);
-	printf("жњЂзµ‚йЂџеє¦гЂЂf_finпјљ%5.4f \n\r",f_fin);
-	printf("зЏѕењЁйЂџеє¦пјљ%5.4f \n\r",st_Info.f_now);
-	printf("з›®жЁ™йЂџеє¦ st_Info.f_trgtпјљ%5.4f \n\r",st_Info.f_trgt);
-	printf("жњЂзµ‚йЂџеє¦пјљ%5.4f \n\r",st_Info.f_last);
-	printf("з§»е‹•и·ќй›ўпјљ%5.4f \n\r",st_Info.f_l1_2);
-	printf("з¬¬1з§»е‹•и·ќй›ўпјљ%5.4f \n\r",st_Info.f_l1);
-	printf("з­‰йЂџи·ќй›ўпјљ%5.4f \n\r",st_Info.f_l1_2 - st_Info.f_l1);
+	printf("---------‰Б‘¬+“™‘¬(“™‘¬)---------\n\r");
+	printf("st_Info.f_acc1ЃF%5.4f \n\r",st_Info.f_acc1);							 
+	printf("st_Info.f_acc3ЃF%5.4f \n\r",st_Info.f_acc3);	
+	printf("st_Info.f_distЃF%5.4f \n\r",st_Info.f_dist);
+	printf("ЌЕЏI‘¬“xЃ@f_finЃF%5.4f \n\r",f_fin);
+	printf("Њ»ЌЭ‘¬“xЃF%5.4f \n\r",st_Info.f_now);
+	printf("–Ъ•W‘¬“x st_Info.f_trgtЃF%5.4f \n\r",st_Info.f_trgt);
+	printf("ЌЕЏI‘¬“xЃF%5.4f \n\r",st_Info.f_last);
+	printf("€Ъ“®‹——ЈЃF%5.4f \n\r",st_Info.f_l1_2);
+	printf("‘ж1€Ъ“®‹——ЈЃF%5.4f \n\r",st_Info.f_l1);
+	printf("“™‘¬‹——ЈЃF%5.4f \n\r",st_Info.f_l1_2 - st_Info.f_l1);
 }
 
 // *************************************************************************
-//   ж©џиѓЅ		пјљ еЊєз”» е‰ЌйЂІгЂЃе‹•дЅњгѓ‡гѓјг‚їдЅњж€ђпј€еЉ йЂџпј‹з­‰йЂџпј‰ cosиї‘дјј
-//   жіЁж„Џ		пјљ MOT_go_FinSpeedгЃ®гЃїе®џиЎЊеЏЇиѓЅ
-//   гѓЎгѓў		пјљ еЊєз”»ж•°гЃЇ1.5еЊєз”»гЃЄгЃ©гЃ®жЊ‡е®љг‚’гЃ—гЃџгЃ„е ґеђ€гЃЇгЂЃ"1.5"г‚’жЊ‡е®љгЃ™г‚‹гЂ‚ж–њг‚Ѓиµ°иЎЊгЃЁе…±йЂље‡¦зђ†гЂ‚
-//   еј•ж•°		пјљ еЊєз”»ж•°гЂЃжњЂзµ‚йЂџеє¦гЂЃз›ґйЂІг‚їг‚¤гѓ—пј€йЂљеёёorж–њг‚Ѓпј‰
-//   иї”г‚ЉеЂ¤		пјљ е‰ЌйЂІгЃ®г‚їг‚¤гѓ—
-// **************************    е±Ґ    ж­ґ    *******************************
-//		v1.0		2019.4.26			TKR			cosиї‘дјјиїЅеЉ 
+//   ‹@”\		ЃF ‹ж‰ж ‘OђiЃA“®ЌмѓfЃ[ѓ^Ќмђ¬Ѓi‰Б‘¬Ѓ{“™‘¬Ѓj cos‹ЯЋ—
+//   ’Ќ€У		ЃF MOT_go_FinSpeed‚М‚ЭЋАЌs‰В”\
+//   ѓЃѓ‚		ЃF ‹ж‰жђ”‚Н1.5‹ж‰ж‚И‚З‚МЋw’и‚р‚µ‚Ѕ‚ўЏкЌ‡‚НЃA"1.5"‚рЋw’и‚·‚йЃBЋО‚Я‘–Ќs‚Ж‹¤’КЏ€—ќЃB
+//   €шђ”		ЃF ‹ж‰жђ”ЃAЌЕЏI‘¬“xЃA’јђiѓ^ѓCѓvЃi’КЏнorЋО‚ЯЃj
+//   •Ф‚и’l		ЃF ‘Oђi‚Мѓ^ѓCѓv
+// **************************    —љ    —р    *******************************
+//		v1.0		2019.4.26			TKR			cos‹ЯЋ—’З‰Б
 // *************************************************************************/
 PRIVATE void MOT_setData_MOT_ACC_CONST_SMOOTH( FLOAT f_num, FLOAT f_fin, enMOT_GO_ST_TYPE en_type )
 {
-	FLOAT			f_1blockDist;				// 1еЊєз”»гЃ®и·ќй›ў[mm]
+	FLOAT			f_1blockDist;				// 1‹ж‰ж‚М‹——Ј[mm]
 	
-	/* 1еЊєз”»гЃ®и·ќй›ў */
-	if( MOT_GO_ST_SMOOTH == en_type ){		// йЂљеёёгЃ®з›ґйЂІ
+	/* 1‹ж‰ж‚М‹——Ј */
+	if( MOT_GO_ST_SMOOTH == en_type ){		// ’КЏн‚М’јђi
 		f_1blockDist = BLOCK;
 	}
-	else{									// ж–њг‚ЃгЃ®з›ґйЂІ
+	else{									// ЋО‚Я‚М’јђi
 		f_1blockDist = BLOCK_SKEW;
 	}
 
-	/* еЉ йЂџеє¦ */
-	st_Info.f_acc1 		= MOT_getAcc1_Smooth();													// жњЂе¤§еЉ йЂџеє¦1[mm/s^2]
-	st_Info.f_acc3 		= 0;																// еЉ йЂџеє¦3[mm/s^2](жњЄдЅїз”Ё)
+	/* ‰Б‘¬“x */
+	st_Info.f_acc1 		= MOT_getAcc1_Smooth();													// ЌЕ‘е‰Б‘¬“x1[mm/s^2]
+	st_Info.f_acc3 		= 0;																// ‰Б‘¬“x3[mm/s^2](–ўЋg—p)
 
-	/* йЂџеє¦ */
-	st_Info.f_now		= f_MotNowSpeed;													// зЏѕењЁйЂџеє¦	
-	st_Info.f_trgt		= f_fin;															// з›®жЁ™йЂџеє¦
-	st_Info.f_last		= 0;																// жњЂзµ‚йЂџеє¦(жњЄдЅїз”Ё)
+	/* ‘¬“x */
+	st_Info.f_now		= f_MotNowSpeed;													// Њ»ЌЭ‘¬“x	
+	st_Info.f_trgt		= f_fin;															// –Ъ•W‘¬“x
+	st_Info.f_last		= 0;																// ЌЕЏI‘¬“x(–ўЋg—p)
 
-	/* и·ќй›ў */
-	st_Info.f_dist		= f_num * f_1blockDist;												// з§»е‹•и·ќй›ў[mm]
-	st_Info.f_l1		= ( ( f_fin * f_fin - f_MotNowSpeed * f_MotNowSpeed ) *3.1416f) / ( st_Info.f_acc1 * 4 );			// з¬¬1з§»е‹•и·ќй›ў[mm]
-	st_Info.f_l1_2		= st_Info.f_dist;													// з¬¬1+2з§»е‹•и·ќй›ў[mm]
+	/* ‹——Ј */
+	st_Info.f_dist		= f_num * f_1blockDist;												// €Ъ“®‹——Ј[mm]
+	st_Info.f_l1		= ( ( f_fin * f_fin - f_MotNowSpeed * f_MotNowSpeed ) *3.1416f) / ( st_Info.f_acc1 * 4 );			// ‘ж1€Ъ“®‹——Ј[mm]
+	st_Info.f_l1_2		= st_Info.f_dist;													// ‘ж1+2€Ъ“®‹——Ј[mm]
 
-	printf("---------еЉ йЂџ+з­‰йЂџ---------\n\r");
-	printf("st_Info.f_acc1пјљ%5.4f \n\r",st_Info.f_acc1);							 
-	printf("st_Info.f_acc3пјљ%5.4f \n\r",st_Info.f_acc3);	
-	printf("st_Info.f_distпјљ%5.4f \n\r",st_Info.f_dist);
-	printf("жњЂзµ‚йЂџеє¦гЂЂf_finпјљ%5.4f \n\r",f_fin);
-	printf("зЏѕењЁйЂџеє¦пјљ%5.4f \n\r",st_Info.f_now);
-	printf("з›®жЁ™йЂџеє¦ st_Info.f_trgtпјљ%5.4f \n\r",st_Info.f_trgt);
-	printf("жњЂзµ‚йЂџеє¦пјљ%5.4f \n\r",st_Info.f_last);
-	printf("з§»е‹•и·ќй›ўпјљ%5.4f \n\r",st_Info.f_l1_2);
-	printf("з¬¬1з§»е‹•и·ќй›ўпјљ%5.4f \n\r",st_Info.f_l1);
-	printf("з­‰йЂџи·ќй›ўпјљ%5.4f \n\r",st_Info.f_l1_2 - st_Info.f_l1);
+	printf("---------‰Б‘¬+“™‘¬---------\n\r");
+	printf("st_Info.f_acc1ЃF%5.4f \n\r",st_Info.f_acc1);							 
+	printf("st_Info.f_acc3ЃF%5.4f \n\r",st_Info.f_acc3);	
+	printf("st_Info.f_distЃF%5.4f \n\r",st_Info.f_dist);
+	printf("ЌЕЏI‘¬“xЃ@f_finЃF%5.4f \n\r",f_fin);
+	printf("Њ»ЌЭ‘¬“xЃF%5.4f \n\r",st_Info.f_now);
+	printf("–Ъ•W‘¬“x st_Info.f_trgtЃF%5.4f \n\r",st_Info.f_trgt);
+	printf("ЌЕЏI‘¬“xЃF%5.4f \n\r",st_Info.f_last);
+	printf("€Ъ“®‹——ЈЃF%5.4f \n\r",st_Info.f_l1_2);
+	printf("‘ж1€Ъ“®‹——ЈЃF%5.4f \n\r",st_Info.f_l1);
+	printf("“™‘¬‹——ЈЃF%5.4f \n\r",st_Info.f_l1_2 - st_Info.f_l1);
 }
 
 // *************************************************************************
-//   ж©џиѓЅ		пјљ еЊєз”» е‰ЌйЂІгЂЃе‹•дЅњгѓ‡гѓјг‚їдЅњж€ђпј€еЉ йЂџпј‹з­‰йЂџпј€з­‰йЂџпј‰ cosиї‘дјј пј‰
-//   жіЁж„Џ		пјљ MOT_go_FinSpeedгЃ®гЃїе®џиЎЊеЏЇиѓЅ
-//   гѓЎгѓў		пјљ еЊєз”»ж•°гЃЇ1.5еЊєз”»гЃЄгЃ©гЃ®жЊ‡е®љг‚’гЃ—гЃџгЃ„е ґеђ€гЃЇгЂЃ"1.5"г‚’жЊ‡е®љгЃ™г‚‹гЂ‚ж–њг‚Ѓиµ°иЎЊгЃЁе…±йЂље‡¦зђ†гЂ‚
-//   еј•ж•°		пјљ еЊєз”»ж•°гЂЃжњЂзµ‚йЂџеє¦гЂЃз›ґйЂІг‚їг‚¤гѓ—пј€йЂљеёёorж–њг‚Ѓпј‰
-//   иї”г‚ЉеЂ¤		пјљ е‰ЌйЂІгЃ®г‚їг‚¤гѓ—
-// **************************    е±Ґ    ж­ґ    *******************************
-//		v1.0		2019.4.26			TKR			cosиї‘дјјиїЅеЉ 
+//   ‹@”\		ЃF ‹ж‰ж ‘OђiЃA“®ЌмѓfЃ[ѓ^Ќмђ¬Ѓi‰Б‘¬Ѓ{“™‘¬Ѓi“™‘¬Ѓj cos‹ЯЋ— Ѓj
+//   ’Ќ€У		ЃF MOT_go_FinSpeed‚М‚ЭЋАЌs‰В”\
+//   ѓЃѓ‚		ЃF ‹ж‰жђ”‚Н1.5‹ж‰ж‚И‚З‚МЋw’и‚р‚µ‚Ѕ‚ўЏкЌ‡‚НЃA"1.5"‚рЋw’и‚·‚йЃBЋО‚Я‘–Ќs‚Ж‹¤’КЏ€—ќЃB
+//   €шђ”		ЃF ‹ж‰жђ”ЃAЌЕЏI‘¬“xЃA’јђiѓ^ѓCѓvЃi’КЏнorЋО‚ЯЃj
+//   •Ф‚и’l		ЃF ‘Oђi‚Мѓ^ѓCѓv
+// **************************    —љ    —р    *******************************
+//		v1.0		2019.4.26			TKR			cos‹ЯЋ—’З‰Б
 // *************************************************************************/
 PRIVATE void MOT_setData_MOT_ACC_CONST_SMOOTH_CUSTOM( FLOAT f_num, FLOAT f_fin, enMOT_GO_ST_TYPE en_type )
 {
-	FLOAT			f_1blockDist;				// 1еЊєз”»гЃ®и·ќй›ў[mm]
+	FLOAT			f_1blockDist;				// 1‹ж‰ж‚М‹——Ј[mm]
 	
-	/* 1еЊєз”»гЃ®и·ќй›ў */
-	if( MOT_GO_ST_SMOOTH == en_type ){		// йЂљеёёгЃ®з›ґйЂІ
+	/* 1‹ж‰ж‚М‹——Ј */
+	if( MOT_GO_ST_SMOOTH == en_type ){		// ’КЏн‚М’јђi
 		f_1blockDist = BLOCK;
 	}
-	else{									// ж–њг‚ЃгЃ®з›ґйЂІ
+	else{									// ЋО‚Я‚М’јђi
 		f_1blockDist = BLOCK_SKEW;
 	}
 
-	/* йЂџеє¦ */
-	st_Info.f_now		= f_MotNowSpeed;													// зЏѕењЁйЂџеє¦	
-	st_Info.f_trgt		= f_fin;															// з›®жЁ™йЂџеє¦
-	st_Info.f_last		= 0;																// жњЂзµ‚йЂџеє¦(жњЄдЅїз”Ё)
+	/* ‘¬“x */
+	st_Info.f_now		= f_MotNowSpeed;													// Њ»ЌЭ‘¬“x	
+	st_Info.f_trgt		= f_fin;															// –Ъ•W‘¬“x
+	st_Info.f_last		= 0;																// ЌЕЏI‘¬“x(–ўЋg—p)
 
-	/* и·ќй›ў */
-	st_Info.f_dist		= f_num * f_1blockDist;												// з§»е‹•и·ќй›ў[mm]
+	/* ‹——Ј */
+	st_Info.f_dist		= f_num * f_1blockDist;												// €Ъ“®‹——Ј[mm]
 
-	/* еЉ йЂџеє¦ */
-	st_Info.f_acc1 		= ( ( f_fin * f_fin - f_MotNowSpeed * f_MotNowSpeed ) *3.1416f) / ( ( st_Info.f_dist - MOT_MOVE_ST_MIN ) * 4.0f );	// жњЂе¤§еЉ йЂџеє¦1[mm/s^2]пј€еј·е€¶зљ„гЃ«ж›ёгЃЌжЏ›гЃ€пј‰
-	st_Info.f_acc3 		= 0;																// еЉ йЂџеє¦3[mm/s^2](жњЄдЅїз”Ё)
+	/* ‰Б‘¬“x */
+	st_Info.f_acc1 		= ( ( f_fin * f_fin - f_MotNowSpeed * f_MotNowSpeed ) *3.1416f) / ( ( st_Info.f_dist - MOT_MOVE_ST_MIN ) * 4.0f );	// ЌЕ‘е‰Б‘¬“x1[mm/s^2]Ѓi‹­ђ§“I‚ЙЏ‘‚«Љ·‚¦Ѓj
+	st_Info.f_acc3 		= 0;																// ‰Б‘¬“x3[mm/s^2](–ўЋg—p)
 
-	/* и·ќй›ў */
-	st_Info.f_l1		= ( f_fin * f_fin - f_MotNowSpeed * f_MotNowSpeed ) / ( st_Info.f_acc1 * 4 );			// з¬¬1з§»е‹•и·ќй›ў[mm]
-	st_Info.f_l1_2		= st_Info.f_dist;													// з¬¬1+2з§»е‹•и·ќй›ў[mm]
+	/* ‹——Ј */
+	st_Info.f_l1		= ( f_fin * f_fin - f_MotNowSpeed * f_MotNowSpeed ) / ( st_Info.f_acc1 * 4 );			// ‘ж1€Ъ“®‹——Ј[mm]
+	st_Info.f_l1_2		= st_Info.f_dist;													// ‘ж1+2€Ъ“®‹——Ј[mm]
 
-	printf("---------еЉ йЂџ+з­‰йЂџ(з­‰йЂџ)---------\n\r");
-	printf("st_Info.f_acc1пјљ%5.4f \n\r",st_Info.f_acc1);							 
-	printf("st_Info.f_acc3пјљ%5.4f \n\r",st_Info.f_acc3);	
-	printf("st_Info.f_distпјљ%5.4f \n\r",st_Info.f_dist);
-	printf("жњЂзµ‚йЂџеє¦гЂЂf_finпјљ%5.4f \n\r",f_fin);
-	printf("зЏѕењЁйЂџеє¦пјљ%5.4f \n\r",st_Info.f_now);
-	printf("з›®жЁ™йЂџеє¦ st_Info.f_trgtпјљ%5.4f \n\r",st_Info.f_trgt);
-	printf("жњЂзµ‚йЂџеє¦пјљ%5.4f \n\r",st_Info.f_last);
-	printf("з§»е‹•и·ќй›ўпјљ%5.4f \n\r",st_Info.f_l1_2);
-	printf("з¬¬1з§»е‹•и·ќй›ўпјљ%5.4f \n\r",st_Info.f_l1);
-	printf("з­‰йЂџи·ќй›ўпјљ%5.4f \n\r",st_Info.f_l1_2 - st_Info.f_l1);
+	printf("---------‰Б‘¬+“™‘¬(“™‘¬)---------\n\r");
+	printf("st_Info.f_acc1ЃF%5.4f \n\r",st_Info.f_acc1);							 
+	printf("st_Info.f_acc3ЃF%5.4f \n\r",st_Info.f_acc3);	
+	printf("st_Info.f_distЃF%5.4f \n\r",st_Info.f_dist);
+	printf("ЌЕЏI‘¬“xЃ@f_finЃF%5.4f \n\r",f_fin);
+	printf("Њ»ЌЭ‘¬“xЃF%5.4f \n\r",st_Info.f_now);
+	printf("–Ъ•W‘¬“x st_Info.f_trgtЃF%5.4f \n\r",st_Info.f_trgt);
+	printf("ЌЕЏI‘¬“xЃF%5.4f \n\r",st_Info.f_last);
+	printf("€Ъ“®‹——ЈЃF%5.4f \n\r",st_Info.f_l1_2);
+	printf("‘ж1€Ъ“®‹——ЈЃF%5.4f \n\r",st_Info.f_l1);
+	printf("“™‘¬‹——ЈЃF%5.4f \n\r",st_Info.f_l1_2 - st_Info.f_l1);
 }
 
 // *************************************************************************
-//   ж©џиѓЅ		пјљ еЊєз”» е‰ЌйЂІгЂЃе‹•дЅњгѓ‡гѓјг‚їдЅњж€ђпј€з­‰йЂџпј‹жё›йЂџпј‰
-//   жіЁж„Џ		пјљ MOT_go_FinSpeedгЃ®гЃїе®џиЎЊеЏЇиѓЅ
-//   гѓЎгѓў		пјљ еЊєз”»ж•°гЃЇ1.5еЊєз”»гЃЄгЃ©гЃ®жЊ‡е®љг‚’гЃ—гЃџгЃ„е ґеђ€гЃЇгЂЃ"1.5"г‚’жЊ‡е®љгЃ™г‚‹гЂ‚ж–њг‚Ѓиµ°иЎЊгЃЁе…±йЂље‡¦зђ†гЂ‚
-//   еј•ж•°		пјљ еЊєз”»ж•°гЂЃжњЂзµ‚йЂџеє¦гЂЃз›ґйЂІг‚їг‚¤гѓ—пј€йЂљеёёorж–њг‚Ѓпј‰
-//   иї”г‚ЉеЂ¤		пјљ е‰ЌйЂІгЃ®г‚їг‚¤гѓ—
-// **************************    е±Ґ    ж­ґ    *******************************
-// 		v1.0		2019.4.26			TKR			ж–°и¦Џ
+//   ‹@”\		ЃF ‹ж‰ж ‘OђiЃA“®ЌмѓfЃ[ѓ^Ќмђ¬Ѓi“™‘¬Ѓ{Њё‘¬Ѓj
+//   ’Ќ€У		ЃF MOT_go_FinSpeed‚М‚ЭЋАЌs‰В”\
+//   ѓЃѓ‚		ЃF ‹ж‰жђ”‚Н1.5‹ж‰ж‚И‚З‚МЋw’и‚р‚µ‚Ѕ‚ўЏкЌ‡‚НЃA"1.5"‚рЋw’и‚·‚йЃBЋО‚Я‘–Ќs‚Ж‹¤’КЏ€—ќЃB
+//   €шђ”		ЃF ‹ж‰жђ”ЃAЌЕЏI‘¬“xЃA’јђiѓ^ѓCѓvЃi’КЏнorЋО‚ЯЃj
+//   •Ф‚и’l		ЃF ‘Oђi‚Мѓ^ѓCѓv
+// **************************    —љ    —р    *******************************
+// 		v1.0		2019.4.26			TKR			ђV‹K
 // *************************************************************************/
 PRIVATE void MOT_setData_MOT_CONST_DEC( FLOAT f_num, FLOAT f_fin, enMOT_GO_ST_TYPE en_type )
 {
-	FLOAT			f_1blockDist;				// 1еЊєз”»гЃ®и·ќй›ў[mm]
+	FLOAT			f_1blockDist;				// 1‹ж‰ж‚М‹——Ј[mm]
 	
-	/* 1еЊєз”»гЃ®и·ќй›ў */
-	if( MOT_GO_ST_NORMAL == en_type ){		// йЂљеёёгЃ®з›ґйЂІ
+	/* 1‹ж‰ж‚М‹——Ј */
+	if( MOT_GO_ST_NORMAL == en_type ){		// ’КЏн‚М’јђi
 		f_1blockDist = BLOCK;
 	}
-	else{									// ж–њг‚ЃгЃ®з›ґйЂІ
+	else{									// ЋО‚Я‚М’јђi
 		f_1blockDist = BLOCK_SKEW;
 	}
 
-	/* еЉ йЂџеє¦ */
-	st_Info.f_acc1 		= 0;																// еЉ йЂџеє¦1[mm/s^2](жњЄдЅїз”Ё)
-	st_Info.f_acc3 		= MOT_getAcc3();													// еЉ йЂџеє¦3[mm/s^2]
+	/* ‰Б‘¬“x */
+	st_Info.f_acc1 		= 0;																// ‰Б‘¬“x1[mm/s^2](–ўЋg—p)
+	st_Info.f_acc3 		= MOT_getAcc3();													// ‰Б‘¬“x3[mm/s^2]
 
-	/* йЂџеє¦ */
-	st_Info.f_now		= f_MotNowSpeed;													// зЏѕењЁйЂџеє¦	
-	st_Info.f_trgt		= f_MotNowSpeed;													// з›®жЁ™йЂџеє¦
-	st_Info.f_last		= f_fin;															// жњЂзµ‚йЂџеє¦(жњЄдЅїз”Ё)
+	/* ‘¬“x */
+	st_Info.f_now		= f_MotNowSpeed;													// Њ»ЌЭ‘¬“x	
+	st_Info.f_trgt		= f_MotNowSpeed;													// –Ъ•W‘¬“x
+	st_Info.f_last		= f_fin;															// ЌЕЏI‘¬“x(–ўЋg—p)
 
-	/* и·ќй›ў */
-	st_Info.f_dist		= f_num * f_1blockDist;												// з§»е‹•и·ќй›ў[mm]
-	st_Info.f_l1		= 0;																// з¬¬1з§»е‹•и·ќй›ў[mm]
-	st_Info.f_l1_2		= st_Info.f_dist - ( f_fin * f_fin - f_MotNowSpeed * f_MotNowSpeed ) / ( ( st_Info.f_acc3 * -1 ) * 2 );			// з¬¬1-2з§»е‹•и·ќй›ў[mm]
+	/* ‹——Ј */
+	st_Info.f_dist		= f_num * f_1blockDist;												// €Ъ“®‹——Ј[mm]
+	st_Info.f_l1		= 0;																// ‘ж1€Ъ“®‹——Ј[mm]
+	st_Info.f_l1_2		= st_Info.f_dist - ( f_fin * f_fin - f_MotNowSpeed * f_MotNowSpeed ) / ( ( st_Info.f_acc3 * -1 ) * 2 );			// ‘ж1-2€Ъ“®‹——Ј[mm]
 
-	printf("---------з­‰йЂџ+жё›йЂџ---------\n\r");
-	printf("st_Info.f_acc1пјљ%5.4f \n\r",st_Info.f_acc1);							 
-	printf("st_Info.f_acc3пјљ%5.4f \n\r",st_Info.f_acc3);	
-	printf("st_Info.f_distпјљ%5.4f \n\r",st_Info.f_dist);
-	printf("жњЂзµ‚йЂџеє¦гЂЂf_finпјљ%5.4f \n\r",f_fin);
-	printf("зЏѕењЁйЂџеє¦пјљ%5.4f \n\r",st_Info.f_now);
-	printf("з›®жЁ™йЂџеє¦ st_Info.f_trgtпјљ%5.4f \n\r",st_Info.f_trgt);
-	printf("жњЂзµ‚йЂџеє¦пјљ%5.4f \n\r",st_Info.f_last);
-	printf("з§»е‹•и·ќй›ўпјљ%5.4f \n\r",st_Info.f_dist);
-	printf("з­‰йЂџи·ќй›ўпјљ%5.4f \n\r",st_Info.f_l1_2 - st_Info.f_l1);
-	printf("жё›йЂџи·ќй›ўпјљ%5.4f \n\r",st_Info.f_l1_2);
+	printf("---------“™‘¬+Њё‘¬---------\n\r");
+	printf("st_Info.f_acc1ЃF%5.4f \n\r",st_Info.f_acc1);							 
+	printf("st_Info.f_acc3ЃF%5.4f \n\r",st_Info.f_acc3);	
+	printf("st_Info.f_distЃF%5.4f \n\r",st_Info.f_dist);
+	printf("ЌЕЏI‘¬“xЃ@f_finЃF%5.4f \n\r",f_fin);
+	printf("Њ»ЌЭ‘¬“xЃF%5.4f \n\r",st_Info.f_now);
+	printf("–Ъ•W‘¬“x st_Info.f_trgtЃF%5.4f \n\r",st_Info.f_trgt);
+	printf("ЌЕЏI‘¬“xЃF%5.4f \n\r",st_Info.f_last);
+	printf("€Ъ“®‹——ЈЃF%5.4f \n\r",st_Info.f_dist);
+	printf("“™‘¬‹——ЈЃF%5.4f \n\r",st_Info.f_l1_2 - st_Info.f_l1);
+	printf("Њё‘¬‹——ЈЃF%5.4f \n\r",st_Info.f_l1_2);
 }
 
 // *************************************************************************
-//   ж©џиѓЅ		пјљ еЊєз”» е‰ЌйЂІгЂЃе‹•дЅњгѓ‡гѓјг‚їдЅњж€ђпј€з­‰йЂџпј€з­‰йЂџпј‰пј‹жё›йЂџпј‰
-//   жіЁж„Џ		пјљ MOT_go_FinSpeedгЃ®гЃїе®џиЎЊеЏЇиѓЅ
-//   гѓЎгѓў		пјљ еЊєз”»ж•°гЃЇ1.5еЊєз”»гЃЄгЃ©гЃ®жЊ‡е®љг‚’гЃ—гЃџгЃ„е ґеђ€гЃЇгЂЃ"1.5"г‚’жЊ‡е®љгЃ™г‚‹гЂ‚ж–њг‚Ѓиµ°иЎЊгЃЁе…±йЂље‡¦зђ†гЂ‚
-//   еј•ж•°		пјљ еЊєз”»ж•°гЂЃжњЂзµ‚йЂџеє¦гЂЃз›ґйЂІг‚їг‚¤гѓ—пј€йЂљеёёorж–њг‚Ѓпј‰
-//   иї”г‚ЉеЂ¤		пјљ е‰ЌйЂІгЃ®г‚їг‚¤гѓ—
-// **************************    е±Ґ    ж­ґ    *******************************
-// 		v1.0		2019.4.26			TKR			ж–°и¦Џ
+//   ‹@”\		ЃF ‹ж‰ж ‘OђiЃA“®ЌмѓfЃ[ѓ^Ќмђ¬Ѓi“™‘¬Ѓi“™‘¬ЃjЃ{Њё‘¬Ѓj
+//   ’Ќ€У		ЃF MOT_go_FinSpeed‚М‚ЭЋАЌs‰В”\
+//   ѓЃѓ‚		ЃF ‹ж‰жђ”‚Н1.5‹ж‰ж‚И‚З‚МЋw’и‚р‚µ‚Ѕ‚ўЏкЌ‡‚НЃA"1.5"‚рЋw’и‚·‚йЃBЋО‚Я‘–Ќs‚Ж‹¤’КЏ€—ќЃB
+//   €шђ”		ЃF ‹ж‰жђ”ЃAЌЕЏI‘¬“xЃA’јђiѓ^ѓCѓvЃi’КЏнorЋО‚ЯЃj
+//   •Ф‚и’l		ЃF ‘Oђi‚Мѓ^ѓCѓv
+// **************************    —љ    —р    *******************************
+// 		v1.0		2019.4.26			TKR			ђV‹K
 // *************************************************************************/
 PRIVATE void MOT_setData_MOT_CONST_DEC_CUSTOM( FLOAT f_num, FLOAT f_fin, enMOT_GO_ST_TYPE en_type )
 {
-	FLOAT			f_1blockDist;				// 1еЊєз”»гЃ®и·ќй›ў[mm]
+	FLOAT			f_1blockDist;				// 1‹ж‰ж‚М‹——Ј[mm]
 	
-	/* 1еЊєз”»гЃ®и·ќй›ў */
-	if( MOT_GO_ST_NORMAL == en_type ){		// йЂљеёёгЃ®з›ґйЂІ
+	/* 1‹ж‰ж‚М‹——Ј */
+	if( MOT_GO_ST_NORMAL == en_type ){		// ’КЏн‚М’јђi
 		f_1blockDist = BLOCK;
 	}
-	else{									// ж–њг‚ЃгЃ®з›ґйЂІ
+	else{									// ЋО‚Я‚М’јђi
 		f_1blockDist = BLOCK_SKEW;
 	}
 
-	/* йЂџеє¦ */
-	st_Info.f_now		= f_MotNowSpeed;													// зЏѕењЁйЂџеє¦	
-	st_Info.f_trgt		= f_MotNowSpeed;													// з›®жЁ™йЂџеє¦
-	st_Info.f_last		= f_fin;															// жњЂзµ‚йЂџеє¦
+	/* ‘¬“x */
+	st_Info.f_now		= f_MotNowSpeed;													// Њ»ЌЭ‘¬“x	
+	st_Info.f_trgt		= f_MotNowSpeed;													// –Ъ•W‘¬“x
+	st_Info.f_last		= f_fin;															// ЌЕЏI‘¬“x
 
-	/* и·ќй›ў */
-	st_Info.f_dist		= f_num * f_1blockDist;												// з§»е‹•и·ќй›ў[mm]
+	/* ‹——Ј */
+	st_Info.f_dist		= f_num * f_1blockDist;												// €Ъ“®‹——Ј[mm]
 
-	/* еЉ йЂџеє¦ */
-	st_Info.f_acc1 		= 0;																// еЉ йЂџеє¦1[mm/s^2](жњЄдЅїз”Ё)
-	st_Info.f_acc3 		= ( f_fin * f_fin - f_MotNowSpeed * f_MotNowSpeed ) / ( ( st_Info.f_dist - MOT_MOVE_ST_MIN ) * 2.0f ) * -1;	// еЉ йЂџеє¦3[mm/s^2]пј€еј·е€¶зљ„гЃ«ж›ёгЃЌжЏ›гЃ€пј‰
+	/* ‰Б‘¬“x */
+	st_Info.f_acc1 		= 0;																// ‰Б‘¬“x1[mm/s^2](–ўЋg—p)
+	st_Info.f_acc3 		= ( f_fin * f_fin - f_MotNowSpeed * f_MotNowSpeed ) / ( ( st_Info.f_dist - MOT_MOVE_ST_MIN ) * 2.0f ) * -1;	// ‰Б‘¬“x3[mm/s^2]Ѓi‹­ђ§“I‚ЙЏ‘‚«Љ·‚¦Ѓj
 
-	/* и·ќй›ў */
-	st_Info.f_l1		= 0;																// з¬¬1з§»е‹•и·ќй›ў[mm]
-	st_Info.f_l1_2		= st_Info.f_dist - ( f_fin * f_fin - f_MotNowSpeed * f_MotNowSpeed ) / ( ( st_Info.f_acc3 * -1 ) * 2 );			// з¬¬1-2з§»е‹•и·ќй›ў[mm]
+	/* ‹——Ј */
+	st_Info.f_l1		= 0;																// ‘ж1€Ъ“®‹——Ј[mm]
+	st_Info.f_l1_2		= st_Info.f_dist - ( f_fin * f_fin - f_MotNowSpeed * f_MotNowSpeed ) / ( ( st_Info.f_acc3 * -1 ) * 2 );			// ‘ж1-2€Ъ“®‹——Ј[mm]
 
-	printf("---------з­‰йЂџ+жё›йЂџ(з­‰йЂџ)---------\n\r");
-	printf("st_Info.f_acc1пјљ%5.4f \n\r",st_Info.f_acc1);							 
-	printf("st_Info.f_acc3пјљ%5.4f \n\r",st_Info.f_acc3);	
-	printf("st_Info.f_distпјљ%5.4f \n\r",st_Info.f_dist);
-	printf("жњЂзµ‚йЂџеє¦гЂЂf_finпјљ%5.4f \n\r",f_fin);
-	printf("зЏѕењЁйЂџеє¦пјљ%5.4f \n\r",st_Info.f_now);
-	printf("з›®жЁ™йЂџеє¦ st_Info.f_trgtпјљ%5.4f \n\r",st_Info.f_trgt);
-	printf("жњЂзµ‚йЂџеє¦пјљ%5.4f \n\r",st_Info.f_last);
-	printf("з§»е‹•и·ќй›ўпјљ%5.4f \n\r",st_Info.f_dist);
-	printf("з­‰йЂџи·ќй›ўпјљ%5.4f \n\r",st_Info.f_l1_2 - st_Info.f_l1);
-	printf("жё›йЂџи·ќй›ўпјљ%5.4f \n\r",st_Info.f_l1_2);
+	printf("---------“™‘¬+Њё‘¬(“™‘¬)---------\n\r");
+	printf("st_Info.f_acc1ЃF%5.4f \n\r",st_Info.f_acc1);							 
+	printf("st_Info.f_acc3ЃF%5.4f \n\r",st_Info.f_acc3);	
+	printf("st_Info.f_distЃF%5.4f \n\r",st_Info.f_dist);
+	printf("ЌЕЏI‘¬“xЃ@f_finЃF%5.4f \n\r",f_fin);
+	printf("Њ»ЌЭ‘¬“xЃF%5.4f \n\r",st_Info.f_now);
+	printf("–Ъ•W‘¬“x st_Info.f_trgtЃF%5.4f \n\r",st_Info.f_trgt);
+	printf("ЌЕЏI‘¬“xЃF%5.4f \n\r",st_Info.f_last);
+	printf("€Ъ“®‹——ЈЃF%5.4f \n\r",st_Info.f_dist);
+	printf("“™‘¬‹——ЈЃF%5.4f \n\r",st_Info.f_l1_2 - st_Info.f_l1);
+	printf("Њё‘¬‹——ЈЃF%5.4f \n\r",st_Info.f_l1_2);
 }
 
 // *************************************************************************
-//   ж©џиѓЅ		пјљ еЊєз”» е‰ЌйЂІгЂЃе‹•дЅњгѓ‡гѓјг‚їдЅњж€ђпј€з­‰йЂџпј‹жё›йЂџ cosиї‘дјјпј‰
-//   жіЁж„Џ		пјљ MOT_go_FinSpeedгЃ®гЃїе®џиЎЊеЏЇиѓЅ
-//   гѓЎгѓў		пјљ еЊєз”»ж•°гЃЇ1.5еЊєз”»гЃЄгЃ©гЃ®жЊ‡е®љг‚’гЃ—гЃџгЃ„е ґеђ€гЃЇгЂЃ"1.5"г‚’жЊ‡е®љгЃ™г‚‹гЂ‚ж–њг‚Ѓиµ°иЎЊгЃЁе…±йЂље‡¦зђ†гЂ‚
-//   еј•ж•°		пјљ еЊєз”»ж•°гЂЃжњЂзµ‚йЂџеє¦гЂЃз›ґйЂІг‚їг‚¤гѓ—пј€йЂљеёёorж–њг‚Ѓпј‰
-//   иї”г‚ЉеЂ¤		пјљ е‰ЌйЂІгЃ®г‚їг‚¤гѓ—
-// **************************    е±Ґ    ж­ґ    *******************************
-//		v1.0		2019.4.26			TKR			cosиї‘дјјиїЅеЉ 
+//   ‹@”\		ЃF ‹ж‰ж ‘OђiЃA“®ЌмѓfЃ[ѓ^Ќмђ¬Ѓi“™‘¬Ѓ{Њё‘¬ cos‹ЯЋ—Ѓj
+//   ’Ќ€У		ЃF MOT_go_FinSpeed‚М‚ЭЋАЌs‰В”\
+//   ѓЃѓ‚		ЃF ‹ж‰жђ”‚Н1.5‹ж‰ж‚И‚З‚МЋw’и‚р‚µ‚Ѕ‚ўЏкЌ‡‚НЃA"1.5"‚рЋw’и‚·‚йЃBЋО‚Я‘–Ќs‚Ж‹¤’КЏ€—ќЃB
+//   €шђ”		ЃF ‹ж‰жђ”ЃAЌЕЏI‘¬“xЃA’јђiѓ^ѓCѓvЃi’КЏнorЋО‚ЯЃj
+//   •Ф‚и’l		ЃF ‘Oђi‚Мѓ^ѓCѓv
+// **************************    —љ    —р    *******************************
+//		v1.0		2019.4.26			TKR			cos‹ЯЋ—’З‰Б
 // *************************************************************************/
 PRIVATE void MOT_setData_MOT_CONST_DEC_SMOOTH( FLOAT f_num, FLOAT f_fin, enMOT_GO_ST_TYPE en_type )
 {
-	FLOAT			f_1blockDist;				// 1еЊєз”»гЃ®и·ќй›ў[mm]
+	FLOAT			f_1blockDist;				// 1‹ж‰ж‚М‹——Ј[mm]
 	
-	/* 1еЊєз”»гЃ®и·ќй›ў */
-	if( MOT_GO_ST_SMOOTH == en_type ){		// йЂљеёёгЃ®з›ґйЂІ
+	/* 1‹ж‰ж‚М‹——Ј */
+	if( MOT_GO_ST_SMOOTH == en_type ){		// ’КЏн‚М’јђi
 		f_1blockDist = BLOCK;
 	}
-	else{									// ж–њг‚ЃгЃ®з›ґйЂІ
+	else{									// ЋО‚Я‚М’јђi
 		f_1blockDist = BLOCK_SKEW;
 	}
 
-	/* еЉ йЂџеє¦ */
-	st_Info.f_acc1 		= 0;																// жњЂе¤§еЉ йЂџеє¦1[mm/s^2](жњЄдЅїз”Ё)
-	st_Info.f_acc3 		= MOT_getAcc3_Smooth();													// жњЂе¤§еЉ йЂџеє¦3[mm/s^2]
+	/* ‰Б‘¬“x */
+	st_Info.f_acc1 		= 0;																// ЌЕ‘е‰Б‘¬“x1[mm/s^2](–ўЋg—p)
+	st_Info.f_acc3 		= MOT_getAcc3_Smooth();													// ЌЕ‘е‰Б‘¬“x3[mm/s^2]
 
-	/* йЂџеє¦ */
-	st_Info.f_now		= f_MotNowSpeed;													// зЏѕењЁйЂџеє¦	
-	st_Info.f_trgt		= f_MotNowSpeed;													// з›®жЁ™йЂџеє¦
-	st_Info.f_last		= f_fin;															// жњЂзµ‚йЂџеє¦(жњЄдЅїз”Ё)
+	/* ‘¬“x */
+	st_Info.f_now		= f_MotNowSpeed;													// Њ»ЌЭ‘¬“x	
+	st_Info.f_trgt		= f_MotNowSpeed;													// –Ъ•W‘¬“x
+	st_Info.f_last		= f_fin;															// ЌЕЏI‘¬“x(–ўЋg—p)
 
-	/* и·ќй›ў */
-	st_Info.f_dist		= f_num * f_1blockDist;												// з§»е‹•и·ќй›ў[mm]
-	st_Info.f_l1		= 0;																// з¬¬1з§»е‹•и·ќй›ў[mm]
-	st_Info.f_l1_2		= st_Info.f_dist - ( ( f_fin * f_fin - f_MotNowSpeed * f_MotNowSpeed ) *3.1416f) / ( ( st_Info.f_acc3 * -1 ) * 4 );			// з¬¬1-2з§»е‹•и·ќй›ў[mm]
+	/* ‹——Ј */
+	st_Info.f_dist		= f_num * f_1blockDist;												// €Ъ“®‹——Ј[mm]
+	st_Info.f_l1		= 0;																// ‘ж1€Ъ“®‹——Ј[mm]
+	st_Info.f_l1_2		= st_Info.f_dist - ( ( f_fin * f_fin - f_MotNowSpeed * f_MotNowSpeed ) *3.1416f) / ( ( st_Info.f_acc3 * -1 ) * 4 );			// ‘ж1-2€Ъ“®‹——Ј[mm]
 
-	printf("---------з­‰йЂџ+жё›йЂџ---------\n\r");
-	printf("st_Info.f_acc1пјљ%5.4f \n\r",st_Info.f_acc1);							 
-	printf("st_Info.f_acc3пјљ%5.4f \n\r",st_Info.f_acc3);	
-	printf("st_Info.f_distпјљ%5.4f \n\r",st_Info.f_dist);
-	printf("жњЂзµ‚йЂџеє¦гЂЂf_finпјљ%5.4f \n\r",f_fin);
-	printf("зЏѕењЁйЂџеє¦пјљ%5.4f \n\r",st_Info.f_now);
-	printf("з›®жЁ™йЂџеє¦ st_Info.f_trgtпјљ%5.4f \n\r",st_Info.f_trgt);
-	printf("жњЂзµ‚йЂџеє¦пјљ%5.4f \n\r",st_Info.f_last);
-	printf("з§»е‹•и·ќй›ўпјљ%5.4f \n\r",st_Info.f_dist);
-	printf("з­‰йЂџи·ќй›ўпјљ%5.4f \n\r",st_Info.f_l1_2 - st_Info.f_l1);
-	printf("жё›йЂџи·ќй›ўпјљ%5.4f \n\r",st_Info.f_l1_2);
+	printf("---------“™‘¬+Њё‘¬---------\n\r");
+	printf("st_Info.f_acc1ЃF%5.4f \n\r",st_Info.f_acc1);							 
+	printf("st_Info.f_acc3ЃF%5.4f \n\r",st_Info.f_acc3);	
+	printf("st_Info.f_distЃF%5.4f \n\r",st_Info.f_dist);
+	printf("ЌЕЏI‘¬“xЃ@f_finЃF%5.4f \n\r",f_fin);
+	printf("Њ»ЌЭ‘¬“xЃF%5.4f \n\r",st_Info.f_now);
+	printf("–Ъ•W‘¬“x st_Info.f_trgtЃF%5.4f \n\r",st_Info.f_trgt);
+	printf("ЌЕЏI‘¬“xЃF%5.4f \n\r",st_Info.f_last);
+	printf("€Ъ“®‹——ЈЃF%5.4f \n\r",st_Info.f_dist);
+	printf("“™‘¬‹——ЈЃF%5.4f \n\r",st_Info.f_l1_2 - st_Info.f_l1);
+	printf("Њё‘¬‹——ЈЃF%5.4f \n\r",st_Info.f_l1_2);
 }
 
 // *************************************************************************
-//   ж©џиѓЅ		пјљ еЊєз”» е‰ЌйЂІгЂЃе‹•дЅњгѓ‡гѓјг‚їдЅњж€ђпј€з­‰йЂџпј€з­‰йЂџпј‰пј‹жё›йЂџ cosиї‘дјјпј‰
-//   жіЁж„Џ		пјљ MOT_go_FinSpeedгЃ®гЃїе®џиЎЊеЏЇиѓЅ
-//   гѓЎгѓў		пјљ еЊєз”»ж•°гЃЇ1.5еЊєз”»гЃЄгЃ©гЃ®жЊ‡е®љг‚’гЃ—гЃџгЃ„е ґеђ€гЃЇгЂЃ"1.5"г‚’жЊ‡е®љгЃ™г‚‹гЂ‚ж–њг‚Ѓиµ°иЎЊгЃЁе…±йЂље‡¦зђ†гЂ‚
-//   еј•ж•°		пјљ еЊєз”»ж•°гЂЃжњЂзµ‚йЂџеє¦гЂЃз›ґйЂІг‚їг‚¤гѓ—пј€йЂљеёёorж–њг‚Ѓпј‰
-//   иї”г‚ЉеЂ¤		пјљ е‰ЌйЂІгЃ®г‚їг‚¤гѓ—
-// **************************    е±Ґ    ж­ґ    *******************************
-//		v1.0		2019.4.26			TKR			cosиї‘дјјиїЅеЉ 
+//   ‹@”\		ЃF ‹ж‰ж ‘OђiЃA“®ЌмѓfЃ[ѓ^Ќмђ¬Ѓi“™‘¬Ѓi“™‘¬ЃjЃ{Њё‘¬ cos‹ЯЋ—Ѓj
+//   ’Ќ€У		ЃF MOT_go_FinSpeed‚М‚ЭЋАЌs‰В”\
+//   ѓЃѓ‚		ЃF ‹ж‰жђ”‚Н1.5‹ж‰ж‚И‚З‚МЋw’и‚р‚µ‚Ѕ‚ўЏкЌ‡‚НЃA"1.5"‚рЋw’и‚·‚йЃBЋО‚Я‘–Ќs‚Ж‹¤’КЏ€—ќЃB
+//   €шђ”		ЃF ‹ж‰жђ”ЃAЌЕЏI‘¬“xЃA’јђiѓ^ѓCѓvЃi’КЏнorЋО‚ЯЃj
+//   •Ф‚и’l		ЃF ‘Oђi‚Мѓ^ѓCѓv
+// **************************    —љ    —р    *******************************
+//		v1.0		2019.4.26			TKR			cos‹ЯЋ—’З‰Б
 // *************************************************************************/
 PRIVATE void MOT_setData_MOT_CONST_DEC_SMOOTH_CUSTOM( FLOAT f_num, FLOAT f_fin, enMOT_GO_ST_TYPE en_type )
 {
-	FLOAT			f_1blockDist;				// 1еЊєз”»гЃ®и·ќй›ў[mm]
+	FLOAT			f_1blockDist;				// 1‹ж‰ж‚М‹——Ј[mm]
 	
-	/* 1еЊєз”»гЃ®и·ќй›ў */
-	if( MOT_GO_ST_SMOOTH == en_type ){		// йЂљеёёгЃ®з›ґйЂІ
+	/* 1‹ж‰ж‚М‹——Ј */
+	if( MOT_GO_ST_SMOOTH == en_type ){		// ’КЏн‚М’јђi
 		f_1blockDist = BLOCK;
 	}
-	else{									// ж–њг‚ЃгЃ®з›ґйЂІ
+	else{									// ЋО‚Я‚М’јђi
 		f_1blockDist = BLOCK_SKEW;
 	}
 
-	/* йЂџеє¦ */
-	st_Info.f_now		= f_MotNowSpeed;													// зЏѕењЁйЂџеє¦	
-	st_Info.f_trgt		= f_MotNowSpeed;													// з›®жЁ™йЂџеє¦
-	st_Info.f_last		= f_fin;															// жњЂзµ‚йЂџеє¦
+	/* ‘¬“x */
+	st_Info.f_now		= f_MotNowSpeed;													// Њ»ЌЭ‘¬“x	
+	st_Info.f_trgt		= f_MotNowSpeed;													// –Ъ•W‘¬“x
+	st_Info.f_last		= f_fin;															// ЌЕЏI‘¬“x
 
-	/* и·ќй›ў */
-	st_Info.f_dist		= f_num * f_1blockDist;												// з§»е‹•и·ќй›ў[mm]
+	/* ‹——Ј */
+	st_Info.f_dist		= f_num * f_1blockDist;												// €Ъ“®‹——Ј[mm]
 
-	/* еЉ йЂџеє¦ */
-	st_Info.f_acc1 		= 0;																// еЉ йЂџеє¦1[mm/s^2](жњЄдЅїз”Ё)
-	st_Info.f_acc3 		= ( ( f_fin * f_fin - f_MotNowSpeed * f_MotNowSpeed ) *3.1416f) / ( ( st_Info.f_dist - MOT_MOVE_ST_MIN ) * 4.0f ) * -1;	// жњЂе¤§еЉ йЂџеє¦3[mm/s^2]пј€еј·е€¶зљ„гЃ«ж›ёгЃЌжЏ›гЃ€пј‰
+	/* ‰Б‘¬“x */
+	st_Info.f_acc1 		= 0;																// ‰Б‘¬“x1[mm/s^2](–ўЋg—p)
+	st_Info.f_acc3 		= ( ( f_fin * f_fin - f_MotNowSpeed * f_MotNowSpeed ) *3.1416f) / ( ( st_Info.f_dist - MOT_MOVE_ST_MIN ) * 4.0f ) * -1;	// ЌЕ‘е‰Б‘¬“x3[mm/s^2]Ѓi‹­ђ§“I‚ЙЏ‘‚«Љ·‚¦Ѓj
 
-	/* и·ќй›ў */
-	st_Info.f_l1		= 0;																// з¬¬1з§»е‹•и·ќй›ў[mm]
-	st_Info.f_l1_2		= st_Info.f_dist - ( ( f_fin * f_fin - f_MotNowSpeed * f_MotNowSpeed ) *3.1416f) / ( ( st_Info.f_acc3 * -1 ) * 4 );			// з¬¬1-2з§»е‹•и·ќй›ў[mm]
+	/* ‹——Ј */
+	st_Info.f_l1		= 0;																// ‘ж1€Ъ“®‹——Ј[mm]
+	st_Info.f_l1_2		= st_Info.f_dist - ( ( f_fin * f_fin - f_MotNowSpeed * f_MotNowSpeed ) *3.1416f) / ( ( st_Info.f_acc3 * -1 ) * 4 );			// ‘ж1-2€Ъ“®‹——Ј[mm]
 
-	printf("---------з­‰йЂџ+жё›йЂџ(з­‰йЂџ)---------\n\r");
-	printf("st_Info.f_acc1пјљ%5.4f \n\r",st_Info.f_acc1);							 
-	printf("st_Info.f_acc3пјљ%5.4f \n\r",st_Info.f_acc3);	
-	printf("st_Info.f_distпјљ%5.4f \n\r",st_Info.f_dist);
-	printf("жњЂзµ‚йЂџеє¦гЂЂf_finпјљ%5.4f \n\r",f_fin);
-	printf("зЏѕењЁйЂџеє¦пјљ%5.4f \n\r",st_Info.f_now);
-	printf("з›®жЁ™йЂџеє¦ st_Info.f_trgtпјљ%5.4f \n\r",st_Info.f_trgt);
-	printf("жњЂзµ‚йЂџеє¦пјљ%5.4f \n\r",st_Info.f_last);
-	printf("з§»е‹•и·ќй›ўпјљ%5.4f \n\r",st_Info.f_dist);
-	printf("з­‰йЂџи·ќй›ўпјљ%5.4f \n\r",st_Info.f_l1_2 - st_Info.f_l1);
-	printf("жё›йЂџи·ќй›ўпјљ%5.4f \n\r",st_Info.f_l1_2);
+	printf("---------“™‘¬+Њё‘¬(“™‘¬)---------\n\r");
+	printf("st_Info.f_acc1ЃF%5.4f \n\r",st_Info.f_acc1);							 
+	printf("st_Info.f_acc3ЃF%5.4f \n\r",st_Info.f_acc3);	
+	printf("st_Info.f_distЃF%5.4f \n\r",st_Info.f_dist);
+	printf("ЌЕЏI‘¬“xЃ@f_finЃF%5.4f \n\r",f_fin);
+	printf("Њ»ЌЭ‘¬“xЃF%5.4f \n\r",st_Info.f_now);
+	printf("–Ъ•W‘¬“x st_Info.f_trgtЃF%5.4f \n\r",st_Info.f_trgt);
+	printf("ЌЕЏI‘¬“xЃF%5.4f \n\r",st_Info.f_last);
+	printf("€Ъ“®‹——ЈЃF%5.4f \n\r",st_Info.f_dist);
+	printf("“™‘¬‹——ЈЃF%5.4f \n\r",st_Info.f_l1_2 - st_Info.f_l1);
+	printf("Њё‘¬‹——ЈЃF%5.4f \n\r",st_Info.f_l1_2);
 }
 
 // *************************************************************************
-//   ж©џиѓЅ		пјљ е‰ЌйЂІгЃ®г‚їг‚¤гѓ—г‚’еЏ–еѕ—гЃ™г‚‹
-//   жіЁж„Џ		пјљ MOT_go_FinSpeedгЃ®гЃїе®џиЎЊеЏЇиѓЅ
-//   гѓЎгѓў		пјљ еЊєз”»ж•°гЃЇ1.5еЊєз”»гЃЄгЃ©гЃ®жЊ‡е®љг‚’гЃ—гЃџгЃ„е ґеђ€гЃЇгЂЃ"1.5"г‚’жЊ‡е®љгЃ™г‚‹гЂ‚ж–њг‚Ѓиµ°иЎЊгЃЁе…±йЂље‡¦зђ†гЂ‚
-//   еј•ж•°		пјљ еЊєз”»ж•°гЂЃжњЂзµ‚йЂџеє¦гЂЃз›ґйЂІг‚їг‚¤гѓ—пј€йЂљеёёorж–њг‚Ѓпј‰
-//   иї”г‚ЉеЂ¤		пјљ е‰ЌйЂІгЃ®г‚їг‚¤гѓ—
-// **************************    е±Ґ    ж­ґ    *******************************
-// 		v1.0		2019.5.01			TKR			ж–°и¦Џ
+//   ‹@”\		ЃF ‘Oђi‚Мѓ^ѓCѓv‚рЋж“ѕ‚·‚й
+//   ’Ќ€У		ЃF MOT_go_FinSpeed‚М‚ЭЋАЌs‰В”\
+//   ѓЃѓ‚		ЃF ‹ж‰жђ”‚Н1.5‹ж‰ж‚И‚З‚МЋw’и‚р‚µ‚Ѕ‚ўЏкЌ‡‚НЃA"1.5"‚рЋw’и‚·‚йЃBЋО‚Я‘–Ќs‚Ж‹¤’КЏ€—ќЃB
+//   €шђ”		ЃF ‹ж‰жђ”ЃAЌЕЏI‘¬“xЃA’јђiѓ^ѓCѓvЃi’КЏнorЋО‚ЯЃj
+//   •Ф‚и’l		ЃF ‘Oђi‚Мѓ^ѓCѓv
+// **************************    —љ    —р    *******************************
+// 		v1.0		2019.5.01			TKR			ђV‹K
 // *************************************************************************/
 PRIVATE enMOT_ST_TYPE MOT_getStType( FLOAT f_num, FLOAT f_fin, enMOT_GO_ST_TYPE en_type )
 {
@@ -1108,172 +1108,172 @@ PRIVATE enMOT_ST_TYPE MOT_getStType( FLOAT f_num, FLOAT f_fin, enMOT_GO_ST_TYPE 
 	FLOAT f_t3;
 	FLOAT f_l1;
 	FLOAT f_l3;
-	FLOAT f_total;							// з§»е‹•и·ќй›ў[mm]
+	FLOAT f_total;							// €Ъ“®‹——Ј[mm]
 		
-	/* 1еЊєз”»гЃ®и·ќй›ў */
-	if( (MOT_GO_ST_NORMAL == en_type) || (MOT_GO_ST_SMOOTH == en_type) ){		// йЂљеёёгЃ®з›ґйЂІ or cosиї‘дјј
+	/* 1‹ж‰ж‚М‹——Ј */
+	if( (MOT_GO_ST_NORMAL == en_type) || (MOT_GO_ST_SMOOTH == en_type) ){		// ’КЏн‚М’јђi or cos‹ЯЋ—
 		f_total	= f_num * BLOCK;
 
 	}
-	else{									// ж–њг‚ЃгЃ®з›ґйЂІ
+	else{									// ЋО‚Я‚М’јђi
 		f_total	= f_num * BLOCK_SKEW;
 	}
 
-	if((MOT_GO_ST_NORMAL == en_type) || (MOT_GO_ST_SKEW == en_type)){			// йЂљеёёгЃ®з›ґйЂІ or ж–њг‚Ѓ
+	if((MOT_GO_ST_NORMAL == en_type) || (MOT_GO_ST_SKEW == en_type)){			// ’КЏн‚М’јђi or ЋО‚Я
 		
 		/* ================ */
-		/*  еЉ йЂџпј‹з­‰йЂџе‹•дЅњ  */
+		/*  ‰Б‘¬Ѓ{“™‘¬“®Ќм  */
 		/* ================ */
 		f_v1Div		= f_fin - f_MotNowSpeed;
-		f_acc1		= MOT_getAcc1();				// еЉ йЂџеє¦1[mm/s^2]
+		f_acc1		= MOT_getAcc1();				// ‰Б‘¬“x1[mm/s^2]
 		f_t1		= f_v1Div / f_acc1;
 
 		f_l1 = ( f_MotNowSpeed + f_fin ) * 0.5f * f_t1;
 
-		/* еЉ йЂџпј‹з­‰йЂџе‹•дЅњ */
+		/* ‰Б‘¬Ѓ{“™‘¬“®Ќм */
 		if( f_total <= ( f_l1 + MOT_MOVE_ST_THRESHOLD ) ){
 
-			/* еЉ йЂџгЃЊжњЂзµ‚йЂџеє¦гЃ«еЇѕгЃ—гЃ¦е®Њдє†гЃ—гЃЄгЃ„ */
+			/* ‰Б‘¬‚ЄЌЕЏI‘¬“x‚Й‘О‚µ‚ДЉ®—№‚µ‚И‚ў */
 			if( f_total < ( f_l1 + MOT_MOVE_ST_MIN ) ){
-	//			printf("гѓ‘г‚їгѓјгѓі4\n\r");
-				return MOT_ACC_CONST_CUSTOM;		// гѓ‘г‚їгѓјгѓі4пј€еј·е€¶зљ„гЃ«еЉ йЂџеє¦г‚’е¤‰ж›ґгЃ™г‚‹пј‰
+	//			printf("ѓpѓ^Ѓ[ѓ“4\n\r");
+				return MOT_ACC_CONST_CUSTOM;		// ѓpѓ^Ѓ[ѓ“4Ѓi‹­ђ§“I‚Й‰Б‘¬“x‚р•ПЌX‚·‚йЃj
 			}
 			else{
-	//			printf("гѓ‘г‚їгѓјгѓі3\n\r");
-				return MOT_ACC_CONST;				// гѓ‘г‚їгѓјгѓі3пј€еЉ йЂџпј‹з­‰йЂџпј‰
+	//			printf("ѓpѓ^Ѓ[ѓ“3\n\r");
+				return MOT_ACC_CONST;				// ѓpѓ^Ѓ[ѓ“3Ѓi‰Б‘¬Ѓ{“™‘¬Ѓj
 			}
 		}
 
 		/* ================ */
-		/*  з­‰йЂџпј‹жё›йЂџе‹•дЅњ  */
+		/*  “™‘¬Ѓ{Њё‘¬“®Ќм  */
 		/* ================ */
 		f_v3Div		= f_fin - f_MotNowSpeed;
-		f_acc3		= MOT_getAcc3();				// еЉ йЂџеє¦3[mm/s^2]
+		f_acc3		= MOT_getAcc3();				// ‰Б‘¬“x3[mm/s^2]
 		f_t3		= f_v3Div / ( f_acc3 * -1 );
 
 		f_l3 = ( f_MotNowSpeed + f_fin ) * 0.5f * f_t3;
 
-		//printf("f_l3пјљ%5.4f \n\r",f_l3);
-		//printf("f_totalпјљ%5.4f \n\r",f_total);
+		//printf("f_l3ЃF%5.4f \n\r",f_l3);
+		//printf("f_totalЃF%5.4f \n\r",f_total);
 		
-		/* з­‰йЂџпј‹жё›йЂџе‹•дЅњ */
+		/* “™‘¬Ѓ{Њё‘¬“®Ќм */
 		if( f_total <= ( f_l3 + MOT_MOVE_ST_THRESHOLD ) ){
 
-			/* жё›йЂџгЃЊжњЂзµ‚йЂџеє¦гЃ«еЇѕгЃ—гЃ¦е®Њдє†гЃ—гЃЄгЃ„ */
+			/* Њё‘¬‚ЄЌЕЏI‘¬“x‚Й‘О‚µ‚ДЉ®—№‚µ‚И‚ў */
 			if( f_total < ( f_l3 + MOT_MOVE_ST_MIN ) ){
-	//			printf("гѓ‘г‚їгѓјгѓі6\n\r");
-				return MOT_CONST_DEC_CUSTOM;		// гѓ‘г‚їгѓјгѓі6пј€еј·е€¶зљ„гЃ«еЉ йЂџеє¦г‚’е¤‰ж›ґгЃ™г‚‹пј‰
+	//			printf("ѓpѓ^Ѓ[ѓ“6\n\r");
+				return MOT_CONST_DEC_CUSTOM;		// ѓpѓ^Ѓ[ѓ“6Ѓi‹­ђ§“I‚Й‰Б‘¬“x‚р•ПЌX‚·‚йЃj
 			}
 			else{
-	//			printf("гѓ‘г‚їгѓјгѓі5\n\r");
-				return MOT_CONST_DEC;				// гѓ‘г‚їгѓјгѓі5пј€з­‰йЂџпј‹жё›йЂџпј‰
+	//			printf("ѓpѓ^Ѓ[ѓ“5\n\r");
+				return MOT_CONST_DEC;				// ѓpѓ^Ѓ[ѓ“5Ѓi“™‘¬Ѓ{Њё‘¬Ѓj
 			}
 		}
 
 		/* ========== */
-		/*  еЏ°еЅўе‹•дЅњ  */
+		/*  ‘дЊ`“®Ќм  */
 		/* ========== */
-		f_v1Div		= f_MotTrgtSpeed - f_MotNowSpeed;					// еЏ°еЅўж™‚гЃ®йЂџеє¦е·®
+		f_v1Div		= f_MotTrgtSpeed - f_MotNowSpeed;					// ‘дЊ`Ћћ‚М‘¬“xЌ·
 		f_t1		= f_v1Div / f_acc1;
 		f_l1		= ( f_MotNowSpeed + f_MotTrgtSpeed ) * 0.5f * f_t1;
 
-		f_v3Div		= f_fin - f_MotTrgtSpeed;							// еЏ°еЅўж™‚гЃ®йЂџеє¦е·®
-		f_acc3		= MOT_getAcc3();									// еЉ йЂџеє¦3[mm/s^2]
-		f_t3		= -1.0f * f_v3Div / f_acc3;							// жё›йЂџж™‚гЃ®ж‰Ђи¦Ѓж™‚й–“
+		f_v3Div		= f_fin - f_MotTrgtSpeed;							// ‘дЊ`Ћћ‚М‘¬“xЌ·
+		f_acc3		= MOT_getAcc3();									// ‰Б‘¬“x3[mm/s^2]
+		f_t3		= -1.0f * f_v3Div / f_acc3;							// Њё‘¬Ћћ‚МЏЉ—vЋћЉФ
 		f_l3		= ( f_MotTrgtSpeed + f_fin ) * 0.5f * f_t3;
 
-		/* йЂљеёёгЃ®еЏ°еЅўе‹•дЅњ */
+		/* ’КЏн‚М‘дЊ`“®Ќм */
 		if( ( f_total - f_l1 - f_l3 - MOT_MOVE_ST_MIN) >= 0 ){
 
 			//printf("%5.4f\n\r",f_total - f_l1 - f_l3 - MOT_MOVE_ST_MIN);	
-	//		printf("гѓ‘г‚їгѓјгѓі1\n\r");
-			return MOT_ACC_CONST_DEC;				// гѓ‘г‚їгѓјгѓі1пј€йЂљеёёпј‰
+	//		printf("ѓpѓ^Ѓ[ѓ“1\n\r");
+			return MOT_ACC_CONST_DEC;				// ѓpѓ^Ѓ[ѓ“1Ѓi’КЏнЃj
 		}
-		/* з­‰йЂџеЂ¤г‚’е¤‰ж›ґгЃ™г‚‹ */
+		/* “™‘¬’l‚р•ПЌX‚·‚й */
 		else{
-	//		printf("гѓ‘г‚їгѓјгѓі2\n\r");
-			return MOT_ACC_CONST_DEC_CUSTOM;		// гѓ‘г‚їгѓјгѓі2пј€з›®жЁ™йЂџеє¦г‚’е¤‰ж›ґпј‰
+	//		printf("ѓpѓ^Ѓ[ѓ“2\n\r");
+			return MOT_ACC_CONST_DEC_CUSTOM;		// ѓpѓ^Ѓ[ѓ“2Ѓi–Ъ•W‘¬“x‚р•ПЌXЃj
 		}
 	
-	}else if( (MOT_GO_ST_SMOOTH == en_type) ){				// cosиї‘дјј
+	}else if( (MOT_GO_ST_SMOOTH == en_type) ){				// cos‹ЯЋ—
 	
 		/* ========================= */
-		/*  еЉ йЂџпј‹з­‰йЂџе‹•дЅњ(cosиї‘дјј)  */
+		/*  ‰Б‘¬Ѓ{“™‘¬“®Ќм(cos‹ЯЋ—)  */
 		/* ========================= */
 		f_v1Div		= f_fin - f_MotNowSpeed;
-		f_acc1		= MOT_getAcc1_Smooth();						// жњЂе¤§еЉ йЂџеє¦1[mm/s^2]
-		f_t1		= ( 3.1416f * f_v1Div) / (2.0f *f_acc1);	// еЉ йЂџж™‚й–“
+		f_acc1		= MOT_getAcc1_Smooth();						// ЌЕ‘е‰Б‘¬“x1[mm/s^2]
+		f_t1		= ( 3.1416f * f_v1Div) / (2.0f *f_acc1);	// ‰Б‘¬ЋћЉФ
 				
 		f_l1 = ( ( f_fin*f_fin - f_MotNowSpeed*f_MotNowSpeed ) * 3.1416f ) / ( 4*f_acc1 );	
 		
 		printf("f_total= %f\n\r",f_total);
 		
-		/* еЉ йЂџпј‹з­‰йЂџе‹•дЅњ */
+		/* ‰Б‘¬Ѓ{“™‘¬“®Ќм */
 		if( f_total <= ( f_l1 + MOT_MOVE_ST_THRESHOLD ) ){
 
-			/* еЉ йЂџгЃЊжњЂзµ‚йЂџеє¦гЃ«еЇѕгЃ—гЃ¦е®Њдє†гЃ—гЃЄгЃ„ */
+			/* ‰Б‘¬‚ЄЌЕЏI‘¬“x‚Й‘О‚µ‚ДЉ®—№‚µ‚И‚ў */
 			if( f_total < ( f_l1 + MOT_MOVE_ST_MIN ) ){
-				printf("гѓ‘г‚їгѓјгѓі10\n\r");
-				return MOT_ACC_CONST_SMOOTH_CUSTOM;		// гѓ‘г‚їгѓјгѓі10пј€еј·е€¶зљ„гЃ«еЉ йЂџеє¦г‚’е¤‰ж›ґгЃ™г‚‹пј‰
+				printf("ѓpѓ^Ѓ[ѓ“10\n\r");
+				return MOT_ACC_CONST_SMOOTH_CUSTOM;		// ѓpѓ^Ѓ[ѓ“10Ѓi‹­ђ§“I‚Й‰Б‘¬“x‚р•ПЌX‚·‚йЃj
 			}
 			else{
-				printf("гѓ‘г‚їгѓјгѓі9\n\r");
-				return MOT_ACC_CONST_SMOOTH;				// гѓ‘г‚їгѓјгѓі9пј€еЉ йЂџпј‹з­‰йЂџпј‰
+				printf("ѓpѓ^Ѓ[ѓ“9\n\r");
+				return MOT_ACC_CONST_SMOOTH;				// ѓpѓ^Ѓ[ѓ“9Ѓi‰Б‘¬Ѓ{“™‘¬Ѓj
 			}
 		}
 
 		/* ======================== */
-		/*  з­‰йЂџпј‹жё›йЂџе‹•дЅњ(cosиї‘дјј) */
+		/*  “™‘¬Ѓ{Њё‘¬“®Ќм(cos‹ЯЋ—) */
 		/* ======================== */
 		f_v3Div		= f_fin - f_MotNowSpeed;
-		f_acc3		= MOT_getAcc3_Smooth();				// жњЂе¤§еЉ йЂџеє¦3[mm/s^2]
+		f_acc3		= MOT_getAcc3_Smooth();				// ЌЕ‘е‰Б‘¬“x3[mm/s^2]
 		f_t3		= ( 3.1416f * f_v3Div) / ( 2*f_acc3 * -1 );
 
 		f_l3 = ( ( f_fin*f_fin - f_MotNowSpeed*f_MotNowSpeed) * 3.1416f) / ( 4*f_acc3*-1 );
 
-		printf("f_l3пјљ%5.4f \n\r",f_l3);
-		printf("f_totalпјљ%5.4f \n\r",f_total);
+		printf("f_l3ЃF%5.4f \n\r",f_l3);
+		printf("f_totalЃF%5.4f \n\r",f_total);
 		
-		/* з­‰йЂџпј‹жё›йЂџе‹•дЅњ */
+		/* “™‘¬Ѓ{Њё‘¬“®Ќм */
 		if( f_total <= ( f_l3 + MOT_MOVE_ST_THRESHOLD ) ){
 
-			/* жё›йЂџгЃЊжњЂзµ‚йЂџеє¦гЃ«еЇѕгЃ—гЃ¦е®Њдє†гЃ—гЃЄгЃ„ */
+			/* Њё‘¬‚ЄЌЕЏI‘¬“x‚Й‘О‚µ‚ДЉ®—№‚µ‚И‚ў */
 			if( f_total < ( f_l3 + MOT_MOVE_ST_MIN ) ){
-				printf("гѓ‘г‚їгѓјгѓі12\n\r");
-				return MOT_CONST_DEC_SMOOTH_CUSTOM;		// гѓ‘г‚їгѓјгѓі12пј€еј·е€¶зљ„гЃ«еЉ йЂџеє¦г‚’е¤‰ж›ґгЃ™г‚‹пј‰
+				printf("ѓpѓ^Ѓ[ѓ“12\n\r");
+				return MOT_CONST_DEC_SMOOTH_CUSTOM;		// ѓpѓ^Ѓ[ѓ“12Ѓi‹­ђ§“I‚Й‰Б‘¬“x‚р•ПЌX‚·‚йЃj
 			}
 			else{
-				printf("гѓ‘г‚їгѓјгѓі11\n\r");
-				return MOT_CONST_DEC_SMOOTH;				// гѓ‘г‚їгѓјгѓі11пј€з­‰йЂџпј‹жё›йЂџпј‰
+				printf("ѓpѓ^Ѓ[ѓ“11\n\r");
+				return MOT_CONST_DEC_SMOOTH;				// ѓpѓ^Ѓ[ѓ“11Ѓi“™‘¬Ѓ{Њё‘¬Ѓj
 			}
 		}
 
 		/* ================== */
-		/*  еЏ°еЅўе‹•дЅњ(cosиї‘дјј) */
+		/*  ‘дЊ`“®Ќм(cos‹ЯЋ—) */
 		/* ================== */
-		f_v1Div		= f_MotTrgtSpeed - f_MotNowSpeed;		// еЏ°еЅўж™‚гЃ®йЂџеє¦е·®
-		f_acc1		= MOT_getAcc1_Smooth();						// жњЂе¤§еЉ йЂџеє¦1[mm/s^2]
-		f_t1		= ( 3.1416f * f_v1Div) / (2 *f_acc1);	// еЉ йЂџж™‚гЃ®ж‰Ђи¦Ѓж™‚й–“
+		f_v1Div		= f_MotTrgtSpeed - f_MotNowSpeed;		// ‘дЊ`Ћћ‚М‘¬“xЌ·
+		f_acc1		= MOT_getAcc1_Smooth();						// ЌЕ‘е‰Б‘¬“x1[mm/s^2]
+		f_t1		= ( 3.1416f * f_v1Div) / (2 *f_acc1);	// ‰Б‘¬Ћћ‚МЏЉ—vЋћЉФ
 
 		f_l1 		= ( ( f_MotTrgtSpeed*f_MotTrgtSpeed  - f_MotNowSpeed*f_MotNowSpeed ) * 3.1416f ) / ( 4*f_acc1 );
 
-		f_v3Div		= f_fin - f_MotTrgtSpeed;							// еЏ°еЅўж™‚гЃ®йЂџеє¦е·®
-		f_acc3		= MOT_getAcc3_Smooth();									// еЉ йЂџеє¦3[mm/s^2]
-		f_t3		= ( 3.1416f * f_v3Div) / ( 2*f_acc3 * -1 );			// жё›йЂџж™‚гЃ®ж‰Ђи¦Ѓж™‚й–“
+		f_v3Div		= f_fin - f_MotTrgtSpeed;							// ‘дЊ`Ћћ‚М‘¬“xЌ·
+		f_acc3		= MOT_getAcc3_Smooth();									// ‰Б‘¬“x3[mm/s^2]
+		f_t3		= ( 3.1416f * f_v3Div) / ( 2*f_acc3 * -1 );			// Њё‘¬Ћћ‚МЏЉ—vЋћЉФ
 		
 		f_l3 		= ( ( f_fin*f_fin - f_MotTrgtSpeed*f_MotTrgtSpeed) * 3.1416f) / ( 4*f_acc3*-1 );
 
-		/* йЂљеёёгЃ®еЏ°еЅўе‹•дЅњ */
+		/* ’КЏн‚М‘дЊ`“®Ќм */
 		if( ( f_total - f_l1 - f_l3 - MOT_MOVE_ST_MIN) >= 0 ){
 
 			//printf("%5.4f\n\r",f_total - f_l1 - f_l3 - MOT_MOVE_ST_MIN);	
-			printf("гѓ‘г‚їгѓјгѓі7\n\r");
-			return MOT_ACC_CONST_DEC_SMOOTH;				// гѓ‘г‚їгѓјгѓі1пј€йЂљеёёпј‰
+			printf("ѓpѓ^Ѓ[ѓ“7\n\r");
+			return MOT_ACC_CONST_DEC_SMOOTH;				// ѓpѓ^Ѓ[ѓ“1Ѓi’КЏнЃj
 		}
-		/* з­‰йЂџеЂ¤г‚’е¤‰ж›ґгЃ™г‚‹ */
+		/* “™‘¬’l‚р•ПЌX‚·‚й */
 		else{
-			printf("гѓ‘г‚їгѓјгѓі8\n\r");
-			return MOT_ACC_CONST_DEC_SMOOTH_CUSTOM;		// гѓ‘г‚їгѓјгѓі2пј€з›®жЁ™йЂџеє¦г‚’е¤‰ж›ґпј‰
+			printf("ѓpѓ^Ѓ[ѓ“8\n\r");
+			return MOT_ACC_CONST_DEC_SMOOTH_CUSTOM;		// ѓpѓ^Ѓ[ѓ“2Ѓi–Ъ•W‘¬“x‚р•ПЌXЃj
 		}
 	
 	}
@@ -1281,81 +1281,81 @@ PRIVATE enMOT_ST_TYPE MOT_getStType( FLOAT f_num, FLOAT f_fin, enMOT_GO_ST_TYPE 
 }
 
 // *************************************************************************
-//   ж©џиѓЅ		пјљ еЊєз”»е‰ЌйЂІ
-//   жіЁж„Џ		пјљ гЃЄгЃ—
-//   гѓЎгѓў		пјљ еЊєз”»ж•°гЃЇ1.5еЊєз”»гЃЄгЃ©гЃ®жЊ‡е®љг‚’гЃ—гЃџгЃ„е ґеђ€гЃЇгЂЃ"1.5"г‚’жЊ‡е®љгЃ™г‚‹гЂ‚
-//   еј•ж•°		пјљ еЊєз”»ж•°гЂЃжњЂзµ‚йЂџеє¦гЂЃз›ґйЂІг‚їг‚¤гѓ—пј€йЂљеёёorж–њг‚Ѓпј‰
-//   иї”г‚ЉеЂ¤		пјљ гЃЄгЃ—
-// **************************    е±Ґ    ж­ґ    *******************************
-// 		v1.0		2019.5.1			TKR			ж–°и¦Џ
+//   ‹@”\		ЃF ‹ж‰ж‘Oђi
+//   ’Ќ€У		ЃF ‚И‚µ
+//   ѓЃѓ‚		ЃF ‹ж‰жђ”‚Н1.5‹ж‰ж‚И‚З‚МЋw’и‚р‚µ‚Ѕ‚ўЏкЌ‡‚НЃA"1.5"‚рЋw’и‚·‚йЃB
+//   €шђ”		ЃF ‹ж‰жђ”ЃAЌЕЏI‘¬“xЃA’јђiѓ^ѓCѓvЃi’КЏнorЋО‚ЯЃj
+//   •Ф‚и’l		ЃF ‚И‚µ
+// **************************    —љ    —р    *******************************
+// 		v1.0		2019.5.1			TKR			ђV‹K
 // *************************************************************************/
 PRIVATE void MOT_go_FinSpeed( FLOAT f_num, FLOAT f_fin, enMOT_GO_ST_TYPE en_goStType )
 {
-	enMOT_ST_TYPE 		en_type 		= MOT_getStType( f_num, f_fin, en_goStType );			// е‹•дЅњгѓ‘г‚їгѓјгѓіеЏ–еѕ—
+	enMOT_ST_TYPE 		en_type 		= MOT_getStType( f_num, f_fin, en_goStType );			// “®Ќмѓpѓ^Ѓ[ѓ“Ћж“ѕ
 	
 
-	/* з§»е‹•и·ќй›ўгЃЁжЊ‡е®љеЂ¤гЃ«еїњгЃгЃ§е‹•дЅњг‚’е¤‰гЃ€г‚‹ */
+	/* €Ъ“®‹——Ј‚ЖЋw’и’l‚Й‰ћ‚¶‚Е“®Ќм‚р•П‚¦‚й */
 	switch( en_type ){
 	
-		case MOT_ACC_CONST_DEC:			// [01] еЏ°еЅўеЉ йЂџ
-			MOT_setData_ACC_CONST_DEC( f_num, f_fin, en_goStType );					// е‹•дЅњгѓ‡гѓјг‚їдЅњж€ђ
-			MOT_goBlock_AccConstDec( f_fin, en_type, en_goStType );					// е‹•дЅњ
+		case MOT_ACC_CONST_DEC:			// [01] ‘дЊ`‰Б‘¬
+			MOT_setData_ACC_CONST_DEC( f_num, f_fin, en_goStType );					// “®ЌмѓfЃ[ѓ^Ќмђ¬
+			MOT_goBlock_AccConstDec( f_fin, en_type, en_goStType );					// “®Ќм
 			break;
 	
-		case MOT_ACC_CONST_DEC_CUSTOM:	// [02] еЏ°еЅўеЉ йЂџпј€з­‰йЂџпј‰
-			MOT_setData_MOT_ACC_CONST_DEC_CUSTOM( f_num, f_fin, en_goStType );		// е‹•дЅњгѓ‡гѓјг‚їдЅњж€ђ
-			MOT_goBlock_AccConstDec( f_fin, en_type, en_goStType );					// е‹•дЅњ
+		case MOT_ACC_CONST_DEC_CUSTOM:	// [02] ‘дЊ`‰Б‘¬Ѓi“™‘¬Ѓj
+			MOT_setData_MOT_ACC_CONST_DEC_CUSTOM( f_num, f_fin, en_goStType );		// “®ЌмѓfЃ[ѓ^Ќмђ¬
+			MOT_goBlock_AccConstDec( f_fin, en_type, en_goStType );					// “®Ќм
 			break;
 	
-		case MOT_ACC_CONST:				// [03] еЉ йЂџпј‹з­‰йЂџ
-			MOT_setData_MOT_ACC_CONST( f_num, f_fin, en_goStType );					// е‹•дЅњгѓ‡гѓјг‚їдЅњж€ђ
-			MOT_goBlock_AccConstDec( f_fin, en_type, en_goStType );					// е‹•дЅњ
+		case MOT_ACC_CONST:				// [03] ‰Б‘¬Ѓ{“™‘¬
+			MOT_setData_MOT_ACC_CONST( f_num, f_fin, en_goStType );					// “®ЌмѓfЃ[ѓ^Ќмђ¬
+			MOT_goBlock_AccConstDec( f_fin, en_type, en_goStType );					// “®Ќм
 			break;
 	
-		case MOT_ACC_CONST_CUSTOM:		// [04] еЉ йЂџпј‹з­‰йЂџпј€з­‰йЂџпј‰
-			MOT_setData_MOT_ACC_CONST_CUSTOM( f_num, f_fin, en_goStType );			// е‹•дЅњгѓ‡гѓјг‚їдЅњж€ђ
-			MOT_goBlock_AccConstDec( f_fin, en_type, MOT_GO_ST_NORMAL );			// е‹•дЅњ
+		case MOT_ACC_CONST_CUSTOM:		// [04] ‰Б‘¬Ѓ{“™‘¬Ѓi“™‘¬Ѓj
+			MOT_setData_MOT_ACC_CONST_CUSTOM( f_num, f_fin, en_goStType );			// “®ЌмѓfЃ[ѓ^Ќмђ¬
+			MOT_goBlock_AccConstDec( f_fin, en_type, MOT_GO_ST_NORMAL );			// “®Ќм
 			break;
 
-		case MOT_CONST_DEC:				// [05] з­‰йЂџпј‹жё›йЂџ
-			MOT_setData_MOT_CONST_DEC( f_num, f_fin, en_goStType );					// е‹•дЅњгѓ‡гѓјг‚їдЅњж€ђ
-			MOT_goBlock_AccConstDec( f_fin, en_type, en_goStType );					// е‹•дЅњ
+		case MOT_CONST_DEC:				// [05] “™‘¬Ѓ{Њё‘¬
+			MOT_setData_MOT_CONST_DEC( f_num, f_fin, en_goStType );					// “®ЌмѓfЃ[ѓ^Ќмђ¬
+			MOT_goBlock_AccConstDec( f_fin, en_type, en_goStType );					// “®Ќм
 			break;
 	
-		case MOT_CONST_DEC_CUSTOM:		// [06] з­‰йЂџпј‹жё›йЂџпј€жё›йЂџеЂ¤е¤‰ж›ґпј‰
-			MOT_setData_MOT_CONST_DEC_CUSTOM( f_num, f_fin, en_goStType );			// е‹•дЅњгѓ‡гѓјг‚їдЅњж€ђ
-			MOT_goBlock_AccConstDec( f_fin, en_type, en_goStType );					// е‹•дЅњ
+		case MOT_CONST_DEC_CUSTOM:		// [06] “™‘¬Ѓ{Њё‘¬ЃiЊё‘¬’l•ПЌXЃj
+			MOT_setData_MOT_CONST_DEC_CUSTOM( f_num, f_fin, en_goStType );			// “®ЌмѓfЃ[ѓ^Ќмђ¬
+			MOT_goBlock_AccConstDec( f_fin, en_type, en_goStType );					// “®Ќм
 			break;
 			
-		/* cosиї‘дјј */
-		case MOT_ACC_CONST_DEC_SMOOTH:			// [07] еЏ°еЅўеЉ йЂџ
-			MOT_setData_ACC_CONST_DEC_SMOOTH( f_num, f_fin, en_goStType );					// е‹•дЅњгѓ‡гѓјг‚їдЅњж€ђ
-			MOT_goBlock_AccConstDec( f_fin, en_type, en_goStType );					// е‹•дЅњ
+		/* cos‹ЯЋ— */
+		case MOT_ACC_CONST_DEC_SMOOTH:			// [07] ‘дЊ`‰Б‘¬
+			MOT_setData_ACC_CONST_DEC_SMOOTH( f_num, f_fin, en_goStType );					// “®ЌмѓfЃ[ѓ^Ќмђ¬
+			MOT_goBlock_AccConstDec( f_fin, en_type, en_goStType );					// “®Ќм
 			break;
 	
-		case MOT_ACC_CONST_DEC_SMOOTH_CUSTOM:	// [08] еЏ°еЅўеЉ йЂџпј€з­‰йЂџпј‰
-			MOT_setData_MOT_ACC_CONST_DEC_SMOOTH_CUSTOM( f_num, f_fin, en_goStType );		// е‹•дЅњгѓ‡гѓјг‚їдЅњж€ђ
-			MOT_goBlock_AccConstDec( f_fin, en_type, en_goStType );					// е‹•дЅњ
+		case MOT_ACC_CONST_DEC_SMOOTH_CUSTOM:	// [08] ‘дЊ`‰Б‘¬Ѓi“™‘¬Ѓj
+			MOT_setData_MOT_ACC_CONST_DEC_SMOOTH_CUSTOM( f_num, f_fin, en_goStType );		// “®ЌмѓfЃ[ѓ^Ќмђ¬
+			MOT_goBlock_AccConstDec( f_fin, en_type, en_goStType );					// “®Ќм
 			break;
 	
-		case MOT_ACC_CONST_SMOOTH:				// [09] еЉ йЂџпј‹з­‰йЂџ
-			MOT_setData_MOT_ACC_CONST_SMOOTH( f_num, f_fin, en_goStType );					// е‹•дЅњгѓ‡гѓјг‚їдЅњж€ђ
-			MOT_goBlock_AccConstDec( f_fin, en_type, en_goStType );					// е‹•дЅњ
+		case MOT_ACC_CONST_SMOOTH:				// [09] ‰Б‘¬Ѓ{“™‘¬
+			MOT_setData_MOT_ACC_CONST_SMOOTH( f_num, f_fin, en_goStType );					// “®ЌмѓfЃ[ѓ^Ќмђ¬
+			MOT_goBlock_AccConstDec( f_fin, en_type, en_goStType );					// “®Ќм
 			break;
 	
-		case MOT_ACC_CONST_SMOOTH_CUSTOM:		// [10] еЉ йЂџпј‹з­‰йЂџпј€з­‰йЂџпј‰
-			MOT_setData_MOT_ACC_CONST_SMOOTH_CUSTOM( f_num, f_fin, en_goStType );			// е‹•дЅњгѓ‡гѓјг‚їдЅњж€ђ
-			MOT_goBlock_AccConstDec( f_fin, en_type, en_goStType );					// е‹•дЅњ
+		case MOT_ACC_CONST_SMOOTH_CUSTOM:		// [10] ‰Б‘¬Ѓ{“™‘¬Ѓi“™‘¬Ѓj
+			MOT_setData_MOT_ACC_CONST_SMOOTH_CUSTOM( f_num, f_fin, en_goStType );			// “®ЌмѓfЃ[ѓ^Ќмђ¬
+			MOT_goBlock_AccConstDec( f_fin, en_type, en_goStType );					// “®Ќм
 			break;
 
-		case MOT_CONST_DEC_SMOOTH:				// [11] з­‰йЂџпј‹жё›йЂџ
-			MOT_setData_MOT_CONST_DEC_SMOOTH( f_num, f_fin, en_goStType );					// е‹•дЅњгѓ‡гѓјг‚їдЅњж€ђ
-			MOT_goBlock_AccConstDec( f_fin, en_type, en_goStType );					// е‹•дЅњ
+		case MOT_CONST_DEC_SMOOTH:				// [11] “™‘¬Ѓ{Њё‘¬
+			MOT_setData_MOT_CONST_DEC_SMOOTH( f_num, f_fin, en_goStType );					// “®ЌмѓfЃ[ѓ^Ќмђ¬
+			MOT_goBlock_AccConstDec( f_fin, en_type, en_goStType );					// “®Ќм
 			break;
 	
-		case MOT_CONST_DEC_SMOOTH_CUSTOM:		// [12] з­‰йЂџпј‹жё›йЂџпј€жё›йЂџеЂ¤е¤‰ж›ґпј‰
-			MOT_setData_MOT_CONST_DEC_SMOOTH_CUSTOM( f_num, f_fin, en_goStType );			// е‹•дЅњгѓ‡гѓјг‚їдЅњж€ђ
-			MOT_goBlock_AccConstDec( f_fin, en_type, en_goStType );					// е‹•дЅњ
+		case MOT_CONST_DEC_SMOOTH_CUSTOM:		// [12] “™‘¬Ѓ{Њё‘¬ЃiЊё‘¬’l•ПЌXЃj
+			MOT_setData_MOT_CONST_DEC_SMOOTH_CUSTOM( f_num, f_fin, en_goStType );			// “®ЌмѓfЃ[ѓ^Ќмђ¬
+			MOT_goBlock_AccConstDec( f_fin, en_type, en_goStType );					// “®Ќм
 			break;
 	
 		default:
@@ -1365,80 +1365,80 @@ PRIVATE void MOT_go_FinSpeed( FLOAT f_num, FLOAT f_fin, enMOT_GO_ST_TYPE en_goSt
 }
 
 // *************************************************************************
-//   ж©џиѓЅ		пјљ еЊєз”»е‰ЌйЂІпј€йЂљеёёпј‰
-//   жіЁж„Џ		пјљ гЃЄгЃ—
-//   гѓЎгѓў		пјљ еЊєз”»ж•°гЃЇ1.5еЊєз”»гЃЄгЃ©гЃ®жЊ‡е®љг‚’гЃ—гЃџгЃ„е ґеђ€гЃЇгЂЃ"1.5"г‚’жЊ‡е®љгЃ™г‚‹гЂ‚в†
-//   еј•ж•°		пјљ еЊєз”»ж•°гЂЃжњЂзµ‚йЂџеє¦
-//   иї”г‚ЉеЂ¤		пјљ гЃЄгЃ—
-// **************************    е±Ґ    ж­ґ    *******************************
-// 		v1.0		2019.5.1			TKR			ж–°и¦Џ
+//   ‹@”\		ЃF ‹ж‰ж‘OђiЃi’КЏнЃj
+//   ’Ќ€У		ЃF ‚И‚µ
+//   ѓЃѓ‚		ЃF ‹ж‰жђ”‚Н1.5‹ж‰ж‚И‚З‚МЋw’и‚р‚µ‚Ѕ‚ўЏкЌ‡‚НЃA"1.5"‚рЋw’и‚·‚йЃBЃ™
+//   €шђ”		ЃF ‹ж‰жђ”ЃAЌЕЏI‘¬“x
+//   •Ф‚и’l		ЃF ‚И‚µ
+// **************************    —љ    —р    *******************************
+// 		v1.0		2019.5.1			TKR			ђV‹K
 // *************************************************************************/
 PUBLIC void MOT_goBlock_FinSpeed( FLOAT f_num, FLOAT f_fin )
 {	
-	MOT_go_FinSpeed( f_num, f_fin, MOT_GO_ST_NORMAL );		// йЂљеёёгЃ®з›ґйЂІ	
+	MOT_go_FinSpeed( f_num, f_fin, MOT_GO_ST_NORMAL );		// ’КЏн‚М’јђi	
 }
 	
 // *************************************************************************
-//   ж©џиѓЅ		пјљ еЊєз”»е‰ЌйЂІпј€cosиї‘дјјпј‰
-//   жіЁж„Џ		пјљ гЃЄгЃ—
-//   гѓЎгѓў		пјљ еЊєз”»ж•°гЃЇ1.5еЊєз”»гЃЄгЃ©гЃ®жЊ‡е®љг‚’гЃ—гЃџгЃ„е ґеђ€гЃЇгЂЃ"1.5"г‚’жЊ‡е®љгЃ™г‚‹гЂ‚в†
-//   еј•ж•°		пјљ еЊєз”»ж•°гЂЃжњЂзµ‚йЂџеє¦
-//   иї”г‚ЉеЂ¤		пјљ гЃЄгЃ—
-// **************************    е±Ґ    ж­ґ    *******************************
-// 		v1.0		2018.5.1			TKR			ж–°и¦Џ
+//   ‹@”\		ЃF ‹ж‰ж‘OђiЃicos‹ЯЋ—Ѓj
+//   ’Ќ€У		ЃF ‚И‚µ
+//   ѓЃѓ‚		ЃF ‹ж‰жђ”‚Н1.5‹ж‰ж‚И‚З‚МЋw’и‚р‚µ‚Ѕ‚ўЏкЌ‡‚НЃA"1.5"‚рЋw’и‚·‚йЃBЃ™
+//   €шђ”		ЃF ‹ж‰жђ”ЃAЌЕЏI‘¬“x
+//   •Ф‚и’l		ЃF ‚И‚µ
+// **************************    —љ    —р    *******************************
+// 		v1.0		2018.5.1			TKR			ђV‹K
 // *************************************************************************/
 PUBLIC void MOT_goBlock_FinSpeed_Smooth( FLOAT f_num, FLOAT f_fin){
 	
-	MOT_go_FinSpeed( f_num, f_fin, MOT_GO_ST_SMOOTH );		// cosиї‘дјјеЉ йЂџ
+	MOT_go_FinSpeed( f_num, f_fin, MOT_GO_ST_SMOOTH );		// cos‹ЯЋ—‰Б‘¬
 	 
 }
 
 // *************************************************************************
-//   ж©џиѓЅ		пјљ еЊєз”»е‰ЌйЂІпј€ж–њг‚Ѓиµ°иЎЊпј‰
-//   жіЁж„Џ		пјљ гЃЄгЃ—
-//   гѓЎгѓў		пјљ еЊєз”»ж•°гЃЇ1.5еЊєз”»гЃЄгЃ©гЃ®жЊ‡е®љг‚’гЃ—гЃџгЃ„е ґеђ€гЃЇгЂЃ"1.5"г‚’жЊ‡е®љгЃ™г‚‹гЂ‚в†
-//   еј•ж•°		пјљ еЊєз”»ж•°гЂЃжњЂзµ‚йЂџеє¦
-//   иї”г‚ЉеЂ¤		пјљ гЃЄгЃ—
-// **************************    е±Ґ    ж­ґ    *******************************
-// 		v1.0		2018.11.24			TKR			ж–°и¦Џ
+//   ‹@”\		ЃF ‹ж‰ж‘OђiЃiЋО‚Я‘–ЌsЃj
+//   ’Ќ€У		ЃF ‚И‚µ
+//   ѓЃѓ‚		ЃF ‹ж‰жђ”‚Н1.5‹ж‰ж‚И‚З‚МЋw’и‚р‚µ‚Ѕ‚ўЏкЌ‡‚НЃA"1.5"‚рЋw’и‚·‚йЃBЃ™
+//   €шђ”		ЃF ‹ж‰жђ”ЃAЌЕЏI‘¬“x
+//   •Ф‚и’l		ЃF ‚И‚µ
+// **************************    —љ    —р    *******************************
+// 		v1.0		2018.11.24			TKR			ђV‹K
 // *************************************************************************/
 PUBLIC void MOT_goSkewBlock_FinSpeed( FLOAT f_num, FLOAT f_fin){
 	
-	MOT_go_FinSpeed( f_num, f_fin, MOT_GO_ST_SKEW );		// cosиї‘дјјеЉ йЂџ
+	MOT_go_FinSpeed( f_num, f_fin, MOT_GO_ST_SKEW );		// cos‹ЯЋ—‰Б‘¬
 	 
 }
 
 // *************************************************************************
-//   ж©џиѓЅ		пјљ и¶…дїЎењ°ж—‹е›ћ
-//   жіЁж„Џ		пјљ гЃЄгЃ—
-//   гѓЎгѓў		пјљ гЃЄгЃ—
-//   еј•ж•°		пјљ гЃЄгЃ—
-//   иї”г‚ЉеЂ¤		пјљ гЃЄгЃ—
-// **************************    е±Ґ    ж­ґ    *******************************
-// 		v1.0		2019.5.1			TKR			ж–°и¦Џ
+//   ‹@”\		ЃF ’ґђM’nђщ‰с
+//   ’Ќ€У		ЃF ‚И‚µ
+//   ѓЃѓ‚		ЃF ‚И‚µ
+//   €шђ”		ЃF ‚И‚µ
+//   •Ф‚и’l		ЃF ‚И‚µ
+// **************************    —љ    —р    *******************************
+// 		v1.0		2019.5.1			TKR			ђV‹K
 // *************************************************************************/
 PUBLIC void MOT_turn( enMOT_TURN_CMD en_type){
-	volatile stMOT_DATA	st_info;			//г‚·гѓјг‚±гѓіг‚№гѓ‡гѓјг‚ї
-	stCTRL_DATA		st_data;				//е€¶еѕЎгѓ‡гѓјг‚ї
-	FLOAT			f_angle2	=A2_MIN;	//жњЂдЅЋз¬¬2з§»е‹•и§’еє¦[deg]
+	volatile stMOT_DATA	st_info;			//ѓVЃ[ѓPѓ“ѓXѓfЃ[ѓ^
+	stCTRL_DATA		st_data;				//ђ§ЊдѓfЃ[ѓ^
+	FLOAT			f_angle2	=A2_MIN;	//ЌЕ’б‘ж2€Ъ“®Љp“x[deg]
 	FLOAT			f_angle3;
-	FLOAT			us_trgtAngleS;			//з›®жЁ™и§’йЂџеє¦[deg/s]
+	FLOAT			us_trgtAngleS;			//–Ъ•WЉp‘¬“x[deg/s]
 
 	us_trgtAngleS = 300;	
 	
 	/* -------------- */
-	/* е‹•дЅњгѓ‡гѓјг‚їиЁ€з®— */
+	/* “®ЌмѓfЃ[ѓ^ЊvЋZ */
 	/* -------------- */
-	/*гЂЂи§’еЉ йЂџеє¦гЂЂ*/
+	/*Ѓ@Љp‰Б‘¬“xЃ@*/
 	st_info.f_accAngleS1 = MOT_getAccAngle1();		
 	st_info.f_accAngleS3 = MOT_getAccAngle3();		
 	
-	/* и§’йЂџеє¦*/
+	/* Љp‘¬“x*/
 	st_info.f_nowAngleS = 0;
 	st_info.f_trgtAngleS = (FLOAT)us_trgtAngleS;
 	st_info.f_lastAngleS = 0;
 	
-	/* и§’еє¦ */
+	/* Љp“x */
 	switch(en_type){	
 		case MOT_R90:	
 			st_info.f_angle =  -90 + ANGLE_OFFSET_R90;
@@ -1465,16 +1465,16 @@ PUBLIC void MOT_turn( enMOT_TURN_CMD en_type){
 		break;
 	}
 	
-	f_angle3 = (st_info.f_trgtAngleS - st_info.f_lastAngleS) / 2 * (st_info.f_trgtAngleS - st_info.f_lastAngleS) / st_info.f_accAngleS3;	//з¬¬3з§»е‹•и§’еє¦
+	f_angle3 = (st_info.f_trgtAngleS - st_info.f_lastAngleS) / 2 * (st_info.f_trgtAngleS - st_info.f_lastAngleS) / st_info.f_accAngleS3;	//‘ж3€Ъ“®Љp“x
 	
-	if((en_type == MOT_R90) || (en_type == MOT_R180) || (en_type == MOT_R360)){								//-ж–№еђ‘
-		st_info.f_trgtAngleS 		*= -1;												//е›ћи»ўж–№еђ‘г‚’йЂ†гЃ«гЃ™г‚‹
-		f_angle2			*= -1;												//е›ћи»ўж–№еђ‘г‚’йЂ†гЃ«гЃ™г‚‹
-		f_angle3			*= -1;												//е›ћи»ўж–№еђ‘г‚’йЂ†гЃ«гЃ™г‚‹
-		st_info.f_angle1		= st_info.f_angle - f_angle3 - f_angle2;							//з¬¬1з§»е‹•и§’еє¦[deg]
-		st_info.f_angle1_2		= st_info.f_angle - f_angle3;									//з¬¬1+2з§»е‹•и§’еє¦[deg]
+	if((en_type == MOT_R90) || (en_type == MOT_R180) || (en_type == MOT_R360)){								//-•ыЊь
+		st_info.f_trgtAngleS 		*= -1;												//‰с“]•ыЊь‚р‹t‚Й‚·‚й
+		f_angle2			*= -1;												//‰с“]•ыЊь‚р‹t‚Й‚·‚й
+		f_angle3			*= -1;												//‰с“]•ыЊь‚р‹t‚Й‚·‚й
+		st_info.f_angle1		= st_info.f_angle - f_angle3 - f_angle2;							//‘ж1€Ъ“®Љp“x[deg]
+		st_info.f_angle1_2		= st_info.f_angle - f_angle3;									//‘ж1+2€Ъ“®Љp“x[deg]
 		
-		/* жњЂе°Џз§»е‹•и·ќй›ўг‚’дёЉж›ёгЃЌ */
+		/* ЌЕЏ¬€Ъ“®‹——Ј‚рЏгЏ‘‚« */
 		if( st_info.f_angle1 > (A1_MIN * -1)){
 			st_info.f_angle1 = A1_MIN * -1;
 		}
@@ -1482,212 +1482,212 @@ PUBLIC void MOT_turn( enMOT_TURN_CMD en_type){
 	}else{
 		st_info.f_angle1	= st_info.f_angle - f_angle3 - f_angle2;
 		st_info.f_angle1_2	= st_info.f_angle - f_angle3;
-		printf("з¬¬1з§»е‹•и§’еє¦пјљ%5.4f \n\r",f_angle3);
-		/* жњЂе°Џз§»е‹•и·ќй›ўг‚’дёЉж›ёгЃЌ */
+		printf("‘ж1€Ъ“®Љp“xЃF%5.4f \n\r",f_angle3);
+		/* ЌЕЏ¬€Ъ“®‹——Ј‚рЏгЏ‘‚« */
 		if( st_info.f_angle < A1_MIN ){
 			st_info.f_angle1 = A1_MIN;
 		}
 		
 	}
 	
-	//GYRO_staErrChkAngle();			//г‚Ёгѓ©гѓјж¤ње‡єй–‹е§‹(гЃѕгЃ )
+	//GYRO_staErrChkAngle();			//ѓGѓ‰Ѓ[ЊџЏoЉJЋn(‚Ь‚ѕ)
 	
 	
 	/* ================ */
-	/*гЂЂгЂЂ е®џе‹•дЅњ гЂЂгЂЂгЂЂ*/
+	/*Ѓ@Ѓ@ ЋА“®Ќм Ѓ@Ѓ@Ѓ@*/
 	/* ================ */
 	/* -----*/
-	/* еЉ йЂџ */
+	/* ‰Б‘¬ */
 	/* -----*/
 	st_data.en_type			= CTRL_ACC_TURN;
-	st_data.f_acc			= 0;						//еЉ йЂџеє¦жЊ‡е®љ
-	st_data.f_trgt			= 0;						// з›®жЁ™йЂџеє¦
-	st_data.f_nowDist		= 0;						// йЂІг‚“гЃ§гЃ„гЃЄгЃ„
-	st_data.f_dist			= 0;						// еЉ йЂџи·ќй›ў
-	st_data.f_accAngleS		= st_info.f_accAngleS1;				// и§’еЉ йЂџеє¦
-	st_data.f_nowAngleS		= 0;						// зЏѕењЁи§’йЂџеє¦
-	st_data.f_trgtAngleS	= st_info.f_trgtAngleS;				// з›®жЁ™и§’йЂџеє¦
-	st_data.f_nowAngle		= 0;						// зЏѕењЁи§’еє¦
-	st_data.f_angle			= st_info.f_angle1;				// з›®жЁ™и§’еє¦
-	st_data.f_time 			= 0;						// з›®жЁ™ж™‚й–“ [sec] в†ђ жЊ‡е®љгЃ—гЃЄгЃ„
+	st_data.f_acc			= 0;						//‰Б‘¬“xЋw’и
+	st_data.f_trgt			= 0;						// –Ъ•W‘¬“x
+	st_data.f_nowDist		= 0;						// ђi‚с‚Е‚ў‚И‚ў
+	st_data.f_dist			= 0;						// ‰Б‘¬‹——Ј
+	st_data.f_accAngleS		= st_info.f_accAngleS1;				// Љp‰Б‘¬“x
+	st_data.f_nowAngleS		= 0;						// Њ»ЌЭЉp‘¬“x
+	st_data.f_trgtAngleS	= st_info.f_trgtAngleS;				// –Ъ•WЉp‘¬“x
+	st_data.f_nowAngle		= 0;						// Њ»ЌЭЉp“x
+	st_data.f_angle			= st_info.f_angle1;				// –Ъ•WЉp“x
+	st_data.f_time 			= 0;						// –Ъ•WЋћЉФ [sec] Ѓ© Ћw’и‚µ‚И‚ў
 	
-	CTRL_clrData();									// гѓћг‚¦г‚№гЃ®зЏѕењЁдЅЌзЅ®/и§’еє¦г‚’г‚ЇгѓЄг‚ў
-	CTRL_setData( &st_data );							// гѓ‡гѓјг‚їг‚»гѓѓгѓ€
-	DCM_staMotAll();								// гѓўгѓјг‚їON	
-	//printf("з¬¬1+2з§»е‹•и§’еє¦пјљ%5.4f \n\r",st_info.f_angle1_2);
-	if(( en_type == MOT_R90 ) || ( en_type == MOT_R180 ) || ( en_type == MOT_R360 )){		//-ж–№еђ‘
-		while( f_NowAngle > st_info.f_angle1 ){				//жЊ‡е®љи§’еє¦е€°йЃ”еѕ…гЃЎ(еЏіе›ћи»ў)
+	CTRL_clrData();									// ѓ}ѓEѓX‚МЊ»ЌЭ€К’u/Љp“x‚рѓNѓЉѓA
+	CTRL_setData( &st_data );							// ѓfЃ[ѓ^ѓZѓbѓg
+	DCM_staMotAll();								// ѓ‚Ѓ[ѓ^ON	
+	//printf("‘ж1+2€Ъ“®Љp“xЃF%5.4f \n\r",st_info.f_angle1_2);
+	if(( en_type == MOT_R90 ) || ( en_type == MOT_R180 ) || ( en_type == MOT_R360 )){		//-•ыЊь
+		while( f_NowAngle > st_info.f_angle1 ){				//Ћw’иЉp“x“ћ’B‘Т‚ї(‰E‰с“])
 
 			
-			/*и„±е‡є*/
+			/*’EЏo*/
 			if(SW_ON == SW_INC_PIN){
-				CTRL_stop();				// е€¶еѕЎеЃњж­ў
+				CTRL_stop();				// ђ§Њд’вЋ~
 				break;
 			}
 			
-			//if( SYS_isOUTOfCtrl() == true ) break;		//йЂ”дё­гЃ§е€¶еѕЎдёЌиѓЅгЃ«гЃЄгЃЈгЃџ
+			//if( SYS_isOUTOfCtrl() == true ) break;		//“r’†‚Еђ§Њд•s”\‚Й‚И‚Б‚Ѕ
 		}
 	}else{
-		while( f_NowAngle < st_info.f_angle1){				//жЊ‡е®љи§’еє¦е€°йЃ”еѕ…гЃЎ(е·¦е›ћи»ў)
+		while( f_NowAngle < st_info.f_angle1){				//Ћw’иЉp“x“ћ’B‘Т‚ї(Ќ¶‰с“])
 		
-			/*и„±е‡є*/
+			/*’EЏo*/
 			if(SW_ON == SW_INC_PIN){
-				CTRL_stop();				// е€¶еѕЎеЃњж­ў
+				CTRL_stop();				// ђ§Њд’вЋ~
 				break;
 			}
-			//if( SYS_isOutOfCtrl() == true ) break;		//йЂ”дё­гЃ§е€¶еѕЎдёЌиѓЅгЃ«гЃЄгЃЈгЃџ
+			//if( SYS_isOutOfCtrl() == true ) break;		//“r’†‚Еђ§Њд•s”\‚Й‚И‚Б‚Ѕ
 		}
 	}
 	
-	//printf("еЉ йЂџе®Њдє†(*Вґв–ЅпЅЂ*)\n\r");
+	//printf("‰Б‘¬Љ®—№(*ЃLЃ¤ЃM*)\n\r");
 	//LED_SYS = 0;
 	/* ---- */
-	/* з­‰йЂџ */
+	/* “™‘¬ */
 	/* ---- */
 	if(( en_type == MOT_R90 ) || ( en_type == MOT_R180 ) || ( en_type == MOT_R360 )){
-		f_angle3		= ( f_TrgtAngleS - st_info.f_lastAngleS ) / 2 * ( f_TrgtAngleS - st_info.f_lastAngleS) / st_info.f_accAngleS3;		//з¬¬3з§»е‹•и§’еє¦
-		if( f_angle3 > A3_MIN*-1 ) f_angle3 = A3_MIN*-1;			//жё›йЂџжњЂдЅЋи§’еє¦гЃ«ж›ёгЃЌжЏ›гЃ€
-		st_info.f_angle1_2	= st_info.f_angle - f_angle3;		//з¬¬1+2з§»е‹•и§’еє¦[rad]
+		f_angle3		= ( f_TrgtAngleS - st_info.f_lastAngleS ) / 2 * ( f_TrgtAngleS - st_info.f_lastAngleS) / st_info.f_accAngleS3;		//‘ж3€Ъ“®Љp“x
+		if( f_angle3 > A3_MIN*-1 ) f_angle3 = A3_MIN*-1;			//Њё‘¬ЌЕ’бЉp“x‚ЙЏ‘‚«Љ·‚¦
+		st_info.f_angle1_2	= st_info.f_angle - f_angle3;		//‘ж1+2€Ъ“®Љp“x[rad]
 	}else{
-		f_angle3		= ( f_TrgtAngleS - st_info.f_lastAngleS ) / 2 * ( f_TrgtAngleS - st_info.f_lastAngleS ) / st_info.f_accAngleS3;		// з¬¬3з§»е‹•и§’еє¦
-		if( f_angle3 < A3_MIN ) f_angle3 = A3_MIN;			//жё›йЂџжњЂдЅЋи§’еє¦гЃ«ж›ёгЃЌжЏ›гЃ€											
-		st_info.f_angle1_2	= st_info.f_angle - f_angle3;		//з¬¬1+2з§»е‹•и§’еє¦[rad]												
+		f_angle3		= ( f_TrgtAngleS - st_info.f_lastAngleS ) / 2 * ( f_TrgtAngleS - st_info.f_lastAngleS ) / st_info.f_accAngleS3;		// ‘ж3€Ъ“®Љp“x
+		if( f_angle3 < A3_MIN ) f_angle3 = A3_MIN;			//Њё‘¬ЌЕ’бЉp“x‚ЙЏ‘‚«Љ·‚¦											
+		st_info.f_angle1_2	= st_info.f_angle - f_angle3;		//‘ж1+2€Ъ“®Љp“x[rad]												
 	}
-	//printf("з¬¬1+2з§»е‹•и§’еє¦пјљ%5.4f \n\r",st_info.f_angle1_2);
+	//printf("‘ж1+2€Ъ“®Љp“xЃF%5.4f \n\r",st_info.f_angle1_2);
 	st_data.en_type			= CTRL_CONST_TURN;
-	st_data.f_acc			= 0;			//еЉ йЂџеє¦жЊ‡е®љ
-	st_data.f_now			= 0;			//зЏѕењЁйЂџеє¦
-	st_data.f_trgt			= 0;			//з›®жЁ™йЂџеє¦
-	st_data.f_nowDist		= 0;			//йЂІг‚“гЃ§гЃ„гЃЄгЃ„
-	st_data.f_dist			= 0;			//з­‰йЂџе®Њдє†дЅЌзЅ®
-	st_data.f_accAngleS		= 0;			//и§’еЉ йЂџеє¦
-	st_data.f_nowAngleS		= f_TrgtAngleS;		//зЏѕењЁи§’йЂџеє¦
-	st_data.f_trgtAngleS		= f_TrgtAngleS;		//з›®жЁ™и§’йЂџеє¦
-	st_data.f_nowAngle		= st_info.f_angle1;	//зЏѕењЁи§’еє¦
-	st_data.f_angle			= st_info.f_angle1_2;	//з›®жЁ™и§’еє¦
-	st_data.f_time			= 0;			//з›®жЁ™ж™‚й–“[sec]в†ђжЊ‡е®љгЃ—гЃЄгЃ„
+	st_data.f_acc			= 0;			//‰Б‘¬“xЋw’и
+	st_data.f_now			= 0;			//Њ»ЌЭ‘¬“x
+	st_data.f_trgt			= 0;			//–Ъ•W‘¬“x
+	st_data.f_nowDist		= 0;			//ђi‚с‚Е‚ў‚И‚ў
+	st_data.f_dist			= 0;			//“™‘¬Љ®—№€К’u
+	st_data.f_accAngleS		= 0;			//Љp‰Б‘¬“x
+	st_data.f_nowAngleS		= f_TrgtAngleS;		//Њ»ЌЭЉp‘¬“x
+	st_data.f_trgtAngleS		= f_TrgtAngleS;		//–Ъ•WЉp‘¬“x
+	st_data.f_nowAngle		= st_info.f_angle1;	//Њ»ЌЭЉp“x
+	st_data.f_angle			= st_info.f_angle1_2;	//–Ъ•WЉp“x
+	st_data.f_time			= 0;			//–Ъ•WЋћЉФ[sec]Ѓ©Ћw’и‚µ‚И‚ў
 	
-	CTRL_setData( &st_data );				//гѓ‡гѓјг‚їг‚»гѓѓгѓ€
+	CTRL_setData( &st_data );				//ѓfЃ[ѓ^ѓZѓbѓg
 	
-	if(( en_type == MOT_R90 ) || ( en_type == MOT_R180 ) || ( en_type == MOT_R360 )){		//-ж–№еђ‘
-		while( f_NowAngle > st_info.f_angle1_2 ){		//жЊ‡е®љи§’еє¦е€°йЃ”еѕ…гЃЎ(е·¦е›ћи»ў)
+	if(( en_type == MOT_R90 ) || ( en_type == MOT_R180 ) || ( en_type == MOT_R360 )){		//-•ыЊь
+		while( f_NowAngle > st_info.f_angle1_2 ){		//Ћw’иЉp“x“ћ’B‘Т‚ї(Ќ¶‰с“])
 			
-			/*и„±е‡є*/
+			/*’EЏo*/
 			if(SW_ON == SW_INC_PIN){
-				CTRL_stop();				// е€¶еѕЎеЃњж­ў
+				CTRL_stop();				// ђ§Њд’вЋ~
 				break;
 			}
 		
-			//if( SYS_isOUTOfCtrl() == true ) break;		//йЂ”дё­гЃ§е€¶еѕЎдёЌиѓЅгЃ«гЃЄгЃЈгЃџ
+			//if( SYS_isOUTOfCtrl() == true ) break;		//“r’†‚Еђ§Њд•s”\‚Й‚И‚Б‚Ѕ
 		}
 	}else{
-		while( f_NowAngle < st_info.f_angle1_2){		//жЊ‡е®љи§’еє¦е€°йЃ”еѕ…гЃЎ(еЏіе›ћи»ў)
-			/*и„±е‡є*/
+		while( f_NowAngle < st_info.f_angle1_2){		//Ћw’иЉp“x“ћ’B‘Т‚ї(‰E‰с“])
+			/*’EЏo*/
 			if(SW_ON == SW_INC_PIN){
-				CTRL_stop();				// е€¶еѕЎеЃњж­ў
+				CTRL_stop();				// ђ§Њд’вЋ~
 				break;
 			}
-			//if( SYS_isOutOfCtrl() == true ) break;		//йЂ”дё­гЃ§е€¶еѕЎдёЌиѓЅгЃ«гЃЄгЃЈгЃџ
+			//if( SYS_isOutOfCtrl() == true ) break;		//“r’†‚Еђ§Њд•s”\‚Й‚И‚Б‚Ѕ
 		}
 	}
 	
-	printf("з›®жЁ™и§’еє¦пјљ%5.4f \n\r",st_info.f_angle);
-	printf("з¬¬3з§»е‹•и§’еє¦пјљ%5.4f \n\r",f_angle3);
-	printf("з¬¬1з§»е‹•и§’еє¦пјљ%5.4f \n\r",st_info.f_angle1);
-	printf("з¬¬1+2з§»е‹•и§’еє¦пјљ%5.4f \n\r",st_info.f_angle1_2);
+	printf("–Ъ•WЉp“xЃF%5.4f \n\r",st_info.f_angle);
+	printf("‘ж3€Ъ“®Љp“xЃF%5.4f \n\r",f_angle3);
+	printf("‘ж1€Ъ“®Љp“xЃF%5.4f \n\r",st_info.f_angle1);
+	printf("‘ж1+2€Ъ“®Љp“xЃF%5.4f \n\r",st_info.f_angle1_2);
 
 	/* ---- */
-	/* жё›йЂџ */
+	/* Њё‘¬ */
 	/* ---- */
 	st_data.en_type			= CTRL_DEC_TURN;
-	st_data.f_acc			= 0;			//еЉ йЂџеє¦жЊ‡е®љ
-	st_data.f_now			= 0;			//зЏѕењЁйЂџеє¦
-	st_data.f_trgt			= 0;			//жњЂзµ‚йЂџеє¦
-	st_data.f_nowDist		= 0;			//з­‰йЂџе®Њдє†дЅЌзЅ®
-	st_data.f_dist			= 0;			//е…Ёз§»е‹•е®Њдє†дЅЌзЅ®
-	st_data.f_accAngleS		= st_info.f_accAngleS3;	//и§’еЉ йЂџеє¦
-	st_data.f_nowAngleS		= f_TrgtAngleS;		//зЏѕењЁи§’йЂџеє¦
-	st_data.f_trgtAngleS		= 0;			//з›®жЁ™и§’йЂџеє¦
-	st_data.f_nowAngle		= st_info.f_angle1_2;	//зЏѕењЁи§’еє¦
-	st_data.f_angle			= st_info.f_angle;	//з›®жЁ™и§’еє¦
-	st_data.f_time			= 0;			//з›®жЁ™ж™‚й–“[sec]в†ђжЊ‡е®љгЃ—гЃЄгЃ„
+	st_data.f_acc			= 0;			//‰Б‘¬“xЋw’и
+	st_data.f_now			= 0;			//Њ»ЌЭ‘¬“x
+	st_data.f_trgt			= 0;			//ЌЕЏI‘¬“x
+	st_data.f_nowDist		= 0;			//“™‘¬Љ®—№€К’u
+	st_data.f_dist			= 0;			//‘S€Ъ“®Љ®—№€К’u
+	st_data.f_accAngleS		= st_info.f_accAngleS3;	//Љp‰Б‘¬“x
+	st_data.f_nowAngleS		= f_TrgtAngleS;		//Њ»ЌЭЉp‘¬“x
+	st_data.f_trgtAngleS		= 0;			//–Ъ•WЉp‘¬“x
+	st_data.f_nowAngle		= st_info.f_angle1_2;	//Њ»ЌЭЉp“x
+	st_data.f_angle			= st_info.f_angle;	//–Ъ•WЉp“x
+	st_data.f_time			= 0;			//–Ъ•WЋћЉФ[sec]Ѓ©Ћw’и‚µ‚И‚ў
 	
-	CTRL_setData( &st_data );				// гѓ‡гѓјг‚їг‚»гѓѓгѓ€
+	CTRL_setData( &st_data );				// ѓfЃ[ѓ^ѓZѓbѓg
 	
-	if(( en_type == MOT_R90 ) || ( en_type == MOT_R180 ) || ( en_type == MOT_R360 )){	//-ж–№еђ‘
-		while( f_NowAngle > ( st_info.f_angle + 1)){		//жЊ‡е®љи§’еє¦е€°йЃ”еѕ…гЃЎ(еЏіе›ћи»ў)
+	if(( en_type == MOT_R90 ) || ( en_type == MOT_R180 ) || ( en_type == MOT_R360 )){	//-•ыЊь
+		while( f_NowAngle > ( st_info.f_angle + 1)){		//Ћw’иЉp“x“ћ’B‘Т‚ї(‰E‰с“])
 			
-			/*и„±е‡є*/
+			/*’EЏo*/
 			if(SW_ON == SW_INC_PIN){
-				CTRL_stop();				// е€¶еѕЎеЃњж­ў
+				CTRL_stop();				// ђ§Њд’вЋ~
 				break;
 			}
 		
-			//if( SYS_isOutOfCtrl() == true ) break;		//йЂ”дё­гЃ§е€¶еѕЎдёЌиѓЅгЃ«гЃЄгЃЈгЃџ
+			//if( SYS_isOutOfCtrl() == true ) break;		//“r’†‚Еђ§Њд•s”\‚Й‚И‚Б‚Ѕ
 		}
 	}else{
-		while( f_NowAngle < (st_info.f_angle - 1)){		//жЊ‡е®љи§’еє¦е€°йЃ”еѕ…гЃЎ(е·¦е›ћи»ў)
+		while( f_NowAngle < (st_info.f_angle - 1)){		//Ћw’иЉp“x“ћ’B‘Т‚ї(Ќ¶‰с“])
 		
-			/*и„±е‡є*/
+			/*’EЏo*/
 			if(SW_ON == SW_INC_PIN){
-				CTRL_stop();				// е€¶еѕЎеЃњж­ў
+				CTRL_stop();				// ђ§Њд’вЋ~
 				break;
 			}
-			//if( SYS_isOutOfCtrl() == true ) break;		//йЂ”дё­гЃ§е€¶еѕЎдёЌиѓЅгЃ«гЃЄгЃЈгЃџ
+			//if( SYS_isOutOfCtrl() == true ) break;		//“r’†‚Еђ§Њд•s”\‚Й‚И‚Б‚Ѕ
 		}
 	
 	}
 	//LED8=0xff;
-	//printf("ж—‹е›ће®Њдє†");
-	/* еЃњж­ў */
-	TIME_wait(200);		//е®‰е®љеѕ…гЃЎ
-	CTRL_stop();		// е€¶еѕЎеЃњж­ў	
+	//printf("ђщ‰сЉ®—№");
+	/* ’вЋ~ */
+	TIME_wait(200);		//€А’и‘Т‚ї
+	CTRL_stop();		// ђ§Њд’вЋ~	
 	
 }
 
 // *************************************************************************
-//   ж©џиѓЅ		пјљ з­‰йЂџеЊєз”»гЂЂе‰ЌйЂІ
-//   жіЁж„Џ		пјљ гЃЄгЃ—
-//   гѓЎгѓў		пјљ гЃЄгЃ—
-//   еј•ж•°		пјљ еЊєз”»ж•°
-//   иї”г‚ЉеЂ¤		пјљ гЃЄгЃ—
-// **************************    е±Ґ    ж­ґ    *******************************
-// 		v1.0		2019.5.1			еђ‰з”°			ж–°и¦Џ
+//   ‹@”\		ЃF “™‘¬‹ж‰жЃ@‘Oђi
+//   ’Ќ€У		ЃF ‚И‚µ
+//   ѓЃѓ‚		ЃF ‚И‚µ
+//   €шђ”		ЃF ‹ж‰жђ”
+//   •Ф‚и’l		ЃF ‚И‚µ
+// **************************    —љ    —р    *******************************
+// 		v1.0		2019.5.1			‹g“c			ђV‹K
 // *************************************************************************/
 PUBLIC void MOT_goBlock_Const( FLOAT f_num){
-	volatile stMOT_DATA	st_info;			//г‚·гѓјг‚±гѓіг‚№гѓ‡гѓјг‚ї
-	stCTRL_DATA		st_data;			//е€¶еѕЎгѓ‡гѓјг‚ї
+	volatile stMOT_DATA	st_info;			//ѓVЃ[ѓPѓ“ѓXѓfЃ[ѓ^
+	stCTRL_DATA		st_data;			//ђ§ЊдѓfЃ[ѓ^
 	
 	
 	/*----------------*/
-	/* е‹•дЅњгѓ‡гѓјг‚їиЁ€з®— */
+	/* “®ЌмѓfЃ[ѓ^ЊvЋZ */
 	/*----------------*/
-	/* и·ќй›ў */
+	/* ‹——Ј */
 	st_info.f_dist	= f_num * BLOCK * CONST_RATIO;
 	
 	/*------*/
-	/* з­‰йЂџ */
+	/* “™‘¬ */
 	/*------*/
 	st_data.en_type		= CTRL_CONST;
-	st_data.f_acc		= 0;			//еЉ йЂџеє¦жЊ‡е®љ
-	st_data.f_now		= f_MotNowSpeed;	//зЏѕењЁйЂџеє¦
-	st_data.f_trgt		= f_MotNowSpeed;	//з›®жЁ™йЂџеє¦
-	st_data.f_nowDist	= 0;			//зЏѕењЁдЅЌзЅ®
-	st_data.f_dist		= st_info.f_dist;	//з­‰йЂџе®Њдє†дЅЌзЅ®
-	st_data.f_accAngleS	= 0;			//и§’еЉ йЂџеє¦
-	st_data.f_nowAngleS	= 0;			//зЏѕењЁи§’йЂџеє¦
-	st_data.f_trgtAngleS	= 0;			//з›®жЁ™и§’еє¦
-	st_data.f_nowAngle	= 0;			//зЏѕењЁи§’еє¦
-	st_data.f_angle		= 0;			//з›®жЁ™и§’еє¦
-	st_data.f_time		= 0;			//з›®жЁ™ж™‚й–“ [sec] в†ђжЊ‡е®љгЃ—гЃЄгЃ„
+	st_data.f_acc		= 0;			//‰Б‘¬“xЋw’и
+	st_data.f_now		= f_MotNowSpeed;	//Њ»ЌЭ‘¬“x
+	st_data.f_trgt		= f_MotNowSpeed;	//–Ъ•W‘¬“x
+	st_data.f_nowDist	= 0;			//Њ»ЌЭ€К’u
+	st_data.f_dist		= st_info.f_dist;	//“™‘¬Љ®—№€К’u
+	st_data.f_accAngleS	= 0;			//Љp‰Б‘¬“x
+	st_data.f_nowAngleS	= 0;			//Њ»ЌЭЉp‘¬“x
+	st_data.f_trgtAngleS	= 0;			//–Ъ•WЉp“x
+	st_data.f_nowAngle	= 0;			//Њ»ЌЭЉp“x
+	st_data.f_angle		= 0;			//–Ъ•WЉp“x
+	st_data.f_time		= 0;			//–Ъ•WЋћЉФ [sec] Ѓ©Ћw’и‚µ‚И‚ў
 	
-	CTRL_clrData();					//иЁ­е®љгѓ‡гѓјг‚їг‚’г‚ЇгѓЄг‚ў
-	CTRL_setData( &st_data );			//гѓ‡гѓјг‚їг‚»гѓѓгѓ€
-	f_TrgtSpeed		= f_MotNowSpeed;	//з›®жЁ™йЂџеє¦
-	printf("---------з­‰йЂџеЊєй–“---------\n\r");
-	printf("з­‰йЂџи·ќй›ўпјљ%5.4f \n\r",st_info.f_dist);
+	CTRL_clrData();					//ђЭ’иѓfЃ[ѓ^‚рѓNѓЉѓA
+	CTRL_setData( &st_data );			//ѓfЃ[ѓ^ѓZѓbѓg
+	f_TrgtSpeed		= f_MotNowSpeed;	//–Ъ•W‘¬“x
+	printf("---------“™‘¬‹жЉФ---------\n\r");
+	printf("“™‘¬‹——ЈЃF%5.4f \n\r",st_info.f_dist);
 
-	while( f_NowDist < st_info.f_dist  ){		//жЊ‡е®љи·ќй›ўе€°йЃ”еѕ…гЃЎ
+	while( f_NowDist < st_info.f_dist  ){		//Ћw’и‹——Ј“ћ’B‘Т‚ї
 		//LED8=0xff;
 	}
 	//LED8=0x00;
@@ -1695,107 +1695,107 @@ PUBLIC void MOT_goBlock_Const( FLOAT f_num){
 }
 
 // *************************************************************************
-//   ж©џиѓЅ		пјљ еЈЃгЃ‚гЃ¦е€¶еѕЎ
-//   жіЁж„Џ		пјљ гЃЄгЃ—
-//   гѓЎгѓў		пјљ гЃЄгЃ—
-//   еј•ж•°		пјљ гЃЄгЃ—
-//   иї”г‚ЉеЂ¤		пјљ гЃЄгЃ—
-// **************************    е±Ґ    ж­ґ    *******************************
-// 		v1.0		2019.5.1			TKR			ж–°и¦Џ
+//   ‹@”\		ЃF •З‚ ‚Дђ§Њд
+//   ’Ќ€У		ЃF ‚И‚µ
+//   ѓЃѓ‚		ЃF ‚И‚µ
+//   €шђ”		ЃF ‚И‚µ
+//   •Ф‚и’l		ЃF ‚И‚µ
+// **************************    —љ    —р    *******************************
+// 		v1.0		2019.5.1			TKR			ђV‹K
 // *************************************************************************/
 PUBLIC void MOT_goHitBackWall(void){
 	
-	volatile stMOT_DATA	st_info;			//г‚·гѓјг‚±гѓіг‚№гѓ‡гѓјг‚ї
-	stCTRL_DATA		st_data;			//е€¶еѕЎгѓ‡гѓјг‚ї
+	volatile stMOT_DATA	st_info;			//ѓVЃ[ѓPѓ“ѓXѓfЃ[ѓ^
+	stCTRL_DATA		st_data;			//ђ§ЊдѓfЃ[ѓ^
 	
 	/*----------------*/
-	/* е‹•дЅњгѓ‡гѓјг‚їиЁ€з®— */
+	/* “®ЌмѓfЃ[ѓ^ЊvЋZ */
 	/*----------------*/
 	st_info.f_acc1	= 700;
 	
 	/*--------*/
-	/* гѓђгѓѓг‚Ї */
+	/* ѓoѓbѓN */
 	/*--------*/
 	st_data.en_type			= CTRL_HIT_WALL;
-	st_data.f_acc			= st_info.f_acc1 * 1.0;		// еЉ йЂџеє¦жЊ‡е®љ
-	st_data.f_now			= 0;				// зЏѕењЁйЂџеє¦
-	st_data.f_trgt			= 0;				// з›®жЁ™йЂџеє¦
-	st_data.f_nowDist		= 0;				// йЂІг‚“гЃ§гЃ„гЃЄгЃ„
-	st_data.f_dist			= 0;				// еЉ йЂџи·ќй›ў
-	st_data.f_accAngleS		= 0;				// и§’еЉ йЂџеє¦
-	st_data.f_nowAngleS		= 0;				// зЏѕењЁи§’йЂџеє¦
-	st_data.f_trgtAngleS	= 0;					// з›®жЁ™и§’еє¦
-	st_data.f_nowAngle		= 0;				// зЏѕењЁи§’еє¦
-	st_data.f_angle			= 0;				// з›®жЁ™и§’еє¦
-	st_data.f_time 			= 0;				// з›®жЁ™ж™‚й–“ [sec] в†ђ жЊ‡е®љгЃ—гЃЄгЃ„
+	st_data.f_acc			= st_info.f_acc1 * 1.0;		// ‰Б‘¬“xЋw’и
+	st_data.f_now			= 0;				// Њ»ЌЭ‘¬“x
+	st_data.f_trgt			= 0;				// –Ъ•W‘¬“x
+	st_data.f_nowDist		= 0;				// ђi‚с‚Е‚ў‚И‚ў
+	st_data.f_dist			= 0;				// ‰Б‘¬‹——Ј
+	st_data.f_accAngleS		= 0;				// Љp‰Б‘¬“x
+	st_data.f_nowAngleS		= 0;				// Њ»ЌЭЉp‘¬“x
+	st_data.f_trgtAngleS	= 0;					// –Ъ•WЉp“x
+	st_data.f_nowAngle		= 0;				// Њ»ЌЭЉp“x
+	st_data.f_angle			= 0;				// –Ъ•WЉp“x
+	st_data.f_time 			= 0;				// –Ъ•WЋћЉФ [sec] Ѓ© Ћw’и‚µ‚И‚ў
 	
-	CTRL_clrData();							// гѓћг‚¦г‚№гЃ®зЏѕењЁдЅЌзЅ®/и§’еє¦г‚’г‚ЇгѓЄг‚ў
-	CTRL_setData( &st_data );					// гѓ‡гѓјг‚їг‚»гѓѓгѓ€
-	DCM_staMotAll();						// гѓўгѓјг‚їON
+	CTRL_clrData();							// ѓ}ѓEѓX‚МЊ»ЌЭ€К’u/Љp“x‚рѓNѓЉѓA
+	CTRL_setData( &st_data );					// ѓfЃ[ѓ^ѓZѓbѓg
+	DCM_staMotAll();						// ѓ‚Ѓ[ѓ^ON
 	
 	TIME_wait(400);
 	
-	/* еЃњж­ў */
+	/* ’вЋ~ */
 	
-	CTRL_stop();		// е€¶еѕЎеЃњж­ў
-	DCM_brakeMot( DCM_R );	// гѓ–гѓ¬гѓјг‚­
-	DCM_brakeMot( DCM_L );	// гѓ–гѓ¬гѓјг‚­
+	CTRL_stop();		// ђ§Њд’вЋ~
+	DCM_brakeMot( DCM_R );	// ѓuѓЊЃ[ѓL
+	DCM_brakeMot( DCM_L );	// ѓuѓЊЃ[ѓL
 	TIME_wait(300);
 	
-	f_MotNowSpeed = 0.0f;		//зЏѕењЁйЂџеє¦ж›ґж–°
+	f_MotNowSpeed = 0.0f;		//Њ»ЌЭ‘¬“xЌXђV
 	
 }
 
 // *************************************************************************
-//   ж©џиѓЅ		пјљ г‚№гѓ©гѓ­гѓјгѓ 
-//   жіЁж„Џ		пјљ гЃЄгЃ—
-//   гѓЎгѓў		пјљ гЃЄгЃ—
-//   еј•ж•°		пјљ г‚№гѓ©гѓ­гѓјгѓ г‚ігѓћгѓігѓ‰пјЊг‚№гѓ©гѓ­гѓјгѓ гѓ‡гѓјг‚ї
-//   иї”г‚ЉеЂ¤		пјљ гЃЄгЃ—
-// **************************    е±Ґ    ж­ґ    *******************************
-// 		v1.0		2019.5.1			TKR			ж–°и¦Џ
+//   ‹@”\		ЃF ѓXѓ‰ѓЌЃ[ѓЂ
+//   ’Ќ€У		ЃF ‚И‚µ
+//   ѓЃѓ‚		ЃF ‚И‚µ
+//   €шђ”		ЃF ѓXѓ‰ѓЌЃ[ѓЂѓRѓ}ѓ“ѓhЃCѓXѓ‰ѓЌЃ[ѓЂѓfЃ[ѓ^
+//   •Ф‚и’l		ЃF ‚И‚µ
+// **************************    —љ    —р    *******************************
+// 		v1.0		2019.5.1			TKR			ђV‹K
 // *************************************************************************/
 PUBLIC void MOT_goSla( enMOT_SULA_CMD en_type, stSLA *p_sla){
 	
-	volatile stMOT_DATA	st_info;			//г‚·гѓјг‚±гѓіг‚№гѓ‡гѓјг‚ї
-	stCTRL_DATA		st_data;			//е€¶еѕЎгѓ‡гѓјг‚ї
+	volatile stMOT_DATA	st_info;			//ѓVЃ[ѓPѓ“ѓXѓfЃ[ѓ^
+	stCTRL_DATA		st_data;			//ђ§ЊдѓfЃ[ѓ^
 	
 	FLOAT			f_entryLen;			
 	FLOAT			f_escapeLen;
 		
 	/* -------------- */
-	/* е‹•дЅњгѓ‡гѓјг‚їиЁ€з®— */
+	/* “®ЌмѓfЃ[ѓ^ЊvЋZ */
 	/* -------------- */
-	/* еЉ йЂџеє¦ */
-	st_info.f_acc1 		= 0;					//еЉ йЂџеє¦1[m/s^2]
-	st_info.f_acc3		= 0;					//еЉ йЂџеє¦3[m/s^2]
+	/* ‰Б‘¬“x */
+	st_info.f_acc1 		= 0;					//‰Б‘¬“x1[m/s^2]
+	st_info.f_acc3		= 0;					//‰Б‘¬“x3[m/s^2]
 	
-	/* йЂџеє¦ */
-	st_info.f_now		= p_sla -> f_speed;			//зЏѕењЁйЂџеє¦
-	st_info.f_trgt		= p_sla -> f_speed;			//з›®жЁ™йЂџеє¦
-	st_info.f_last		= p_sla -> f_speed;			//жњЂзµ‚йЂџеє¦
+	/* ‘¬“x */
+	st_info.f_now		= p_sla -> f_speed;			//Њ»ЌЭ‘¬“x
+	st_info.f_trgt		= p_sla -> f_speed;			//–Ъ•W‘¬“x
+	st_info.f_last		= p_sla -> f_speed;			//ЌЕЏI‘¬“x
 	
-	/* и·ќй›ў */
+	/* ‹——Ј */
 	st_info.f_dist		= 0;
 	st_info.f_l1		= 0;
 	st_info.f_l1_2		= 0;
 	
-	/* и§’еЉ йЂџеє¦ */
+	/* Љp‰Б‘¬“x */
 	st_info.f_accAngleS1	= p_sla -> f_angAcc;
 	st_info.f_accAngleS3	= p_sla -> f_angAcc;
 	
-	/* и§’йЂџеє¦ */
+	/* Љp‘¬“x */
 	st_info.f_nowAngleS 	= 0;
 	st_info.f_trgtAngleS 	= p_sla -> f_angvel;
 	st_info.f_lastAngleS	= 0;
 	
-	/* и§’еє¦ */
-	st_info.f_angle		= p_sla -> f_ang_Total;			//ж—‹е›ћи§’еє¦[deg]
-	st_info.f_angle1	= p_sla -> f_ang_AccEnd;		//з¬¬1з§»е‹•и§’еє¦[deg]
-	st_info.f_angle1_2	= p_sla -> f_ang_ConstEnd;		//з¬¬1+2з§»е‹•и§’еє¦[deg]
+	/* Љp“x */
+	st_info.f_angle		= p_sla -> f_ang_Total;			//ђщ‰сЉp“x[deg]
+	st_info.f_angle1	= p_sla -> f_ang_AccEnd;		//‘ж1€Ъ“®Љp“x[deg]
+	st_info.f_angle1_2	= p_sla -> f_ang_ConstEnd;		//‘ж1+2€Ъ“®Љp“x[deg]
 
 
-	/* ж–№еђ‘гЃ«еїњгЃгЃ¦з¬¦еЏ·г‚’е¤‰ж›ґ */
+	/* •ыЊь‚Й‰ћ‚¶‚Д•„Ќ†‚р•ПЌX */
 	if( ( en_type == MOT_R90S ) //||
 	    //( en_type == MOT_R45S_S2N ) || ( en_type == MOT_R45S_N2S )|| 
 	    //( en_type == MOT_R90S_N) ) ||
@@ -1812,64 +1812,64 @@ PUBLIC void MOT_goSla( enMOT_SULA_CMD en_type, stSLA *p_sla){
 	}
 	
 	
-	/* ж–њг‚ЃгЃ®г‚їг‚¤гѓ—гЃ«еїњгЃгЃ¦гЂЃг‚№гѓ©гѓ­гѓјгѓ е‰ЌгЃ®и·ќй›ўгЃЁг‚№гѓ©гѓ­гѓјгѓ еѕЊгЃ®йЂЂйЃїи·ќй›ўг‚’е…Ґг‚Њж›їгЃ€г‚‹ */
+	/* ЋО‚Я‚Мѓ^ѓCѓv‚Й‰ћ‚¶‚ДЃAѓXѓ‰ѓЌЃ[ѓЂ‘O‚М‹——Ј‚ЖѓXѓ‰ѓЌЃ[ѓЂЊг‚М‘Ю”р‹——Ј‚р“ь‚к‘Ц‚¦‚й */
 	/*
-	if( ( en_type == MOT_R45S_N2S ) || ( en_type == MOT_L45S_N2S ) || ( en_type == MOT_R135S_N2S ) || ( en_type == MOT_L135S_N2S ) ){	//йЂ†гЃ«гЃ™г‚‹г‚‚гЃ®
+	if( ( en_type == MOT_R45S_N2S ) || ( en_type == MOT_L45S_N2S ) || ( en_type == MOT_R135S_N2S ) || ( en_type == MOT_L135S_N2S ) ){	//‹t‚Й‚·‚й‚а‚М
 		f_entryLen	= p_sla -> f_escapeLen;
 		f_escapeLen	= p_sla -> f_entryLen;
 	}
-	else{	//йЂљеёё
+	else{	//’КЏн
 	*/
 		f_entryLen	= p_sla -> f_entryLen;
 		f_escapeLen	= p_sla -> f_escapeLen;
 	//}
 	
 	/* ========== */
-	/* гЂЂе®џе‹•дЅњгЂЂ */
+	/* Ѓ@ЋА“®ЌмЃ@ */
 	/* ========== */
 	/* ---------------------- */
-	/* г‚№гѓ©гѓ­гѓјгѓ е‰ЌгЃ®е‰ЌйЂІе‹•дЅњ */
+	/* ѓXѓ‰ѓЌЃ[ѓЂ‘O‚М‘Oђi“®Ќм */
 	/* ---------------------- */
 	st_data.en_type			= CTRL_ENTRY_SLA;
-	st_data.f_acc			= 0;				// еЉ йЂџеє¦жЊ‡е®љ
-	st_data.f_now			= st_info.f_now;	// зЏѕењЁйЂџеє¦
-	st_data.f_trgt			= st_info.f_now;	// з›®жЁ™йЂџеє¦
-	st_data.f_nowDist		= 0;				// йЂІг‚“гЃ§гЃ„гЃЄгЃ„
-	st_data.f_dist			= f_entryLen;		// г‚№гѓ©гѓ­гѓјгѓ е‰ЌгЃ®е‰ЌйЂІи·ќй›ў
-	st_data.f_accAngleS		= 0;				// и§’еЉ йЂџеє¦
-	st_data.f_nowAngleS		= 0;				// зЏѕењЁи§’йЂџеє¦
-	st_data.f_trgtAngleS	= 0;				// з›®жЁ™и§’еє¦
-	st_data.f_nowAngle		= 0;				// зЏѕењЁи§’еє¦
-	st_data.f_angle			= 0;				// з›®жЁ™и§’еє¦
-	st_data.f_time 			= 0;				// з›®жЁ™ж™‚й–“ [sec] в†ђ жЊ‡е®љгЃ—гЃЄгЃ„
+	st_data.f_acc			= 0;				// ‰Б‘¬“xЋw’и
+	st_data.f_now			= st_info.f_now;	// Њ»ЌЭ‘¬“x
+	st_data.f_trgt			= st_info.f_now;	// –Ъ•W‘¬“x
+	st_data.f_nowDist		= 0;				// ђi‚с‚Е‚ў‚И‚ў
+	st_data.f_dist			= f_entryLen;		// ѓXѓ‰ѓЌЃ[ѓЂ‘O‚М‘Oђi‹——Ј
+	st_data.f_accAngleS		= 0;				// Љp‰Б‘¬“x
+	st_data.f_nowAngleS		= 0;				// Њ»ЌЭЉp‘¬“x
+	st_data.f_trgtAngleS	= 0;				// –Ъ•WЉp“x
+	st_data.f_nowAngle		= 0;				// Њ»ЌЭЉp“x
+	st_data.f_angle			= 0;				// –Ъ•WЉp“x
+	st_data.f_time 			= 0;				// –Ъ•WЋћЉФ [sec] Ѓ© Ћw’и‚µ‚И‚ў
 	
-	CTRL_clrData();					// гѓћг‚¦г‚№гЃ®зЏѕењЁдЅЌзЅ®/и§’еє¦г‚’г‚ЇгѓЄг‚ў
-	CTRL_setData( &st_data );			// гѓ‡гѓјг‚їг‚»гѓѓгѓ€
-	DCM_staMotAll();				// гѓўгѓјг‚їON
+	CTRL_clrData();					// ѓ}ѓEѓX‚МЊ»ЌЭ€К’u/Љp“x‚рѓNѓЉѓA
+	CTRL_setData( &st_data );			// ѓfЃ[ѓ^ѓZѓbѓg
+	DCM_staMotAll();				// ѓ‚Ѓ[ѓ^ON
 
-	while( f_NowDist < f_entryLen ){				// жЊ‡е®љи·ќй›ўе€°йЃ”еѕ…гЃЎ
+	while( f_NowDist < f_entryLen ){				// Ћw’и‹——Ј“ћ’B‘Т‚ї
 	}
 	
 	
 	/* -------- */
-	/* гЂЂеЉ йЂџгЂЂ */
+	/* Ѓ@‰Б‘¬Ѓ@ */
 	/* -------- */
 	st_data.en_type			= CTRL_ACC_SLA;	
-	st_data.f_acc			= 0;						// еЉ йЂџеє¦жЊ‡е®љ
-	st_data.f_now			= st_info.f_now;			// зЏѕењЁйЂџеє¦
-	st_data.f_trgt			= st_info.f_now;			// з›®жЁ™йЂџеє¦
+	st_data.f_acc			= 0;						// ‰Б‘¬“xЋw’и
+	st_data.f_now			= st_info.f_now;			// Њ»ЌЭ‘¬“x
+	st_data.f_trgt			= st_info.f_now;			// –Ъ•W‘¬“x
 	st_data.f_nowDist		= f_entryLen;	
-	st_data.f_dist			= f_entryLen + st_info.f_now * p_sla->us_accAngvelTime * 0.001;		//еЉ йЂџи·ќй›ў
-	st_data.f_accAngleS		= st_info.f_accAngleS1;		// и§’еЉ йЂџеє¦
-	st_data.f_nowAngleS		= 0;						// зЏѕењЁи§’йЂџеє¦
-	st_data.f_trgtAngleS	= st_info.f_trgtAngleS;		// з›®жЁ™и§’йЂџеє¦
-	st_data.f_nowAngle		= 0;						// зЏѕењЁи§’еє¦
-	st_data.f_angle			= st_info.f_angle1;			// з›®жЁ™и§’еє¦
-	st_data.f_time			= p_sla->us_accAngvelTime * 0.001;		//[msec] в†’ [sec]
+	st_data.f_dist			= f_entryLen + st_info.f_now * p_sla->us_accAngvelTime * 0.001;		//‰Б‘¬‹——Ј
+	st_data.f_accAngleS		= st_info.f_accAngleS1;		// Љp‰Б‘¬“x
+	st_data.f_nowAngleS		= 0;						// Њ»ЌЭЉp‘¬“x
+	st_data.f_trgtAngleS	= st_info.f_trgtAngleS;		// –Ъ•WЉp‘¬“x
+	st_data.f_nowAngle		= 0;						// Њ»ЌЭЉp“x
+	st_data.f_angle			= st_info.f_angle1;			// –Ъ•WЉp“x
+	st_data.f_time			= p_sla->us_accAngvelTime * 0.001;		//[msec] ЃЁ [sec]
 	
-	CTRL_setData( &st_data );			// гѓ‡гѓјг‚їг‚»гѓѓгѓ€
+	CTRL_setData( &st_data );			// ѓfЃ[ѓ^ѓZѓbѓg
 	
-	if( IS_R_SLA( en_type ) == true ){	// -ж–№еђ‘
+	if( IS_R_SLA( en_type ) == true ){	// -•ыЊь
 		//while( ( f_NowAngle > st_info.f_angle1 ) ){
 		while( ( f_NowAngle > st_info.f_angle1 ) || ( f_NowDist < st_data.f_dist ) ){
 			//break;
@@ -1884,24 +1884,24 @@ PUBLIC void MOT_goSla( enMOT_SULA_CMD en_type, stSLA *p_sla){
 	
 	
 	/* -------- */
-	/* гЂЂз­‰йЂџгЂЂ */
+	/* Ѓ@“™‘¬Ѓ@ */
 	/* -------- */
 	st_data.en_type			= CTRL_CONST_SLA;	
-	st_data.f_acc			= 0;						// еЉ йЂџеє¦жЊ‡е®љ
-	st_data.f_now			= st_info.f_now;			// зЏѕењЁйЂџеє¦
-	st_data.f_trgt			= st_info.f_now;			// з›®жЁ™йЂџеє¦
+	st_data.f_acc			= 0;						// ‰Б‘¬“xЋw’и
+	st_data.f_now			= st_info.f_now;			// Њ»ЌЭ‘¬“x
+	st_data.f_trgt			= st_info.f_now;			// –Ъ•W‘¬“x
 	st_data.f_nowDist		= f_entryLen + st_info.f_now * p_sla->us_accAngvelTime * 0.001;	
-	st_data.f_dist			= f_entryLen + st_info.f_now * (p_sla->us_constAngvelTime + p_sla->us_accAngvelTime) * 0.001;		//еЉ йЂџи·ќй›ў
-	st_data.f_accAngleS		= 0;						// и§’еЉ йЂџеє¦
-	st_data.f_nowAngleS		= st_info.f_trgtAngleS;		// зЏѕењЁи§’йЂџеє¦
-	st_data.f_trgtAngleS	= st_info.f_trgtAngleS;		// з›®жЁ™и§’йЂџеє¦
-	st_data.f_nowAngle		= st_info.f_angle1;			// зЏѕењЁи§’еє¦
-	st_data.f_angle			= st_info.f_angle1_2;		// з›®жЁ™и§’еє¦
+	st_data.f_dist			= f_entryLen + st_info.f_now * (p_sla->us_constAngvelTime + p_sla->us_accAngvelTime) * 0.001;		//‰Б‘¬‹——Ј
+	st_data.f_accAngleS		= 0;						// Љp‰Б‘¬“x
+	st_data.f_nowAngleS		= st_info.f_trgtAngleS;		// Њ»ЌЭЉp‘¬“x
+	st_data.f_trgtAngleS	= st_info.f_trgtAngleS;		// –Ъ•WЉp‘¬“x
+	st_data.f_nowAngle		= st_info.f_angle1;			// Њ»ЌЭЉp“x
+	st_data.f_angle			= st_info.f_angle1_2;		// –Ъ•WЉp“x
 	st_data.f_time			= p_sla->us_constAngvelTime * 0.001;
 			
-	CTRL_setData( &st_data );				// гѓ‡гѓјг‚їг‚»гѓѓгѓ€
+	CTRL_setData( &st_data );				// ѓfЃ[ѓ^ѓZѓbѓg
 	
-	if( IS_R_SLA( en_type ) == true ){		// -ж–№еђ‘
+	if( IS_R_SLA( en_type ) == true ){		// -•ыЊь
 		//while( ( f_NowAngle > st_info.f_angle1_2 ) ){
 		while( ( f_NowAngle > st_info.f_angle1_2 ) || ( f_NowDist < st_data.f_dist ) ){
 			//break;
@@ -1916,24 +1916,24 @@ PUBLIC void MOT_goSla( enMOT_SULA_CMD en_type, stSLA *p_sla){
 	
 	
 	/* -------- */
-	/* гЂЂжё›йЂџгЂЂ */
+	/* Ѓ@Њё‘¬Ѓ@ */
 	/* -------- */
 	st_data.en_type			= CTRL_DEC_SLA;	
-	st_data.f_acc			= 0;						// еЉ йЂџеє¦жЊ‡е®љ
-	st_data.f_now			= st_info.f_now;			// зЏѕењЁйЂџеє¦
-	st_data.f_trgt			= st_info.f_now;			// з›®жЁ™йЂџеє¦
+	st_data.f_acc			= 0;						// ‰Б‘¬“xЋw’и
+	st_data.f_now			= st_info.f_now;			// Њ»ЌЭ‘¬“x
+	st_data.f_trgt			= st_info.f_now;			// –Ъ•W‘¬“x
 	st_data.f_nowDist		= f_entryLen + st_info.f_now * ( p_sla->us_constAngvelTime + p_sla->us_accAngvelTime)* 0.001;	
-	st_data.f_dist			= f_entryLen + st_info.f_now * ( p_sla->us_constAngvelTime + p_sla->us_accAngvelTime * 2) * 0.001;		//еЉ йЂџи·ќй›ў
-	st_data.f_accAngleS		= st_info.f_accAngleS3;		// и§’еЉ йЂџеє¦
-	st_data.f_nowAngleS		= st_info.f_trgtAngleS;		// зЏѕењЁи§’йЂџеє¦
-	st_data.f_trgtAngleS	= 0;						// з›®жЁ™и§’йЂџеє¦
-	st_data.f_nowAngle		= st_info.f_angle1_2;		// зЏѕењЁи§’еє¦
-	st_data.f_angle			= st_info.f_angle;			// з›®жЁ™и§’еє¦
+	st_data.f_dist			= f_entryLen + st_info.f_now * ( p_sla->us_constAngvelTime + p_sla->us_accAngvelTime * 2) * 0.001;		//‰Б‘¬‹——Ј
+	st_data.f_accAngleS		= st_info.f_accAngleS3;		// Љp‰Б‘¬“x
+	st_data.f_nowAngleS		= st_info.f_trgtAngleS;		// Њ»ЌЭЉp‘¬“x
+	st_data.f_trgtAngleS	= 0;						// –Ъ•WЉp‘¬“x
+	st_data.f_nowAngle		= st_info.f_angle1_2;		// Њ»ЌЭЉp“x
+	st_data.f_angle			= st_info.f_angle;			// –Ъ•WЉp“x
 	st_data.f_time			= p_sla->us_accAngvelTime * 0.001;
 		
-	CTRL_setData( &st_data );			// гѓ‡гѓјг‚їг‚»гѓѓгѓ€
+	CTRL_setData( &st_data );			// ѓfЃ[ѓ^ѓZѓbѓg
 	
-	if( IS_R_SLA( en_type ) == true ){	// -ж–№еђ‘
+	if( IS_R_SLA( en_type ) == true ){	// -•ыЊь
 		//while( ( f_NowAngle > st_info.f_angle ) ){
 		while( ( f_NowAngle > st_info.f_angle ) || ( f_NowDist < st_data.f_dist ) ){
 		}
@@ -1945,39 +1945,39 @@ PUBLIC void MOT_goSla( enMOT_SULA_CMD en_type, stSLA *p_sla){
 	}
 	
 	/* ---------------------- */
-	/* г‚№гѓ©гѓ­гѓјгѓ еѕЊгЃ®е‰ЌйЂІе‹•дЅњ */
+	/* ѓXѓ‰ѓЌЃ[ѓЂЊг‚М‘Oђi“®Ќм */
 	/* ---------------------- */
 	st_data.en_type			= CTRL_EXIT_SLA;
-	st_data.f_acc			= 0;				//еЉ йЂџеє¦жЊ‡е®љ
-	st_data.f_now			= st_info.f_now;	//зЏѕењЁйЂџеє¦
-	st_data.f_trgt			= st_info.f_now;	//з›®жЁ™йЂџеє¦
-	st_data.f_nowDist		= f_entryLen + st_info.f_now * (p_sla->us_constAngvelTime + p_sla->us_accAngvelTime * 2) * 0.001;			//йЂІг‚“гЃ§гЃ„гЃЄгЃ„
-	st_data.f_dist			= f_escapeLen + f_entryLen + st_info.f_now * (p_sla->us_constAngvelTime + p_sla->us_accAngvelTime * 2)*0.001;		//г‚№гѓ©гѓ­гѓјгѓ еѕЊгЃ®е‰ЌйЂІи·ќй›ў
-	st_data.f_accAngleS		= 0;				// и§’еЉ йЂџеє¦
-	st_data.f_nowAngleS		= 0;				// зЏѕењЁи§’йЂџеє¦
-	st_data.f_trgtAngleS	= 0;				// з›®жЁ™и§’еє¦
-	st_data.f_nowAngle		= 0;				// зЏѕењЁи§’еє¦
-	st_data.f_angle			= 0;				// з›®жЁ™и§’еє¦
-	st_data.f_time 			= 0;				// з›®жЁ™ж™‚й–“ [sec] в†ђ жЊ‡е®љгЃ—гЃЄгЃ„
+	st_data.f_acc			= 0;				//‰Б‘¬“xЋw’и
+	st_data.f_now			= st_info.f_now;	//Њ»ЌЭ‘¬“x
+	st_data.f_trgt			= st_info.f_now;	//–Ъ•W‘¬“x
+	st_data.f_nowDist		= f_entryLen + st_info.f_now * (p_sla->us_constAngvelTime + p_sla->us_accAngvelTime * 2) * 0.001;			//ђi‚с‚Е‚ў‚И‚ў
+	st_data.f_dist			= f_escapeLen + f_entryLen + st_info.f_now * (p_sla->us_constAngvelTime + p_sla->us_accAngvelTime * 2)*0.001;		//ѓXѓ‰ѓЌЃ[ѓЂЊг‚М‘Oђi‹——Ј
+	st_data.f_accAngleS		= 0;				// Љp‰Б‘¬“x
+	st_data.f_nowAngleS		= 0;				// Њ»ЌЭЉp‘¬“x
+	st_data.f_trgtAngleS	= 0;				// –Ъ•WЉp“x
+	st_data.f_nowAngle		= 0;				// Њ»ЌЭЉp“x
+	st_data.f_angle			= 0;				// –Ъ•WЉp“x
+	st_data.f_time 			= 0;				// –Ъ•WЋћЉФ [sec] Ѓ© Ћw’и‚µ‚И‚ў
 	
-	//CTRL_clrData();					// гѓћг‚¦г‚№гЃ®зЏѕењЁдЅЌзЅ®/и§’еє¦г‚’г‚ЇгѓЄг‚ў
-	CTRL_setData( &st_data );			// гѓ‡гѓјг‚їг‚»гѓѓгѓ€
+	//CTRL_clrData();					// ѓ}ѓEѓX‚МЊ»ЌЭ€К’u/Љp“x‚рѓNѓЉѓA
+	CTRL_setData( &st_data );			// ѓfЃ[ѓ^ѓZѓbѓg
 
-	while( f_NowDist < st_data.f_dist ){				// жЊ‡е®љи·ќй›ўе€°йЃ”еѕ…гЃЎ
+	while( f_NowDist < st_data.f_dist ){				// Ћw’и‹——Ј“ћ’B‘Т‚ї
 
 	}
-	f_MotNowSpeed = st_info.f_now;			// зЏѕењЁйЂџеє¦ж›ґж–°
+	f_MotNowSpeed = st_info.f_now;			// Њ»ЌЭ‘¬“xЌXђV
 
 }
 
 // *************************************************************************
-//   ж©џиѓЅ		пјљ г‚№гѓ©гѓ­гѓјгѓ й–‹е§‹йЂџеє¦г‚’иЁ­е®љгЃ™г‚‹
-//   жіЁж„Џ		пјљ гЃЄгЃ—
-//   гѓЎгѓў		пјљ гЃЄгЃ—
-//   еј•ж•°		пјљ й–‹е§‹йЂџеє¦
-//   иї”г‚ЉеЂ¤		пјљ гЃЄгЃ—
-// **************************    е±Ґ    ж­ґ    *******************************
-// 		v1.0		2019.5.1			TKR			ж–°и¦Џ
+//   ‹@”\		ЃF ѓXѓ‰ѓЌЃ[ѓЂЉJЋn‘¬“x‚рђЭ’и‚·‚й
+//   ’Ќ€У		ЃF ‚И‚µ
+//   ѓЃѓ‚		ЃF ‚И‚µ
+//   €шђ”		ЃF ЉJЋn‘¬“x
+//   •Ф‚и’l		ЃF ‚И‚µ
+// **************************    —љ    —р    *******************************
+// 		v1.0		2019.5.1			TKR			ђV‹K
 // *************************************************************************/
 PUBLIC	void MOT_setSlaStaSpeed( FLOAT f_speed ) {
 	
@@ -1986,39 +1986,39 @@ PUBLIC	void MOT_setSlaStaSpeed( FLOAT f_speed ) {
 }
 
 // *************************************************************************
-//   ж©џиѓЅ		пјљ г‚№гѓ©гѓ­гѓјгѓ й–‹е§‹йЂџеє¦г‚’еЏ–еѕ—гЃ™г‚‹
-//   жіЁж„Џ		пјљ гЃЄгЃ—
-//   гѓЎгѓў		пјљ гЃЄгЃ—
-//   еј•ж•°		пјљ й–‹е§‹йЂџеє¦
-//   иї”г‚ЉеЂ¤		пјљ гЃЄгЃ—
-// **************************    е±Ґ    ж­ґ    *******************************
-// 		v1.0		2019.5.1			TKR			ж–°и¦Џ
+//   ‹@”\		ЃF ѓXѓ‰ѓЌЃ[ѓЂЉJЋn‘¬“x‚рЋж“ѕ‚·‚й
+//   ’Ќ€У		ЃF ‚И‚µ
+//   ѓЃѓ‚		ЃF ‚И‚µ
+//   €шђ”		ЃF ЉJЋn‘¬“x
+//   •Ф‚и’l		ЃF ‚И‚µ
+// **************************    —љ    —р    *******************************
+// 		v1.0		2019.5.1			TKR			ђV‹K
 // *************************************************************************/
 PUBLIC	FLOAT MOT_getSlaStaSpeed( void ) {
 	return f_MotSlaStaSpeed;
 }
 
 // *************************************************************************
-//   ж©џиѓЅ		пјљ еЈЃе€‡г‚ЊиЈњж­ЈгЃ®г‚їг‚¤гѓ—г‚’еЏ–еѕ—
-//   жіЁж„Џ		пјљ гЃЄгЃ—
-//   гѓЎгѓў		пјљ гЃЄгЃ—
-//   еј•ж•°		пјљ гЃЄгЃ—
-//   иї”г‚ЉеЂ¤		пјљ еЈЃе€‡г‚ЊиЈњж­ЈгЃ®г‚їг‚¤гѓ—
-// **************************    е±Ґ    ж­ґ    *******************************
-// 		v1.0		2019.5.1			TKR			ж–°и¦Џ
+//   ‹@”\		ЃF •ЗђШ‚к•вђі‚Мѓ^ѓCѓv‚рЋж“ѕ
+//   ’Ќ€У		ЃF ‚И‚µ
+//   ѓЃѓ‚		ЃF ‚И‚µ
+//   €шђ”		ЃF ‚И‚µ
+//   •Ф‚и’l		ЃF •ЗђШ‚к•вђі‚Мѓ^ѓCѓv
+// **************************    —љ    —р    *******************************
+// 		v1.0		2019.5.1			TKR			ђV‹K
 // *************************************************************************/
 PUBLIC enMOT_WALL_EDGE_TYPE MOT_getWallEdgeType( void ){
 	return en_WallEdge;
 }
 
 // *************************************************************************
-//   ж©џиѓЅ		пјљ еЈЃе€‡г‚ЊгЃ®ж¤њзџҐг‚’иЁ­е®љгЃ™г‚‹
-//   жіЁж„Џ		пјљ гЃЄгЃ—
-//   гѓЎгѓў		пјљ гЃЄгЃ—
-//   еј•ж•°		пјљ гЃЄгЃ—
-//   иї”г‚ЉеЂ¤		пјљ гЃЄгЃ—
-// **************************    е±Ґ    ж­ґ    *******************************
-// 		v1.0		2019.5.1			TKR			ж–°и¦Џ
+//   ‹@”\		ЃF •ЗђШ‚к‚МЊџ’m‚рђЭ’и‚·‚й
+//   ’Ќ€У		ЃF ‚И‚µ
+//   ѓЃѓ‚		ЃF ‚И‚µ
+//   €шђ”		ЃF ‚И‚µ
+//   •Ф‚и’l		ЃF ‚И‚µ
+// **************************    —љ    —р    *******************************
+// 		v1.0		2019.5.1			TKR			ђV‹K
 // *************************************************************************/
 PUBLIC void MOT_setWallEdge( BOOL bl_val ){
 	
@@ -2027,84 +2027,84 @@ PUBLIC void MOT_setWallEdge( BOOL bl_val ){
 }
 
 // *************************************************************************
-//   ж©џиѓЅ		пјљ еЈЃе€‡г‚ЊгЃ®ж¤њзџҐг‚’иЁ­е®љгЃ™г‚‹
-//   жіЁж„Џ		пјљ гЃЄгЃ—
-//   гѓЎгѓў		пјљ гЃЄгЃ—
-//   еј•ж•°		пјљ гЃЄгЃ—
-//   иї”г‚ЉеЂ¤		пјљ гЃЄгЃ—
-// **************************    е±Ґ    ж­ґ    *******************************
-// 		v1.0		2019.5.1			TKR			ж–°и¦Џ
+//   ‹@”\		ЃF •ЗђШ‚к‚МЊџ’m‚рђЭ’и‚·‚й
+//   ’Ќ€У		ЃF ‚И‚µ
+//   ѓЃѓ‚		ЃF ‚И‚µ
+//   €шђ”		ЃF ‚И‚µ
+//   •Ф‚и’l		ЃF ‚И‚µ
+// **************************    —љ    —р    *******************************
+// 		v1.0		2019.5.1			TKR			ђV‹K
 // *************************************************************************/
 PUBLIC void MOT_setWallEdgeType( enMOT_WALL_EDGE_TYPE en_type ){
 	
 	en_WallEdge = en_type;
-	bl_IsWallEdge = false;			// йќћж¤њзџҐ
+	bl_IsWallEdge = false;			// ”сЊџ’m
 	
 }
 
 // *************************************************************************
-//   ж©џиѓЅ		пјљ еЈЃгЃ®е€‡г‚Њз›®гЃ§иЈњж­ЈгЃ™г‚‹и·ќй›ўг‚’з®—е‡єгЃ—гЃ¦иЁ­е®љгЃ™г‚‹
-//   жіЁж„Џ		пјљ гЃЄгЃ—
-//   гѓЎгѓў		пјљ гЃЄгЃ—
-//   еј•ж•°		пјљ гЃЄгЃ—
-//   иї”г‚ЉеЂ¤		пјљ 
-// **************************    е±Ґ    ж­ґ    *******************************
-// 		v1.0		2019.5.1			TKR			ж–°и¦Џ
+//   ‹@”\		ЃF •З‚МђШ‚к–Ъ‚Е•вђі‚·‚й‹——Ј‚рЋZЏo‚µ‚ДђЭ’и‚·‚й
+//   ’Ќ€У		ЃF ‚И‚µ
+//   ѓЃѓ‚		ЃF ‚И‚µ
+//   €шђ”		ЃF ‚И‚µ
+//   •Ф‚и’l		ЃF 
+// **************************    —љ    —р    *******************************
+// 		v1.0		2019.5.1			TKR			ђV‹K
 // *************************************************************************/
 PRIVATE BOOL MOT_setWallEdgeDIST( void ){
 	
 	FLOAT f_addDist;
 	
-	/* еЈЃгЃ®е€‡г‚Њз›®г‚’ж¤њзџҐгЃ—гЃ¦гЃ„гЃЄгЃ„ */
-	if( ( bl_IsWallEdge == false ) || ( en_WallEdge == MOT_WALL_EDGE_NONE ) ){	// еЈЃе€‡г‚ЊиЁ­е®љгЃ•г‚ЊгЃ¦гЃ„гЃЄгЃ„гЃ‹гЂЃж¤ње‡єгЃ—гЃ¦гЃ„гЃЄгЃ„е ґеђ€гЃЇе‡¦зђ†г‚’жЉњгЃ‘г‚‹
+	/* •З‚МђШ‚к–Ъ‚рЊџ’m‚µ‚Д‚ў‚И‚ў */
+	if( ( bl_IsWallEdge == false ) || ( en_WallEdge == MOT_WALL_EDGE_NONE ) ){	// •ЗђШ‚кђЭ’и‚і‚к‚Д‚ў‚И‚ў‚©ЃAЊџЏo‚µ‚Д‚ў‚И‚ўЏкЌ‡‚НЏ€—ќ‚р”І‚Ї‚й
 		
 		return false;
 		
 	}
 	
-	f_addDist = f_NowDist + MOT_WALL_EDGE_DIST;	//ж—‹е›ћй–‹е§‹дЅЌзЅ®
+	f_addDist = f_NowDist + MOT_WALL_EDGE_DIST;	//ђщ‰сЉJЋn€К’u
 	
-	/* е¤љгЃЏиµ°г‚‹еї…и¦ЃгЃЊгЃ‚г‚‹ */
+	/* ‘Ѕ‚­‘–‚й•K—v‚Є‚ ‚й */
 	if( f_addDist > st_Info.f_dist ){
 		f_WallEdgeAddDist = f_addDist - st_Info.f_dist;
 	}
 	
-	/* еЈЃгЃ®е€‡г‚Њз›®иЈњж­ЈгЃ®е¤‰ж•°г‚’е€ќжњџеЊ– */
-	en_WallEdge	= MOT_WALL_EDGE_NONE;		//еЈЃгЃ®е€‡г‚Њз›®г‚їг‚¤гѓ—
-	bl_IsWallEdge	= false;			//еЈЃгЃ®е€‡г‚Њз›®ж¤њзџҐ
+	/* •З‚МђШ‚к–Ъ•вђі‚М•Пђ”‚рЏ‰Љъ‰» */
+	en_WallEdge	= MOT_WALL_EDGE_NONE;		//•З‚МђШ‚к–Ъѓ^ѓCѓv
+	bl_IsWallEdge	= false;			//•З‚МђШ‚к–ЪЊџ’m
 	
 	return true;
 }
 
 // *************************************************************************
-//   ж©џиѓЅ		пјљ еЈЃгЃ®е€‡г‚Њз›®гЃ§иЈњж­ЈгЃ™г‚‹и·ќй›ўг‚’з®—е‡єгЃ—гЃ¦иЁ­е®љгЃ™г‚‹
-//   жіЁж„Џ		пјљ гЃЄгЃ—
-//   гѓЎгѓў		пјљ гЃЄгЃ—
-//   еј•ж•°		пјљ гЃЄгЃ—
-//   иї”г‚ЉеЂ¤		пјљ 
-// **************************    е±Ґ    ж­ґ    *******************************
-// 		v1.0		2019.5.1			TKR			ж–°и¦Џ
+//   ‹@”\		ЃF •З‚МђШ‚к–Ъ‚Е•вђі‚·‚й‹——Ј‚рЋZЏo‚µ‚ДђЭ’и‚·‚й
+//   ’Ќ€У		ЃF ‚И‚µ
+//   ѓЃѓ‚		ЃF ‚И‚µ
+//   €шђ”		ЃF ‚И‚µ
+//   •Ф‚и’l		ЃF 
+// **************************    —љ    —р    *******************************
+// 		v1.0		2019.5.1			TKR			ђV‹K
 // *************************************************************************/
 PRIVATE	BOOL MOT_setWallEdgeDIST_LoopWait( void ){
 	
-	/* еЈЃгЃ®е€‡г‚Њз›®г‚’ж¤њзџҐгЃ—гЃ¦гЃ„гЃЄгЃ„ */
-	if( bl_IsWallEdge == false ){		// еЈЃе€‡г‚ЊиЁ­е®љгЃ•г‚ЊгЃ¦гЃ„гЃЄгЃ„гЃ‹гЂЃж¤ње‡єгЃ—гЃ¦гЃ„гЃЄгЃ„е ґеђ€гЃЇе‡¦зђ†г‚’жЉњгЃ‘г‚‹
+	/* •З‚МђШ‚к–Ъ‚рЊџ’m‚µ‚Д‚ў‚И‚ў */
+	if( bl_IsWallEdge == false ){		// •ЗђШ‚кђЭ’и‚і‚к‚Д‚ў‚И‚ў‚©ЃAЊџЏo‚µ‚Д‚ў‚И‚ўЏкЌ‡‚НЏ€—ќ‚р”І‚Ї‚й
 		return	false;
 	}
 	
-	f_WallEdgeAddDist = MOT_WALL_EDGE_DIST;		// ж—‹е›ћй–‹е§‹дЅЌзЅ®
+	f_WallEdgeAddDist = MOT_WALL_EDGE_DIST;		// ђщ‰сЉJЋn€К’u
 	
 	return true;
 }
 
 // *************************************************************************
-//   ж©џиѓЅ		пјљ гѓћг‚¦г‚№гЃ®з›®жЁ™йЂџеє¦г‚’иЁ­е®љгЃ™г‚‹
-//   жіЁж„Џ		пјљ гЃЄгЃ—
-//   гѓЎгѓў		пјљ гЃЄгЃ—
-//   еј•ж•°		пјљ з›®жЁ™йЂџеє¦
-//   иї”г‚ЉеЂ¤		пјљ з›®жЁ™йЂџеє¦
-// **************************    е±Ґ    ж­ґ    *******************************
-// 		v1.0		2019.5.1			TKR			ж–°и¦Џ
+//   ‹@”\		ЃF ѓ}ѓEѓX‚М–Ъ•W‘¬“x‚рђЭ’и‚·‚й
+//   ’Ќ€У		ЃF ‚И‚µ
+//   ѓЃѓ‚		ЃF ‚И‚µ
+//   €шђ”		ЃF –Ъ•W‘¬“x
+//   •Ф‚и’l		ЃF –Ъ•W‘¬“x
+// **************************    —љ    —р    *******************************
+// 		v1.0		2019.5.1			TKR			ђV‹K
 // *************************************************************************/
 PUBLIC void MOT_setTrgtSpeed( FLOAT f_speed){
 	
@@ -2113,13 +2113,13 @@ PUBLIC void MOT_setTrgtSpeed( FLOAT f_speed){
 }
 
 // *************************************************************************
-//   ж©џиѓЅ		пјљ гѓћг‚¦г‚№гЃ®зЏѕењЁйЂџеє¦г‚’иЁ­е®љгЃ™г‚‹
-//   жіЁж„Џ		пјљ гЃЄгЃ—
-//   гѓЎгѓў		пјљ гЃЄгЃ—
-//   еј•ж•°		пјљ зЏѕењЁйЂџеє¦
-//   иї”г‚ЉеЂ¤		пјљ зЏѕењЁйЂџеє¦
-// **************************    е±Ґ    ж­ґ    *******************************
-// 		v1.0		2019.5.1			TKR			ж–°и¦Џ
+//   ‹@”\		ЃF ѓ}ѓEѓX‚МЊ»ЌЭ‘¬“x‚рђЭ’и‚·‚й
+//   ’Ќ€У		ЃF ‚И‚µ
+//   ѓЃѓ‚		ЃF ‚И‚µ
+//   €шђ”		ЃF Њ»ЌЭ‘¬“x
+//   •Ф‚и’l		ЃF Њ»ЌЭ‘¬“x
+// **************************    —љ    —р    *******************************
+// 		v1.0		2019.5.1			TKR			ђV‹K
 // *************************************************************************/
 PUBLIC void MOT_setNowSpeed( FLOAT f_speed){
 	

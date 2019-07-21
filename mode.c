@@ -70,18 +70,18 @@ PUBLIC void	MODE_exe( void ){
 		case MODE_1:
 			LED_offAll();
 			while(1){
-				printf("Šp‘¬“x:%f \n\r",GYRO_getNowAngleSpeed())	;
+				printf("AngleSpeed:%f[deg]\r",GYRO_getNowAngleSpeed());
 				TIME_wait(100);
 			}
 			break;
 			
 		case MODE_2:
 			LED_offAll();
-			//DCM_setDirCcw(DCM_L);
-			//DCM_setDirCw(DCM_R);
-			//DCM_setPwmDuty(DCM_L,100);
-			DCM_setPwmDuty(DCM_SUC,100);
-			DCM_staMot(DCM_SUC);
+			DCM_setDirCcw(DCM_L);
+			DCM_setDirCw(DCM_R);
+			DCM_setPwmDuty(DCM_L,100);
+			//DCM_setPwmDuty(DCM_SUC,100);
+			DCM_staMot(DCM_L);
 			
 			
 			break;
@@ -99,7 +99,7 @@ PUBLIC void	MODE_exe( void ){
 			
 		case MODE_5:
 			LED_offAll();
-			
+
 			break;
 			
 		case MODE_6:

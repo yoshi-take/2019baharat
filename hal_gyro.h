@@ -1,65 +1,65 @@
 // *************************************************************************
-//   ãƒ­ãƒœãƒƒãƒˆå	ï¼š Baharatï¼ˆãƒãƒãƒ©ãƒƒãƒˆï¼‰
-//   æ¦‚è¦		ï¼š ã‚µãƒ³ã‚·ãƒ£ã‚¤ãƒ³ã®HALï¼ˆãƒãƒ¼ãƒ‰ã‚¦ã‚¨ã‚¢æŠ½è±¡å±¤ï¼‰ãƒ•ã‚¡ã‚¤ãƒ«
-//   æ³¨æ„		ï¼š ãªã—
-//   ãƒ¡ãƒ¢		ï¼š ENC
-//   å¼•æ•°		ï¼š ãªã—
-//   è¿”ã‚Šå€¤		ï¼š ãªã—
-// **************************    å±¥    æ­´    *******************************
-// 		v1.0		2019.4.11			TKR			æ–°è¦ï¼ˆãƒ•ã‚¡ã‚¤ãƒ«ã®ã‚¤ãƒ³ã‚¯ãƒ«ãƒ¼ãƒ‰ï¼‰
+//   ƒƒ{ƒbƒg–¼	F Baharatiƒoƒnƒ‰ƒbƒgj
+//   ŠT—v		F ƒTƒ“ƒVƒƒƒCƒ“‚ÌHALiƒn[ƒhƒEƒGƒA’ŠÛ‘wjƒtƒ@ƒCƒ‹
+//   ’ˆÓ		F ‚È‚µ
+//   ƒƒ‚		F ENC
+//   ˆø”		F ‚È‚µ
+//   •Ô‚è’l		F ‚È‚µ
+// **************************    —š    —ð    *******************************
+// 		v1.0		2019.4.11			TKR			V‹Kiƒtƒ@ƒCƒ‹‚ÌƒCƒ“ƒNƒ‹[ƒhj
 // *************************************************************************/
-// å¤šé‡ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«é˜²æ­¢
+// ‘½dƒRƒ“ƒpƒCƒ‹–hŽ~
 #ifndef	_HAL_GYRO_H
 #define	_HAL_GYRO_H
 
 //**************************************************
-// ã‚¤ãƒ³ã‚¯ãƒ«ãƒ¼ãƒ‰ãƒ•ã‚¡ã‚¤ãƒ«ï¼ˆincludeï¼‰
+// ƒCƒ“ƒNƒ‹[ƒhƒtƒ@ƒCƒ‹iincludej
 //**************************************************
-#include <typedefine.h>						// å®šç¾©
+#include <typedefine.h>						// ’è‹`
 #include <iodefine.h>						// I/O
-#include <stdio.h>							// æ¨™æº–å…¥å‡ºåŠ›
+#include <stdio.h>							// •W€“üo—Í
 
 //**************************************************
-// å®šç¾©ï¼ˆdefineï¼‰
+// ’è‹`idefinej
 //**************************************************
 #define     SPI_WHO_AM_I        ( 0x7500 )      // Who am I?
 
-#define		SPI_PWR_MGMT_1		( 0x6b00 )		// [No.107]é›»æºåˆ¶å¾¡1
-#define		SPI_CONFIG			( 0x1a00 )		// [No.26]ã‚³ãƒ³ãƒ•ã‚£ã‚°
+#define		SPI_PWR_MGMT_1		( 0x6b00 )		// [No.107]“dŒ¹§Œä1
+#define		SPI_CONFIG			( 0x1a00 )		// [No.26]ƒRƒ“ƒtƒBƒO
 
-#define		SPI_FSYNC_INT		( 0x3600 )		// [No.54]FSYNCã‚³ãƒ³ãƒ•ã‚£ã‚°
-#define		SPI_INT_PIN_COMFIG	( 0x3700 )		// [No.55]INT_PINã‚³ãƒ³ãƒ•ã‚£ã‚°
+#define		SPI_FSYNC_INT		( 0x3600 )		// [No.54]FSYNCƒRƒ“ƒtƒBƒO
+#define		SPI_INT_PIN_COMFIG	( 0x3700 )		// [No.55]INT_PINƒRƒ“ƒtƒBƒO
 
-#define		SPI_SIGNAL_RESET	( 0x6800 )		// [No.104]ä¿¡å·ãƒªã‚»ãƒƒãƒˆ
-#define		SPI_USER_CONTROL	( 0x6a00 )		// [No.106]ãƒ¦ãƒ¼ã‚¶ãƒ¼ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«
-#define     SPI_I2C_IF          ( 0x7000 )      // [No.112]I2Cã®ç„¡åŠ¹
-#define		SPI_GYRO_CFG		( 0x1b00 )		// [No.27]ã‚¸ãƒ£ã‚¤ãƒ­ã‚»ãƒ³ã‚µã®ã‚³ãƒ³ãƒ•ã‚£ã‚°
-#define		SPI_ACC_CFG			( 0x1c00 )		// [No.28]åŠ é€Ÿåº¦ã‚»ãƒ³ã‚µã®ã‚³ãƒ³ãƒ•ã‚£ã‚°
-#define		SPI_GYRO_OFFSET_L	( 0x1800 )	    // [No.24]ã‚¸ãƒ£ã‚¤ãƒ­ã‚ªãƒ•ã‚»ãƒƒãƒˆï¼ˆä¸‹ä½ï¼‰
-#define		SPI_ACC_OFFSET_L	( 0x1600 )		// [No.20]åŠ é€Ÿåº¦ã‚ªãƒ•ã‚»ãƒƒãƒˆï¼ˆä¸‹ä½ï¼‰
-#define		SPI_SEN_ENB			( 0x2300 )	    // ã‚»ãƒ³ã‚µæœ‰åŠ¹
+#define		SPI_SIGNAL_RESET	( 0x6800 )		// [No.104]M†ƒŠƒZƒbƒg
+#define		SPI_USER_CONTROL	( 0x6a00 )		// [No.106]ƒ†[ƒU[ƒRƒ“ƒgƒ[ƒ‹
+#define     SPI_I2C_IF          ( 0x7000 )      // [No.112]I2C‚Ì–³Œø
+#define		SPI_GYRO_CFG		( 0x1b00 )		// [No.27]ƒWƒƒƒCƒƒZƒ“ƒT‚ÌƒRƒ“ƒtƒBƒO
+#define		SPI_ACC_CFG			( 0x1c00 )		// [No.28]‰Á‘¬“xƒZƒ“ƒT‚ÌƒRƒ“ƒtƒBƒO
+#define		SPI_GYRO_OFFSET_L	( 0x1800 )	    // [No.24]ƒWƒƒƒCƒƒIƒtƒZƒbƒgi‰ºˆÊj
+#define		SPI_ACC_OFFSET_L	( 0x1600 )		// [No.20]‰Á‘¬“xƒIƒtƒZƒbƒgi‰ºˆÊj
+#define		SPI_SEN_ENB			( 0x2300 )	    // ƒZƒ“ƒT—LŒø
 
-#define		SPI_GYRO_Z_L		( 0x4800 )		// ã‚¸ãƒ£ã‚¤ãƒ­ã‚»ãƒ³ã‚µã®ä¸‹ä½ãƒ‡ãƒ¼ã‚¿
-#define		SPI_GYRO_Z_H		( 0x4700 )		// ã‚¸ãƒ£ã‚¤ãƒ­ã‚»ãƒ³ã‚µã®ä¸Šä½ãƒ‡ãƒ¼ã‚¿
-#define		SPI_TEMP_L			( 0x4200 )		// æ¸©åº¦ã‚»ãƒ³ã‚µã®ä¸‹ä½ãƒ‡ãƒ¼ã‚¿
-#define		SPI_TEMP_H			( 0x4100 )		// æ¸©åº¦ã‚»ãƒ³ã‚µã®ä¸Šä½ãƒ‡ãƒ¼ã‚¿
-#define		SPI_ACC_L			( 0x3e00 )		// åŠ é€Ÿåº¦ã‚»ãƒ³ã‚µã®ä¸‹ä½ãƒ‡ãƒ¼ã‚¿
-#define		SPI_ACC_H			( 0x3d00 )		// åŠ é€Ÿåº¦ã‚»ãƒ³ã‚µã®ä¸Šä½ãƒ‡ãƒ¼ã‚¿
-
-//**************************************************
-// åˆ—æŒ™ä½“ï¼ˆenumï¼‰
-//**************************************************
+#define		SPI_GYRO_Z_L		( 0x4800 )		// ƒWƒƒƒCƒƒZƒ“ƒT‚Ì‰ºˆÊƒf[ƒ^
+#define		SPI_GYRO_Z_H		( 0x4700 )		// ƒWƒƒƒCƒƒZƒ“ƒT‚ÌãˆÊƒf[ƒ^
+#define		SPI_TEMP_L			( 0x4200 )		// ‰·“xƒZƒ“ƒT‚Ì‰ºˆÊƒf[ƒ^
+#define		SPI_TEMP_H			( 0x4100 )		// ‰·“xƒZƒ“ƒT‚ÌãˆÊƒf[ƒ^
+#define		SPI_ACC_L			( 0x3e00 )		// ‰Á‘¬“xƒZƒ“ƒT‚Ì‰ºˆÊƒf[ƒ^
+#define		SPI_ACC_H			( 0x3d00 )		// ‰Á‘¬“xƒZƒ“ƒT‚ÌãˆÊƒf[ƒ^
 
 //**************************************************
-// æ§‹é€ ä½“ï¼ˆstructï¼‰
+// —ñ‹“‘Ìienumj
 //**************************************************
 
 //**************************************************
-// ã‚°ãƒ­ãƒ¼ãƒãƒ«å¤‰æ•°
+// \‘¢‘Ìistructj
 //**************************************************
 
 //**************************************************
-// ãƒ—ãƒ­ãƒˆã‚¿ã‚¤ãƒ—å®£è¨€ï¼ˆãƒ•ã‚¡ã‚¤ãƒ«å†…ã§å¿…è¦ãªã‚‚ã®ã ã‘è¨˜è¿°ï¼‰
+// ƒOƒ[ƒoƒ‹•Ï”
+//**************************************************
+
+//**************************************************
+// ƒvƒƒgƒ^ƒCƒvéŒ¾iƒtƒ@ƒCƒ‹“à‚Å•K—v‚È‚à‚Ì‚¾‚¯‹Lqj
 //**************************************************
 PUBLIC FLOAT GYRO_getNowAngle( void );
 PUBLIC FLOAT GYRO_getNowAngleSpeed( void );

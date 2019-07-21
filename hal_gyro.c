@@ -1,66 +1,66 @@
 // *************************************************************************
-//   ãƒ­ãƒœãƒƒãƒˆå	ï¼š Baharatï¼ˆãƒãƒãƒ©ãƒƒãƒˆï¼‰
-//   æ¦‚è¦		ï¼š ã‚µãƒ³ã‚·ãƒ£ã‚¤ãƒ³ã®HALï¼ˆãƒãƒ¼ãƒ‰ã‚¦ã‚¨ã‚¢æŠ½è±¡å±¤ï¼‰ãƒ•ã‚¡ã‚¤ãƒ«
-//   æ³¨æ„		ï¼š ãªã—
-//   ãƒ¡ãƒ¢		ï¼š GYRO
-//   å¼•æ•°		ï¼š ãªã—
-//   è¿”ã‚Šå€¤		ï¼š ãªã—
-// **************************    å±¥    æ­´    *******************************
-// 		v1.0		2019.4.14			TKR			æ–°è¦ï¼ˆãƒ•ã‚¡ã‚¤ãƒ«ã®ã‚¤ãƒ³ã‚¯ãƒ«ãƒ¼ãƒ‰ï¼‰
+//   ƒƒ{ƒbƒg–¼	F Baharatiƒoƒnƒ‰ƒbƒgj
+//   ŠT—v		F ƒTƒ“ƒVƒƒƒCƒ“‚ÌHALiƒn[ƒhƒEƒGƒA’ŠÛ‘wjƒtƒ@ƒCƒ‹
+//   ’ˆÓ		F ‚È‚µ
+//   ƒƒ‚		F GYRO
+//   ˆø”		F ‚È‚µ
+//   •Ô‚è’l		F ‚È‚µ
+// **************************    —š    —ð    *******************************
+// 		v1.0		2019.4.14			TKR			V‹Kiƒtƒ@ƒCƒ‹‚ÌƒCƒ“ƒNƒ‹[ƒhj
 // *************************************************************************/
 //**************************************************
-// ã‚¤ãƒ³ã‚¯ãƒ«ãƒ¼ãƒ‰ãƒ•ã‚¡ã‚¤ãƒ«ï¼ˆincludeï¼‰
+// ƒCƒ“ƒNƒ‹[ƒhƒtƒ@ƒCƒ‹iincludej
 //**************************************************
-#include <typedefine.h>						// å®šç¾©
+#include <typedefine.h>						// ’è‹`
 #include <iodefine.h>						// I/O
-#include <stdio.h>							// æ¨™æº–å…¥å‡ºåŠ›
+#include <stdio.h>							// •W€“üo—Í
 
 #include <hal_gyro.h>                       // GYRO
 #include <hal_spi.h>						// SPI
 #include <parameter.h>						// parameter
 
 //**************************************************
-// å®šç¾©ï¼ˆdefineï¼‰
+// ’è‹`idefinej
 //**************************************************
 
 //**************************************************
-// åˆ—æŒ™ä½“ï¼ˆenumï¼‰
+// —ñ‹“‘Ìienumj
 //**************************************************
 
 //**************************************************
-// æ§‹é€ ä½“ï¼ˆstructï¼‰
+// \‘¢‘Ìistructj
 //**************************************************
 
 //**************************************************
-// ã‚°ãƒ­ãƒ¼ãƒãƒ«å¤‰æ•°
+// ƒOƒ[ƒoƒ‹•Ï”
 //**************************************************
-/* ã‚¸ãƒ£ã‚¤ãƒ­ã‚»ãƒ³ã‚µ */
-PUBLIC	SHORT s_GyroVal_Lo;								// ã‚¸ãƒ£ã‚¤ãƒ­ã‚»ãƒ³ã‚µå€¤(ä¸‹ä½)
-PUBLIC	SHORT s_GyroVal_Hi;								// ã‚¸ãƒ£ã‚¤ãƒ­ã‚»ãƒ³ã‚µå€¤(ä¸Šä½)
-PUBLIC FLOAT  f_NowGyroAngle;		 						// ã‚¸ãƒ£ã‚¤ãƒ­ã‚»ãƒ³ã‚µã®ç¾åœ¨è§’åº¦
-PUBLIC FLOAT  f_NowGyroAngleSpeed;							// ã‚¸ãƒ£ã‚¤ãƒ­ã‚»ãƒ³ã‚µã®ç¾åœ¨è§’é€Ÿåº¦	
+/* ƒWƒƒƒCƒƒZƒ“ƒT */
+PUBLIC	SHORT s_GyroVal_Lo;								// ƒWƒƒƒCƒƒZƒ“ƒT’l(‰ºˆÊ)
+PUBLIC	SHORT s_GyroVal_Hi;								// ƒWƒƒƒCƒƒZƒ“ƒT’l(ãˆÊ)
+PUBLIC FLOAT  f_NowGyroAngle;		 					// ƒWƒƒƒCƒƒZƒ“ƒT‚ÌŒ»ÝŠp“x
+PUBLIC FLOAT  f_NowGyroAngleSpeed;						// ƒWƒƒƒCƒƒZƒ“ƒT‚ÌŒ»ÝŠp‘¬“x	
 
 PUBLIC	SHORT s_WhoamiVal;
-PRIVATE LONG  l_GyroRef; 								// ã‚¸ãƒ£ã‚¤ãƒ­ã‚»ãƒ³ã‚µã®åŸºæº–å€¤
+PRIVATE LONG  l_GyroRef; 								// ƒWƒƒƒCƒƒZƒ“ƒT‚ÌŠî€’l
 
-extern PUBLIC	enSPI_STATE		en_SpiState;	// SPIé€šä¿¡çŠ¶æ…‹
-extern PUBLIC	SHORT*			p_SpiRcvData;	// SPIå—ä¿¡ãƒ‡ãƒ¼ã‚¿æ ¼ç´ã‚¢ãƒ‰ãƒ¬ã‚¹
-extern PUBLIC	FUNC_PTR		p_SpiCallBackFunc;	// SPIã®IDLEé·ç§»å‰²ã‚Šè¾¼ã¿æ™‚ã«ç™»éŒ²ã•ã‚Œã‚‹ã¨å‘¼ã³å‡ºã•ã‚Œã‚‹é–¢æ•°
+extern PUBLIC	enSPI_STATE		en_SpiState;	// SPI’ÊMó‘Ô
+extern PUBLIC	SHORT*			p_SpiRcvData;	// SPIŽóMƒf[ƒ^Ši”[ƒAƒhƒŒƒX
+extern PUBLIC	FUNC_PTR		p_SpiCallBackFunc;	// SPI‚ÌIDLE‘JˆÚŠ„‚èž‚ÝŽž‚É“o˜^‚³‚ê‚é‚ÆŒÄ‚Ño‚³‚ê‚éŠÖ”
 
 
 //**************************************************
-// ãƒ—ãƒ­ãƒˆã‚¿ã‚¤ãƒ—å®£è¨€ï¼ˆãƒ•ã‚¡ã‚¤ãƒ«å†…ã§å¿…è¦ãªã‚‚ã®ã ã‘è¨˜è¿°ï¼‰
+// ƒvƒƒgƒ^ƒCƒvéŒ¾iƒtƒ@ƒCƒ‹“à‚Å•K—v‚È‚à‚Ì‚¾‚¯‹Lqj
 //**************************************************
 extern PUBLIC void TIME_wait(ULONG ul_time);
 
 // *************************************************************************
-//   æ©Ÿèƒ½		ï¼š ã‚¸ãƒ£ã‚¤ãƒ­ã®ç¾åœ¨ã®è§’åº¦ã‚’å–å¾—ã™ã‚‹
-//   æ³¨æ„		ï¼š ãªã—
-//   ãƒ¡ãƒ¢		ï¼š â˜†
-//   å¼•æ•°		ï¼š ãªã—
-//   è¿”ã‚Šå€¤		ï¼š ãªã—
-// **************************    å±¥    æ­´    *******************************
-// 		v1.0		2019.4.14			TKR			æ–°è¦
+//   ‹@”\		F ƒWƒƒƒCƒ‚ÌŒ»Ý‚ÌŠp“x‚ðŽæ“¾‚·‚é
+//   ’ˆÓ		F ‚È‚µ
+//   ƒƒ‚		F ™
+//   ˆø”		F ‚È‚µ
+//   •Ô‚è’l		F ‚È‚µ
+// **************************    —š    —ð    *******************************
+// 		v1.0		2019.4.14			TKR			V‹K
 // *************************************************************************/
 PUBLIC FLOAT GYRO_getNowAngle( void )
 {
@@ -68,13 +68,13 @@ PUBLIC FLOAT GYRO_getNowAngle( void )
 }
 
 // *************************************************************************
-//   æ©Ÿèƒ½		ï¼š ã‚¸ãƒ£ã‚¤ãƒ­ã®ç¾åœ¨ã®è§’é€Ÿåº¦ã‚’å–å¾—ã™ã‚‹
-//   æ³¨æ„		ï¼š ãªã—
-//   ãƒ¡ãƒ¢		ï¼š â˜†
-//   å¼•æ•°		ï¼š ãªã—
-//   è¿”ã‚Šå€¤		ï¼š ãªã—
-// **************************    å±¥    æ­´    *******************************
-// 		v1.0		2019.4.14			TKR			æ–°è¦
+//   ‹@”\		F ƒWƒƒƒCƒ‚ÌŒ»Ý‚ÌŠp‘¬“x‚ðŽæ“¾‚·‚é
+//   ’ˆÓ		F ‚È‚µ
+//   ƒƒ‚		F ™
+//   ˆø”		F ‚È‚µ
+//   •Ô‚è’l		F ‚È‚µ
+// **************************    —š    —ð    *******************************
+// 		v1.0		2019.4.14			TKR			V‹K
 // *************************************************************************/
 PUBLIC FLOAT GYRO_getNowAngleSpeed( void )
 {
@@ -82,14 +82,14 @@ PUBLIC FLOAT GYRO_getNowAngleSpeed( void )
 }
 
 // *************************************************************************
-//   æ©Ÿèƒ½		ï¼š ã‚¸ãƒ£ã‚¤ãƒ­ã®ç´¯ç©è§’åº¦ã‚’ãƒªã‚»ãƒƒãƒˆã™ã‚‹
-//   æ³¨æ„		ï¼š ãªã—
-//   ãƒ¡ãƒ¢		ï¼š â˜†
-//   å¼•æ•°		ï¼š ãªã—
-//   è¿”ã‚Šå€¤		ï¼š ãªã—
-// **************************    å±¥    æ­´    *******************************
-// 		v1.0		2019.4.14			TKR			æ–°è¦
-//		v2.0		2019.6.2			TKR			è§’åº¦ã¨è§’é€Ÿåº¦ã®å¤‰æ•°å¤‰æ›´
+//   ‹@”\		F ƒWƒƒƒCƒ‚Ì—ÝÏŠp“x‚ðƒŠƒZƒbƒg‚·‚é
+//   ’ˆÓ		F ‚È‚µ
+//   ƒƒ‚		F ™
+//   ˆø”		F ‚È‚µ
+//   •Ô‚è’l		F ‚È‚µ
+// **************************    —š    —ð    *******************************
+// 		v1.0		2019.4.14			TKR			V‹K
+//		v2.0		2019.6.2			TKR			Šp“x‚ÆŠp‘¬“x‚Ì•Ï”•ÏX
 // *************************************************************************/
 PUBLIC void GYRO_clrAngle( void )
 {
@@ -98,169 +98,176 @@ PUBLIC void GYRO_clrAngle( void )
 }
 
 // *************************************************************************
-//   æ©Ÿèƒ½		ï¼š ã‚¸ãƒ£ã‚¤ãƒ­ã‚»ãƒ³ã‚µç”¨ãƒãƒ¼ãƒªãƒ³ã‚°é–¢æ•°
-//   æ³¨æ„		ï¼š å‘¨æœŸãƒãƒ³ãƒ‰ãƒ©ã‹ã‚‰å®šæœŸçš„ã«å‘¼ã³å‡ºã™
-//   ãƒ¡ãƒ¢		ï¼š å‰²ã‚Šè¾¼ã¿ã‹ã‚‰å®Ÿè¡Œã•ã‚Œã‚‹
-//   å¼•æ•°		ï¼š ãªã—
-//   è¿”ã‚Šå€¤		ï¼š ãªã—
-// **************************    å±¥    æ­´    *******************************
-// 		v1.0		2019.4.14			TKR			æ–°è¦
-//		v2.0		2019.6.2			TKR			ç§»å‹•å¹³å‡ã‚’å‰Šé™¤(å‰ä½œ)
+//   ‹@”\		F ƒWƒƒƒCƒƒZƒ“ƒT—pƒ|[ƒŠƒ“ƒOŠÖ”
+//   ’ˆÓ		F ŽüŠúƒnƒ“ƒhƒ‰‚©‚ç’èŠú“I‚ÉŒÄ‚Ño‚·
+//   ƒƒ‚		F Š„‚èž‚Ý‚©‚çŽÀs‚³‚ê‚é
+//   ˆø”		F ‚È‚µ
+//   •Ô‚è’l		F ‚È‚µ
+// **************************    —š    —ð    *******************************
+// 		v1.0		2019.4.14			TKR			V‹K
+//		v2.0		2019.6.2			TKR			ˆÚ“®•½‹Ï‚ðíœ(‘Oì)
 // *************************************************************************/
 PUBLIC void GYRO_Pol( void )
 {
-	f_NowGyroAngle += f_NowGyroAngleSpeed / 1000;		// è§’åº¦æ›´æ–°   (0.001secæ¯Žã«åŠ ç®—ã™ã‚‹ãŸã‚)
+	f_NowGyroAngle += f_NowGyroAngleSpeed / 1000;		// Šp“xXV   (0.001sec–ˆ‚É‰ÁŽZ‚·‚é‚½‚ß)
 }
 
 // *************************************************************************
-//   æ©Ÿèƒ½		ï¼š å›ã®åã¯ï¼Ÿ
-//   æ³¨æ„		ï¼š ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯é–¢æ•°ã¯ä½¿ã‚ãªã„
-//   ãƒ¡ãƒ¢		ï¼š ã‚¸ãƒ£ã‚¤ãƒ­ã®ãƒ‡ãƒãƒƒã‚°ç”¨
-//   å¼•æ•°		ï¼š ãªã—
-//   è¿”ã‚Šå€¤		ï¼š ãªã—
-// **************************    å±¥    æ­´    *******************************
-// 		v1.0		2019.6.2			TKR			æ–°è¦
+//   ‹@”\		F ŒN‚Ì–¼‚ÍH
+//   ’ˆÓ		F ƒR[ƒ‹ƒoƒbƒNŠÖ”‚ÍŽg‚í‚È‚¢
+//   ƒƒ‚		F ƒWƒƒƒCƒ‚ÌƒfƒoƒbƒO—p
+//   ˆø”		F ‚È‚µ
+//   •Ô‚è’l		F ‚È‚µ
+// **************************    —š    —ð    *******************************
+// 		v1.0		2019.6.2			TKR			V‹K
 // *************************************************************************/
 PUBLIC	void GYRO_get_WHOAMI( void ){
 	
-	p_SpiRcvData		= &s_WhoamiVal;		// ä¸Šä½ãƒ‡ãƒ¼ã‚¿
-	SPI_staGetData(SPI_WHO_AM_I);			// å—ä¿¡å‡¦ç†å®Ÿè¡Œ
+	p_SpiRcvData		= &s_WhoamiVal;		// ãˆÊƒf[ƒ^
+	SPI_staGetData(SPI_WHO_AM_I);			// ŽóMˆ—ŽÀs
 
 	printf("Who am I = 0x%x\n\r",s_WhoamiVal);
 }
 
 // *************************************************************************
-//   æ©Ÿèƒ½		ï¼š ã‚¸ãƒ£ã‚¤ãƒ­åˆæœŸè¨­å®š
-//   æ³¨æ„		ï¼š SPI_initå®Ÿè¡Œå¾Œã«å®Ÿè¡Œ
-//   ãƒ¡ãƒ¢		ï¼š åˆå›žå®Ÿè¡Œ
-//   å¼•æ•°		ï¼š ãªã—
-//   è¿”ã‚Šå€¤		ï¼š ãªã—
-// **************************    å±¥    æ­´    *******************************
-// 		v1.0		2019.5.2			TKR			æ–°è¦
+//   ‹@”\		F ƒWƒƒƒCƒ‰ŠúÝ’è
+//   ’ˆÓ		F SPI_initŽÀsŒã‚ÉŽÀs
+//   ƒƒ‚		F ‰‰ñŽÀs
+//   ˆø”		F ‚È‚µ
+//   •Ô‚è’l		F ‚È‚µ
+// **************************    —š    —ð    *******************************
+// 		v1.0		2019.5.2			TKR			V‹K
 // *************************************************************************/
 PUBLIC void GYRO_init( void ){
 	
 	SHORT	us_dummy;
 	
-	/* ãƒ‘ãƒ¯ãƒ¼ãƒžãƒã‚¸ãƒ¡ãƒ³ãƒˆ1[No.107] */		 
+	/* ƒpƒ[ƒ}ƒlƒWƒƒ“ƒg1[No.107] */		 
 	SPI_staSetData(SPI_PWR_MGMT_1,0x01);		 
 	TIME_wait(100);
 	while(1){
-		if( en_SpiState == SPI_IDLE )break;		// SPIé€šä¿¡å®Œäº†
+		if( en_SpiState == SPI_IDLE )break;		// SPI’ÊMŠ®—¹
 	}
 
-	/* ä¿¡å·ãƒªã‚»ãƒƒãƒˆ[No.104] */
-//	SPI_staSetData(SPI_SIGNAL_RESET,0x03);		// åŠ é€Ÿåº¦ãƒ»æ¸©åº¦ãƒªã‚»ãƒƒãƒˆ
+	/* M†ƒŠƒZƒbƒg[No.104] */
+//	SPI_staSetData(SPI_SIGNAL_RESET,0x03);		// ‰Á‘¬“xE‰·“xƒŠƒZƒbƒg
 //	TIME_wait(100);
 //	while(1){
-//		if( en_SpiState == SPI_IDLE )break;		// SPIé€šä¿¡å®Œäº†
+//		if( en_SpiState == SPI_IDLE )break;		// SPI’ÊMŠ®—¹
 //	}
 
-	/* ã‚³ãƒ³ãƒ•ã‚£ã‚°[No.26] */
+	/* ƒRƒ“ƒtƒBƒO[No.26] */
 	SPI_staSetData(SPI_CONFIG,0x00);
 	TIME_wait(100);
 	while(1){
-		if( en_SpiState == SPI_IDLE )break;		// SPIé€šä¿¡å®Œäº†
+		if( en_SpiState == SPI_IDLE )break;		// SPI’ÊMŠ®—¹
 	}
 	
-	/* FSYNCã‚³ãƒ³ãƒ•ã‚£ã‚°[No.54] */
-	p_SpiRcvData		= &us_dummy;		// ãƒ€ãƒŸãƒ¼
-	SPI_staGetData(SPI_FSYNC_INT);			// èª­ã¿å‡ºã—ç”¨ãƒ¬ã‚¸ã‚¹ã‚¿
+	/* FSYNCƒRƒ“ƒtƒBƒO[No.54] */
+	p_SpiRcvData		= &us_dummy;		// ƒ_ƒ~[
+	SPI_staGetData(SPI_FSYNC_INT);			// “Ç‚Ýo‚µ—pƒŒƒWƒXƒ^
 	TIME_wait(100);
 	while(1){
-		if( en_SpiState == SPI_IDLE )break;		// SPIé€šä¿¡å®Œäº†
+		if( en_SpiState == SPI_IDLE )break;		// SPI’ÊMŠ®—¹
 	}
 	
-	/* INT_PINã‚³ãƒ³ãƒ•ã‚£ã‚°[No.55] */
+	/* INT_PINƒRƒ“ƒtƒBƒO[No.55] */
 	SPI_staSetData(SPI_INT_PIN_COMFIG,0xe8);
 	TIME_wait(100);
 	while(1){
-		if( en_SpiState == SPI_IDLE )break;		// SPIé€šä¿¡å®Œäº†
+		if( en_SpiState == SPI_IDLE )break;		// SPI’ÊMŠ®—¹
 	}
 	
 
-	/* SPIæœ‰åŠ¹[No.106] */
-	SPI_staSetData(SPI_USER_CONTROL,0x01);		// ã‚¸ãƒ£ã‚¤ãƒ­ãƒ»åŠ é€Ÿåº¦ãƒ»æ¸©åº¦ãƒªã‚»ãƒƒãƒˆ
+	/* SPI—LŒø[No.106] */
+	SPI_staSetData(SPI_USER_CONTROL,0x01);		// ƒWƒƒƒCƒE‰Á‘¬“xE‰·“xƒŠƒZƒbƒg
 	TIME_wait(100);
 	while(1){
-		if( en_SpiState == SPI_IDLE )break;		// SPIé€šä¿¡å®Œäº†
+		if( en_SpiState == SPI_IDLE )break;		// SPI’ÊMŠ®—¹
 	}
 	
-	/* SPIæœ‰åŠ¹[No.112] */
-	SPI_staSetData(SPI_I2C_IF,0x40);			// SPIæœ‰åŠ¹(I2Cã‚’åˆ‡ã‚‹)
+	/* SPI—LŒø[No.112] */
+	SPI_staSetData(SPI_I2C_IF,0x40);			// SPI—LŒø(I2C‚ðØ‚é)
 	TIME_wait(100);
 	while(1){
-		if( en_SpiState == SPI_IDLE )break;		// SPIé€šä¿¡å®Œäº†
+		if( en_SpiState == SPI_IDLE )break;		// SPI’ÊMŠ®—¹
 	}
 
-	/* ç²¾åº¦(ã‚¸ãƒ£ã‚¤ãƒ­)[No.27] */
-	SPI_staSetData(SPI_GYRO_CFG,0x18);			// Â±2000[dps]
+	/* ¸“x(ƒWƒƒƒCƒ)[No.27] */
+	SPI_staSetData(SPI_GYRO_CFG,0x18);			// }2000[dps]
 	TIME_wait(100);
 	while(1){
-		if( en_SpiState == SPI_IDLE )break;		// SPIé€šä¿¡å®Œäº†
+		if( en_SpiState == SPI_IDLE )break;		// SPI’ÊMŠ®—¹
 	}
+
+	/* ƒWƒƒƒCƒ‚ÌƒIƒtƒZƒbƒgˆ—[No.24] */
+//	SPI_staSetData(SPI_GYRO_CFG,0x18);			// 
+//	TIME_wait(100);
+//	while(1){
+//		if( en_SpiState == SPI_IDLE )break;		// SPI’ÊMŠ®—¹
+//	}
 
 }
 
 // *************************************************************************
-//   æ©Ÿèƒ½		ï¼š ã‚¸ãƒ£ã‚¤ãƒ­ã‚»ãƒ³ã‚µå€¤å–å¾—ç”¨é–¢æ•°(2/2)
-//   æ³¨æ„		ï¼š ãªã—
-//   ãƒ¡ãƒ¢		ï¼š ãªã—
-//   å¼•æ•°		ï¼š ãªã—
-//   è¿”ã‚Šå€¤		ï¼š ãªã—
-// **************************    å±¥    æ­´    *******************************
-// 		v1.0		2019.6.2			TKR			æ–°è¦
+//   ‹@”\		F ƒWƒƒƒCƒƒZƒ“ƒT’lŽæ“¾—pŠÖ”(2/2)
+//   ’ˆÓ		F ‚È‚µ
+//   ƒƒ‚		F ‚È‚µ
+//   ˆø”		F ‚È‚µ
+//   •Ô‚è’l		F ‚È‚µ
+// **************************    —š    —ð    *******************************
+// 		v1.0		2019.6.2			TKR			V‹K
 // *************************************************************************/
 PRIVATE void GYRO_getVal_2nd( void ){
 
-	SHORT	s_count;			// ICM20602ã‹ã‚‰å¾—ã‚‰ã‚ŒãŸè§’é€Ÿåº¦(ã‚«ã‚¦ãƒ³ãƒˆå€¤)
-	FLOAT	f_tempAngleSpeed;	// è§’é€Ÿåº¦[dps]
+	SHORT	s_count;			// ICM20602‚©‚ç“¾‚ç‚ê‚½Šp‘¬“x(ƒJƒEƒ“ƒg’l)
+	FLOAT	f_tempAngleSpeed;	// Šp‘¬“x[dps]
 
-	/* åˆæœŸåŒ– */
+	/* ‰Šú‰» */
 	p_SpiRcvData		= NULL;
 	p_SpiCallBackFunc	= NULL;
 
-	/* è§’é€Ÿåº¦å€¤ */
-	s_count				= (SHORT)(s_GyroVal_Lo | (s_GyroVal_Hi << 8) );		// ãƒ‡ãƒ¼ã‚¿çµåˆ
-	f_tempAngleSpeed	= (FLOAT)s_count / GYRO_SCALE_FACTOR;				// [ã‚«ã‚¦ãƒ³ãƒˆ]â†’[dps]ã«å¤‰æ›
+	/* Šp‘¬“x’l */
+	s_count				= (SHORT)(s_GyroVal_Lo | (s_GyroVal_Hi << 8) );		// ƒf[ƒ^Œ‹‡
+	f_tempAngleSpeed	= (FLOAT)s_count / GYRO_SCALE_FACTOR;				// [ƒJƒEƒ“ƒg]¨[dps]‚É•ÏŠ·
 
-	/* SWãƒ•ã‚£ãƒ«ã‚¿ã‚’æœ‰åŠ¹ã«ã™ã‚‹(å¾Œã§æ›¸ã) */ 
+	/* SWƒtƒBƒ‹ƒ^‚ð—LŒø‚É‚·‚é(Œã‚Å‘‚­) */ 
 	
-	/* è§’é€Ÿåº¦æ›´æ–° */
+	/* Šp‘¬“xXV */
 	f_NowGyroAngleSpeed		= f_tempAngleSpeed;
 
 }
 
 // *************************************************************************
-//   æ©Ÿèƒ½		ï¼š ã‚¸ãƒ£ã‚¤ãƒ­ã‚»ãƒ³ã‚µå€¤å–å¾—ç”¨é–¢æ•°(1/2)
-//   æ³¨æ„		ï¼š ãªã—
-//   ãƒ¡ãƒ¢		ï¼š ãªã—
-//   å¼•æ•°		ï¼š ãªã—
-//   è¿”ã‚Šå€¤		ï¼š ãªã—
-// **************************    å±¥    æ­´    *******************************
-// 		v1.0		2019.6.2			TKR			æ–°è¦
+//   ‹@”\		F ƒWƒƒƒCƒƒZƒ“ƒT’lŽæ“¾—pŠÖ”(1/2)
+//   ’ˆÓ		F ‚È‚µ
+//   ƒƒ‚		F ‚È‚µ
+//   ˆø”		F ‚È‚µ
+//   •Ô‚è’l		F ‚È‚µ
+// **************************    —š    —ð    *******************************
+// 		v1.0		2019.6.2			TKR			V‹K
 // *************************************************************************/
 PRIVATE void GYRO_getVal_1st( void ){
 
-	p_SpiRcvData		= &s_GyroVal_Hi;		// ä¸Šä½ãƒ‡ãƒ¼ã‚¿
+	p_SpiRcvData		= &s_GyroVal_Hi;		// ãˆÊƒf[ƒ^
 	p_SpiCallBackFunc	= GYRO_getVal_2nd;
 	SPI_staGetData(SPI_GYRO_Z_H);
 
 }
 
 // *************************************************************************
-//   æ©Ÿèƒ½		ï¼š ã‚¸ãƒ£ã‚¤ãƒ­ã‚»ãƒ³ã‚µã®å€¤ã‚’å–å¾—ã™ã‚‹
-//   æ³¨æ„		ï¼š ãªã—
-//   ãƒ¡ãƒ¢		ï¼š ãªã—
-//   å¼•æ•°		ï¼š ãªã—
-//   è¿”ã‚Šå€¤		ï¼š ãªã—
-// **************************    å±¥    æ­´    *******************************
-// 		v1.0		2019.6.2			TKR			æ–°è¦
+//   ‹@”\		F ƒWƒƒƒCƒƒZƒ“ƒT‚Ì’l‚ðŽæ“¾‚·‚é
+//   ’ˆÓ		F ‚È‚µ
+//   ƒƒ‚		F ‚È‚µ
+//   ˆø”		F ‚È‚µ
+//   •Ô‚è’l		F ‚È‚µ
+// **************************    —š    —ð    *******************************
+// 		v1.0		2019.6.2			TKR			V‹K
 // *************************************************************************/
 PUBLIC void GYRO_getVal( void ){
 
-	p_SpiRcvData		= &s_GyroVal_Lo;		// å—ä¿¡ãƒ‡ãƒ¼ã‚¿ã‚¢ãƒ‰ãƒ¬ã‚¹ç™»éŒ²(ä¸‹ä½ãƒ‡ãƒ¼ã‚¿)
-	p_SpiCallBackFunc	= GYRO_getVal_1st;		// ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯é–¢æ•°ç™»éŒ²
-	SPI_staGetData(SPI_GYRO_Z_L);				// å—ä¿¡å‡¦ç†å®Ÿè¡Œ
+	p_SpiRcvData		= &s_GyroVal_Lo;		// ŽóMƒf[ƒ^ƒAƒhƒŒƒX“o˜^(‰ºˆÊƒf[ƒ^)
+	p_SpiCallBackFunc	= GYRO_getVal_1st;		// ƒR[ƒ‹ƒoƒbƒNŠÖ”“o˜^
+	SPI_staGetData(SPI_GYRO_Z_L);				// ŽóMˆ—ŽÀs
 
 }

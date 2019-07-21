@@ -1,33 +1,33 @@
 // *************************************************************************
-//   ãƒ­ãƒœãƒƒãƒˆå	ï¼š Baharatï¼ˆãƒãƒãƒ©ãƒƒãƒˆï¼‰
-//   æ¦‚è¦		ï¼š ã‚µãƒ³ã‚·ãƒ£ã‚¤ãƒ³ã®HALï¼ˆãƒãƒ¼ãƒ‰ã‚¦ã‚¨ã‚¢æŠ½è±¡å±¤ï¼‰ãƒ•ã‚¡ã‚¤ãƒ«
-//   æ³¨æ„		ï¼š ãªã—
-//   ãƒ¡ãƒ¢		ï¼š ãƒ¢ãƒ¼ã‚¿ãƒ¼åˆ¶å¾¡
-//   å¼•æ•°		ï¼š ãªã—
-//   è¿”ã‚Šå€¤		ï¼š ãªã—
-// **************************    å±¥    æ­´    *******************************
-// 		v1.0		2019.4.11			TKR			æ–°è¦ï¼ˆãƒ•ã‚¡ã‚¤ãƒ«ã®ã‚¤ãƒ³ã‚¯ãƒ«ãƒ¼ãƒ‰ï¼‰
+//   ƒƒ{ƒbƒg–¼	F Baharatiƒoƒnƒ‰ƒbƒgj
+//   ŠT—v		F ƒTƒ“ƒVƒƒƒCƒ“‚ÌHALiƒn[ƒhƒEƒGƒA’ŠÛ‘wjƒtƒ@ƒCƒ‹
+//   ’ˆÓ		F ‚È‚µ
+//   ƒƒ‚		F ƒ‚[ƒ^[§Œä
+//   ˆø”		F ‚È‚µ
+//   •Ô‚è’l		F ‚È‚µ
+// **************************    —š    —ğ    *******************************
+// 		v1.0		2019.4.11			TKR			V‹Kiƒtƒ@ƒCƒ‹‚ÌƒCƒ“ƒNƒ‹[ƒhj
 // *************************************************************************/
 
 //**************************************************
-// ã‚¤ãƒ³ã‚¯ãƒ«ãƒ¼ãƒ‰ãƒ•ã‚¡ã‚¤ãƒ«ï¼ˆincludeï¼‰
+// ƒCƒ“ƒNƒ‹[ƒhƒtƒ@ƒCƒ‹iincludej
 //**************************************************
-#include <typedefine.h>					// å®šç¾©
-#include <common_define.h>				// å…±é€šå®šç¾©
+#include <typedefine.h>					// ’è‹`
+#include <common_define.h>				// ‹¤’Ê’è‹`
 #include <iodefine.h>					// I/O
-#include <stdio.h>						// æ¨™æº–å…¥å‡ºåŠ›
-#include <math.h>						// æ•°å€¤è¨ˆç®—
+#include <stdio.h>						// •W€“üo—Í
+#include <math.h>						// ”’lŒvZ
 
 #include <parameter.h>                  // parameter
 
 #include <hal_dcmCtrl.h>				// DCM_CTRL
 #include <hal_dcm.h>                    // DCM
 #include <hal_enc.h>					// Encoder
-#include <hal_battery.h>				// ãƒãƒƒãƒ†ãƒªãƒ¼
+#include <hal_battery.h>				// ƒoƒbƒeƒŠ[
 #include <hal_dist.h>					// DIST
 #include <hal_gyro.h>					// GYRO
 //**************************************************
-// å®šç¾©ï¼ˆdefineï¼‰
+// ’è‹`idefinej
 //**************************************************
 #define     VCC_MAX             (8.4f)
 #define     FF_BALANCE_R        (1.0f)
@@ -36,97 +36,97 @@
 #define     FF_HIT_BALANCE_L    (1.0f)
 
 //**************************************************
-// åˆ—æŒ™ä½“ï¼ˆenumï¼‰
+// —ñ‹“‘Ìienumj
 //**************************************************
 
 //**************************************************
-// æ§‹é€ ä½“ï¼ˆstructï¼‰
+// \‘¢‘Ìistructj
 //**************************************************
 
 //**************************************************
-// å¤‰æ•°
+// •Ï”
 //**************************************************
-/* åˆ¶å¾¡ */
-PRIVATE enCTRL_TYPE     en_Type;                    // åˆ¶å¾¡æ–¹å¼
-PUBLIC  FLOAT           f_Time          = 0;        // å‹•ä½œæ™‚é–“[sec]
-PUBLIC  FLOAT           f_TrgtTime      = 1000;     // å‹•ä½œç›®æ¨™æ™‚é–“[msec]
-PRIVATE UCHAR 			uc_CtrlFlag	    = false;	// ãƒ•ã‚£ãƒ¼ãƒ‰ãƒãƒƒã‚¯ or ãƒ•ã‚£ãƒ¼ãƒ‰ãƒ•ã‚©ãƒ¯ãƒ¼ãƒ‰ åˆ¶å¾¡æœ‰åŠ¹ãƒ•ãƒ©ã‚°ï¼ˆfalse:ç„¡åŠ¹ã€1ï¼šæœ‰åŠ¹ï¼‰ å®£è¨€æ™‚ã¯ç„¡åŠ¹ã«ã™ã‚‹ã“ã¨
-PRIVATE LONG            l_CntR          = 0;        // å³ãƒ¢ãƒ¼ã‚¿ãƒ¼ã‚«ã‚¦ãƒ³ãƒˆé‡
-PRIVATE LONG            l_CntL          = 0;        // å·¦ãƒ¢ãƒ¼ã‚¿ãƒ¼ã‚«ã‚¦ãƒ³ãƒˆé‡
+/* §Œä */
+PRIVATE enCTRL_TYPE     en_Type;                    // §Œä•û®
+PUBLIC  FLOAT           f_Time          = 0;        // “®ìŠÔ[sec]
+PUBLIC  FLOAT           f_TrgtTime      = 1000;     // “®ì–Ú•WŠÔ[msec]
+PRIVATE UCHAR 			uc_CtrlFlag	    = false;	// ƒtƒB[ƒhƒoƒbƒN or ƒtƒB[ƒhƒtƒHƒ[ƒh §Œä—LŒøƒtƒ‰ƒOifalse:–³ŒøA1F—LŒøj éŒ¾‚Í–³Œø‚É‚·‚é‚±‚Æ
+PRIVATE LONG            l_CntR          = 0;        // ‰Eƒ‚[ƒ^[ƒJƒEƒ“ƒg—Ê
+PRIVATE LONG            l_CntL          = 0;        // ¶ƒ‚[ƒ^[ƒJƒEƒ“ƒg—Ê
 
-/* é€Ÿåº¦åˆ¶å¾¡ */
-PRIVATE FLOAT           f_Acc           = 3;        // [é€Ÿåº¦åˆ¶å¾¡]ã€€åŠ é€Ÿåº¦
-PRIVATE FLOAT           f_BaseSpeed     = 10;       // [é€Ÿåº¦åˆ¶å¾¡]ã€€åˆé€Ÿåº¦
-PRIVATE FLOAT           f_LastSpeed     = 180;      // [é€Ÿåº¦åˆ¶å¾¡]ã€€æœ€çµ‚ç›®æ¨™é€Ÿåº¦
-PRIVATE FLOAT           f_NowSpeed      = 0;        // [é€Ÿåº¦åˆ¶å¾¡]ã€€ç¾åœ¨ã®é€Ÿåº¦[mm/s]     ï¼ˆ1[msec]æ¯ã«æ›´æ–°ã•ã‚Œã‚‹ï¼‰
-PUBLIC  FLOAT           f_TrgtSpeed     = 0;        // [é€Ÿåº¦åˆ¶å¾¡]ã€€ç›®æ¨™é€Ÿåº¦             ï¼ˆ1[msec]æ¯ã«æ›´æ–°ã•ã‚Œã‚‹ï¼‰
+/* ‘¬“x§Œä */
+PRIVATE FLOAT           f_Acc           = 3;        // [‘¬“x§Œä]@‰Á‘¬“x
+PRIVATE FLOAT           f_BaseSpeed     = 10;       // [‘¬“x§Œä]@‰‘¬“x
+PRIVATE FLOAT           f_LastSpeed     = 180;      // [‘¬“x§Œä]@ÅI–Ú•W‘¬“x
+PRIVATE FLOAT           f_NowSpeed      = 0;        // [‘¬“x§Œä]@Œ»İ‚Ì‘¬“x[mm/s]     i1[msec]–ˆ‚ÉXV‚³‚ê‚éj
+PUBLIC  FLOAT           f_TrgtSpeed     = 0;        // [‘¬“x§Œä]@–Ú•W‘¬“x             i1[msec]–ˆ‚ÉXV‚³‚ê‚éj
 
-/* è·é›¢åˆ¶å¾¡ */
-PRIVATE FLOAT           f_BaseDist      = 0;        // [è·é›¢åˆ¶å¾¡]ã€€åˆæœŸä½ç½®
-PRIVATE FLOAT           f_LastDist      = 0;        // [è·é›¢åˆ¶å¾¡]ã€€æœ€çµ‚ç§»å‹•è·é›¢
-PUBLIC  FLOAT           f_TrgtDist      = 0;        // [è·é›¢åˆ¶å¾¡]ã€€ç›®æ¨™ç§»å‹•è·é›¢         ï¼ˆ1[msec]æ¯ã«æ›´æ–°ã•ã‚Œã‚‹ï¼‰
-PUBLIC  volatile FLOAT  f_NowDist       = 0;        // [è·é›¢åˆ¶å¾¡]ã€€ç¾åœ¨è·é›¢             ï¼ˆ1[msec]æ¯ã«æ›´æ–°ã•ã‚Œã‚‹ï¼‰
-PRIVATE FLOAT           f_NowDistR      = 0;        // [è·é›¢åˆ¶å¾¡]ã€€ç¾åœ¨è·é›¢(å³)         ï¼ˆ1[msec]æ¯ã«æ›´æ–°ã•ã‚Œã‚‹ï¼‰
-PRIVATE FLOAT           f_NowDistL      = 0;        // [è·é›¢åˆ¶å¾¡]ã€€ç¾åœ¨è·é›¢(å·¦)         ï¼ˆ1[msec]æ¯ã«æ›´æ–°ã•ã‚Œã‚‹ï¼‰
-PUBLIC  FLOAT           f_DistErrSum    = 0;        // [è·é›¢åˆ¶å¾¡]ã€€è·é›¢ç©åˆ†è·é›¢         ï¼ˆ1[msec]æ¯ã«æ›´æ–°ã•ã‚Œã‚‹ï¼‰
+/* ‹——£§Œä */
+PRIVATE FLOAT           f_BaseDist      = 0;        // [‹——£§Œä]@‰ŠúˆÊ’u
+PRIVATE FLOAT           f_LastDist      = 0;        // [‹——£§Œä]@ÅIˆÚ“®‹——£
+PUBLIC  FLOAT           f_TrgtDist      = 0;        // [‹——£§Œä]@–Ú•WˆÚ“®‹——£         i1[msec]–ˆ‚ÉXV‚³‚ê‚éj
+PUBLIC  volatile FLOAT  f_NowDist       = 0;        // [‹——£§Œä]@Œ»İ‹——£             i1[msec]–ˆ‚ÉXV‚³‚ê‚éj
+PRIVATE FLOAT           f_NowDistR      = 0;        // [‹——£§Œä]@Œ»İ‹——£(‰E)         i1[msec]–ˆ‚ÉXV‚³‚ê‚éj
+PRIVATE FLOAT           f_NowDistL      = 0;        // [‹——£§Œä]@Œ»İ‹——£(¶)         i1[msec]–ˆ‚ÉXV‚³‚ê‚éj
+PUBLIC  FLOAT           f_DistErrSum    = 0;        // [‹——£§Œä]@‹——£Ï•ª‹——£         i1[msec]–ˆ‚ÉXV‚³‚ê‚éj
 
-/*è§’é€Ÿåº¦åˆ¶å¾¡*/
-PRIVATE FLOAT           f_AccAngleS     = 3;        // [è§’é€Ÿåº¦åˆ¶å¾¡]ã€€è§’åŠ é€Ÿåº¦
-PRIVATE FLOAT           f_BaseAngleS    = 10;       // [è§’é€Ÿåº¦åˆ¶å¾¡]ã€€åˆæœŸè§’é€Ÿåº¦
-PRIVATE FLOAT           f_LastAngleS    = 180;      // [è§’é€Ÿåº¦åˆ¶å¾¡]ã€€æœ€çµ‚ç›®æ¨™é€Ÿåº¦
-PUBLIC  FLOAT           f_TrgtAngleS    = 0;        // [è§’é€Ÿåº¦åˆ¶å¾¡]ã€€ç›®æ¨™è§’é€Ÿåº¦         ï¼ˆ1[msec]æ¯ã«æ›´æ–°ã•ã‚Œã‚‹ï¼‰
+/*Šp‘¬“x§Œä*/
+PRIVATE FLOAT           f_AccAngleS     = 3;        // [Šp‘¬“x§Œä]@Šp‰Á‘¬“x
+PRIVATE FLOAT           f_BaseAngleS    = 10;       // [Šp‘¬“x§Œä]@‰ŠúŠp‘¬“x
+PRIVATE FLOAT           f_LastAngleS    = 180;      // [Šp‘¬“x§Œä]@ÅI–Ú•W‘¬“x
+PUBLIC  FLOAT           f_TrgtAngleS    = 0;        // [Šp‘¬“x§Œä]@–Ú•WŠp‘¬“x         i1[msec]–ˆ‚ÉXV‚³‚ê‚éj
 
-/* è§’åº¦åˆ¶å¾¡ */
-PRIVATE FLOAT           f_BaseAngle     = 0;        // [è§’åº¦åˆ¶å¾¡]ã€€åˆæœŸè§’åº¦
-PRIVATE FLOAT           f_LastAngle     = 0;        // [è§’åº¦åˆ¶å¾¡]ã€€æœ€çµ‚ç›®æ¨™è§’åº¦
-PUBLIC  FLOAT           f_TrgtAngle     = 0;        // [è§’åº¦åˆ¶å¾¡]ã€€ç›®æ¨™è§’åº¦             ï¼ˆ1[msec]æ¯ã«æ›´æ–°ã•ã‚Œã‚‹ï¼‰
-PUBLIC  volatile FLOAT  f_NowAngle      = 0;        // [è§’åº¦åˆ¶å¾¡]ã€€ç¾åœ¨è§’åº¦             ï¼ˆ1[msec]æ¯ã«æ›´æ–°ã•ã‚Œã‚‹ï¼‰
-PUBLIC  FLOAT           f_AngleErrSum   = 0;        // [è§’åº¦åˆ¶å¾¡]ã€€è·é›¢ç©åˆ†è·é›¢         ï¼ˆ1[msec]æ¯ã«æ›´æ–°ã•ã‚Œã‚‹ï¼‰
+/* Šp“x§Œä */
+PRIVATE FLOAT           f_BaseAngle     = 0;        // [Šp“x§Œä]@‰ŠúŠp“x
+PRIVATE FLOAT           f_LastAngle     = 0;        // [Šp“x§Œä]@ÅI–Ú•WŠp“x
+PUBLIC  FLOAT           f_TrgtAngle     = 0;        // [Šp“x§Œä]@–Ú•WŠp“x             i1[msec]–ˆ‚ÉXV‚³‚ê‚éj
+PUBLIC  volatile FLOAT  f_NowAngle      = 0;        // [Šp“x§Œä]@Œ»İŠp“x             i1[msec]–ˆ‚ÉXV‚³‚ê‚éj
+PUBLIC  FLOAT           f_AngleErrSum   = 0;        // [Šp“x§Œä]@‹——£Ï•ª‹——£         i1[msec]–ˆ‚ÉXV‚³‚ê‚éj
 
-/* å£åˆ¶å¾¡ */
-PRIVATE LONG            l_WallErr       = 0;        // [å£åˆ¶å¾¡]ã€€å£ã¨ã®åå·®             ï¼ˆ1[msec]æ¯ã«æ›´æ–°ã•ã‚Œã‚‹ï¼‰
-PRIVATE FLOAT           f_ErrDistBuf    = 0;        // [å£åˆ¶å¾¡]ã€€è·é›¢ã‚»ãƒ³ã‚µã®èª¤å·®ã®ç©åˆ†  ï¼ˆ1[msec]æ¯ã«æ›´æ–°ã•ã‚Œã‚‹ï¼‰
+/* •Ç§Œä */
+PRIVATE LONG            l_WallErr       = 0;        // [•Ç§Œä]@•Ç‚Æ‚Ì•Î·             i1[msec]–ˆ‚ÉXV‚³‚ê‚éj
+PRIVATE FLOAT           f_ErrDistBuf    = 0;        // [•Ç§Œä]@‹——£ƒZƒ“ƒT‚ÌŒë·‚ÌÏ•ª  i1[msec]–ˆ‚ÉXV‚³‚ê‚éj
 
 
 //**************************************************
-// ãƒ—ãƒ­ãƒˆã‚¿ã‚¤ãƒ—å®£è¨€ï¼ˆãƒ•ã‚¡ã‚¤ãƒ«å†…ã§å¿…è¦ãªã‚‚ã®ã ã‘è¨˜è¿°ï¼‰
+// ƒvƒƒgƒ^ƒCƒvéŒ¾iƒtƒ@ƒCƒ‹“à‚Å•K—v‚È‚à‚Ì‚¾‚¯‹Lqj
 //**************************************************
 // *************************************************************************
-//   æ©Ÿèƒ½		ï¼š åˆ¶å¾¡æ–¹å¼ã‹ã‚‰ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿IDã«å¤‰æ›ã™ã‚‹
-//   æ³¨æ„		ï¼š ãªã—
-//   ãƒ¡ãƒ¢		ï¼š ãªã—
-//   å¼•æ•°		ï¼š ãªã—
-//   è¿”ã‚Šå€¤		ï¼š ãªã—
-// **************************    å±¥    æ­´    *******************************
-// 		v1.0		2018.4.4			å‰ç”°			æ–°è¦
+//   ‹@”\		F §Œä•û®‚©‚çƒpƒ‰ƒ[ƒ^ID‚É•ÏŠ·‚·‚é
+//   ’ˆÓ		F ‚È‚µ
+//   ƒƒ‚		F ‚È‚µ
+//   ˆø”		F ‚È‚µ
+//   •Ô‚è’l		F ‚È‚µ
+// **************************    —š    —ğ    *******************************
+// 		v1.0		2018.4.4			‹g“c			V‹K
 // *************************************************************************/
 PRIVATE enPARAM_MODE Chg_ParamID( enCTRL_TYPE en_type ){
 	
 	switch( en_type ){
 		
-		case CTRL_ACC:			return PARAM_ACC;			// åŠ é€Ÿä¸­(ç›´é€²)
-		case CTRL_CONST:		return PARAM_CONST;			// ç­‰é€Ÿä¸­(ç›´é€²)
-		case CTRL_DEC:			return PARAM_DEC;			// æ¸›é€Ÿä¸­(ç›´é€²)
+		case CTRL_ACC:			return PARAM_ACC;			// ‰Á‘¬’†(’¼i)
+		case CTRL_CONST:		return PARAM_CONST;			// “™‘¬’†(’¼i)
+		case CTRL_DEC:			return PARAM_DEC;			// Œ¸‘¬’†(’¼i)
 		
-		case CTRL_HIT_WALL:		return PARAM_HIT_WALL;		// å£ã‚ã¦åˆ¶å¾¡
+		case CTRL_HIT_WALL:		return PARAM_HIT_WALL;		// •Ç‚ ‚Ä§Œä
 		
-		case CTRL_SKEW_ACC:		return PARAM_SKEW_ACC;		// åŠ é€Ÿä¸­(æ–œã‚ç›´é€²)
-		case CTRL_SKEW_CONST:	return PARAM_SKEW_CONST;	// ç­‰é€Ÿä¸­(æ–œã‚ç›´é€²)
-		case CTRL_SKEW_DEC:		return PARAM_SKEW_DEC;		// ç­‰é€Ÿä¸­(æ–œã‚ç›´é€²)
+		case CTRL_SKEW_ACC:		return PARAM_SKEW_ACC;		// ‰Á‘¬’†(Î‚ß’¼i)
+		case CTRL_SKEW_CONST:	return PARAM_SKEW_CONST;	// “™‘¬’†(Î‚ß’¼i)
+		case CTRL_SKEW_DEC:		return PARAM_SKEW_DEC;		// “™‘¬’†(Î‚ß’¼i)
 		
-		case CTRL_ACC_SMOOTH:	return PARAM_ACC_SMOOTH;	// åŠ é€Ÿä¸­(ç›´é€² cosè¿‘ä¼¼)
-		case CTRL_CONST_SMOOTH:	return PARAM_CONST_SMOOTH;	// ç­‰é€Ÿä¸­(ç›´é€² cosè¿‘ä¼¼)
-		case CTRL_DEC_SMOOTH:	return PARAM_DEC_SMOOTH;	// æ¸›é€Ÿä¸­(ç›´é€² cosè¿‘ä¼¼)
+		case CTRL_ACC_SMOOTH:	return PARAM_ACC_SMOOTH;	// ‰Á‘¬’†(’¼i cos‹ß—)
+		case CTRL_CONST_SMOOTH:	return PARAM_CONST_SMOOTH;	// “™‘¬’†(’¼i cos‹ß—)
+		case CTRL_DEC_SMOOTH:	return PARAM_DEC_SMOOTH;	// Œ¸‘¬’†(’¼i cos‹ß—)
 		
-		case CTRL_ACC_TURN:		return PARAM_ACC_TURN;		// åŠ é€Ÿä¸­(è¶…ä¿¡åœ°æ—‹å›)
-		case CTRL_CONST_TURN:	return PARAM_CONST_TURN;	// ç­‰é€Ÿä¸­(è¶…ä¿¡åœ°æ—‹å›)
-		case CTRL_DEC_TURN:		return PARAM_DEC_TURN;		// æ¸›é€Ÿä¸­(è¶…ä¿¡åœ°æ—‹å›)
+		case CTRL_ACC_TURN:		return PARAM_ACC_TURN;		// ‰Á‘¬’†(’´M’nù‰ñ)
+		case CTRL_CONST_TURN:	return PARAM_CONST_TURN;	// “™‘¬’†(’´M’nù‰ñ)
+		case CTRL_DEC_TURN:		return PARAM_DEC_TURN;		// Œ¸‘¬’†(’´M’nù‰ñ)
 		
-		case CTRL_ENTRY_SLA:	return PARAM_ENTRY_SURA;	// ã‚¹ãƒ©ãƒ­ãƒ¼ãƒ å‰ã®å‰é€²å‹•ä½œ
-		case CTRL_ACC_SLA:		return PARAM_ACC_SURA;		// åŠ é€Ÿä¸­(ã‚¹ãƒ©ãƒ­ãƒ¼ãƒ )
-		case CTRL_CONST_SLA:	return PARAM_CONST_SURA;	// ç­‰é€Ÿä¸­(ã‚¹ãƒ©ãƒ­ãƒ¼ãƒ )
-		case CTRL_DEC_SLA:		return PARAM_DEC_SURA;		// æ¸›é€Ÿä¸­(ã‚¹ãƒ©ãƒ­ãƒ¼ãƒ )
-		case CTRL_EXIT_SLA:		return PARAM_EXIT_SURA;		// ã‚¹ãƒ©ãƒ­ãƒ¼ãƒ å¾Œã®å‰é€²å‹•ä½œ
+		case CTRL_ENTRY_SLA:	return PARAM_ENTRY_SURA;	// ƒXƒ‰ƒ[ƒ€‘O‚Ì‘Oi“®ì
+		case CTRL_ACC_SLA:		return PARAM_ACC_SURA;		// ‰Á‘¬’†(ƒXƒ‰ƒ[ƒ€)
+		case CTRL_CONST_SLA:	return PARAM_CONST_SURA;	// “™‘¬’†(ƒXƒ‰ƒ[ƒ€)
+		case CTRL_DEC_SLA:		return PARAM_DEC_SURA;		// Œ¸‘¬’†(ƒXƒ‰ƒ[ƒ€)
+		case CTRL_EXIT_SLA:		return PARAM_EXIT_SURA;		// ƒXƒ‰ƒ[ƒ€Œã‚Ì‘Oi“®ì
 		
 		default:				return PARAM_NC;
 	}
@@ -134,282 +134,282 @@ PRIVATE enPARAM_MODE Chg_ParamID( enCTRL_TYPE en_type ){
 
 
 // *************************************************************************
-//   æ©Ÿèƒ½		ï¼š åˆ¶å¾¡ã‚’é–‹å§‹ã™ã‚‹
-//   æ³¨æ„		ï¼š ãªã—
-//   ãƒ¡ãƒ¢		ï¼š ãªã—
-//   å¼•æ•°		ï¼š ãªã—
-//   è¿”ã‚Šå€¤		ï¼š ãªã—
-// **************************    å±¥    æ­´    *******************************
-// 		v1.0		2019.4.22			TKR			æ–°è¦
+//   ‹@”\		F §Œä‚ğŠJn‚·‚é
+//   ’ˆÓ		F ‚È‚µ
+//   ƒƒ‚		F ‚È‚µ
+//   ˆø”		F ‚È‚µ
+//   •Ô‚è’l		F ‚È‚µ
+// **************************    —š    —ğ    *******************************
+// 		v1.0		2019.4.22			TKR			V‹K
 // *************************************************************************/
 PUBLIC  void    CTRL_sta(void){
     uc_CtrlFlag = true;
 }
 
 // *************************************************************************
-//   æ©Ÿèƒ½		ï¼š åˆ¶å¾¡ã‚’åœæ­¢ã™ã‚‹
-//   æ³¨æ„		ï¼š ãªã—
-//   ãƒ¡ãƒ¢		ï¼š ãªã—
-//   å¼•æ•°		ï¼š ãªã—
-//   è¿”ã‚Šå€¤		ï¼š ãªã—
-// **************************    å±¥    æ­´    *******************************
-// 		v1.0		2019.4.22			TKR			æ–°è¦
+//   ‹@”\		F §Œä‚ğ’â~‚·‚é
+//   ’ˆÓ		F ‚È‚µ
+//   ƒƒ‚		F ‚È‚µ
+//   ˆø”		F ‚È‚µ
+//   •Ô‚è’l		F ‚È‚µ
+// **************************    —š    —ğ    *******************************
+// 		v1.0		2019.4.22			TKR			V‹K
 // *************************************************************************/
 PUBLIC  void    CTRL_stop(void){
     uc_CtrlFlag = false;
-    DCM_brakeMot(DCM_R);        // ãƒ–ãƒ¬ãƒ¼ã‚­
-    DCM_brakeMot(DCM_L);        // ãƒ–ãƒ¬ãƒ¼ã‚­
+    DCM_brakeMot(DCM_R);        // ƒuƒŒ[ƒL
+    DCM_brakeMot(DCM_L);        // ƒuƒŒ[ƒL
 }
 
 // *************************************************************************
-//   æ©Ÿèƒ½		ï¼š åˆ¶å¾¡ãƒ‡ãƒ¼ã‚¿ã‚’ã‚¯ãƒªã‚¢ã™ã‚‹
-//   æ³¨æ„		ï¼š ãªã—
-//   ãƒ¡ãƒ¢		ï¼š ãªã—
-//   å¼•æ•°		ï¼š ãªã—
-//   è¿”ã‚Šå€¤		ï¼š ãªã—
-// **************************    å±¥    æ­´    *******************************
-// 		v1.0		2019.4.22			TKR			æ–°è¦
+//   ‹@”\		F §Œäƒf[ƒ^‚ğƒNƒŠƒA‚·‚é
+//   ’ˆÓ		F ‚È‚µ
+//   ƒƒ‚		F ‚È‚µ
+//   ˆø”		F ‚È‚µ
+//   •Ô‚è’l		F ‚È‚µ
+// **************************    —š    —ğ    *******************************
+// 		v1.0		2019.4.22			TKR			V‹K
 // *************************************************************************/
 PUBLIC void CTRL_clrData(void){
 
-    ENC_clr();      // ENCãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«åˆæœŸåŒ–
+    ENC_clr();      // ENCƒ‚ƒWƒ…[ƒ‹‰Šú‰»
     l_CntR  = 0;     
     l_CntL  = 0;
 
-    /* ç¾åœ¨å€¤ */
-	f_NowDist 		= 0;						// ç§»å‹•è·é›¢ãƒªã‚»ãƒƒãƒˆ
+    /* Œ»İ’l */
+	f_NowDist 		= 0;						// ˆÚ“®‹——£ƒŠƒZƒbƒg
 	f_NowDistR 		= 0;
 	f_NowDistL 		= 0;
-	f_NowSpeed		= 0;						// [é€Ÿåº¦åˆ¶å¾¡]   ç¾åœ¨ã®é€Ÿåº¦ [mm/s]				ï¼ˆ1[msec]æ¯ã«æ›´æ–°ã•ã‚Œã‚‹ï¼‰
-	f_NowAngle		= 0;						// [è§’åº¦åˆ¶å¾¡]   ç¾åœ¨è§’åº¦						ï¼ˆ1[msec]æ¯ã«æ›´æ–°ã•ã‚Œã‚‹ï¼‰
-	//s_GyroVal		= 0;						// ã‚¸ãƒ£ã‚¤ãƒ­å€¤ã‚¯ãƒªã‚¢
-	//f_GyroNowAngle	= 0;						// ã‚¸ãƒ£ã‚¤ãƒ­å€¤ã‚¯ãƒªã‚¢
+	f_NowSpeed		= 0;						// [‘¬“x§Œä]   Œ»İ‚Ì‘¬“x [mm/s]				i1[msec]–ˆ‚ÉXV‚³‚ê‚éj
+	f_NowAngle		= 0;						// [Šp“x§Œä]   Œ»İŠp“x						i1[msec]–ˆ‚ÉXV‚³‚ê‚éj
+	//s_GyroVal		= 0;						// ƒWƒƒƒCƒ’lƒNƒŠƒA
+	//f_GyroNowAngle	= 0;						// ƒWƒƒƒCƒ’lƒNƒŠƒA
 	
-	/* ç›®æ¨™å€¤ */
-	f_TrgtSpeed		= 0;						// [é€Ÿåº¦åˆ¶å¾¡]   ç›®æ¨™ç§»å‹•é€Ÿåº¦ [mm/s]				ï¼ˆ1[msec]æ¯ã«æ›´æ–°ã•ã‚Œã‚‹ï¼‰
-	f_TrgtDist 		= 0;						// [è·é›¢åˆ¶å¾¡]   ç›®æ¨™ç§»å‹•è·é›¢					ï¼ˆ1[msec]æ¯ã«æ›´æ–°ã•ã‚Œã‚‹ï¼‰
-	f_TrgtAngleS	= 0;    					// [è§’é€Ÿåº¦åˆ¶å¾¡] ç›®æ¨™è§’é€Ÿåº¦ [rad/s]				ï¼ˆ1[msec]æ¯ã«æ›´æ–°ã•ã‚Œã‚‹ï¼‰
-	f_TrgtAngle		= 0;						// [è§’åº¦åˆ¶å¾¡]   ç›®æ¨™è§’åº¦						ï¼ˆ1[msec]æ¯ã«æ›´æ–°ã•ã‚Œã‚‹ï¼‰
+	/* –Ú•W’l */
+	f_TrgtSpeed		= 0;						// [‘¬“x§Œä]   –Ú•WˆÚ“®‘¬“x [mm/s]				i1[msec]–ˆ‚ÉXV‚³‚ê‚éj
+	f_TrgtDist 		= 0;						// [‹——£§Œä]   –Ú•WˆÚ“®‹——£					i1[msec]–ˆ‚ÉXV‚³‚ê‚éj
+	f_TrgtAngleS	= 0;    					// [Šp‘¬“x§Œä] –Ú•WŠp‘¬“x [rad/s]				i1[msec]–ˆ‚ÉXV‚³‚ê‚éj
+	f_TrgtAngle		= 0;						// [Šp“x§Œä]   –Ú•WŠp“x						i1[msec]–ˆ‚ÉXV‚³‚ê‚éj
 	
-	/* åˆ¶å¾¡ãƒ‡ãƒ¼ã‚¿ */
-	f_DistErrSum 	= 0;						// [è·é›¢åˆ¶å¾¡]   è·é›¢ç©åˆ†åˆ¶å¾¡ã®ã‚µãƒ å€¤			ï¼ˆ1[msec]æ¯ã«æ›´æ–°ã•ã‚Œã‚‹ï¼‰
-	f_AngleErrSum 	= 0;						// [è§’åº¦åˆ¶å¾¡]   è§’åº¦ç©åˆ†åˆ¶å¾¡ã®ã‚µãƒ å€¤			ï¼ˆ1[msec]æ¯ã«æ›´æ–°ã•ã‚Œã‚‹ï¼‰
-	f_ErrDistBuf	= 0;						// [å£åˆ¶å¾¡]     è·é›¢ã‚»ãƒ³ã‚µãƒ¼ã‚¨ãƒ©ãƒ¼å€¤ã®ãƒãƒƒãƒ•ã‚¡	ï¼ˆ1[msec]æ¯ã«æ›´æ–°ã•ã‚Œã‚‹ï¼‰
+	/* §Œäƒf[ƒ^ */
+	f_DistErrSum 	= 0;						// [‹——£§Œä]   ‹——£Ï•ª§Œä‚ÌƒTƒ€’l			i1[msec]–ˆ‚ÉXV‚³‚ê‚éj
+	f_AngleErrSum 	= 0;						// [Šp“x§Œä]   Šp“xÏ•ª§Œä‚ÌƒTƒ€’l			i1[msec]–ˆ‚ÉXV‚³‚ê‚éj
+	f_ErrDistBuf	= 0;						// [•Ç§Œä]     ‹——£ƒZƒ“ƒT[ƒGƒ‰[’l‚Ìƒoƒbƒtƒ@	i1[msec]–ˆ‚ÉXV‚³‚ê‚éj
 }
 
 // *************************************************************************
-//   æ©Ÿèƒ½		ï¼š åˆ¶å¾¡ãƒ‡ãƒ¼ã‚¿ã‚’ã‚»ãƒƒãƒˆã™ã‚‹
-//   æ³¨æ„		ï¼š ãªã—
-//   ãƒ¡ãƒ¢		ï¼š ãªã—
-//   å¼•æ•°		ï¼š åˆ¶å¾¡ãƒ‡ãƒ¼ã‚¿
-//   è¿”ã‚Šå€¤		ï¼š ãªã—
-// **************************    å±¥    æ­´    *******************************
-// 		v1.0		2019.4.26			TKR			æ–°è¦
+//   ‹@”\		F §Œäƒf[ƒ^‚ğƒZƒbƒg‚·‚é
+//   ’ˆÓ		F ‚È‚µ
+//   ƒƒ‚		F ‚È‚µ
+//   ˆø”		F §Œäƒf[ƒ^
+//   •Ô‚è’l		F ‚È‚µ
+// **************************    —š    —ğ    *******************************
+// 		v1.0		2019.4.26			TKR			V‹K
 // *************************************************************************/
 PUBLIC  void    CTRL_setData( stCTRL_DATA *p_data ){
 
-    /* åˆ¶å¾¡æ–¹æ³• */
+    /* §Œä•û–@ */
 	en_Type = p_data->en_type;
-    /* é€Ÿåº¦åˆ¶å¾¡ */
+    /* ‘¬“x§Œä */
     f_Acc 					= p_data->f_acc;
 	f_BaseSpeed				= p_data->f_now;
 	f_LastSpeed				= p_data->f_trgt;
 
-    /* è·é›¢åˆ¶å¾¡ */
+    /* ‹——£§Œä */
     f_BaseDist 				= p_data->f_nowDist;
 	f_LastDist 				= p_data->f_dist;
 
-    /* è§’é€Ÿåº¦åˆ¶å¾¡ */
+    /* Šp‘¬“x§Œä */
     f_AccAngleS 			= p_data->f_accAngleS;
 	f_BaseAngleS			= p_data->f_nowAngleS;
 	f_LastAngleS			= p_data->f_trgtAngleS;
 
-    /* è§’åº¦åˆ¶å¾¡ */
+    /* Šp“x§Œä */
     f_BaseAngle 			= p_data->f_nowAngle;
 	f_LastAngle 			= p_data->f_angle;
 
     f_Time                  = 0;
     f_TrgtTime              = p_data->f_time;
 
-    CTRL_sta();     // åˆ¶å¾¡é–‹å§‹
+    CTRL_sta();     // §ŒäŠJn
 
 }
 
 // *************************************************************************
-//   æ©Ÿèƒ½		ï¼š åˆ¶å¾¡ãƒ‡ãƒ¼ã‚¿ã‚’ç¾åœ¨ã®çŠ¶æ…‹ã«æ›´æ–°ã™ã‚‹
-//   æ³¨æ„		ï¼š CTRL_polã‹ã‚‰ã®ã¿å®Ÿè¡Œå¯èƒ½
-//   ãƒ¡ãƒ¢		ï¼š 1msecæ¯ã«å®Ÿè¡Œã•ã‚Œã‚‹
-//   å¼•æ•°		ï¼š ãªã—
-//   è¿”ã‚Šå€¤		ï¼š ãªã—
-// **************************    å±¥    æ­´    *******************************
-// 		v1.0		2019.4.26			TKR			æ–°è¦
+//   ‹@”\		F §Œäƒf[ƒ^‚ğŒ»İ‚Ìó‘Ô‚ÉXV‚·‚é
+//   ’ˆÓ		F CTRL_pol‚©‚ç‚Ì‚İÀs‰Â”\
+//   ƒƒ‚		F 1msec–ˆ‚ÉÀs‚³‚ê‚é
+//   ˆø”		F ‚È‚µ
+//   •Ô‚è’l		F ‚È‚µ
+// **************************    —š    —ğ    *******************************
+// 		v1.0		2019.4.26			TKR			V‹K
 // *************************************************************************/
 PRIVATE void    CTRL_refNow( void ){
 
-    FLOAT f_speedR		= 0;							// å³ãƒ¢ãƒ¼ã‚¿ç¾åœ¨é€Ÿåº¦ [mm/s]
-	FLOAT f_speedL		= 0;							// å·¦ãƒ¢ãƒ¼ã‚¿ç¾åœ¨é€Ÿåº¦ [mm/s]
-	FLOAT f_r 			= F_CNT2MM(l_CntR);				// å³ãƒ¢ãƒ¼ã‚¿ã®é€²ã‚“ã è·é›¢ [mm]
-	FLOAT f_l 			= F_CNT2MM(l_CntL);				// å·¦ãƒ¢ãƒ¼ã‚¿ã®é€²ã‚“ã è·é›¢ [mm]
+    FLOAT f_speedR		= 0;							// ‰Eƒ‚[ƒ^Œ»İ‘¬“x [mm/s]
+	FLOAT f_speedL		= 0;							// ¶ƒ‚[ƒ^Œ»İ‘¬“x [mm/s]
+	FLOAT f_r 			= F_CNT2MM(l_CntR);				// ‰Eƒ‚[ƒ^‚Ìi‚ñ‚¾‹——£ [mm]
+	FLOAT f_l 			= F_CNT2MM(l_CntL);				// ¶ƒ‚[ƒ^‚Ìi‚ñ‚¾‹——£ [mm]
 
-	/* é€Ÿåº¦æ›´æ–° */
-	f_speedR = f_r * 1000;								// å³ãƒ¢ãƒ¼ã‚¿é€Ÿåº¦ [mm/s] ( ç§»å‹•è·é›¢[ã‚«ã‚¦ãƒ³ãƒˆ] * 1ãƒ‘ãƒ«ã‚¹ã®ç§»å‹•é‡(0.0509[mm]) * 1000(msecâ†’sec) 
-	f_speedL = f_l * 1000;								// å·¦ãƒ¢ãƒ¼ã‚¿é€Ÿåº¦ [mm/s] ( ç§»å‹•è·é›¢[ã‚«ã‚¦ãƒ³ãƒˆ] * 1ãƒ‘ãƒ«ã‚¹ã®ç§»å‹•é‡(0.0509[mm]) * 1000(msecâ†’sec) 
-	f_NowSpeed  = ( f_speedR + f_speedL ) / 2;			// ãƒã‚¦ã‚¹ï¼ˆé€²è¡Œæ–¹å‘ä¸­å¿ƒè»¸ï¼‰ [1mm/s] 
+	/* ‘¬“xXV */
+	f_speedR = f_r * 1000;								// ‰Eƒ‚[ƒ^‘¬“x [mm/s] ( ˆÚ“®‹——£[ƒJƒEƒ“ƒg] * 1ƒpƒ‹ƒX‚ÌˆÚ“®—Ê(0.0509[mm]) * 1000(msec¨sec) 
+	f_speedL = f_l * 1000;								// ¶ƒ‚[ƒ^‘¬“x [mm/s] ( ˆÚ“®‹——£[ƒJƒEƒ“ƒg] * 1ƒpƒ‹ƒX‚ÌˆÚ“®—Ê(0.0509[mm]) * 1000(msec¨sec) 
+	f_NowSpeed  = ( f_speedR + f_speedL ) / 2;			// ƒ}ƒEƒXiis•ûŒü’†S²j [1mm/s] 
 	
-	/* è·é›¢æ›´æ–° */
-	f_NowDistR += f_r;									// ã‚«ã‚¦ãƒ³ãƒˆæ›´æ–°
-	f_NowDistL += f_l;									// ã‚«ã‚¦ãƒ³ãƒˆæ›´æ–°
-	f_NowDist  = ( f_NowDistR + f_NowDistL ) / 2;		// å¹³å‡å€¤æ›´æ–°
+	/* ‹——£XV */
+	f_NowDistR += f_r;									// ƒJƒEƒ“ƒgXV
+	f_NowDistL += f_l;									// ƒJƒEƒ“ƒgXV
+	f_NowDist  = ( f_NowDistR + f_NowDistL ) / 2;		// •½‹Ï’lXV
 	
 
 }
 
 // *************************************************************************
-//   æ©Ÿèƒ½		ï¼š åˆ¶å¾¡ãƒ‡ãƒ¼ã‚¿ã‚’ç›®æ¨™å€¤ã«æ›´æ–°ã™ã‚‹
-//   æ³¨æ„		ï¼š CTRL_polã‹ã‚‰ã®ã¿å®Ÿè¡Œå¯èƒ½
-//   ãƒ¡ãƒ¢		ï¼š 1msecæ¯ã«å®Ÿè¡Œã•ã‚Œã‚‹
-//   å¼•æ•°		ï¼š ãªã—
-//   è¿”ã‚Šå€¤		ï¼š ãªã—
-// **************************    å±¥    æ­´    *******************************
-// 		v1.0		2019.4.26			TKR			æ–°è¦
+//   ‹@”\		F §Œäƒf[ƒ^‚ğ–Ú•W’l‚ÉXV‚·‚é
+//   ’ˆÓ		F CTRL_pol‚©‚ç‚Ì‚İÀs‰Â”\
+//   ƒƒ‚		F 1msec–ˆ‚ÉÀs‚³‚ê‚é
+//   ˆø”		F ‚È‚µ
+//   •Ô‚è’l		F ‚È‚µ
+// **************************    —š    —ğ    *******************************
+// 		v1.0		2019.4.26			TKR			V‹K
 // *************************************************************************/
 PUBLIC  void    CTRL_refTarget( void ){
 
-    /*å‹•ä½œãƒ¢ãƒ¼ãƒ‰ã«å¿œã˜ã‚‹*/
+    /*“®ìƒ‚[ƒh‚É‰‚¶‚é*/
     switch( en_Type ){
 	
-		/* åŠ é€Ÿä¸­(ç›´é€²) */
+		/* ‰Á‘¬’†(’¼i) */
 		case CTRL_ACC:
 		case CTRL_SKEW_ACC:
-			if( f_TrgtSpeed < f_LastSpeed ){												// åŠ é€Ÿç›®æ¨™æ›´æ–°åŒºé–“
-				f_TrgtSpeed = f_BaseSpeed + f_Acc * f_Time;									// ç›®æ¨™é€Ÿåº¦
+			if( f_TrgtSpeed < f_LastSpeed ){												// ‰Á‘¬–Ú•WXV‹æŠÔ
+				f_TrgtSpeed = f_BaseSpeed + f_Acc * f_Time;									// –Ú•W‘¬“x
 			}
 			break;
 		
-		/* ç­‰é€Ÿä¸­(ç›´é€²) */
+		/* “™‘¬’†(’¼i) */
 		case CTRL_CONST:
 		case CTRL_SKEW_CONST:
-			f_TrgtSpeed = f_BaseSpeed;														// ç›®æ¨™é€Ÿåº¦
+			f_TrgtSpeed = f_BaseSpeed;														// –Ú•W‘¬“x
 			break;
 		
-		/* æ¸›é€Ÿä¸­(ç›´é€²) */
+		/* Œ¸‘¬’†(’¼i) */
 		case CTRL_DEC:
 		case CTRL_SKEW_DEC:
-			/* é€Ÿåº¦åˆ¶å¾¡ ï¼‹ ä½ç½®åˆ¶å¾¡ */
-			if( f_TrgtSpeed > f_LastSpeed ){												// æ¸›é€Ÿç›®æ¨™æ›´æ–°åŒºé–“
-				f_TrgtSpeed = f_BaseSpeed - f_Acc * f_Time;									// ç›®æ¨™é€Ÿåº¦
-				f_TrgtDist  = f_BaseDist + ( f_BaseSpeed + f_TrgtSpeed ) * f_Time / 2;		// ç›®æ¨™è·é›¢
+			/* ‘¬“x§Œä { ˆÊ’u§Œä */
+			if( f_TrgtSpeed > f_LastSpeed ){												// Œ¸‘¬–Ú•WXV‹æŠÔ
+				f_TrgtSpeed = f_BaseSpeed - f_Acc * f_Time;									// –Ú•W‘¬“x
+				f_TrgtDist  = f_BaseDist + ( f_BaseSpeed + f_TrgtSpeed ) * f_Time / 2;		// –Ú•W‹——£
 			}
-			/* ä½ç½®åˆ¶å¾¡ */
+			/* ˆÊ’u§Œä */
 			else{
-				f_TrgtDist  = f_LastDist;													// ç›®æ¨™è·é›¢
+				f_TrgtDist  = f_LastDist;													// –Ú•W‹——£
 			}
 			break;
 			
-		/* åŠ é€Ÿä¸­(ç›´é€² cosè¿‘ä¼¼) */
+		/* ‰Á‘¬’†(’¼i cos‹ß—) */
 		case CTRL_ACC_SMOOTH:
-			if( f_TrgtSpeed < f_LastSpeed ){												// åŠ é€Ÿç›®æ¨™æ›´æ–°åŒºé–“			
-				f_TrgtSpeed = f_BaseSpeed + ((f_LastSpeed - f_BaseSpeed) / 2) * (1 - cos( (2 * f_Acc * f_Time) / (f_LastSpeed - f_BaseSpeed) ) );		// ç›®æ¨™é€Ÿåº¦
+			if( f_TrgtSpeed < f_LastSpeed ){												// ‰Á‘¬–Ú•WXV‹æŠÔ			
+				f_TrgtSpeed = f_BaseSpeed + ((f_LastSpeed - f_BaseSpeed) / 2) * (1 - cos( (2 * f_Acc * f_Time) / (f_LastSpeed - f_BaseSpeed) ) );		// –Ú•W‘¬“x
 			}
 			break;
 
-		/* ç­‰é€Ÿä¸­(ç›´é€² cosè¿‘ä¼¼) */
+		/* “™‘¬’†(’¼i cos‹ß—) */
 		case CTRL_CONST_SMOOTH:
-			f_TrgtSpeed = f_BaseSpeed;														// ç›®æ¨™é€Ÿåº¦
+			f_TrgtSpeed = f_BaseSpeed;														// –Ú•W‘¬“x
 			break;
 		
-		/* æ¸›é€Ÿä¸­(ç›´é€² cosè¿‘ä¼¼) */
+		/* Œ¸‘¬’†(’¼i cos‹ß—) */
 		case CTRL_DEC_SMOOTH:	
-			/* é€Ÿåº¦åˆ¶å¾¡ ï¼‹ ä½ç½®åˆ¶å¾¡ */
-			if( f_TrgtSpeed > f_LastSpeed ){												// æ¸›é€Ÿç›®æ¨™æ›´æ–°åŒºé–“
-				f_TrgtSpeed = f_BaseSpeed + ( ( f_LastSpeed - f_BaseSpeed ) / 2) * (1 - cos( (2 * f_Acc * f_Time)/(f_LastSpeed - f_BaseSpeed ) ) );		// ç›®æ¨™é€Ÿåº¦
-				f_TrgtDist  = f_BaseDist + ( (f_BaseSpeed - f_LastSpeed) / 2 ) * ( f_Time - ( (f_BaseSpeed - f_LastSpeed) / (2*f_Acc) ) * sin(((2*f_Acc)/(f_BaseSpeed - f_LastSpeed))*f_Time) ) ;		// ç›®æ¨™è·é›¢
+			/* ‘¬“x§Œä { ˆÊ’u§Œä */
+			if( f_TrgtSpeed > f_LastSpeed ){												// Œ¸‘¬–Ú•WXV‹æŠÔ
+				f_TrgtSpeed = f_BaseSpeed + ( ( f_LastSpeed - f_BaseSpeed ) / 2) * (1 - cos( (2 * f_Acc * f_Time)/(f_LastSpeed - f_BaseSpeed ) ) );		// –Ú•W‘¬“x
+				f_TrgtDist  = f_BaseDist + ( (f_BaseSpeed - f_LastSpeed) / 2 ) * ( f_Time - ( (f_BaseSpeed - f_LastSpeed) / (2*f_Acc) ) * sin(((2*f_Acc)/(f_BaseSpeed - f_LastSpeed))*f_Time) ) ;		// –Ú•W‹——£
 			}
-			/* ä½ç½®åˆ¶å¾¡ */
+			/* ˆÊ’u§Œä */
 			else{
-				f_TrgtDist  = f_LastDist;													// ç›®æ¨™è·é›¢
+				f_TrgtDist  = f_LastDist;													// –Ú•W‹——£
 			}
 			break;
 			
-		/* åŠ é€Ÿä¸­(è¶…ä¿¡åœ°æ—‹å›) */
+		/* ‰Á‘¬’†(’´M’nù‰ñ) */
 		case CTRL_ACC_TURN:
 			
-			/*åæ™‚è¨ˆå›ã‚Š*/
+			/*”½Œv‰ñ‚è*/
 			if((f_LastAngle > 0)&&(f_TrgtAngleS < f_LastAngleS)){
 				f_TrgtAngleS = f_BaseAngleS + f_AccAngleS*f_Time;
 			}
-			/*æ™‚è¨ˆå›ã‚Š*/
+			/*Œv‰ñ‚è*/
 			else if((f_LastAngle < 0)&&(f_TrgtAngleS > f_LastAngleS)){
 				f_TrgtAngleS = f_BaseAngleS - f_AccAngleS*f_Time;
 			}
 			break;
 		
-		/* ç­‰é€Ÿä¸­(è¶…ä¿¡åœ°æ—‹å›) */
+		/* “™‘¬’†(’´M’nù‰ñ) */
 		case CTRL_CONST_TURN:
 			f_TrgtAngleS = f_BaseAngleS;
 			break;
 			
-		/* æ¸›é€Ÿä¸­(è¶…ä¿¡åœ°æ—‹å›) */
+		/* Œ¸‘¬’†(’´M’nù‰ñ) */
 		case CTRL_DEC_TURN:
 			
-			/*åæ™‚è¨ˆå›ã‚Š*/
+			/*”½Œv‰ñ‚è*/
 			if(f_LastAngle > 0){
 				
-				/* è§’é€Ÿåº¦åˆ¶å¾¡ï¼‹è§’åº¦åˆ¶å¾¡ */
-				if(f_TrgtAngleS > f_LastAngleS){								//æ¸›é€Ÿç›®æ¨™æ›´æ–°åŒºé–“
-					f_TrgtAngleS = f_BaseAngleS - f_AccAngleS * f_Time;					//ç›®æ¨™è§’é€Ÿåº¦
-					f_TrgtAngle  = f_BaseAngle  + (f_BaseAngleS + f_TrgtAngleS) * f_Time/2;			//ç›®æ¨™è§’åº¦
+				/* Šp‘¬“x§Œä{Šp“x§Œä */
+				if(f_TrgtAngleS > f_LastAngleS){								//Œ¸‘¬–Ú•WXV‹æŠÔ
+					f_TrgtAngleS = f_BaseAngleS - f_AccAngleS * f_Time;					//–Ú•WŠp‘¬“x
+					f_TrgtAngle  = f_BaseAngle  + (f_BaseAngleS + f_TrgtAngleS) * f_Time/2;			//–Ú•WŠp“x
 				}
-				/*è§’åº¦åˆ¶å¾¡*/
+				/*Šp“x§Œä*/
 				else{
-					f_TrgtAngle = f_LastAngle;								//ç›®æ¨™è§’åº¦
+					f_TrgtAngle = f_LastAngle;								//–Ú•WŠp“x
 				}
 			}
 			
-			/*æ™‚è¨ˆå›ã‚Š*/
+			/*Œv‰ñ‚è*/
 			else{
-				/*è§’é€Ÿåº¦åˆ¶å¾¡ï¼‹è§’åº¦åˆ¶å¾¡*/
-				if( f_TrgtAngleS < f_LastAngleS ){								//æ¸›é€Ÿç›®æ¨™æ›´æ–°åŒºé–“
-					f_TrgtAngleS = f_BaseAngleS + f_AccAngleS * f_Time;					//ç›®æ¨™è§’é€Ÿåº¦
-					f_TrgtAngle  = f_BaseAngle  + (f_BaseAngleS - f_TrgtAngleS) * f_Time / 2;		//ç›®æ¨™è§’åº¦
+				/*Šp‘¬“x§Œä{Šp“x§Œä*/
+				if( f_TrgtAngleS < f_LastAngleS ){								//Œ¸‘¬–Ú•WXV‹æŠÔ
+					f_TrgtAngleS = f_BaseAngleS + f_AccAngleS * f_Time;					//–Ú•WŠp‘¬“x
+					f_TrgtAngle  = f_BaseAngle  + (f_BaseAngleS - f_TrgtAngleS) * f_Time / 2;		//–Ú•WŠp“x
 				}
-				/*è§’åº¦åˆ¶å¾¡*/
+				/*Šp“x§Œä*/
 				else{
-					f_TrgtAngle = f_LastAngle;								//ç›®æ¨™è§’åº¦
+					f_TrgtAngle = f_LastAngle;								//–Ú•WŠp“x
 				}
 			}
 
-		/* ã‚¹ãƒ©ãƒ­ãƒ¼ãƒ å‰ã®å‰é€²å‹•ä½œ(ã‚¹ãƒ©ãƒ­ãƒ¼ãƒ ) */
+		/* ƒXƒ‰ƒ[ƒ€‘O‚Ì‘Oi“®ì(ƒXƒ‰ƒ[ƒ€) */
 		case CTRL_ENTRY_SLA:
 			f_TrgtSpeed = f_BaseSpeed;
 			if(f_TrgtDist <= f_LastDist){
-				f_TrgtDist = f_BaseDist + f_TrgtSpeed * f_Time;		//ç›®æ¨™è·é›¢
+				f_TrgtDist = f_BaseDist + f_TrgtSpeed * f_Time;		//–Ú•W‹——£
 			}
 			break;
 		
-		/* åŠ é€Ÿä¸­(ã‚¹ãƒ©ãƒ­ãƒ¼ãƒ ) */
+		/* ‰Á‘¬’†(ƒXƒ‰ƒ[ƒ€) */
 		case CTRL_ACC_SLA:
 			f_TrgtSpeed = f_BaseSpeed;
 			
 			if( f_LastAngle > 0 ){
-				/* åæ™‚è¨ˆå›ã‚Š */
+				/* ”½Œv‰ñ‚è */
 				if( f_TrgtAngleS < f_LastAngleS){
-					f_TrgtAngleS = f_BaseAngleS + f_AccAngleS * f_Time;				//ç›®æ¨™è§’é€Ÿåº¦
-					f_TrgtAngle  = f_BaseAngle + ( f_BaseAngleS +f_TrgtAngleS ) * f_Time / 2;	//ç›®æ¨™é€Ÿåº¦
+					f_TrgtAngleS = f_BaseAngleS + f_AccAngleS * f_Time;				//–Ú•WŠp‘¬“x
+					f_TrgtAngle  = f_BaseAngle + ( f_BaseAngleS +f_TrgtAngleS ) * f_Time / 2;	//–Ú•W‘¬“x
 				}else{
 					f_TrgtAngle = f_LastAngle;
 				}
 			}else{
-				/* æ™‚è¨ˆå›ã‚Š */
+				/* Œv‰ñ‚è */
 				if( f_TrgtAngleS > f_LastAngleS ){
-					f_TrgtAngleS = f_BaseAngleS + f_AccAngleS * f_Time;				//ç›®æ¨™è§’é€Ÿåº¦
-					f_TrgtAngle  = f_BaseAngle + ( f_BaseAngleS +f_TrgtAngleS ) * f_Time / 2;	//ç›®æ¨™é€Ÿåº¦
+					f_TrgtAngleS = f_BaseAngleS + f_AccAngleS * f_Time;				//–Ú•WŠp‘¬“x
+					f_TrgtAngle  = f_BaseAngle + ( f_BaseAngleS +f_TrgtAngleS ) * f_Time / 2;	//–Ú•W‘¬“x
 				}else{
 					f_TrgtAngle = f_LastAngle;
 				}
 			}
 			
-			/* ä½ç½®åˆ¶å¾¡ */
+			/* ˆÊ’u§Œä */
 			if( f_LastDist > f_TrgtDist ){
 				f_TrgtDist = f_BaseDist + f_TrgtSpeed * f_Time;
 			}else{
@@ -418,67 +418,67 @@ PUBLIC  void    CTRL_refTarget( void ){
 			
 			break;
 		
-		/* ç­‰é€Ÿä¸­(ã‚¹ãƒ©ãƒ­ãƒ¼ãƒ ) */
+		/* “™‘¬’†(ƒXƒ‰ƒ[ƒ€) */
 		case CTRL_CONST_SLA:
 			f_TrgtSpeed = f_BaseSpeed;
-			f_TrgtAngleS = f_BaseAngleS;		//ç›®æ¨™è§’é€Ÿåº¦
+			f_TrgtAngleS = f_BaseAngleS;		//–Ú•WŠp‘¬“x
 			
 			if( f_LastAngle > 0 ){
-				/* åæ™‚è¨ˆå›ã‚Š */
+				/* ”½Œv‰ñ‚è */
 				if( f_TrgtAngle < f_LastAngle ){
-					f_TrgtAngle = f_BaseAngle + f_TrgtAngleS * f_Time;		//ç›®æ¨™è§’åº¦
+					f_TrgtAngle = f_BaseAngle + f_TrgtAngleS * f_Time;		//–Ú•WŠp“x
 				}else{
-					f_TrgtAngle = f_LastAngle;					//ç›®æ¨™è§’åº¦
+					f_TrgtAngle = f_LastAngle;					//–Ú•WŠp“x
 				}
 			}else{
-				/* æ™‚è¨ˆå›ã‚Š */
+				/* Œv‰ñ‚è */
 				if( f_TrgtAngle > f_LastAngle ){
-					f_TrgtAngle = f_BaseAngle + f_TrgtAngleS * f_Time;		//ç›®æ¨™è§’åº¦
+					f_TrgtAngle = f_BaseAngle + f_TrgtAngleS * f_Time;		//–Ú•WŠp“x
 				}else{
-					f_TrgtAngle = f_LastAngle;					//ç›®æ¨™è§’åº¦
+					f_TrgtAngle = f_LastAngle;					//–Ú•WŠp“x
 				}
 			}
 			
-			/* ä½ç½®åˆ¶å¾¡ */
-			if( f_LastDist > f_TrgtDist ){													// ç›®æ¨™æ›´æ–°åŒºé–“
-				f_TrgtDist  = f_BaseDist + f_TrgtSpeed * f_Time;							// ç›®æ¨™ä½ç½®
+			/* ˆÊ’u§Œä */
+			if( f_LastDist > f_TrgtDist ){													// –Ú•WXV‹æŠÔ
+				f_TrgtDist  = f_BaseDist + f_TrgtSpeed * f_Time;							// –Ú•WˆÊ’u
 			}
 			else{
-				f_TrgtDist  = f_LastDist;													// ç›®æ¨™è·é›¢
+				f_TrgtDist  = f_LastDist;													// –Ú•W‹——£
 			}
 			break;
 			
-		/* æ¸›é€Ÿä¸­(ã‚¹ãƒ©ãƒ­ãƒ¼ãƒ ) */
+		/* Œ¸‘¬’†(ƒXƒ‰ƒ[ƒ€) */
 		case CTRL_DEC_SLA:
 			f_TrgtSpeed = f_BaseSpeed;
 			
 			if( f_LastAngle > 0 ){
-				/* åæ™‚è¨ˆå›ã‚Š */
+				/* ”½Œv‰ñ‚è */
 				if( f_TrgtAngleS > f_LastAngleS){
-					f_TrgtAngleS = f_BaseAngleS + f_AccAngleS * f_Time;				//ç›®æ¨™è§’é€Ÿåº¦
-					f_TrgtAngle  = f_BaseAngle + ( f_BaseAngleS +f_TrgtAngleS ) * f_Time / 2;	//ç›®æ¨™é€Ÿåº¦
+					f_TrgtAngleS = f_BaseAngleS + f_AccAngleS * f_Time;				//–Ú•WŠp‘¬“x
+					f_TrgtAngle  = f_BaseAngle + ( f_BaseAngleS +f_TrgtAngleS ) * f_Time / 2;	//–Ú•W‘¬“x
 				}else{
 					f_TrgtAngle = f_LastAngle;
 				}
 			}else{
-				/* æ™‚è¨ˆå›ã‚Š */
+				/* Œv‰ñ‚è */
 				if( f_TrgtAngleS < f_LastAngleS ){
-					f_TrgtAngleS = f_BaseAngleS + f_AccAngleS * f_Time;				//ç›®æ¨™è§’é€Ÿåº¦
-					f_TrgtAngle  = f_BaseAngle + ( f_BaseAngleS +f_TrgtAngleS ) * f_Time / 2;	//ç›®æ¨™é€Ÿåº¦
+					f_TrgtAngleS = f_BaseAngleS + f_AccAngleS * f_Time;				//–Ú•WŠp‘¬“x
+					f_TrgtAngle  = f_BaseAngle + ( f_BaseAngleS +f_TrgtAngleS ) * f_Time / 2;	//–Ú•W‘¬“x
 				}else{
 					f_TrgtAngle = f_LastAngle;
 				}
 			}
 			
-			/* é€Ÿåº¦åˆ¶å¾¡ï¼‹ä½ç½®åˆ¶å¾¡ */
-			if( f_LastDist > f_TrgtDist){				//ç›®æ¨™æ›´æ–°åŒºé–“
-				f_TrgtDist = f_BaseDist + f_TrgtSpeed * f_Time;	//ç›®æ¨™è·é›¢
+			/* ‘¬“x§Œä{ˆÊ’u§Œä */
+			if( f_LastDist > f_TrgtDist){				//–Ú•WXV‹æŠÔ
+				f_TrgtDist = f_BaseDist + f_TrgtSpeed * f_Time;	//–Ú•W‹——£
 			}else{
 				f_TrgtDist = f_LastDist;
 			}
 			break;
 		
-		/* ã‚¹ãƒ©ãƒ­ãƒ¼ãƒ å¾Œã®å‰é€²å‹•ä½œ(ã‚¹ãƒ©ãƒ­ãƒ¼ãƒ ) */
+		/* ƒXƒ‰ƒ[ƒ€Œã‚Ì‘Oi“®ì(ƒXƒ‰ƒ[ƒ€) */
 		case CTRL_EXIT_SLA:
 			f_TrgtSpeed = f_BaseSpeed;
 			if( f_TrgtDist <= f_LastDist ){
@@ -488,7 +488,7 @@ PUBLIC  void    CTRL_refTarget( void ){
 			}
 			break;
 
-		/* ä¸Šè¨˜ä»¥å¤–ã®ã‚³ãƒãƒ³ãƒ‰ */
+		/* ã‹LˆÈŠO‚ÌƒRƒ}ƒ“ƒh */
 		default:
 			break;
 	}
@@ -496,22 +496,22 @@ PUBLIC  void    CTRL_refTarget( void ){
 }
 
 // *************************************************************************
-//   æ©Ÿèƒ½		ï¼š ãƒ•ã‚£ãƒ¼ãƒ‰ãƒ•ã‚©ãƒ¯ãƒ¼ãƒ‰é‡ã‚’å–å¾—ã™ã‚‹
-//   æ³¨æ„		ï¼š CTRL_polã‹ã‚‰ã®ã¿å®Ÿè¡Œå¯èƒ½
-//   ãƒ¡ãƒ¢		ï¼š 1msecæ¯ã«å®Ÿè¡Œã•ã‚Œã‚‹
-//   å¼•æ•°		ï¼š ãªã—
-//   è¿”ã‚Šå€¤		ï¼š ãƒ•ã‚£ãƒ¼ãƒ‰ãƒ•ã‚©ãƒ¯ãƒ¼ãƒ‰é‡
-// **************************    å±¥    æ­´    *******************************
-// 		v1.0		2019.4.26			TKR			æ–°è¦
+//   ‹@”\		F ƒtƒB[ƒhƒtƒHƒ[ƒh—Ê‚ğæ“¾‚·‚é
+//   ’ˆÓ		F CTRL_pol‚©‚ç‚Ì‚İÀs‰Â”\
+//   ƒƒ‚		F 1msec–ˆ‚ÉÀs‚³‚ê‚é
+//   ˆø”		F ‚È‚µ
+//   •Ô‚è’l		F ƒtƒB[ƒhƒtƒHƒ[ƒh—Ê
+// **************************    —š    —ğ    *******************************
+// 		v1.0		2019.4.26			TKR			V‹K
 // *************************************************************************/
 PUBLIC  void    CTRL_getFF( FLOAT *p_err ){
 
     FLOAT   f_ff        = 0.0f;
 
-    /* å‹•ä½œãƒ¢ãƒ¼ãƒ‰ã«å¿œã˜ã‚‹ */
+    /* “®ìƒ‚[ƒh‚É‰‚¶‚é */
     switch( en_Type ){
 	
-		/* åŠ é€Ÿ */
+		/* ‰Á‘¬ */
 		case CTRL_ACC:
 		case CTRL_HIT_WALL:
 		case CTRL_ACC_SMOOTH:
@@ -521,70 +521,70 @@ PUBLIC  void    CTRL_getFF( FLOAT *p_err ){
 		
 			break;
 			
-		/* åŠ é€Ÿï¼ˆè¶…ä¿¡åœ°æ—‹å›ï¼‰*/
+		/* ‰Á‘¬i’´M’nù‰ñj*/
 		case CTRL_ACC_TURN:
 			f_ff = PARAM_getGain( Chg_ParamID( en_Type ) ) -> f_FF;
 			*p_err = f_AccAngleS * f_ff;
 			
 			break;
 		
-		/* åŠ é€Ÿä»¥å¤– */
+		/* ‰Á‘¬ˆÈŠO */
 		default:
 			*p_err = 0;
-			break;										// ä½•ã‚‚ã—ãªã„
+			break;										// ‰½‚à‚µ‚È‚¢
 	}
 
 }
 
 // *************************************************************************
-//   æ©Ÿèƒ½		ï¼š é€Ÿåº¦ãƒ•ã‚£ãƒ¼ãƒ‰ãƒãƒƒã‚¯é‡ã‚’å–å¾—ã™ã‚‹
-//   æ³¨æ„		ï¼š CTRL_polã‹ã‚‰ã®ã¿å®Ÿè¡Œå¯èƒ½
-//   ãƒ¡ãƒ¢		ï¼š 1msecæ¯ã«å®Ÿè¡Œã•ã‚Œã‚‹
-//   å¼•æ•°		ï¼š ãªã—
-//   è¿”ã‚Šå€¤		ï¼š é€Ÿåº¦ãƒ•ã‚£ãƒ¼ãƒ‰ãƒãƒƒã‚¯åˆ¶å¾¡é‡
-// **************************    å±¥    æ­´    *******************************
-// 		v1.0		2019.4.26			TKR			æ–°è¦
+//   ‹@”\		F ‘¬“xƒtƒB[ƒhƒoƒbƒN—Ê‚ğæ“¾‚·‚é
+//   ’ˆÓ		F CTRL_pol‚©‚ç‚Ì‚İÀs‰Â”\
+//   ƒƒ‚		F 1msec–ˆ‚ÉÀs‚³‚ê‚é
+//   ˆø”		F ‚È‚µ
+//   •Ô‚è’l		F ‘¬“xƒtƒB[ƒhƒoƒbƒN§Œä—Ê
+// **************************    —š    —ğ    *******************************
+// 		v1.0		2019.4.26			TKR			V‹K
 // *************************************************************************/
 PUBLIC  void    CTRL_getSpeedFB( FLOAT *p_err ){
 
-    FLOAT	f_speedErr;		// [é€Ÿåº¦åˆ¶å¾¡] é€Ÿåº¦åå·®
-	FLOAT	f_kp = 0.0f;	// æ¯”ä¾‹ã‚²ã‚¤ãƒ³
+    FLOAT	f_speedErr;		// [‘¬“x§Œä] ‘¬“x•Î·
+	FLOAT	f_kp = 0.0f;	// ”ä—áƒQƒCƒ“
 	
-	/* é€Ÿåº¦åˆ¶å¾¡(P) */
-	f_speedErr  = f_TrgtSpeed - f_NowSpeed;						// é€Ÿåº¦åå·®[mm/s]
+	/* ‘¬“x§Œä(P) */
+	f_speedErr  = f_TrgtSpeed - f_NowSpeed;						// ‘¬“x•Î·[mm/s]
 	f_kp = PARAM_getGain( Chg_ParamID(en_Type) )->f_FB_speed_kp;
-	*p_err = f_speedErr * f_kp;									// Påˆ¶å¾¡é‡ç®—å‡º
+	*p_err = f_speedErr * f_kp;									// P§Œä—ÊZo
 
 }
 
 // *************************************************************************
-//   æ©Ÿèƒ½		ï¼š è·é›¢ãƒ•ã‚£ãƒ¼ãƒ‰ãƒãƒƒã‚¯é‡ã‚’å–å¾—ã™ã‚‹
-//   æ³¨æ„		ï¼š CTRL_polã‹ã‚‰ã®ã¿å®Ÿè¡Œå¯èƒ½
-//   ãƒ¡ãƒ¢		ï¼š 1msecæ¯ã«å®Ÿè¡Œã•ã‚Œã‚‹
-//   å¼•æ•°		ï¼š ãªã—
-//   è¿”ã‚Šå€¤		ï¼š è·é›¢ãƒ•ã‚£ãƒ¼ãƒ‰ãƒãƒƒã‚¯åˆ¶å¾¡é‡
-// **************************    å±¥    æ­´    *******************************
-// 		v1.0		2019.4.26			TKR			æ–°è¦
+//   ‹@”\		F ‹——£ƒtƒB[ƒhƒoƒbƒN—Ê‚ğæ“¾‚·‚é
+//   ’ˆÓ		F CTRL_pol‚©‚ç‚Ì‚İÀs‰Â”\
+//   ƒƒ‚		F 1msec–ˆ‚ÉÀs‚³‚ê‚é
+//   ˆø”		F ‚È‚µ
+//   •Ô‚è’l		F ‹——£ƒtƒB[ƒhƒoƒbƒN§Œä—Ê
+// **************************    —š    —ğ    *******************************
+// 		v1.0		2019.4.26			TKR			V‹K
 // *************************************************************************/
 PUBLIC  void    CTRL_getDistFB( FLOAT *p_err ){
 
-    FLOAT       f_distErr;      // [è·é›¢åˆ¶å¾¡]è·é›¢åå·®
+    FLOAT       f_distErr;      // [‹——£§Œä]‹——£•Î·
 
-    FLOAT       f_kp    = 0;    // æ¯”ä¾‹ã‚²ã‚¤ãƒ³
-    FLOAT       f_ki    = 0;    // ç©åˆ†ã‚²ã‚¤ãƒ³
+    FLOAT       f_kp    = 0;    // ”ä—áƒQƒCƒ“
+    FLOAT       f_ki    = 0;    // Ï•ªƒQƒCƒ“
 
     *p_err = 0;
 	
-	/* åŠ é€Ÿ/ç­‰é€Ÿã®ä½ç½®åˆ¶å¾¡ */
+	/* ‰Á‘¬/“™‘¬‚ÌˆÊ’u§Œä */
 	if( ( en_Type == CTRL_ACC ) || ( en_Type == CTRL_CONST ) || 
 		( en_Type == CTRL_ACC_SMOOTH ) || ( en_Type == CTRL_CONST_SMOOTH ) ||
 		( en_Type == CTRL_SKEW_ACC ) || ( en_Type == CTRL_SKEW_CONST )
 	){
-		// ãªã«ã‚‚ã—ãªã„
-		// å¾Œã§ãƒ•ã‚§ãƒ¼ãƒ«ã‚»ãƒ¼ãƒ•ã‚’è¿½åŠ 
+		// ‚È‚É‚à‚µ‚È‚¢
+		// Œã‚ÅƒtƒF[ƒ‹ƒZ[ƒt‚ğ’Ç‰Á
 	}
 	
-	/* æ¸›é€Ÿã®ã¿ã®ä½ç½®åˆ¶å¾¡ */
+	/* Œ¸‘¬‚Ì‚İ‚ÌˆÊ’u§Œä */
 	else if( ( en_Type == CTRL_DEC ) || ( en_Type == CTRL_SKEW_DEC ) ||
 			 ( en_Type == CTRL_ENTRY_SLA ) || ( en_Type == CTRL_EXIT_SLA ) ||
 			 ( en_Type == CTRL_ACC_SLA ) || ( en_Type == CTRL_CONST_SLA ) || ( en_Type == CTRL_DEC_SLA )
@@ -592,78 +592,78 @@ PUBLIC  void    CTRL_getDistFB( FLOAT *p_err ){
 		f_kp = PARAM_getGain( Chg_ParamID(en_Type) )->f_FB_dist_kp;
 		f_ki = PARAM_getGain( Chg_ParamID(en_Type) )->f_FB_dist_ki;
 		
-		/* ä½ç½®åˆ¶å¾¡ */
-		f_distErr = f_TrgtDist - f_NowDist;					// è·é›¢åå·®[mm]
+		/* ˆÊ’u§Œä */
+		f_distErr = f_TrgtDist - f_NowDist;					// ‹——£•Î·[mm]
 		
-		f_DistErrSum += f_distErr * f_ki;					// Iæˆåˆ†æ›´æ–°
+		f_DistErrSum += f_distErr * f_ki;					// I¬•ªXV
 		
 		if( f_DistErrSum > 10000 ){
 			f_DistErrSum = 10000;
 		}
 		
-		*p_err = f_distErr * f_kp + f_DistErrSum;		// PIåˆ¶å¾¡é‡ç®—å‡º
+		*p_err = f_distErr * f_kp + f_DistErrSum;		// PI§Œä—ÊZo
 		
-		// å¾Œã§ã“ã“ã«ãƒ•ã‚§ãƒ¼ãƒ«ã‚»ãƒ¼ãƒ•ã‚’è¿½åŠ 
+		// Œã‚Å‚±‚±‚ÉƒtƒF[ƒ‹ƒZ[ƒt‚ğ’Ç‰Á
 		
-		/* ç´¯ç©åå·®ã‚¯ãƒªã‚¢ */
+		/* —İÏ•Î·ƒNƒŠƒA */
 		if( FABS( f_TrgtDist - f_NowDist ) < 0.1 ){
 			f_DistErrSum = 0;
 		}
 	}
 	
-	/* è¶…ä¿¡åœ°æ—‹å› */
+	/* ’´M’nù‰ñ */
 	else if( ( en_Type == CTRL_ACC_TURN ) || ( en_Type == CTRL_CONST_TURN ) || ( en_Type == CTRL_DEC_TURN ) ){
 		f_kp = PARAM_getGain( Chg_ParamID(en_Type) )->f_FB_dist_kp;
 
-		f_distErr = f_TrgtDist - f_NowDist;		// è·é›¢åå·®[mm]
+		f_distErr = f_TrgtDist - f_NowDist;		// ‹——£•Î·[mm]
 		*p_err = f_distErr * f_kp;
 	}
 }
 
 // *************************************************************************
-//   æ©Ÿèƒ½		ï¼š è§’é€Ÿåº¦ãƒ•ã‚£ãƒ¼ãƒ‰ãƒãƒƒã‚¯é‡ã‚’å–å¾—ã™ã‚‹
-//   æ³¨æ„		ï¼š CTRL_polã‹ã‚‰ã®ã¿å®Ÿè¡Œå¯èƒ½
-//   ãƒ¡ãƒ¢		ï¼š 1msecæ¯ã«å®Ÿè¡Œã•ã‚Œã‚‹
-//   å¼•æ•°		ï¼š ãªã—
-//   è¿”ã‚Šå€¤		ï¼š è§’é€Ÿåº¦ãƒ•ã‚£ãƒ¼ãƒ‰ãƒãƒƒã‚¯é‡
-// **************************    å±¥    æ­´    *******************************
-// 		v1.0		2019.4.26			TKR			æ–°è¦
-//		v2.0		2019.6.2			TKR			è§’é€Ÿåº¦ã‚’GYRO_getNowAngleSpeedé–¢æ•°ã‹ã‚‰å–å¾—
+//   ‹@”\		F Šp‘¬“xƒtƒB[ƒhƒoƒbƒN—Ê‚ğæ“¾‚·‚é
+//   ’ˆÓ		F CTRL_pol‚©‚ç‚Ì‚İÀs‰Â”\
+//   ƒƒ‚		F 1msec–ˆ‚ÉÀs‚³‚ê‚é
+//   ˆø”		F ‚È‚µ
+//   •Ô‚è’l		F Šp‘¬“xƒtƒB[ƒhƒoƒbƒN—Ê
+// **************************    —š    —ğ    *******************************
+// 		v1.0		2019.4.26			TKR			V‹K
+//		v2.0		2019.6.2			TKR			Šp‘¬“x‚ğGYRO_getNowAngleSpeedŠÖ”‚©‚çæ“¾
 // *************************************************************************/
 PUBLIC  void CTRL_getAngleSpeedFB( FLOAT *p_err ){
 
-    FLOAT	f_err;				// [å…¥åŠ›] ã‚¸ãƒ£ã‚¤ãƒ­ã‚»ãƒ³ã‚µãƒ¼ã‚¨ãƒ©ãƒ¼ 
-	FLOAT	f_kp = 0.0f;		// æ¯”ä¾‹ã‚²ã‚¤ãƒ³
+    FLOAT	f_err;				// [“ü—Í] ƒWƒƒƒCƒƒZƒ“ƒT[ƒGƒ‰[ 
+	FLOAT	f_kp = 0.0f;		// ”ä—áƒQƒCƒ“
 	
 	f_kp = PARAM_getGain(Chg_ParamID(en_Type)) -> f_FB_angleS_kp;
 	f_err = f_TrgtAngleS - GYRO_getNowAngleSpeed();
 	
-	*p_err = f_err * f_kp;				// Påˆ¶å¾¡é‡ç®—å‡º
+	*p_err = f_err * f_kp;				// P§Œä—ÊZo
 
 }
 
 // *************************************************************************
-//   æ©Ÿèƒ½		ï¼š è§’åº¦ãƒ•ã‚£ãƒ¼ãƒ‰ãƒãƒƒã‚¯é‡ã‚’å–å¾—ã™ã‚‹
-//   æ³¨æ„		ï¼š CTRL_polã‹ã‚‰ã®ã¿å®Ÿè¡Œå¯èƒ½
-//   ãƒ¡ãƒ¢		ï¼š 1msecæ¯ã«å®Ÿè¡Œã•ã‚Œã‚‹
-//   å¼•æ•°		ï¼š ãªã—
-//   è¿”ã‚Šå€¤		ï¼š è§’åº¦ãƒ•ã‚£ãƒ¼ãƒ‰ãƒãƒƒã‚¯åˆ¶å¾¡é‡
-// **************************    å±¥    æ­´    *******************************
-// 		v1.0		2019.4.26			TKR			æ–°è¦
+//   ‹@”\		F Šp“xƒtƒB[ƒhƒoƒbƒN—Ê‚ğæ“¾‚·‚é
+//   ’ˆÓ		F CTRL_pol‚©‚ç‚Ì‚İÀs‰Â”\
+//   ƒƒ‚		F 1msec–ˆ‚ÉÀs‚³‚ê‚é
+//   ˆø”		F ‚È‚µ
+//   •Ô‚è’l		F Šp“xƒtƒB[ƒhƒoƒbƒN§Œä—Ê
+// **************************    —š    —ğ    *******************************
+// 		v1.0		2019.4.26			TKR			V‹K
 // *************************************************************************/
 PUBLIC  void    CTRL_getAngleFB( FLOAT *p_err ){
 
-    FLOAT f_err;			// [å…¥åŠ›] è§’åº¦åå·®[deg]
-	FLOAT f_kp = 0.0f;		// æ¯”ä¾‹ã‚²ã‚¤ãƒ³
-	FLOAT f_ki = 0.0f;		// ç©åˆ†ã‚²ã‚¤ãƒ³
+    FLOAT f_err;			// [“ü—Í] Šp“x•Î·[deg]
+	FLOAT f_kp = 0.0f;		// ”ä—áƒQƒCƒ“
+	FLOAT f_ki = 0.0f;		// Ï•ªƒQƒCƒ“
 	
 	*p_err = 0;
 	
-	f_NowAngle = GYRO_getNowAngle();					// ç¾åœ¨è§’åº¦[deg]
+	f_NowAngle = GYRO_getNowAngle();					// Œ»İŠp“x[deg]
 	
 	f_err = f_TrgtAngle - f_NowAngle;
 	
-	/* ç›´é€²æ™‚ */
+	/* ’¼i */
 	if( ( en_Type == CTRL_ACC ) || ( en_Type == CTRL_CONST ) || ( en_Type == CTRL_DEC ) ||
 		( en_Type == CTRL_ACC_SMOOTH ) || ( en_Type == CTRL_CONST_SMOOTH ) || ( en_Type == CTRL_DEC_SMOOTH ) ||
 		( en_Type == CTRL_ENTRY_SLA ) || ( en_Type == CTRL_EXIT_SLA ) ||
@@ -674,11 +674,11 @@ PUBLIC  void    CTRL_getAngleFB( FLOAT *p_err ){
 		f_kp = PARAM_getGain( Chg_ParamID(en_Type) ) -> f_FB_angle_kp;
 		f_ki = PARAM_getGain( Chg_ParamID(en_Type) ) -> f_FB_angle_ki;
 		
-		f_AngleErrSum += f_err * f_ki;			// Iæˆåˆ†æ›´æ–°
+		f_AngleErrSum += f_err * f_ki;			// I¬•ªXV
 								
-		*p_err = f_err * f_kp + f_AngleErrSum;		// PIåˆ¶å¾¡é‡ç®—å‡º
+		*p_err = f_err * f_kp + f_AngleErrSum;		// PI§Œä—ÊZo
 		
-		/* ç´¯ç©åå·®ã‚¯ãƒªã‚¢ */
+		/* —İÏ•Î·ƒNƒŠƒA */
 		if( FABS( f_TrgtAngle - f_NowAngle ) < 0.1 ){
 			f_AngleErrSum = 0;
 		}
@@ -687,21 +687,21 @@ PUBLIC  void    CTRL_getAngleFB( FLOAT *p_err ){
 }
 
 // *************************************************************************
-//   æ©Ÿèƒ½		ï¼š å£åˆ¶å¾¡ã®ãƒ•ã‚£ãƒ¼ãƒ‰ãƒãƒƒã‚¯é‡ã‚’å–å¾—ã™ã‚‹
-//   æ³¨æ„		ï¼š CTRL_polã‹ã‚‰ã®ã¿å®Ÿè¡Œå¯èƒ½
-//   ãƒ¡ãƒ¢		ï¼š 1msecæ¯ã«å®Ÿè¡Œã•ã‚Œã‚‹
-//   å¼•æ•°		ï¼š ãªã—
-//   è¿”ã‚Šå€¤		ï¼š å£åˆ¶å¾¡ã®ãƒ•ã‚£ãƒ¼ãƒ‰ãƒãƒƒã‚¯é‡
-// **************************    å±¥    æ­´    *******************************
-// 		v1.0		2019.4.26			TKR			æ–°è¦
+//   ‹@”\		F •Ç§Œä‚ÌƒtƒB[ƒhƒoƒbƒN—Ê‚ğæ“¾‚·‚é
+//   ’ˆÓ		F CTRL_pol‚©‚ç‚Ì‚İÀs‰Â”\
+//   ƒƒ‚		F 1msec–ˆ‚ÉÀs‚³‚ê‚é
+//   ˆø”		F ‚È‚µ
+//   •Ô‚è’l		F •Ç§Œä‚ÌƒtƒB[ƒhƒoƒbƒN—Ê
+// **************************    —š    —ğ    *******************************
+// 		v1.0		2019.4.26			TKR			V‹K
 // *************************************************************************/
 PUBLIC  void    CTRL_getSenFB( FLOAT *p_err ){
 
    	FLOAT f_err		= 0;
-	FLOAT f_kp		= 0.0f;			// æ¯”ä¾‹ã‚²ã‚¤ãƒ³
-	FLOAT f_kd		= 0.0f;			// å¾®åˆ†ã‚²ã‚¤ãƒ³
+	FLOAT f_kp		= 0.0f;			// ”ä—áƒQƒCƒ“
+	FLOAT f_kd		= 0.0f;			// ”÷•ªƒQƒCƒ“
 	
-	/* ç›´é€²æ™‚ */
+	/* ’¼i */
 	if( ( en_Type == CTRL_ACC ) || ( en_Type == CTRL_CONST ) || ( en_Type == CTRL_DEC ) || 
 		( en_Type == CTRL_ACC_SMOOTH ) || ( en_Type == CTRL_CONST_SMOOTH ) || ( en_Type == CTRL_DEC_SMOOTH ) || 
 		( en_Type == CTRL_ENTRY_SLA ) || ( en_Type == CTRL_EXIT_SLA ) ){
@@ -709,170 +709,170 @@ PUBLIC  void    CTRL_getSenFB( FLOAT *p_err ){
 		f_kp = PARAM_getGain( Chg_ParamID(en_Type) ) -> f_FB_wall_kp;
 		f_kd = PARAM_getGain( Chg_ParamID(en_Type) ) -> f_FB_wall_kd;
 						
-		/* åå·®å–å¾— */
+		/* •Î·æ“¾ */
 		DIST_getErr( &l_WallErr );		
 		f_err = (FLOAT)l_WallErr;
 		
-		*p_err = f_err * f_kp + ( f_err - f_ErrDistBuf ) * f_kd;		// PDåˆ¶å¾¡
+		*p_err = f_err * f_kp + ( f_err - f_ErrDistBuf ) * f_kd;		// PD§Œä
 		
-		f_ErrDistBuf = f_err;			// åå·®ã‚’ãƒãƒƒãƒ•ã‚¡ãƒªãƒ³ã‚°
+		f_ErrDistBuf = f_err;			// •Î·‚ğƒoƒbƒtƒ@ƒŠƒ“ƒO
 	}
 	else if( ( en_Type == CTRL_SKEW_ACC ) || ( en_Type == CTRL_SKEW_CONST ) || ( en_Type == CTRL_SKEW_DEC ) ){
 		
 		// DIST_getErrSkew( &l_WallErr);
 		f_err = (FLOAT)l_WallErr;
 		
-		*p_err = f_err * f_kp + ( f_err - f_ErrDistBuf ) * f_kd;		// PDåˆ¶å¾¡
+		*p_err = f_err * f_kp + ( f_err - f_ErrDistBuf ) * f_kd;		// PD§Œä
 		*p_err = f_err * f_kp;
 	}
 }
 
 // *************************************************************************
-//   æ©Ÿèƒ½		ï¼š FF/FBåˆ¶å¾¡é‡ã‹ã‚‰DCMã«å‡ºåŠ›ã™ã‚‹
-//   æ³¨æ„		ï¼š CTRL_polã‹ã‚‰ã®ã¿å®Ÿè¡Œå¯èƒ½
-//   ãƒ¡ãƒ¢		ï¼š 1msecæ¯ã«å®Ÿè¡Œã•ã‚Œã‚‹
-//   å¼•æ•°		ï¼š å³dutyæ¯”ï¼Œå·¦dutyæ¯”
-//   è¿”ã‚Šå€¤		ï¼š ãªã—
-// **************************    å±¥    æ­´    *******************************
-// 		v1.0		2019.4.26			TKR			æ–°è¦
+//   ‹@”\		F FF/FB§Œä—Ê‚©‚çDCM‚Éo—Í‚·‚é
+//   ’ˆÓ		F CTRL_pol‚©‚ç‚Ì‚İÀs‰Â”\
+//   ƒƒ‚		F 1msec–ˆ‚ÉÀs‚³‚ê‚é
+//   ˆø”		F ‰Eduty”äC¶duty”ä
+//   •Ô‚è’l		F ‚È‚µ
+// **************************    —š    —ğ    *******************************
+// 		v1.0		2019.4.26			TKR			V‹K
 // *************************************************************************/
 PRIVATE void    CTRL_outMot( FLOAT f_duty10_R, FLOAT f_duty10_L ){
 
-    FLOAT   f_temp;     // è¨ˆç®—ç”¨
+    FLOAT   f_temp;     // ŒvZ—p
 
-    /* é›»åœ§ã«å¿œã˜ã¦PWMå‡ºåŠ›ã‚’å¤‰æ›´ã™ã‚‹ */
+    /* “dˆ³‚É‰‚¶‚ÄPWMo—Í‚ğ•ÏX‚·‚é */
     f_duty10_R  = f_duty10_R * VCC_MAX /( BAT_getLv() / 1000 );
     f_duty10_L  = f_duty10_L * VCC_MAX /( BAT_getLv() / 1000 );
 
-    /* å³ãƒ¢ãƒ¼ã‚¿ */ 
-    if( 20 < f_duty10_R ){									// å‰é€²
+    /* ‰Eƒ‚[ƒ^ */ 
+    if( 20 < f_duty10_R ){									// ‘Oi
 		DCM_setDirCcw( DCM_R );
 		DCM_setPwmDuty( DCM_R, (USHORT)f_duty10_R );
 	}
-	else if( f_duty10_R < -20 ){							// å¾Œé€€
+	else if( f_duty10_R < -20 ){							// Œã‘Ş
 		f_temp = f_duty10_R * -1;
 		DCM_setDirCw( DCM_R );
 		DCM_setPwmDuty( DCM_R, (USHORT)f_temp );
 	}
 	else{
-		DCM_brakeMot( DCM_R );								// ãƒ–ãƒ¬ãƒ¼ã‚­
+		DCM_brakeMot( DCM_R );								// ƒuƒŒ[ƒL
 	}
 
-	/* å·¦ãƒ¢ãƒ¼ã‚¿ */
-	if( 20 < f_duty10_L ){									// å‰é€²
+	/* ¶ƒ‚[ƒ^ */
+	if( 20 < f_duty10_L ){									// ‘Oi
 		DCM_setDirCcw( DCM_L );
 		DCM_setPwmDuty( DCM_L, (USHORT)f_duty10_L );
 	}
-	else if( f_duty10_L < -20 ){							// å¾Œé€€
+	else if( f_duty10_L < -20 ){							// Œã‘Ş
 		f_temp = f_duty10_L * -1;
 		DCM_setDirCw( DCM_L );
 		DCM_setPwmDuty( DCM_L, (USHORT)f_temp );
 	}
 	else{
-		DCM_brakeMot( DCM_L );								// ãƒ–ãƒ¬ãƒ¼ã‚­
+		DCM_brakeMot( DCM_L );								// ƒuƒŒ[ƒL
 	}
 }
 
 // *************************************************************************
-//   æ©Ÿèƒ½		ï¼š åˆ¶å¾¡ã®ãƒãƒ¼ãƒªãƒ³ã‚°é–¢æ•°
-//   æ³¨æ„		ï¼š ãªã—
-//   ãƒ¡ãƒ¢		ï¼š å‰²ã‚Šè¾¼ã¿ã‹ã‚‰å®Ÿè¡Œã•ã‚Œã‚‹ã€‚1msecæ¯ã«å‰²ã‚Šè¾¼ã¿å‡¦ç†ã‚’è¡Œã†ã€‚
-//   å¼•æ•°		ï¼š ãªã—
-//   è¿”ã‚Šå€¤		ï¼š ãªã—
-// **************************    å±¥    æ­´    *******************************
-// 		v1.0		2019.4.26			TKR			æ–°è¦
+//   ‹@”\		F §Œä‚Ìƒ|[ƒŠƒ“ƒOŠÖ”
+//   ’ˆÓ		F ‚È‚µ
+//   ƒƒ‚		F Š„‚è‚İ‚©‚çÀs‚³‚ê‚éB1msec–ˆ‚ÉŠ„‚è‚İˆ—‚ğs‚¤B
+//   ˆø”		F ‚È‚µ
+//   •Ô‚è’l		F ‚È‚µ
+// **************************    —š    —ğ    *******************************
+// 		v1.0		2019.4.26			TKR			V‹K
 // *************************************************************************/
 PUBLIC  void    CTRL_pol( void ){
 
-    FLOAT f_feedFoard			= 0;		// [åˆ¶å¾¡] ãƒ•ã‚£ãƒ¼ãƒ‰ãƒ•ã‚©ãƒ¯ãƒ¼ãƒ‰åˆ¶å¾¡
-	FLOAT f_speedCtrl			= 0;		// [åˆ¶å¾¡] é€Ÿåº¦åˆ¶å¾¡é‡
-	FLOAT f_distCtrl			= 0;		// [åˆ¶å¾¡] è·é›¢åˆ¶å¾¡é‡
-	FLOAT f_angleSpeedCtrl		= 0;		// [åˆ¶å¾¡] è§’é€Ÿåº¦åˆ¶å¾¡é‡
-	FLOAT f_angleCtrl			= 0;		// [åˆ¶å¾¡] è§’åº¦åˆ¶å¾¡é‡
-	FLOAT f_distSenCtrl			= 0;		// [åˆ¶å¾¡] è·é›¢ã‚»ãƒ³ã‚µãƒ¼åˆ¶å¾¡é‡
-	FLOAT f_duty10_R;					// [å‡ºåŠ›] å³ãƒ¢ãƒ¼ã‚¿PWM-DUTYæ¯”[0.1%]
-	FLOAT f_duty10_L;					// [å‡ºåŠ›] å·¦ãƒ¢ãƒ¼ã‚¿PWM-DUTYæ¯”[0.1%]
+    FLOAT f_feedFoard			= 0;		// [§Œä] ƒtƒB[ƒhƒtƒHƒ[ƒh§Œä
+	FLOAT f_speedCtrl			= 0;		// [§Œä] ‘¬“x§Œä—Ê
+	FLOAT f_distCtrl			= 0;		// [§Œä] ‹——£§Œä—Ê
+	FLOAT f_angleSpeedCtrl		= 0;		// [§Œä] Šp‘¬“x§Œä—Ê
+	FLOAT f_angleCtrl			= 0;		// [§Œä] Šp“x§Œä—Ê
+	FLOAT f_distSenCtrl			= 0;		// [§Œä] ‹——£ƒZƒ“ƒT[§Œä—Ê
+	FLOAT f_duty10_R;					// [o—Í] ‰Eƒ‚[ƒ^PWM-DUTY”ä[0.1%]
+	FLOAT f_duty10_L;					// [o—Í] ¶ƒ‚[ƒ^PWM-DUTY”ä[0.1%]
 	
-	/* åˆ¶å¾¡ã‚’è¡Œã†ã‹ã®ãƒã‚§ãƒƒã‚¯ */
+	/* §Œä‚ğs‚¤‚©‚Ìƒ`ƒFƒbƒN */
 	if( uc_CtrlFlag != true ){
-		return;		// åˆ¶å¾¡ç„¡åŠ¹çŠ¶æ…‹
+		return;		// §Œä–³Œøó‘Ô
 	}
     
-	/* å„ç¨®ã‚»ãƒ³ã‚µå…¥åŠ› */
-	ENC_GetDiv( &l_CntR, &l_CntL );					// ç§»å‹•é‡[ã‚«ã‚¦ãƒ³ãƒˆå€¤]ã‚’å–å¾—
-	CTRL_refNow();							// åˆ¶å¾¡ã«ä½¿ç”¨ã™ã‚‹å€¤ã‚’ç¾åœ¨ã®çŠ¶æ…‹ã«æ›´æ–°
-	CTRL_refTarget();						// åˆ¶å¾¡ã«ä½¿ç”¨ã™ã‚‹å€¤ã‚’ç›®æ¨™å€¤ã«æ›´æ–°
+	/* ŠeíƒZƒ“ƒT“ü—Í */
+	ENC_GetDiv( &l_CntR, &l_CntL );					// ˆÚ“®—Ê[ƒJƒEƒ“ƒg’l]‚ğæ“¾
+	CTRL_refNow();							// §Œä‚Ég—p‚·‚é’l‚ğŒ»İ‚Ìó‘Ô‚ÉXV
+	CTRL_refTarget();						// §Œä‚Ég—p‚·‚é’l‚ğ–Ú•W’l‚ÉXV
 
-	/* åˆ¶å¾¡å€¤å–å¾— */
-	CTRL_getFF( &f_feedFoard );					// [åˆ¶å¾¡] ãƒ•ã‚£ãƒ¼ãƒ‰ãƒ•ã‚©ãƒ¯ãƒ¼ãƒ‰
+	/* §Œä’læ“¾ */
+	CTRL_getFF( &f_feedFoard );					// [§Œä] ƒtƒB[ƒhƒtƒHƒ[ƒh
 
-	CTRL_getSpeedFB( &f_speedCtrl );				// [åˆ¶å¾¡] é€Ÿåº¦
-	CTRL_getDistFB( &f_distCtrl );					// [åˆ¶å¾¡] è·é›¢
+	CTRL_getSpeedFB( &f_speedCtrl );				// [§Œä] ‘¬“x
+	CTRL_getDistFB( &f_distCtrl );					// [§Œä] ‹——£
 
-	CTRL_getAngleSpeedFB( &f_angleSpeedCtrl );		// [åˆ¶å¾¡] è§’é€Ÿåº¦
-	CTRL_getAngleFB( &f_angleCtrl );				// [åˆ¶å¾¡] è§’åº¦
-	CTRL_getSenFB( &f_distSenCtrl );				// [åˆ¶å¾¡] å£
+	CTRL_getAngleSpeedFB( &f_angleSpeedCtrl );		// [§Œä] Šp‘¬“x
+	CTRL_getAngleFB( &f_angleCtrl );				// [§Œä] Šp“x
+	CTRL_getSenFB( &f_distSenCtrl );				// [§Œä] •Ç
 
 
-	/* ç›´é€²åˆ¶å¾¡ */
+	/* ’¼i§Œä */
 	if( ( en_Type == CTRL_ACC ) || ( en_Type == CTRL_CONST ) || ( en_Type == CTRL_DEC ) || 
 		( en_Type == CTRL_ACC_SMOOTH ) || ( en_Type == CTRL_CONST_SMOOTH ) || ( en_Type == CTRL_DEC_SMOOTH ) || 
 		( en_Type == CTRL_ENTRY_SLA ) || ( en_Type == CTRL_EXIT_SLA) ||
 		( en_Type == CTRL_SKEW_ACC ) || ( en_Type == CTRL_SKEW_CONST ) || ( en_Type == CTRL_SKEW_DEC )
 		){
-		f_duty10_R = f_feedFoard * FF_BALANCE_R +  f_distCtrl + f_speedCtrl + f_angleCtrl + f_angleSpeedCtrl + f_distSenCtrl;	// å³ãƒ¢ãƒ¼ã‚¿PWM-DUTYæ¯”[0.1%]
-		f_duty10_L = f_feedFoard * FF_BALANCE_L +  f_distCtrl + f_speedCtrl - f_angleCtrl - f_angleSpeedCtrl - f_distSenCtrl;	// å·¦ãƒ¢ãƒ¼ã‚¿PWM-DUTYæ¯”[0.1%]
+		f_duty10_R = f_feedFoard * FF_BALANCE_R +  f_distCtrl + f_speedCtrl + f_angleCtrl + f_angleSpeedCtrl + f_distSenCtrl;	// ‰Eƒ‚[ƒ^PWM-DUTY”ä[0.1%]
+		f_duty10_L = f_feedFoard * FF_BALANCE_L +  f_distCtrl + f_speedCtrl - f_angleCtrl - f_angleSpeedCtrl - f_distSenCtrl;	// ¶ƒ‚[ƒ^PWM-DUTY”ä[0.1%]
 	}
 	
-	/* å£ã‚ã¦åˆ¶å¾¡ */
+	/* •Ç‚ ‚Ä§Œä */
 	else if( en_Type == CTRL_HIT_WALL){
 		f_duty10_R = f_feedFoard * FF_HIT_BALANCE_R * (-1);
 		f_duty10_L = f_feedFoard * FF_HIT_BALANCE_L * (-1);
 	}
 	
-	/* ã‚¹ãƒ©ãƒ­ãƒ¼ãƒ åˆ¶å¾¡ */
+	/* ƒXƒ‰ƒ[ƒ€§Œä */
 	else if( ( en_Type == CTRL_ACC_SLA ) || ( en_Type == CTRL_CONST_SLA ) || ( en_Type == CTRL_DEC_SLA ) ){
-		f_duty10_R = f_feedFoard * FF_BALANCE_R + f_distCtrl + f_speedCtrl + f_angleCtrl + f_angleSpeedCtrl;		//å³ãƒ¢ãƒ¼ã‚¿PWM-DUTYæ¯”[0.1%]
-		f_duty10_L = f_feedFoard * FF_BALANCE_L + f_distCtrl + f_speedCtrl - f_angleCtrl - f_angleSpeedCtrl;		//å·¦ãƒ¢ãƒ¼ã‚¿PWM-DUTYæ¯”[0.1%]
+		f_duty10_R = f_feedFoard * FF_BALANCE_R + f_distCtrl + f_speedCtrl + f_angleCtrl + f_angleSpeedCtrl;		//‰Eƒ‚[ƒ^PWM-DUTY”ä[0.1%]
+		f_duty10_L = f_feedFoard * FF_BALANCE_L + f_distCtrl + f_speedCtrl - f_angleCtrl - f_angleSpeedCtrl;		//¶ƒ‚[ƒ^PWM-DUTY”ä[0.1%]
 	}
 	
-	/*è¶…ä¿¡åœ°æ—‹å›*/
+	/*’´M’nù‰ñ*/
 	else{
 	
-		/*å·¦æ—‹å›*/
+		/*¶ù‰ñ*/
 		if(f_LastAngle > 0){
 			f_duty10_R = f_feedFoard * FF_BALANCE_R	     + f_angleCtrl + f_angleSpeedCtrl +  f_speedCtrl + f_distCtrl;
 			f_duty10_L = f_feedFoard * FF_BALANCE_L*(-1) - f_angleCtrl - f_angleSpeedCtrl +  f_speedCtrl + f_distCtrl;
 		}
 		else{
-		/*å³æ—‹å›*/
+		/*‰Eù‰ñ*/
 			f_duty10_R = f_feedFoard * FF_BALANCE_R*(-1) + f_angleCtrl + f_angleSpeedCtrl +  f_speedCtrl + f_distCtrl;
 			f_duty10_L = f_feedFoard * FF_BALANCE_L	     - f_angleCtrl - f_angleSpeedCtrl +  f_speedCtrl + f_distCtrl;
 		}
 	}
 
-	CTRL_outMot( f_duty10_R, f_duty10_L );				// ãƒ¢ãƒ¼ã‚¿ã¸å‡ºåŠ›
+	CTRL_outMot( f_duty10_R, f_duty10_L );				// ƒ‚[ƒ^‚Öo—Í
     		
 	f_Time += 0.001;
 	
 #if 0	
-	/* å£åˆ‡ã‚Œãƒã‚§ãƒƒã‚¯ */
+	/* •ÇØ‚êƒ`ƒFƒbƒN */
 	if( MOT_getWallEdgeType() == MOT_WALL_EDGE_RIGHT ){
 		
-		/* å£æŠœã‘ */
+		/* •Ç”²‚¯ */
 		if( DIST_isWall_R_SIDE() == false){	
-			MOT_setWallEdge( true );	//å£ã®åˆ‡ã‚Œç›®ã‚’æ¤œçŸ¥
+			MOT_setWallEdge( true );	//•Ç‚ÌØ‚ê–Ú‚ğŒŸ’m
 		}
 		
 	}else if( MOT_getWallEdgeType() == MOT_WALL_EDGE_LEFT ){
 		
-		/* å£æŠœã‘ */
+		/* •Ç”²‚¯ */
 		if( DIST_isWall_L_SIDE() == false){	
 			MOT_setWallEdge( true );
 		}
 	}else{
 
-		/* ä½•ã‚‚ã—ãªã„ */
+		/* ‰½‚à‚µ‚È‚¢ */
 	
     }
 #endif
