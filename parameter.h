@@ -116,7 +116,11 @@
 
 #define GYRO_SCALE_FACTOR			(16.4f)							
 #define TEMP_SCALE_FACTOR			(333.87f)	
-#define ACC_SCALE_FACTOR			(8192.0f)						
+#define ACC_SCALE_FACTOR			(8192.0f)		
+
+/* ジャイロセンサ */
+#define SW_FILTER_VAL_MIN			( -1.5f )							// SWフィルタ最小値[dps]（最小値～最大値の間はSWフィルタがかかる）
+#define SW_FILTER_VAL_MAX			( 1.5f )							// SWフィルタ最大値[dps]
 
 //**************************************************
 // ?O???[?o?????

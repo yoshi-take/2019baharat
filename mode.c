@@ -26,6 +26,9 @@
 #include <hal_dcm.h>		// DCM
 #include <hal_enc.h>		// ENC
 #include <hal_dist.h>       // DIST
+#include <motion.h>			// motion
+
+#include <parameter.h>		// parameter
 
 //**************************************************
 // 定義（define）
@@ -70,7 +73,8 @@ PUBLIC void	MODE_exe( void ){
 		case MODE_1:
 			LED_offAll();
 			while(1){
-				printf("AngleSpeed:%f[deg]\r",GYRO_getNowAngleSpeed());
+				//printf("AngleSpeed:%f[deg]\r",GYRO_getNowAngleSpeed());
+				printf("offset:[%x],GYRO_getNowAngleSpeed()*GYRO_SCALE_FACTOR");		// オフセット量
 				TIME_wait(100);
 			}
 			break;
@@ -104,6 +108,9 @@ PUBLIC void	MODE_exe( void ){
 			
 		case MODE_6:
 			LED_offAll();
+			TIME_wait(2000);
+			MOT_setTrgtSpeed( 400.0f );
+			MOT_goBlock_FinSpeed(2,0);
 			break;
 			
 		case MODE_7:

@@ -201,7 +201,7 @@ PUBLIC void GYRO_init( void ){
 	}
 
 	/* ジャイロのオフセット処理[No.24] */
-//	SPI_staSetData(SPI_GYRO_CFG,0x18);			// 
+//	SPI_staSetData(SPI_GYRO_OFFSET_L,0x18);			// オフセット量を書き込む
 //	TIME_wait(100);
 //	while(1){
 //		if( en_SpiState == SPI_IDLE )break;		// SPI通信完了
@@ -232,7 +232,9 @@ PRIVATE void GYRO_getVal_2nd( void ){
 	f_tempAngleSpeed	= (FLOAT)s_count / GYRO_SCALE_FACTOR;				// [カウント]→[dps]に変換
 
 	/* SWフィルタを有効にする(後で書く) */ 
-	
+	if((SW_FILTER_VAL_MIN>f_tempAngleSpeed)&&(f_tempAngleSpeed<SW_FILTER_VAL_MAX)){
+		f_tempAngleSpeed	= 0;
+	}
 	/* 角速度更新 */
 	f_NowGyroAngleSpeed		= f_tempAngleSpeed;
 

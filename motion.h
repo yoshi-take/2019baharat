@@ -42,5 +42,7 @@ typedef enum{
 //**************************************************
 // プロトタイプ宣言（ファイル内で必要なものだけ記述）
 //**************************************************
+PUBLIC void MOT_setTrgtSpeed( FLOAT f_speed );
+PUBLIC void MOT_goBlock_FinSpeed(FLOAT num, FLOATf_fin);
 
 #endif
