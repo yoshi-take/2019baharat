@@ -47,6 +47,8 @@
       <Path>hal_battery.c</Path>
       <Path>2019baharat.c</Path>
       <Path>hal_spk.c</Path>
+      <Path>motion.c</Path>
+      <Path>motion.h</Path>
       <Path>hal_spk.h</Path>
     </Files>
     <DebugOptions>
@@ -120,6 +122,7 @@
           <Path>DefaultBuild\hal_dcm.obj</Path>
           <Path>DefaultBuild\hal_dcmCtrl.obj</Path>
           <Path>DefaultBuild\hal_enc.obj</Path>
+          <Path>DefaultBuild\motion.obj</Path>
         </LinkOrder>
         <CommonOptions>
           <IncludePathForC>.</IncludePathForC>

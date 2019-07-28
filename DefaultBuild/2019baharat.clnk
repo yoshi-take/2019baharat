@@ -19,6 +19,7 @@
 -input=DefaultBuild\hal_dcm.obj
 -input=DefaultBuild\hal_dcmCtrl.obj
 -input=DefaultBuild\hal_enc.obj
+-input=DefaultBuild\motion.obj
 -noprelink
 -output=DefaultBuild\2019baharat.abs
 -list=DefaultBuild\2019baharat.map

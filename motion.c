@@ -22,6 +22,8 @@
 #include <motion.h>                         // motion
 #include <parameter.h>						// parameter
 
+#include <mode.h>							// mode
+
 //**************************************************
 // 定義（define）
 //**************************************************
@@ -40,34 +42,6 @@
 //**************************************************
 // 列挙体（enum）
 //**************************************************
-/* 動作タイプ */
-typedef enum{
-	MOT_ST_NC    =  0,
-	MOT_ACC_CONST_DEC,				// [01] 台形加速
-	MOT_ACC_CONST_DEC_CUSTOM,	 	// [02] 台形加速（等速値変更）
-	MOT_ACC_CONST,					// [03] 加速＋等速
-	MOT_ACC_CONST_CUSTOM,		   	// [04] 加速＋等速（加速値変更）
-	MOT_CONST_DEC,					// [05] 等速＋減速
-	MOT_CONST_DEC_CUSTOM,			// [06] 等速＋減速（減速値変更）
-	
-	/* cos近似 */
-	MOT_ACC_CONST_DEC_SMOOTH,			// [07] 台形加速
-	MOT_ACC_CONST_DEC_SMOOTH_CUSTOM,	// [08] 台形加速（等速値変更）
-	MOT_ACC_CONST_SMOOTH,				// [09] 加速＋等速
-	MOT_ACC_CONST_SMOOTH_CUSTOM,		// [10] 加速＋等速（加速値変更）
-	MOT_CONST_DEC_SMOOTH,				// [11] 等速＋減速
-	MOT_CONST_DEC_SMOOTH_CUSTOM,		// [12] 等速＋減速（減速値変更）
-	
-	MOT_ST_MAX,
-}enMOT_ST_TYPE;
-
-/* 直進タイプ */
-typedef enum{
-	MOT_GO_ST_NORMAL    =  0,	// 通常の直進
-	MOT_GO_ST_SKEW,				// 斜めの直進
-	MOT_GO_ST_SMOOTH,			// cos近似直進
-	MOT_GO_ST_MAX,
-}enMOT_GO_ST_TYPE;
 
 //**************************************************
 // 構造体（struct）
@@ -1461,7 +1435,7 @@ PUBLIC void MOT_turn( enMOT_TURN_CMD en_type){
 			break;
 			
 		case MOT_L360:
-			st_info.f_angle =  360 + ANGLE_OFFSET3;		
+			st_info.f_angle =  360 ;		
 		break;
 	}
 	
@@ -1546,6 +1520,7 @@ PUBLIC void MOT_turn( enMOT_TURN_CMD en_type){
 	/* ---- */
 	if(( en_type == MOT_R90 ) || ( en_type == MOT_R180 ) || ( en_type == MOT_R360 )){
 		f_angle3		= ( f_TrgtAngleS - st_info.f_lastAngleS ) / 2 * ( f_TrgtAngleS - st_info.f_lastAngleS) / st_info.f_accAngleS3;		//第3移動角度
+		f_angle3		= -1*f_angle3;
 		if( f_angle3 > A3_MIN*-1 ) f_angle3 = A3_MIN*-1;			//減速最低角度に書き換え
 		st_info.f_angle1_2	= st_info.f_angle - f_angle3;		//第1+2移動角度[rad]
 	}else{
@@ -1663,7 +1638,7 @@ PUBLIC void MOT_goBlock_Const( FLOAT f_num){
 	/* 動作データ計算 */
 	/*----------------*/
 	/* 距離 */
-	st_info.f_dist	= f_num * BLOCK * CONST_RATIO;
+	st_info.f_dist	= f_num * BLOCK;
 	
 	/*------*/
 	/* 等速 */

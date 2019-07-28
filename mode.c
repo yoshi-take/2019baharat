@@ -63,6 +63,19 @@ PRIVATE enMODE		en_Mode;		// 現在のモード
 // *************************************************************************/
 PUBLIC void	MODE_exe( void ){
 	
+	/* 走行パラメータ設定 */
+	PARAM_setCntType( TRUE );
+	MOT_setTrgtSpeed( 350.0f );						// 目標速度設定
+	PARAM_setSpeedType( PARAM_ST, PARAM_SLOW );		// [直進]速度低速
+	PARAM_setSpeedType( PARAM_TURN, PARAM_SLOW );	// [旋回]速度低速
+	PARAM_setSpeedType( PARAM_SLA, PARAM_SLOW );	// [スラローム]速度低速
+	
+	/* スラロームデータ生成 */
+	// 90度
+	// 45度
+	// 135度
+	// 斜め → 90°→ 斜め
+
 	switch( en_Mode ){
 		
 		case MODE_0:
@@ -72,20 +85,23 @@ PUBLIC void	MODE_exe( void ){
 			
 		case MODE_1:
 			LED_offAll();
+			TIME_wait(1000);
+			//GYRO_clrAngle();		// 角度リセット
+
 			while(1){
-				//printf("AngleSpeed:%f[deg]\r",GYRO_getNowAngleSpeed());
-				printf("offset:[%x],GYRO_getNowAngleSpeed()*GYRO_SCALE_FACTOR");		// オフセット量
+				printf("AngleSpeed:%f[deg]\r",GYRO_getNowAngleSpeed());
 				TIME_wait(100);
 			}
 			break;
 			
 		case MODE_2:
 			LED_offAll();
-			DCM_setDirCcw(DCM_L);
+			DCM_setDirCw(DCM_L);
 			DCM_setDirCw(DCM_R);
-			DCM_setPwmDuty(DCM_L,100);
+			DCM_setPwmDuty(DCM_L,200);
+			DCM_setPwmDuty(DCM_R,200);
 			//DCM_setPwmDuty(DCM_SUC,100);
-			DCM_staMot(DCM_L);
+			DCM_staMotAll();
 			
 			
 			break;
@@ -98,19 +114,36 @@ PUBLIC void	MODE_exe( void ){
 			break;
 			
 		case MODE_4:
-			GYRO_get_WHOAMI();
+			LED_offAll();
+			TIME_wait(1000);
+			GYRO_clrAngle();		// 角度リセット
+
+			/* 走行パラメータ */
+			PARAM_setCntType( TRUE );
+			MOT_setTrgtSpeed( 500.0f );						// 目標速度設定
+			PARAM_setSpeedType( PARAM_ST, PARAM_SLOW );		// [直進]速度低速
+			PARAM_setSpeedType( PARAM_TURN, PARAM_SLOW );	// [旋回]速度低速
+			PARAM_setSpeedType( PARAM_SLA, PARAM_SLOW );	// [スラローム]速度低速
+
+			MOT_goBlock_FinSpeed(1,0);
+
 			break;
 			
 		case MODE_5:
 			LED_offAll();
+			TIME_wait(1000);
+			GYRO_clrAngle();		// 角度リセット
+
+			while(1){
+				printf("Angle:%f[deg]\r",GYRO_getNowAngle());
+				TIME_wait(100);
+			}
 
 			break;
 			
 		case MODE_6:
 			LED_offAll();
-			TIME_wait(2000);
-			MOT_setTrgtSpeed( 400.0f );
-			MOT_goBlock_FinSpeed(2,0);
+			
 			break;
 			
 		case MODE_7:

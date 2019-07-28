@@ -232,9 +232,10 @@ PRIVATE void GYRO_getVal_2nd( void ){
 	f_tempAngleSpeed	= (FLOAT)s_count / GYRO_SCALE_FACTOR;				// [カウント]→[dps]に変換
 
 	/* SWフィルタを有効にする(後で書く) */ 
-	if((SW_FILTER_VAL_MIN>f_tempAngleSpeed)&&(f_tempAngleSpeed<SW_FILTER_VAL_MAX)){
+	if((SW_FILTER_VAL_MIN<f_tempAngleSpeed)&&(f_tempAngleSpeed<SW_FILTER_VAL_MAX)){
 		f_tempAngleSpeed	= 0;
 	}
+	
 	/* 角速度更新 */
 	f_NowGyroAngleSpeed		= f_tempAngleSpeed;
 
