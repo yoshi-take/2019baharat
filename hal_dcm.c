@@ -300,11 +300,6 @@ PUBLIC void DCM_setPwmDuty( enDCM_ID en_id, USHORT us_duty10 )
 			DCM_L_GRB 		= us_onReg;		// タイマ値変更
 			DCM_staMot( en_id );			// 回転開始
 			
-			printf("DCM_L_GRB = %d\n\r",DCM_L_GRB);
-			printf("us_onReg = %d\n\r",us_onReg);
-			
-			DCM_staMot( en_id );			// 回転開始
-			
 		}
 		
 	//==== 吸引 ====//	

@@ -43,7 +43,6 @@ typedef enum{
 	MODE_6,
 	MODE_7,
 	MODE_8,
-	MODE_9,
 	MODE_MAX
 }enMODE;
 

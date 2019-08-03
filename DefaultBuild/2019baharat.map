@@ -1,4 +1,4 @@
-Renesas Optimizing Linker (W2.08.00 )             28-Jul-2019 23:00:41
+Renesas Optimizing Linker (W2.08.00 )             04-Aug-2019 00:28:46
 
 *** Options ***
 
@@ -44,17 +44,17 @@ B_1
 R_1
                                   0000002f  00000081        53   1
 B_2
-                                  00000082  000000d1        50   2
+                                  00000082  000000d5        54   2
 R_2
-                                  000000d2  000000ed        1c   2
+                                  000000d6  000000f1        1c   2
 B
-                                  000000f0  000005ab       4bc   4
+                                  000000f4  000005b3       4c0   4
 R
-                                  000005ac  000008db       330   4
+                                  000005b4  000008e3       330   4
 SU
-                                  000008dc  000009db       100   4
+                                  000008e4  000009e3       100   4
 SI
-                                  000009dc  00000cdb       300   4
+                                  000009e4  00000ce3       300   4
 PResetPRG
                                   fff80000  fff80034        35   1
 C_1
@@ -80,17 +80,17 @@ D_2
 D
                                   fff81bd8  fff81f07       330   4
 P
-                                  fff81f08  fff8a081      817a   1
+                                  fff81f08  fff8a0fc      81f5   1
 PIntPRG
-                                  fff8a082  fff8a267       1e6   1
+                                  fff8a0fd  fff8a2e2       1e6   1
 W_1
-                                  fff8a268  fff8a282        1b   1
+                                  fff8a2e3  fff8a2f4        12   1
 W_2
-                                  fff8a284  fff8a2d3        50   2
+                                  fff8a2f6  fff8a343        4e   2
 W
-                                  fff8a2d4  fff8a2d4         0   4
+                                  fff8a344  fff8a344         0   4
 L
-                                  fff8a2d4  fff8a8d4       601   4
+                                  fff8a344  fff8a9e4       6a1   4
 $ADDR_C_FFFFFF80
                                   ffffff80  ffffff83         4   1
 $ADDR_C_FFFFFFA0

@@ -70,5 +70,8 @@ PUBLIC void GYRO_init( void );
 PRIVATE void GYRO_getVal_2nd( void );
 PRIVATE void GYRO_getVal_1st( void );
 PUBLIC void GYRO_getVal(void);
+PRIVATE void GYRO_getAccVal_2nd( void );
+PRIVATE void GYRO_getAccVal_1st( void );
+PUBLIC void GYRO_getAccVal( void );
 
 #endif

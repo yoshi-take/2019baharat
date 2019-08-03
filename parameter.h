@@ -43,7 +43,7 @@
 #define	ADR_MAP						( 0x00100000 )						// 迷路バックアップ用アドレス
 #define	ADR_SEN						( 0x00101000 )						// センサ用データフラッシュアドレス
 
-/* ジャイロのスケール */
+/* ジャイロ，温度，加速度のスケール */
 #define GYRO_SCALE_FACTOR			(16.4f)							
 #define TEMP_SCALE_FACTOR			(333.87f)	
 #define ACC_SCALE_FACTOR			(8192.0f)

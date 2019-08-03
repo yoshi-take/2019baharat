@@ -36,16 +36,18 @@
 #define A3 		(220)			// ラ
 #define Bb3 	(233)			// 
 #define B3 		(247)			// シ
-#define C3 		(262)			// ド
-#define Cb3		(277)			// 
-#define D3 		(294)			// レ
-#define Eb3 	(311)			// 
-#define E3 		(330)			// ミ
-#define F3 		(349)			// ファ
-#define Gb3		(370)			// 
-#define G3 		(392)			// ソ
-#define Ab3 	(415)			//
-#define	A4		(440)			//
+#define C4 		(262)			// ド
+#define Cb4		(277)			// 
+#define D4 		(294)			// レ
+#define Eb4 	(311)			// 
+#define E4 		(330)			// ミ
+#define F4 		(349)			// ファ
+#define Gb4		(370)			// 
+#define G4		(392)			// ソ
+#define Ab4 	(415)			//
+#define	A4		(440)			// ラ
+#define B4      (494)           // シ
+#define C5      (523)           // ド
 #define REST 	(0)				// 休符
 
 //**************************************************

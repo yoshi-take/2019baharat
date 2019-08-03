@@ -562,7 +562,8 @@ PUBLIC void INTC_sys(void){
 	ul_Wait++;
 	ul_Wait %= 6000000;			// 10 min (= 6000000 カウント) で 0 クリア
 
-	
+	CTRL_pol();
+
 	return;
 }
 

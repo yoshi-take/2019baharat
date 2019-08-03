@@ -153,10 +153,7 @@ PUBLIC void	MODE_exe( void ){
 		case MODE_8:
 			LED_offAll();
 			break;
-			
-		case MODE_9:
-			LED_offAll();
-			break;
+
 			
 		default:
 			break;
@@ -184,27 +181,27 @@ PRIVATE void MODE_chg( enMODE en_mode ){
 			break;
 			
 		case MODE_1:
-			//SPK_on(A4,16.0f,120);
+			//SPK_on(C4,16.0f,120);
 			LED_on(LED0);
 			break;
 			
 		case MODE_2:
-			//SPK_on(A4,16.0f,120);
+			//SPK_on(D4,16.0f,120);
 			LED_on(LED1);
 			break;
 			
 		case MODE_3:
-			//SPK_on(A4,16.0f,120);
+			//SPK_on(E4,16.0f,120);
 			LED_on(LED2);
 			break;
 			
 		case MODE_4:
-			//SPK_on(A4,16.0f,120);
+			//SPK_on(F4,16.0f,120);
 			LED_on(LED3);
 			break;
 			
 		case MODE_5:
-			//SPK_on(A4,16.0f,120);
+			//SPK_on(G4,16.0f,120);
 			LED_on(LED4);
 			break;
 			
@@ -215,21 +212,15 @@ PRIVATE void MODE_chg( enMODE en_mode ){
 			break;
 			
 		case MODE_7:
-			//SPK_on(A4,16.0f,120);
+			//SPK_on(B4,16.0f,120);
 			LED_on(LED0);
 			LED_on(LED2);
 			break;
 			
 		case MODE_8:
-			//SPK_on(A4,16.0f,120);
+			//SPK_on(C5,16.0f,120);
 			LED_on(LED0);
 			LED_on(LED3);
-			break;
-			
-		case MODE_9:
-			//SPK_on(A4,16.0f,120);
-			LED_on(LED0);
-			LED_on(LED4);
 			break;
 			
 		default:

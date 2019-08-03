@@ -15,6 +15,7 @@
 #include <typedefine.h>						// 定義
 #include <iodefine.h>						// I/O
 #include <stdio.h>							// 標準入出力
+#include <math.h>							// math
 
 #include <hal_dcm.h>						// DCM
 #include <hal_dcmCtrl.h>					// DCM_CTRL
@@ -23,6 +24,7 @@
 #include <parameter.h>						// parameter
 
 #include <mode.h>							// mode
+#include <hal_led.h>						// LED
 
 //**************************************************
 // 定義（define）
@@ -37,7 +39,7 @@
 #define ANGLE_OFFSET_L180			( 0 )			// 角度のオフセット値（バッファリングによる誤差を埋めるための値）
 
 #define MOT_MOVE_ST_THRESHOLD		( 45 )			// 直進移動距離の閾値[mm]
-#define MOT_MOVE_ST_MIN				( 0  )          // 直進移動距離の最低移動量[mm]
+#define MOT_MOVE_ST_MIN				( 20 )          // 直進移動距離の最低移動量[mm]
 
 //**************************************************
 // 列挙体（enum）
@@ -230,21 +232,19 @@ PRIVATE void MOT_goBlock_AccConstDec( FLOAT f_fin, enMOT_ST_TYPE en_type, enMOT_
 		CTRL_clrData();								// 設定データをクリア
 		CTRL_setData( &st_data );						// データセット
 		DCM_staMotAll();							// モータON
-		
-		//printf("加速距離：%5.4f \n\r",st_Info.f_l1 );
-		
+			
 		while( f_NowDist < st_Info.f_l1 ){					// 指定距離到達待ち
 			
 			/*加速デバッグ*/
-			/*if(f_NowDist>=st_Info.f_l1*0.25){
-				LED8=0x01;
+			if(f_NowDist>=st_Info.f_l1*0.25){
+				LED_on(LED0);
 				if(f_NowDist>=st_Info.f_l1*0.5){
-					LED8=0x02;
+					LED_on(LED1);
 					if(f_NowDist>=st_Info.f_l1*0.75){
-						LED8=0x04;
+						LED_on(LED2);
 					}
 				}
-			}*/
+			}
 			
 			/*脱出*/
 			if(SW_ON == SW_INC_PIN){
@@ -252,11 +252,10 @@ PRIVATE void MOT_goBlock_AccConstDec( FLOAT f_fin, enMOT_ST_TYPE en_type, enMOT_
 				break;
 			}
 			
-			MOT_setWallEdgeDIST();		// 壁切れ補正を実行する距離を設定
+			//MOT_setWallEdgeDIST();		// 壁切れ補正を実行する距離を設定
 			
 		}
 		
-		//printf("加速終了(*´▽｀*) \n\r");
 	}
 	
 	/* ------ */
@@ -290,13 +289,8 @@ PRIVATE void MOT_goBlock_AccConstDec( FLOAT f_fin, enMOT_ST_TYPE en_type, enMOT_
 	
 	CTRL_setData( &st_data );							// データセット
 	
-	//printf("等速モード \n\r");
-	//printf("等速完了位置：%5.4f \n\r",st_Info.f_l1_2 );
-	//printf("目標速度：%5.4f \n\r",st_Info.f_trgt);
-	
-	
 	while( f_NowDist < (st_Info.f_l1_2 ) ){				// 指定距離到達待ち	
-		//LED_SYS=0;
+		
 		/*等速デバッグ*/
 		/*if(f_NowDist>=st_Info.f_l1){
 			LED8=0x04;
@@ -317,11 +311,11 @@ PRIVATE void MOT_goBlock_AccConstDec( FLOAT f_fin, enMOT_ST_TYPE en_type, enMOT_
 			break;
 		}
 		
-		MOT_setWallEdgeDIST();	// 壁切れ補正を実行する距離を設定
+		//MOT_setWallEdgeDIST();	// 壁切れ補正を実行する距離を設定
 	}
-	//LED8=0xff;
-	//printf("等速終了(*´▽｀*) \n\r");
 	
+	LED_on(LED3);
+
 	/* ------ */
 	/*  減速  */
 	/* ------ */
@@ -349,9 +343,7 @@ PRIVATE void MOT_goBlock_AccConstDec( FLOAT f_fin, enMOT_ST_TYPE en_type, enMOT_
 		st_data.f_angle			= 0;						// 目標角度
 		st_data.f_time 			= 0;						// 目標時間 [sec] ← 指定しない
 		CTRL_setData( &st_data );							// データセット
-		
-		//printf("減速距離：%5.4f \n\r",st_Info.f_dist-st_Info.f_l1_2);
-		//printf("減速開始(*´▽｀*) \n\r");
+						
 		while( f_NowDist < ( st_Info.f_dist ) ){		// 怪しい
 			/*if(f_NowDist>=st_Info.f_l1_2){
 				LED8=0x80;
@@ -375,12 +367,12 @@ PRIVATE void MOT_goBlock_AccConstDec( FLOAT f_fin, enMOT_ST_TYPE en_type, enMOT_
 				break;
 			}
 			
-			MOT_setWallEdgeDIST();		// 壁切れ補正を実行する距離を設定
+			//MOT_setWallEdgeDIST();		// 壁切れ補正を実行する距離を設定
 			
 		}
 
 	}
-
+	LED_on(LED4);
 	/* ------------------ */
 	/*  等速(壁の切れ目)  */
 	/* ------------------ */
@@ -543,22 +535,22 @@ PRIVATE void MOT_setData_MOT_ACC_CONST_DEC_CUSTOM( FLOAT f_num, FLOAT f_fin, enM
 	
 	
 								 
-	printf("st_Info.f_acc1：%5.4f \n\r",st_Info.f_acc1);							 
-	printf("st_Info.f_acc3：%5.4f \n\r",st_Info.f_acc3);	
-	printf("st_Info.f_dist：%5.4f \n\r",st_Info.f_dist);
-	printf("MOT_MOVE_ST_MIN：%5.4f \n\r",check);
-	printf("最終速度　f_fin：%5.4f \n\r",f_fin);
-	printf("現在速度：%5.4f \n\r",st_Info.f_now);
-	printf("目標速度 st_Info.f_trgt：%5.4f \n\r",st_Info.f_trgt);
-	printf("最終速度：%5.4f \n\r",st_Info.f_last);
+	printf("st_Info.f_acc1:%5.4f \n\r",st_Info.f_acc1);							 
+	printf("st_Info.f_acc3:%5.4f \n\r",st_Info.f_acc3);	
+	printf("st_Info.f_dist:%5.4f \n\r",st_Info.f_dist);
+	printf("MOT_MOVE_ST_MIN:%5.4f \n\r",check);
+	printf("f_fin:%5.4f \n\r",f_fin);
+	printf("f_now:%5.4f \n\r",st_Info.f_now);
+	printf("f_trgt:%5.4f \n\r",st_Info.f_trgt);
+	printf("f_last:%5.4f \n\r",st_Info.f_last);
 
 	st_Info.f_l1		= ( st_Info.f_trgt * st_Info.f_trgt - f_MotNowSpeed * f_MotNowSpeed ) / ( st_Info.f_acc1 * 2 );			// 第1移動距離[mm]
 	f_l3				= ( f_fin * f_fin - st_Info.f_trgt * st_Info.f_trgt ) / ( ( st_Info.f_acc3  * -1 ) * 2 );		// 第3移動距離[mm]
 	st_Info.f_l1_2		= st_Info.f_dist - f_l3;											// 第1+2移動距離[mm]
 	
-	printf("第1移動距離：%5.4f \n\r",st_Info.f_l1);
-	printf("等速距離：%5.4f \n\r",st_Info.f_l1_2 - st_Info.f_l1);
-	printf("第3移動距離：%5.4f \n\r",f_l3);
+	printf("f_l1：%5.4f \n\r",st_Info.f_l1);
+	printf("f_l1_2 - f_l1：%5.4f \n\r",st_Info.f_l1_2 - st_Info.f_l1);
+	printf("f_l3：%5.4f \n\r",f_l3);
 }
 
 // *************************************************************************

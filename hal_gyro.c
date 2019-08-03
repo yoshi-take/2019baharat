@@ -35,13 +35,18 @@
 // グローバル変数
 //**************************************************
 /* ジャイロセンサ */
-PUBLIC	SHORT s_GyroVal_Lo;								// ジャイロセンサ値(下位)
-PUBLIC	SHORT s_GyroVal_Hi;								// ジャイロセンサ値(上位)
+PUBLIC SHORT s_GyroVal_Lo;								// ジャイロセンサ値(下位)
+PUBLIC SHORT s_GyroVal_Hi;								// ジャイロセンサ値(上位)
 PUBLIC FLOAT  f_NowGyroAngle;		 					// ジャイロセンサの現在角度
 PUBLIC FLOAT  f_NowGyroAngleSpeed;						// ジャイロセンサの現在角速度	
 
+PUBLIC SHORT 	s_AccelVal_Lo;							// 加速度センサ値(下位)
+PUBLIC SHORT 	s_AccelVal_Hi;							// 加速度センサ値(上位)
+PUBLIC FLOAT  	f_NowAccel;								// 進行方向の現在加速度	
+
+
 PUBLIC	SHORT s_WhoamiVal;
-PRIVATE LONG  l_GyroRef; 								// ジャイロセンサの基準値
+
 
 extern PUBLIC	enSPI_STATE		en_SpiState;	// SPI通信状態
 extern PUBLIC	SHORT*			p_SpiRcvData;	// SPI受信データ格納アドレス
@@ -272,5 +277,71 @@ PUBLIC void GYRO_getVal( void ){
 	p_SpiRcvData		= &s_GyroVal_Lo;		// 受信データアドレス登録(下位データ)
 	p_SpiCallBackFunc	= GYRO_getVal_1st;		// コールバック関数登録
 	SPI_staGetData(SPI_GYRO_Z_L);				// 受信処理実行
+
+}
+
+// *************************************************************************
+//   機能		： 加速度センサの値を取得する
+//   注意		： なし
+//   メモ		： なし
+//   引数		： なし
+//   返り値		： なし
+// **************************    履    歴    *******************************
+// 		v1.0		2019.7.30			TKR			新規
+// *************************************************************************/
+PUBLIC void GYRO_getAccVal( void ){
+
+	p_SpiRcvData		= &s_AccelVal_Lo;		// 受信データアドレス登録(下位データ)
+	p_SpiCallBackFunc	= GYRO_getAccVal_1st;		// コールバック関数登録
+	SPI_staGetData(SPI_ACC_L);				// 受信処理実行
+
+}
+
+// *************************************************************************
+//   機能		： 加速度センサ値取得用関数(2/2)
+//   注意		： なし
+//   メモ		： なし
+//   引数		： なし
+//   返り値		： なし
+// **************************    履    歴    *******************************
+// 		v1.0		2019.7.30			TKR			新規
+// *************************************************************************/
+PRIVATE void GYRO_getAccVal_2nd( void ){
+
+	SHORT	s_count;			// ICM20602から得られた加速度(カウント値)
+	FLOAT	f_tempAcc;			// 加速度[]
+
+	/* 初期化 */
+	p_SpiRcvData		= NULL;
+	p_SpiCallBackFunc	= NULL;
+
+	/* 角速度値 */
+	s_count				= (SHORT)(s_AccelVal_Lo | (s_AccelVal_Hi << 8) );		// データ結合
+	f_tempAcc			= (FLOAT)s_count / ACC_SCALE_FACTOR;				// [カウント]→[]に変換
+
+	/* SWフィルタを有効にする(閾値がまだジャイロ仕様になっているので後で修正) */ 
+	if((SW_FILTER_VAL_MIN<f_tempAcc)&&(f_tempAcc<SW_FILTER_VAL_MAX)){
+		f_tempAcc	= 0;
+	}
+	
+	/* 加速度更新 */
+	f_NowAccel		= f_tempAcc;
+
+}
+
+// *************************************************************************
+//   機能		： 加速度センサ値取得用関数(1/2)
+//   注意		： なし
+//   メモ		： なし
+//   引数		： なし
+//   返り値		： なし
+// **************************    履    歴    *******************************
+// 		v1.0		2019.7.30			TKR			新規
+// *************************************************************************/
+PRIVATE void GYRO_getAccVal_1st( void ){
+
+	p_SpiRcvData		= &s_AccelVal_Hi;		// 上位データ
+	p_SpiCallBackFunc	= GYRO_getAccVal_2nd;
+	SPI_staGetData(SPI_ACC_H);
 
 }
