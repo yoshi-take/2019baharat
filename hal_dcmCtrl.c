@@ -942,7 +942,7 @@ PUBLIC void CTRL_showLog( void ){
 	printf("index,Time[s],TrgtSpeed[mm/s],NowSpeed[mm/s],TrgtPos[mm],NowPos[mm],TrgtAngleS[deg/s],NowAngleS[deg/s],TrgtAngle[deg],NowAngle[deg]");
 	for(i=0; i<CTRL_LOG; i++){
 		printf("%4d,%0.62f,%0.62f,%0.62f,%0.62f,%0.62f,%0.62f,%0.62f,%0.62f,%0.62f",
-				i,st_Log[i].f_time,st_Log[i].f_trgtSpeed,st_Log[i].f_nowSpeed,st_Log[i].f_trgtPos,st_Log[i].f_nowPos,st_Log[i].f_trgtAngleS,st_Log[i].f_nowAngleS,,st_Log[i].f_trgtAngle,st_Log[i].f_nowAngle);
+				i,st_Log[i].f_time,st_Log[i].f_trgtSpeed,st_Log[i].f_nowSpeed,st_Log[i].f_trgtPos,st_Log[i].f_nowPos,st_Log[i].f_trgtAngleS,st_Log[i].f_nowAngleS,st_Log[i].f_trgtAngle,st_Log[i].f_nowAngle);
 	}
 
 }
