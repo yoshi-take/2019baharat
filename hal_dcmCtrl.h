@@ -95,10 +95,7 @@ extern PUBLIC FLOAT			f_TrgtAngleS;					// [角速度制御] 現在角速度（DCMCのFB目標
 //PUBLIC void CTRL_setData(stDCMC_DATA* p_data);
 PUBLIC void CTRL_clrData(void);
 PUBLIC void CTRL_stop(void);
-PUBLIC void CTRL_polCtrl(void);
 PUBLIC void CTRL_showLog(void);
-
-
-
+PUBLIC void CTRL_Loginit(void);
 
 #endif

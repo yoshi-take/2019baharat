@@ -50,6 +50,9 @@
 // *************************************************************************/
 PUBLIC void SPK_on( int frq, float beat, int bpm  ){
 
+	TPU4.TIOR.BIT.IOA  	= 1;
+	TPU4.TIOR.BIT.IOB	= 2;
+
 	if(frq != REST){
 		TPU4.TGRA			= (int) ((12000000/frq) - 1);
 		TPU4.TGRB			= TPU4.TGRA / 2;
@@ -60,8 +63,9 @@ PUBLIC void SPK_on( int frq, float beat, int bpm  ){
 	// 
 	TIME_wait( (int)(60000.0f/bpm*4.0f/beat-10.0f ));
 	
-	TPUA.TSTR.BIT.CST4 = 0;		// TPU4 0:’âŽ~,1:ŠJŽn
-	
+	TPUA.TSTR.BIT.CST4 	= 0;		// TPU4 0:’âŽ~,1:ŠJŽn
+	TPU4.TIOR.BIT.IOA  	= 1;
+	TPU4.TIOR.BIT.IOB	= 1;
 	TIME_wait(10);
 }
 

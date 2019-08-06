@@ -42,6 +42,21 @@
 //**************************************************
 // 構造体（struct）
 //**************************************************
+/* ログ */
+typedef struct 
+{
+	ULONG	f_time;			// 時間
+	FLOAT	f_trgtSpeed;		// 速度（理論値）
+	FLOAT	f_nowSpeed;			// 速度（実測値）
+	FLOAT	f_trgtPos;			// 位置（理論値）
+	FLOAT	f_nowPos;			// 位置（実測値）
+	FLOAT	f_trgtAngleS;		// 角速度（理論値）
+	FLOAT	f_nowAngleS;		// 角速度（実測値）
+	FLOAT	f_trgtAngle;		// 角度（理論値）
+	FLOAT	f_nowAngle;			// 角度（実測値）	
+}stDCMC_SET_LOG;
+
+
 
 //**************************************************
 // 変数
@@ -86,6 +101,11 @@ PUBLIC  FLOAT           f_AngleErrSum   = 0;        // [角度制御]　距離積分距離 
 /* 壁制御 */
 PRIVATE LONG            l_WallErr       = 0;        // [壁制御]　壁との偏差             （1[msec]毎に更新される）
 PRIVATE FLOAT           f_ErrDistBuf    = 0;        // [壁制御]　距離センサの誤差の積分  （1[msec]毎に更新される）
+
+/* ログ */
+PRIVATE	stDCMC_SET_LOG	st_Log[CTRL_LOG];			// ログ	
+PRIVATE USHORT			us_LogPt		= 0;		// ログ位置
+PRIVATE BOOL			bl_log			= false;	// ログ取得を許可（false:禁止　true:許可）
 
 
 //**************************************************
@@ -781,6 +801,7 @@ PRIVATE void    CTRL_outMot( FLOAT f_duty10_R, FLOAT f_duty10_L ){
 //   返り値		： なし
 // **************************    履    歴    *******************************
 // 		v1.0		2019.4.26			TKR			新規
+//		v2.0		2019.8.6			TKR			ログ機能追加
 // *************************************************************************/
 PUBLIC  void    CTRL_pol( void ){
 
@@ -790,9 +811,10 @@ PUBLIC  void    CTRL_pol( void ){
 	FLOAT f_angleSpeedCtrl		= 0;		// [制御] 角速度制御量
 	FLOAT f_angleCtrl			= 0;		// [制御] 角度制御量
 	FLOAT f_distSenCtrl			= 0;		// [制御] 距離センサー制御量
-	FLOAT f_duty10_R;					// [出力] 右モータPWM-DUTY比[0.1%]
-	FLOAT f_duty10_L;					// [出力] 左モータPWM-DUTY比[0.1%]
-	
+	FLOAT f_duty10_R;						// [出力] 右モータPWM-DUTY比[0.1%]
+	FLOAT f_duty10_L;						// [出力] 左モータPWM-DUTY比[0.1%]
+	static UCHAR uc_cycle		= 0;		// ログの記録サイクル
+
 	/* 制御を行うかのチェック */
 	if( uc_CtrlFlag != true ){
 		return;		// 制御無効状態
@@ -800,11 +822,11 @@ PUBLIC  void    CTRL_pol( void ){
     
 	/* 各種センサ入力 */
 	ENC_GetDiv( &l_CntR, &l_CntL );					// 移動量[カウント値]を取得
-	CTRL_refNow();							// 制御に使用する値を現在の状態に更新
-	CTRL_refTarget();						// 制御に使用する値を目標値に更新
+	CTRL_refNow();									// 制御に使用する値を現在の状態に更新
+	CTRL_refTarget();								// 制御に使用する値を目標値に更新
 
 	/* 制御値取得 */
-	CTRL_getFF( &f_feedFoard );					// [制御] フィードフォワード
+	CTRL_getFF( &f_feedFoard );						// [制御] フィードフォワード
 
 	CTRL_getSpeedFB( &f_speedCtrl );				// [制御] 速度
 	CTRL_getDistFB( &f_distCtrl );					// [制御] 距離
@@ -813,6 +835,30 @@ PUBLIC  void    CTRL_pol( void ){
 	CTRL_getAngleFB( &f_angleCtrl );				// [制御] 角度
 	CTRL_getSenFB( &f_distSenCtrl );				// [制御] 壁
 
+#if 1
+	/* 走行ログ */
+	if( bl_log == true ){
+		uc_cycle++;
+	}
+
+	/* ログ記録 */
+	if( uc_cycle == CTRL_LOG_CYCLE ){		// この周期で記録
+		uc_cycle			= 0;
+		st_Log[us_LogPt].f_time			= f_Time;					// 時間
+		st_Log[us_LogPt].f_trgtSpeed	= f_TrgtSpeed;				// 速度（目標値）
+		st_Log[us_LogPt].f_nowSpeed		= f_NowSpeed;				// 速度（実測値）
+		st_Log[us_LogPt].f_trgtPos		= f_TrgtDist;				// 位置（目標値）
+		st_Log[us_LogPt].f_nowPos		= f_NowDist;				// 位置（実測値）
+		st_Log[us_LogPt].f_trgtAngleS	= f_TrgtAngleS;				// 角速度（目標値）
+		st_Log[us_LogPt].f_nowAngleS	= GYRO_getNowAngleSpeed();	// 角速度（実測値）
+		st_Log[us_LogPt].f_trgtAngle	= f_TrgtAngle;				// 角度（目標値）
+		st_Log[us_LogPt].f_nowAngle		= f_NowAngle;				// 角度（実測値）
+		
+		us_LogPt++;
+		if(us_LogPt== CTRL_LOG) bl_log = false;
+	}
+
+#endif
 
 	/* 直進制御 */
 	if( ( en_Type == CTRL_ACC ) || ( en_Type == CTRL_CONST ) || ( en_Type == CTRL_DEC ) || 
@@ -878,3 +924,39 @@ PUBLIC  void    CTRL_pol( void ){
 #endif
 }
 
+// *************************************************************************
+//   機能		： ログの出力
+//   注意		： なし
+//   メモ		： TeraTermに出力し，csvにして保存し，MATLABに出力
+//   引数		： なし
+//   返り値		： なし
+// **************************    履    歴    *******************************
+// 		v1.0		2019.8.6			TKR			新規
+// *************************************************************************/
+PUBLIC void CTRL_showLog( void ){
+	
+	USHORT	i;
+	printf("\033[2J");		// コンソール画面のクリア
+	printf("\n\r");
+
+	printf("index,Time[s],TrgtSpeed[mm/s],NowSpeed[mm/s],TrgtPos[mm],NowPos[mm],TrgtAngleS[deg/s],NowAngleS[deg/s],TrgtAngle[deg],NowAngle[deg]");
+	for(i=0; i<CTRL_LOG; i++){
+		printf("%4d,%0.62f,%0.62f,%0.62f,%0.62f,%0.62f,%0.62f,%0.62f,%0.62f,%0.62f",
+				i,st_Log[i].f_time,st_Log[i].f_trgtSpeed,st_Log[i].f_nowSpeed,st_Log[i].f_trgtPos,st_Log[i].f_nowPos,st_Log[i].f_trgtAngleS,st_Log[i].f_nowAngleS,,st_Log[i].f_trgtAngle,st_Log[i].f_nowAngle);
+	}
+
+}
+
+// *************************************************************************
+//   機能		： ログの変数の初期化
+//   注意		： なし
+//   メモ		： なし
+//   引数		： なし
+//   返り値		： なし
+// **************************    履    歴    *******************************
+// 		v1.0		2019.8.6			TKR			新規
+// *************************************************************************/
+PUBLIC void CTRL_Loginit( void ){
+
+	memset( st_Log, 0, sizeof(st_Log) );
+}

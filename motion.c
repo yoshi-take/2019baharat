@@ -235,6 +235,7 @@ PRIVATE void MOT_goBlock_AccConstDec( FLOAT f_fin, enMOT_ST_TYPE en_type, enMOT_
 			
 		while( f_NowDist < st_Info.f_l1 ){					// 指定距離到達待ち
 			
+		#ifdef	TEST
 			/*加速デバッグ*/
 			if(f_NowDist>=st_Info.f_l1*0.25){
 				LED_on(LED0);
@@ -245,7 +246,8 @@ PRIVATE void MOT_goBlock_AccConstDec( FLOAT f_fin, enMOT_ST_TYPE en_type, enMOT_
 					}
 				}
 			}
-			
+		#endif
+
 			/*脱出*/
 			if(SW_ON == SW_INC_PIN){
 				CTRL_stop();				// 制御停止
@@ -291,6 +293,7 @@ PRIVATE void MOT_goBlock_AccConstDec( FLOAT f_fin, enMOT_ST_TYPE en_type, enMOT_
 	
 	while( f_NowDist < (st_Info.f_l1_2 ) ){				// 指定距離到達待ち	
 		
+	#ifdef	TEST
 		/*等速デバッグ*/
 		/*if(f_NowDist>=st_Info.f_l1){
 			LED8=0x04;
@@ -304,6 +307,7 @@ PRIVATE void MOT_goBlock_AccConstDec( FLOAT f_fin, enMOT_ST_TYPE en_type, enMOT_
 				}
 			}
 		}*/
+	#endif	
 		
 		/*脱出*/
 		if(SW_ON == SW_INC_PIN){
@@ -314,8 +318,6 @@ PRIVATE void MOT_goBlock_AccConstDec( FLOAT f_fin, enMOT_ST_TYPE en_type, enMOT_
 		//MOT_setWallEdgeDIST();	// 壁切れ補正を実行する距離を設定
 	}
 	
-	LED_on(LED3);
-
 	/* ------ */
 	/*  減速  */
 	/* ------ */
@@ -345,6 +347,8 @@ PRIVATE void MOT_goBlock_AccConstDec( FLOAT f_fin, enMOT_ST_TYPE en_type, enMOT_
 		CTRL_setData( &st_data );							// データセット
 						
 		while( f_NowDist < ( st_Info.f_dist ) ){		// 怪しい
+
+		#ifdef	TEST
 			/*if(f_NowDist>=st_Info.f_l1_2){
 				LED8=0x80;
 			}*/
@@ -360,6 +364,7 @@ PRIVATE void MOT_goBlock_AccConstDec( FLOAT f_fin, enMOT_ST_TYPE en_type, enMOT_
 				}
 			}
 			*/
+		#endif
 			
 			/*脱出*/
 			if(SW_ON == SW_INC_PIN){
@@ -372,7 +377,7 @@ PRIVATE void MOT_goBlock_AccConstDec( FLOAT f_fin, enMOT_ST_TYPE en_type, enMOT_
 		}
 
 	}
-	LED_on(LED4);
+
 	/* ------------------ */
 	/*  等速(壁の切れ目)  */
 	/* ------------------ */
@@ -399,7 +404,6 @@ PRIVATE void MOT_goBlock_AccConstDec( FLOAT f_fin, enMOT_ST_TYPE en_type, enMOT_
 		while( f_NowDist < st_data.f_dist ){			// 指定距離到達待ち
 			
 			if( MOT_setWallEdgeDIST_LoopWait() == true ) break;			// 壁切れ補正を実行する距離を設定
-			//LED8= 0xff;
 			
 		}
 	}
@@ -436,10 +440,7 @@ PRIVATE void MOT_goBlock_AccConstDec( FLOAT f_fin, enMOT_ST_TYPE en_type, enMOT_
 	 	CTRL_stop();				// 制御停止
 		DCM_brakeMot( DCM_R );	// ブレーキ
 		DCM_brakeMot( DCM_L );	// ブレーキ
-		//TIME_wait(500);				// 安定待ち
-		//printf("停止(*´▽｀*)");
-	}
-	//TIME_wait( 50 );
+	}	
 	
 	f_MotNowSpeed = f_fin;			// 現在速度更新
 }
@@ -457,9 +458,7 @@ PRIVATE void MOT_setData_ACC_CONST_DEC( FLOAT f_num, FLOAT f_fin, enMOT_GO_ST_TY
 {
 	FLOAT			f_l3;						// 第3移動距離[mm]
 	FLOAT			f_1blockDist;				// 1区画の距離[mm]
-	
-	//printf("---------台形加速--------- \n\r");
-	
+		
 	/* 1区画の距離 */
 	if( MOT_GO_ST_NORMAL == en_type ){		// 通常の直進
 		f_1blockDist = BLOCK;
@@ -476,20 +475,21 @@ PRIVATE void MOT_setData_ACC_CONST_DEC( FLOAT f_num, FLOAT f_fin, enMOT_GO_ST_TY
 	st_Info.f_now		= f_MotNowSpeed;													// 現在速度	
 	st_Info.f_trgt		= f_MotTrgtSpeed;													// 目標速度
 	st_Info.f_last		= f_fin;															// 最終速度
-	//printf("現在速度：%5.4f \n\r",st_Info.f_now);
-	//printf("目標速度：%5.4f \n\r",st_Info.f_trgt);
-	//printf("最終速度：%5.4f \n\r",st_Info.f_last);
 
 	/* 距離 */
 	st_Info.f_dist		= f_num * f_1blockDist;												// 移動距離[mm]
 	st_Info.f_l1		= ( f_MotTrgtSpeed * f_MotTrgtSpeed - f_MotNowSpeed * f_MotNowSpeed ) / ( st_Info.f_acc1 * 2 );			// 第1移動距離[mm]
 	f_l3			= ( f_fin * f_fin - f_MotTrgtSpeed * f_MotTrgtSpeed ) / ( ( st_Info.f_acc3 * -1 ) * 2 );			// 第3移動距離[mm]
 	st_Info.f_l1_2		= st_Info.f_dist - f_l3;											// 第1+2移動距離[mm]
-	
-	//printf("第1移動距離：%5.4f \n\r",st_Info.f_l1);
-	//printf("等速距離：%5.4f \n\r",st_Info.f_l1_2 - st_Info.f_l1);
-	//printf("第3移動距離：%5.4f \n\r",f_l3);
-	
+
+#ifdef	TEST
+	//printf("st_Info.f_now:%5.4f \n\r",st_Info.f_now);
+	//printf("st_Info.f_trgt:%5.4f \n\r",st_Info.f_trgt);
+	//printf("st_Info.f_last:%5.4f \n\r",st_Info.f_last);
+	//printf("st_Info.f_l1:%5.4f \n\r",st_Info.f_l1);
+	//printf("st_Info.f_l1_2 - st_Info.f_l1:%5.4f \n\r",st_Info.f_l1_2 - st_Info.f_l1);
+	//printf("f_l3%5.4f \n\r",f_l3);
+#endif
 }
 
 // *************************************************************************
@@ -507,7 +507,6 @@ PRIVATE void MOT_setData_MOT_ACC_CONST_DEC_CUSTOM( FLOAT f_num, FLOAT f_fin, enM
 	FLOAT			f_1blockDist;				// 1区画の距離[mm]
 	FLOAT check;
 	check = MOT_MOVE_ST_MIN;
-	printf("---------台形加速(等速)---------\n\r");
 	
 	/* 1区画の距離 */
 	if( MOT_GO_ST_NORMAL == en_type ){		// 通常の直進
@@ -532,9 +531,12 @@ PRIVATE void MOT_setData_MOT_ACC_CONST_DEC_CUSTOM( FLOAT f_num, FLOAT f_fin, enM
 	st_Info.f_trgt		= sqrt( 1 / ( ( st_Info.f_acc3 * -1 ) - st_Info.f_acc1 ) *					// 目標速度
 								( 2 * st_Info.f_acc1 * ( st_Info.f_acc3 * -1 ) * ( st_Info.f_dist - MOT_MOVE_ST_MIN ) + 
 								 ( st_Info.f_acc3 * -1 ) * f_MotNowSpeed * f_MotNowSpeed - st_Info.f_acc1 * f_fin * f_fin ) );
-	
-	
 								 
+	st_Info.f_l1		= ( st_Info.f_trgt * st_Info.f_trgt - f_MotNowSpeed * f_MotNowSpeed ) / ( st_Info.f_acc1 * 2 );			// 第1移動距離[mm]
+	f_l3				= ( f_fin * f_fin - st_Info.f_trgt * st_Info.f_trgt ) / ( ( st_Info.f_acc3  * -1 ) * 2 );		// 第3移動距離[mm]
+	st_Info.f_l1_2		= st_Info.f_dist - f_l3;											// 第1+2移動距離[mm]
+
+#ifdef	TEST	
 	printf("st_Info.f_acc1:%5.4f \n\r",st_Info.f_acc1);							 
 	printf("st_Info.f_acc3:%5.4f \n\r",st_Info.f_acc3);	
 	printf("st_Info.f_dist:%5.4f \n\r",st_Info.f_dist);
@@ -543,14 +545,11 @@ PRIVATE void MOT_setData_MOT_ACC_CONST_DEC_CUSTOM( FLOAT f_num, FLOAT f_fin, enM
 	printf("f_now:%5.4f \n\r",st_Info.f_now);
 	printf("f_trgt:%5.4f \n\r",st_Info.f_trgt);
 	printf("f_last:%5.4f \n\r",st_Info.f_last);
+	printf("f_l1:%5.4f \n\r",st_Info.f_l1);
+	printf("f_l1_2 - f_l1:%5.4f \n\r",st_Info.f_l1_2 - st_Info.f_l1);
+	printf("f_l3:%5.4f \n\r",f_l3);
+#endif
 
-	st_Info.f_l1		= ( st_Info.f_trgt * st_Info.f_trgt - f_MotNowSpeed * f_MotNowSpeed ) / ( st_Info.f_acc1 * 2 );			// 第1移動距離[mm]
-	f_l3				= ( f_fin * f_fin - st_Info.f_trgt * st_Info.f_trgt ) / ( ( st_Info.f_acc3  * -1 ) * 2 );		// 第3移動距離[mm]
-	st_Info.f_l1_2		= st_Info.f_dist - f_l3;											// 第1+2移動距離[mm]
-	
-	printf("f_l1：%5.4f \n\r",st_Info.f_l1);
-	printf("f_l1_2 - f_l1：%5.4f \n\r",st_Info.f_l1_2 - st_Info.f_l1);
-	printf("f_l3：%5.4f \n\r",f_l3);
 }
 
 // *************************************************************************
@@ -566,9 +565,7 @@ PRIVATE void MOT_setData_ACC_CONST_DEC_SMOOTH( FLOAT f_num, FLOAT f_fin, enMOT_G
 {
 	FLOAT			f_l3;						// 第3移動距離[mm]
 	FLOAT			f_1blockDist;				// 1区画の距離[mm]
-	
-	printf("---------台形加速(cos近似)--------- \n\r");
-	
+		
 	/* 1区画の距離 */
 	if( MOT_GO_ST_SMOOTH == en_type ){		// 通常の直進
 		f_1blockDist = BLOCK;
@@ -586,12 +583,6 @@ PRIVATE void MOT_setData_ACC_CONST_DEC_SMOOTH( FLOAT f_num, FLOAT f_fin, enMOT_G
 	st_Info.f_trgt		= f_MotTrgtSpeed;													// 目標速度
 	st_Info.f_last		= f_fin;															// 最終速度
 	
-	printf("st_Info.f_acc1：%5.4f \n\r",st_Info.f_acc1);							 
-	printf("st_Info.f_acc3：%5.4f \n\r",st_Info.f_acc3);	
-	printf("現在速度：%5.4f \n\r",st_Info.f_now);
-	printf("目標速度：%5.4f \n\r",st_Info.f_trgt);
-	printf("最終速度：%5.4f \n\r",st_Info.f_last);
-
 	/* 距離 */
 	st_Info.f_dist		= f_num * f_1blockDist;												// 移動距離[mm]
 	
@@ -599,10 +590,17 @@ PRIVATE void MOT_setData_ACC_CONST_DEC_SMOOTH( FLOAT f_num, FLOAT f_fin, enMOT_G
 	f_l3				= ( ( f_fin * f_fin - f_MotTrgtSpeed * f_MotTrgtSpeed )* 3.1416f) / ( ( st_Info.f_acc3 * -1 ) * 4 );				// 第3移動距離[mm]
 	st_Info.f_l1_2		= st_Info.f_dist - f_l3;											// 第1+2移動距離[mm]
 	
-	printf("第1移動距離：%5.4f \n\r",st_Info.f_l1);
-	printf("等速距離：%5.4f \n\r",st_Info.f_l1_2 - st_Info.f_l1);
-	printf("第3移動距離：%5.4f \n\r",f_l3);
-	
+#ifdef	TEST	
+	printf("st_Info.f_acc1:%5.4f \n\r",st_Info.f_acc1);							 
+	printf("st_Info.f_acc3:%5.4f \n\r",st_Info.f_acc3);	
+	printf("st_Info.f_now:%5.4f \n\r",st_Info.f_now);
+	printf("st_Info.f_trgt:%5.4f \n\r",st_Info.f_trgt);
+	printf("st_Info.f_last:%5.4f \n\r",st_Info.f_last);
+	printf("st_Info.f_l1:%5.4f \n\r",st_Info.f_l1);
+	printf("st_Info.f_l1_2 - st_Info.f_l1:%5.4f \n\r",st_Info.f_l1_2 - st_Info.f_l1);
+	printf("f_l3:%5.4f \n\r",f_l3);
+#endif	
+
 }
 
 // *************************************************************************
@@ -620,7 +618,6 @@ PRIVATE void MOT_setData_MOT_ACC_CONST_DEC_SMOOTH_CUSTOM( FLOAT f_num, FLOAT f_f
 	FLOAT			f_1blockDist;				// 1区画の距離[mm]
 	FLOAT check;
 	check = MOT_MOVE_ST_MIN;
-	printf("---------台形加速(等速) cos近似---------\n\r");
 	
 	/* 1区画の距離 */
 	if( MOT_GO_ST_SMOOTH == en_type ){		// 通常の直進
@@ -644,23 +641,24 @@ PRIVATE void MOT_setData_MOT_ACC_CONST_DEC_SMOOTH_CUSTOM( FLOAT f_num, FLOAT f_f
 	
 	st_Info.f_trgt		= sqrt( ( 2*st_Info.f_acc1*(st_Info.f_dist - MOT_MOVE_ST_MIN) ) / (3.1416f) + ( ( f_MotNowSpeed * f_MotNowSpeed + f_fin * f_fin ) / 2 ) );					// 目標速度
 							
-	
-	printf("st_Info.f_acc1：%5.4f \n\r",st_Info.f_acc1);							 
-	printf("st_Info.f_acc3：%5.4f \n\r",st_Info.f_acc3);	
-	printf("st_Info.f_dist：%5.4f \n\r",st_Info.f_dist);
-	printf("MOT_MOVE_ST_MIN：%5.4f \n\r",check);
-	printf("最終速度　f_fin：%5.4f \n\r",f_fin);
-	printf("現在速度：%5.4f \n\r",st_Info.f_now);
-	printf("目標速度 st_Info.f_trgt：%5.4f \n\r",st_Info.f_trgt);
-	printf("最終速度：%5.4f \n\r",st_Info.f_last);
-
 	st_Info.f_l1		= ( ( st_Info.f_trgt * st_Info.f_trgt - f_MotNowSpeed * f_MotNowSpeed ) *3.1416f) / ( st_Info.f_acc1 * 4 );			// 第1移動距離[mm]
 	f_l3				= ( (f_fin * f_fin - st_Info.f_trgt * st_Info.f_trgt ) *3.1416f) / ( ( st_Info.f_acc3  * -1 ) * 4 );				// 第3移動距離[mm]
 	st_Info.f_l1_2		= st_Info.f_dist - f_l3;											// 第1+2移動距離[mm]
 	
-	printf("第1移動距離：%5.4f \n\r",st_Info.f_l1);
-	printf("等速距離：%5.4f \n\r",st_Info.f_l1_2 - st_Info.f_l1);
-	printf("第3移動距離：%5.4f \n\r",f_l3);
+#ifdef	TEST
+	printf("st_Info.f_acc1:%5.4f \n\r",st_Info.f_acc1);							 
+	printf("st_Info.f_acc3:%5.4f \n\r",st_Info.f_acc3);	
+	printf("st_Info.f_dist:%5.4f \n\r",st_Info.f_dist);
+	printf("MOT_MOVE_ST_MIN:%5.4f \n\r",check);
+	printf("f_fin:%5.4f \n\r",f_fin);
+	printf("st_Info.f_now:%5.4f \n\r",st_Info.f_now);
+	printf("st_Info.f_trgt:%5.4f \n\r",st_Info.f_trgt);
+	printf("st_Info.f_last:%5.4f \n\r",st_Info.f_last);
+	printf("st_Info.f_l1:%5.4f \n\r",st_Info.f_l1);
+	printf("st_Info.f_l1_2 - st_Info.f_l1:%5.4f \n\r",st_Info.f_l1_2 - st_Info.f_l1);
+	printf("f_l3:%5.4f \n\r",f_l3);
+#endif
+
 }
 
 // *************************************************************************
@@ -698,17 +696,19 @@ PRIVATE void MOT_setData_MOT_ACC_CONST( FLOAT f_num, FLOAT f_fin, enMOT_GO_ST_TY
 	st_Info.f_l1		= ( f_fin * f_fin - f_MotNowSpeed * f_MotNowSpeed ) / ( st_Info.f_acc1 * 2 );			// 第1移動距離[mm]
 	st_Info.f_l1_2		= st_Info.f_dist;													// 第1+2移動距離[mm]
 
-	printf("---------加速+等速---------\n\r");
-	printf("st_Info.f_acc1：%5.4f \n\r",st_Info.f_acc1);							 
-	printf("st_Info.f_acc3：%5.4f \n\r",st_Info.f_acc3);	
-	printf("st_Info.f_dist：%5.4f \n\r",st_Info.f_dist);
-	printf("最終速度　f_fin：%5.4f \n\r",f_fin);
-	printf("現在速度：%5.4f \n\r",st_Info.f_now);
-	printf("目標速度 st_Info.f_trgt：%5.4f \n\r",st_Info.f_trgt);
-	printf("最終速度：%5.4f \n\r",st_Info.f_last);
-	printf("移動距離：%5.4f \n\r",st_Info.f_l1_2);
-	printf("第1移動距離：%5.4f \n\r",st_Info.f_l1);
-	printf("等速距離：%5.4f \n\r",st_Info.f_l1_2 - st_Info.f_l1);
+#ifdef	TEST
+	printf("st_Info.f_acc1:%5.4f \n\r",st_Info.f_acc1);							 
+	printf("st_Info.f_acc3:%5.4f \n\r",st_Info.f_acc3);	
+	printf("st_Info.f_dist:%5.4f \n\r",st_Info.f_dist);
+	printf("f_fin:%5.4f \n\r",f_fin);
+	printf("st_Info.f_now:%5.4f \n\r",st_Info.f_now);
+	printf("st_Info.f_trgt:%5.4f \n\r",st_Info.f_trgt);
+	printf("st_Info.f_last:%5.4f \n\r",st_Info.f_last);
+	printf("st_Info.f_l1_2:%5.4f \n\r",st_Info.f_l1_2);
+	printf("st_Info.f_l1:%5.4f \n\r",st_Info.f_l1);
+	printf("st_Info.f_l1_2 - st_Info.f_l1:%5.4f \n\r",st_Info.f_l1_2 - st_Info.f_l1);
+#endif
+
 }
 
 // *************************************************************************
@@ -748,17 +748,19 @@ PRIVATE void MOT_setData_MOT_ACC_CONST_CUSTOM( FLOAT f_num, FLOAT f_fin, enMOT_G
 	st_Info.f_l1		= ( f_fin * f_fin - f_MotNowSpeed * f_MotNowSpeed ) / ( st_Info.f_acc1 * 2 );			// 第1移動距離[mm]
 	st_Info.f_l1_2		= st_Info.f_dist;													// 第1+2移動距離[mm]
 
-	printf("---------加速+等速(等速)---------\n\r");
-	printf("st_Info.f_acc1：%5.4f \n\r",st_Info.f_acc1);							 
-	printf("st_Info.f_acc3：%5.4f \n\r",st_Info.f_acc3);	
-	printf("st_Info.f_dist：%5.4f \n\r",st_Info.f_dist);
-	printf("最終速度　f_fin：%5.4f \n\r",f_fin);
-	printf("現在速度：%5.4f \n\r",st_Info.f_now);
-	printf("目標速度 st_Info.f_trgt：%5.4f \n\r",st_Info.f_trgt);
-	printf("最終速度：%5.4f \n\r",st_Info.f_last);
-	printf("移動距離：%5.4f \n\r",st_Info.f_l1_2);
-	printf("第1移動距離：%5.4f \n\r",st_Info.f_l1);
-	printf("等速距離：%5.4f \n\r",st_Info.f_l1_2 - st_Info.f_l1);
+#ifdef	TEST
+	printf("st_Info.f_acc1:%5.4f \n\r",st_Info.f_acc1);							 
+	printf("st_Info.f_acc3:%5.4f \n\r",st_Info.f_acc3);	
+	printf("st_Info.f_dist:%5.4f \n\r",st_Info.f_dist);
+	printf("f_fin:%5.4f \n\r",f_fin);
+	printf("st_Info.f_now:%5.4f \n\r",st_Info.f_now);
+	printf("st_Info.f_trgt:%5.4f \n\r",st_Info.f_trgt);
+	printf("st_Info.f_last:%5.4f \n\r",st_Info.f_last);
+	printf("st_Info.f_l1_2:%5.4f \n\r",st_Info.f_l1_2);
+	printf("st_Info.f_l1:%5.4f \n\r",st_Info.f_l1);
+	printf("st_Info.f_l1_2 - st_Info.f_l1:%5.4f \n\r",st_Info.f_l1_2 - st_Info.f_l1);
+#endif
+
 }
 
 // *************************************************************************
@@ -796,17 +798,19 @@ PRIVATE void MOT_setData_MOT_ACC_CONST_SMOOTH( FLOAT f_num, FLOAT f_fin, enMOT_G
 	st_Info.f_l1		= ( ( f_fin * f_fin - f_MotNowSpeed * f_MotNowSpeed ) *3.1416f) / ( st_Info.f_acc1 * 4 );			// 第1移動距離[mm]
 	st_Info.f_l1_2		= st_Info.f_dist;													// 第1+2移動距離[mm]
 
-	printf("---------加速+等速---------\n\r");
-	printf("st_Info.f_acc1：%5.4f \n\r",st_Info.f_acc1);							 
-	printf("st_Info.f_acc3：%5.4f \n\r",st_Info.f_acc3);	
-	printf("st_Info.f_dist：%5.4f \n\r",st_Info.f_dist);
-	printf("最終速度　f_fin：%5.4f \n\r",f_fin);
-	printf("現在速度：%5.4f \n\r",st_Info.f_now);
-	printf("目標速度 st_Info.f_trgt：%5.4f \n\r",st_Info.f_trgt);
-	printf("最終速度：%5.4f \n\r",st_Info.f_last);
-	printf("移動距離：%5.4f \n\r",st_Info.f_l1_2);
-	printf("第1移動距離：%5.4f \n\r",st_Info.f_l1);
-	printf("等速距離：%5.4f \n\r",st_Info.f_l1_2 - st_Info.f_l1);
+#ifdef	TEST
+	printf("st_Info.f_acc1:%5.4f \n\r",st_Info.f_acc1);							 
+	printf("st_Info.f_acc3:%5.4f \n\r",st_Info.f_acc3);	
+	printf("st_Info.f_dist:%5.4f \n\r",st_Info.f_dist);
+	printf("f_fin:%5.4f \n\r",f_fin);
+	printf("st_Info.f_now:%5.4f \n\r",st_Info.f_now);
+	printf("st_Info.f_trgt:%5.4f \n\r",st_Info.f_trgt);
+	printf("st_Info.f_last:%5.4f \n\r",st_Info.f_last);
+	printf("st_Info.f_l1_2:%5.4f \n\r",st_Info.f_l1_2);
+	printf("st_Info.f_l1:%5.4f \n\r",st_Info.f_l1);
+	printf("st_Info.f_l1_2 - st_Info.f_l1:%5.4f \n\r",st_Info.f_l1_2 - st_Info.f_l1);
+#endif
+
 }
 
 // *************************************************************************
@@ -846,17 +850,19 @@ PRIVATE void MOT_setData_MOT_ACC_CONST_SMOOTH_CUSTOM( FLOAT f_num, FLOAT f_fin, 
 	st_Info.f_l1		= ( f_fin * f_fin - f_MotNowSpeed * f_MotNowSpeed ) / ( st_Info.f_acc1 * 4 );			// 第1移動距離[mm]
 	st_Info.f_l1_2		= st_Info.f_dist;													// 第1+2移動距離[mm]
 
-	printf("---------加速+等速(等速)---------\n\r");
-	printf("st_Info.f_acc1：%5.4f \n\r",st_Info.f_acc1);							 
-	printf("st_Info.f_acc3：%5.4f \n\r",st_Info.f_acc3);	
-	printf("st_Info.f_dist：%5.4f \n\r",st_Info.f_dist);
-	printf("最終速度　f_fin：%5.4f \n\r",f_fin);
-	printf("現在速度：%5.4f \n\r",st_Info.f_now);
-	printf("目標速度 st_Info.f_trgt：%5.4f \n\r",st_Info.f_trgt);
-	printf("最終速度：%5.4f \n\r",st_Info.f_last);
-	printf("移動距離：%5.4f \n\r",st_Info.f_l1_2);
-	printf("第1移動距離：%5.4f \n\r",st_Info.f_l1);
-	printf("等速距離：%5.4f \n\r",st_Info.f_l1_2 - st_Info.f_l1);
+#ifdef	TEST
+	printf("st_Info.f_acc1:%5.4f \n\r",st_Info.f_acc1);							 
+	printf("st_Info.f_acc3:%5.4f \n\r",st_Info.f_acc3);	
+	printf("st_Info.f_dist:%5.4f \n\r",st_Info.f_dist);
+	printf("f_fin:%5.4f \n\r",f_fin);
+	printf("st_Info.f_now:%5.4f \n\r",st_Info.f_now);
+	printf("st_Info.f_trgt:%5.4f \n\r",st_Info.f_trgt);
+	printf("st_Info.f_last:%5.4f \n\r",st_Info.f_last);
+	printf("st_Info.f_l1_2:%5.4f \n\r",st_Info.f_l1_2);
+	printf("st_Info.f_l1:%5.4f \n\r",st_Info.f_l1);
+	printf("st_Info.f_l1_2 - st_Info.f_l1:%5.4f \n\r",st_Info.f_l1_2 - st_Info.f_l1);
+#endif
+
 }
 
 // *************************************************************************
@@ -894,17 +900,19 @@ PRIVATE void MOT_setData_MOT_CONST_DEC( FLOAT f_num, FLOAT f_fin, enMOT_GO_ST_TY
 	st_Info.f_l1		= 0;																// 第1移動距離[mm]
 	st_Info.f_l1_2		= st_Info.f_dist - ( f_fin * f_fin - f_MotNowSpeed * f_MotNowSpeed ) / ( ( st_Info.f_acc3 * -1 ) * 2 );			// 第1-2移動距離[mm]
 
-	printf("---------等速+減速---------\n\r");
-	printf("st_Info.f_acc1：%5.4f \n\r",st_Info.f_acc1);							 
-	printf("st_Info.f_acc3：%5.4f \n\r",st_Info.f_acc3);	
-	printf("st_Info.f_dist：%5.4f \n\r",st_Info.f_dist);
-	printf("最終速度　f_fin：%5.4f \n\r",f_fin);
-	printf("現在速度：%5.4f \n\r",st_Info.f_now);
-	printf("目標速度 st_Info.f_trgt：%5.4f \n\r",st_Info.f_trgt);
-	printf("最終速度：%5.4f \n\r",st_Info.f_last);
-	printf("移動距離：%5.4f \n\r",st_Info.f_dist);
-	printf("等速距離：%5.4f \n\r",st_Info.f_l1_2 - st_Info.f_l1);
-	printf("減速距離：%5.4f \n\r",st_Info.f_l1_2);
+#ifdef	TEST
+	printf("st_Info.f_acc1:%5.4f \n\r",st_Info.f_acc1);							 
+	printf("st_Info.f_acc3:%5.4f \n\r",st_Info.f_acc3);	
+	printf("st_Info.f_dist:%5.4f \n\r",st_Info.f_dist);
+	printf("f_fin:%5.4f \n\r",f_fin);
+	printf("st_Info.f_now:%5.4f \n\r",st_Info.f_now);
+	printf("st_Info.f_trgt:%5.4f \n\r",st_Info.f_trgt);
+	printf("st_Info.f_last:%5.4f \n\r",st_Info.f_last);
+	printf("st_Info.f_dist:%5.4f \n\r",st_Info.f_dist);
+	printf("st_Info.f_l1_2 - st_Info.f_l1:%5.4f \n\r",st_Info.f_l1_2 - st_Info.f_l1);
+	printf("st_Info.f_l1_2:%5.4f \n\r",st_Info.f_l1_2);
+#endif
+
 }
 
 // *************************************************************************
@@ -944,17 +952,19 @@ PRIVATE void MOT_setData_MOT_CONST_DEC_CUSTOM( FLOAT f_num, FLOAT f_fin, enMOT_G
 	st_Info.f_l1		= 0;																// 第1移動距離[mm]
 	st_Info.f_l1_2		= st_Info.f_dist - ( f_fin * f_fin - f_MotNowSpeed * f_MotNowSpeed ) / ( ( st_Info.f_acc3 * -1 ) * 2 );			// 第1-2移動距離[mm]
 
-	printf("---------等速+減速(等速)---------\n\r");
-	printf("st_Info.f_acc1：%5.4f \n\r",st_Info.f_acc1);							 
-	printf("st_Info.f_acc3：%5.4f \n\r",st_Info.f_acc3);	
-	printf("st_Info.f_dist：%5.4f \n\r",st_Info.f_dist);
-	printf("最終速度　f_fin：%5.4f \n\r",f_fin);
-	printf("現在速度：%5.4f \n\r",st_Info.f_now);
-	printf("目標速度 st_Info.f_trgt：%5.4f \n\r",st_Info.f_trgt);
-	printf("最終速度：%5.4f \n\r",st_Info.f_last);
-	printf("移動距離：%5.4f \n\r",st_Info.f_dist);
-	printf("等速距離：%5.4f \n\r",st_Info.f_l1_2 - st_Info.f_l1);
-	printf("減速距離：%5.4f \n\r",st_Info.f_l1_2);
+#ifdef	TEST
+	printf("st_Info.f_acc1:%5.4f \n\r",st_Info.f_acc1);							 
+	printf("st_Info.f_acc3:%5.4f \n\r",st_Info.f_acc3);	
+	printf("st_Info.f_dist:%5.4f \n\r",st_Info.f_dist);
+	printf("f_fin:%5.4f \n\r",f_fin);
+	printf("st_Info.f_now:%5.4f \n\r",st_Info.f_now);
+	printf("st_Info.f_trgt:%5.4f \n\r",st_Info.f_trgt);
+	printf("st_Info.f_last:%5.4f \n\r",st_Info.f_last);
+	printf("st_Info.f_dist:%5.4f \n\r",st_Info.f_dist);
+	printf("st_Info.f_l1_2 - st_Info.f_l1:%5.4f \n\r",st_Info.f_l1_2 - st_Info.f_l1);
+	printf("st_Info.f_l1_2:%5.4f \n\r",st_Info.f_l1_2);
+#endif
+
 }
 
 // *************************************************************************
@@ -992,17 +1002,19 @@ PRIVATE void MOT_setData_MOT_CONST_DEC_SMOOTH( FLOAT f_num, FLOAT f_fin, enMOT_G
 	st_Info.f_l1		= 0;																// 第1移動距離[mm]
 	st_Info.f_l1_2		= st_Info.f_dist - ( ( f_fin * f_fin - f_MotNowSpeed * f_MotNowSpeed ) *3.1416f) / ( ( st_Info.f_acc3 * -1 ) * 4 );			// 第1-2移動距離[mm]
 
-	printf("---------等速+減速---------\n\r");
-	printf("st_Info.f_acc1：%5.4f \n\r",st_Info.f_acc1);							 
-	printf("st_Info.f_acc3：%5.4f \n\r",st_Info.f_acc3);	
-	printf("st_Info.f_dist：%5.4f \n\r",st_Info.f_dist);
-	printf("最終速度　f_fin：%5.4f \n\r",f_fin);
-	printf("現在速度：%5.4f \n\r",st_Info.f_now);
-	printf("目標速度 st_Info.f_trgt：%5.4f \n\r",st_Info.f_trgt);
-	printf("最終速度：%5.4f \n\r",st_Info.f_last);
-	printf("移動距離：%5.4f \n\r",st_Info.f_dist);
-	printf("等速距離：%5.4f \n\r",st_Info.f_l1_2 - st_Info.f_l1);
-	printf("減速距離：%5.4f \n\r",st_Info.f_l1_2);
+#ifdef	TEST
+	printf("st_Info.f_acc1:%5.4f \n\r",st_Info.f_acc1);							 
+	printf("st_Info.f_acc3:%5.4f \n\r",st_Info.f_acc3);	
+	printf("st_Info.f_dist:%5.4f \n\r",st_Info.f_dist);
+	printf("f_fin:%5.4f \n\r",f_fin);
+	printf("st_Info.f_now:%5.4f \n\r",st_Info.f_now);
+	printf("st_Info.f_trgt:%5.4f \n\r",st_Info.f_trgt);
+	printf("st_Info.f_last:%5.4f \n\r",st_Info.f_last);
+	printf("st_Info.f_dist:%5.4f \n\r",st_Info.f_dist);
+	printf("st_Info.f_l1_2 - st_Info.f_l1:%5.4f \n\r",st_Info.f_l1_2 - st_Info.f_l1);
+	printf("st_Info.f_l1_2:%5.4f \n\r",st_Info.f_l1_2);
+#endif
+
 }
 
 // *************************************************************************
@@ -1042,17 +1054,18 @@ PRIVATE void MOT_setData_MOT_CONST_DEC_SMOOTH_CUSTOM( FLOAT f_num, FLOAT f_fin, 
 	st_Info.f_l1		= 0;																// 第1移動距離[mm]
 	st_Info.f_l1_2		= st_Info.f_dist - ( ( f_fin * f_fin - f_MotNowSpeed * f_MotNowSpeed ) *3.1416f) / ( ( st_Info.f_acc3 * -1 ) * 4 );			// 第1-2移動距離[mm]
 
-	printf("---------等速+減速(等速)---------\n\r");
-	printf("st_Info.f_acc1：%5.4f \n\r",st_Info.f_acc1);							 
-	printf("st_Info.f_acc3：%5.4f \n\r",st_Info.f_acc3);	
-	printf("st_Info.f_dist：%5.4f \n\r",st_Info.f_dist);
-	printf("最終速度　f_fin：%5.4f \n\r",f_fin);
-	printf("現在速度：%5.4f \n\r",st_Info.f_now);
-	printf("目標速度 st_Info.f_trgt：%5.4f \n\r",st_Info.f_trgt);
-	printf("最終速度：%5.4f \n\r",st_Info.f_last);
-	printf("移動距離：%5.4f \n\r",st_Info.f_dist);
-	printf("等速距離：%5.4f \n\r",st_Info.f_l1_2 - st_Info.f_l1);
-	printf("減速距離：%5.4f \n\r",st_Info.f_l1_2);
+#ifdef	TEST
+	printf("st_Info.f_acc1:%5.4f \n\r",st_Info.f_acc1);							 
+	printf("st_Info.f_acc3:%5.4f \n\r",st_Info.f_acc3);	
+	printf("st_Info.f_dist:%5.4f \n\r",st_Info.f_dist);
+	printf("f_fin:%5.4f \n\r",f_fin);
+	printf("st_Info.f_now:%5.4f \n\r",st_Info.f_now);
+	printf("st_Info.f_trgt:%5.4f \n\r",st_Info.f_trgt);
+	printf("st_Info.f_last:%5.4f \n\r",st_Info.f_last);
+	printf("st_Info.f_dist:%5.4f \n\r",st_Info.f_dist);
+	printf("st_Info.f_l1_2 - st_Info.f_l1:%5.4f \n\r",st_Info.f_l1_2 - st_Info.f_l1);
+#endif
+
 }
 
 // *************************************************************************
@@ -1151,13 +1164,13 @@ PRIVATE enMOT_ST_TYPE MOT_getStType( FLOAT f_num, FLOAT f_fin, enMOT_GO_ST_TYPE 
 		/* 通常の台形動作 */
 		if( ( f_total - f_l1 - f_l3 - MOT_MOVE_ST_MIN) >= 0 ){
 
-			//printf("%5.4f\n\r",f_total - f_l1 - f_l3 - MOT_MOVE_ST_MIN);	
-	//		printf("パターン1\n\r");
+		//printf("%5.4f\n\r",f_total - f_l1 - f_l3 - MOT_MOVE_ST_MIN);	
+		//printf("パターン1\n\r");
 			return MOT_ACC_CONST_DEC;				// パターン1（通常）
 		}
 		/* 等速値を変更する */
 		else{
-	//		printf("パターン2\n\r");
+			//printf("パターン2\n\r");
 			return MOT_ACC_CONST_DEC_CUSTOM;		// パターン2（目標速度を変更）
 		}
 	
@@ -1172,18 +1185,18 @@ PRIVATE enMOT_ST_TYPE MOT_getStType( FLOAT f_num, FLOAT f_fin, enMOT_GO_ST_TYPE 
 				
 		f_l1 = ( ( f_fin*f_fin - f_MotNowSpeed*f_MotNowSpeed ) * 3.1416f ) / ( 4*f_acc1 );	
 		
-		printf("f_total= %f\n\r",f_total);
+		//printf("f_total= %f\n\r",f_total);
 		
 		/* 加速＋等速動作 */
 		if( f_total <= ( f_l1 + MOT_MOVE_ST_THRESHOLD ) ){
 
 			/* 加速が最終速度に対して完了しない */
 			if( f_total < ( f_l1 + MOT_MOVE_ST_MIN ) ){
-				printf("パターン10\n\r");
+				//printf("パターン10\n\r");
 				return MOT_ACC_CONST_SMOOTH_CUSTOM;		// パターン10（強制的に加速度を変更する）
 			}
 			else{
-				printf("パターン9\n\r");
+				//printf("パターン9\n\r");
 				return MOT_ACC_CONST_SMOOTH;				// パターン9（加速＋等速）
 			}
 		}
@@ -1197,19 +1210,19 @@ PRIVATE enMOT_ST_TYPE MOT_getStType( FLOAT f_num, FLOAT f_fin, enMOT_GO_ST_TYPE 
 
 		f_l3 = ( ( f_fin*f_fin - f_MotNowSpeed*f_MotNowSpeed) * 3.1416f) / ( 4*f_acc3*-1 );
 
-		printf("f_l3：%5.4f \n\r",f_l3);
-		printf("f_total：%5.4f \n\r",f_total);
+		//printf("f_l3：%5.4f \n\r",f_l3);
+		//printf("f_total：%5.4f \n\r",f_total);
 		
 		/* 等速＋減速動作 */
 		if( f_total <= ( f_l3 + MOT_MOVE_ST_THRESHOLD ) ){
 
 			/* 減速が最終速度に対して完了しない */
 			if( f_total < ( f_l3 + MOT_MOVE_ST_MIN ) ){
-				printf("パターン12\n\r");
+				//printf("パターン12\n\r");
 				return MOT_CONST_DEC_SMOOTH_CUSTOM;		// パターン12（強制的に加速度を変更する）
 			}
 			else{
-				printf("パターン11\n\r");
+				//printf("パターン11\n\r");
 				return MOT_CONST_DEC_SMOOTH;				// パターン11（等速＋減速）
 			}
 		}
@@ -1233,12 +1246,12 @@ PRIVATE enMOT_ST_TYPE MOT_getStType( FLOAT f_num, FLOAT f_fin, enMOT_GO_ST_TYPE 
 		if( ( f_total - f_l1 - f_l3 - MOT_MOVE_ST_MIN) >= 0 ){
 
 			//printf("%5.4f\n\r",f_total - f_l1 - f_l3 - MOT_MOVE_ST_MIN);	
-			printf("パターン7\n\r");
+			//printf("パターン7\n\r");
 			return MOT_ACC_CONST_DEC_SMOOTH;				// パターン1（通常）
 		}
 		/* 等速値を変更する */
 		else{
-			printf("パターン8\n\r");
+			//printf("パターン8\n\r");
 			return MOT_ACC_CONST_DEC_SMOOTH_CUSTOM;		// パターン2（目標速度を変更）
 		}
 	
@@ -1624,8 +1637,7 @@ PUBLIC void MOT_turn( enMOT_TURN_CMD en_type){
 PUBLIC void MOT_goBlock_Const( FLOAT f_num){
 	volatile stMOT_DATA	st_info;			//シーケンスデータ
 	stCTRL_DATA		st_data;			//制御データ
-	
-	
+		
 	/*----------------*/
 	/* 動作データ計算 */
 	/*----------------*/
@@ -1651,13 +1663,11 @@ PUBLIC void MOT_goBlock_Const( FLOAT f_num){
 	CTRL_clrData();					//設定データをクリア
 	CTRL_setData( &st_data );			//データセット
 	f_TrgtSpeed		= f_MotNowSpeed;	//目標速度
-	printf("---------等速区間---------\n\r");
-	printf("等速距離：%5.4f \n\r",st_info.f_dist);
+
+	//printf("st_info.f_dist:%5.4f \n\r",st_info.f_dist);
 
 	while( f_NowDist < st_info.f_dist  ){		//指定距離到達待ち
-		//LED8=0xff;
 	}
-	//LED8=0x00;
 	
 }
 
@@ -1703,7 +1713,6 @@ PUBLIC void MOT_goHitBackWall(void){
 	TIME_wait(400);
 	
 	/* 停止 */
-	
 	CTRL_stop();		// 制御停止
 	DCM_brakeMot( DCM_R );	// ブレーキ
 	DCM_brakeMot( DCM_L );	// ブレーキ
