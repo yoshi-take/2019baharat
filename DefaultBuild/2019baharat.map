@@ -1,4 +1,4 @@
-Renesas Optimizing Linker (W2.08.00 )             06-Aug-2019 21:50:17
+Renesas Optimizing Linker (W2.08.00 )             11-Aug-2019 23:15:25
 
 *** Options ***
 
@@ -25,6 +25,8 @@ Renesas Optimizing Linker (W2.08.00 )             06-Aug-2019 21:50:17
 -input=DefaultBuild\hal_dcmCtrl.obj
 -input=DefaultBuild\hal_enc.obj
 -input=DefaultBuild\motion.obj
+-input=DefaultBuild\map.obj
+-input=DefaultBuild\hal_flash.obj
 -noprelink
 -output=DefaultBuild\2019baharat.abs
 -list=DefaultBuild\2019baharat.map
@@ -40,21 +42,21 @@ Renesas Optimizing Linker (W2.08.00 )             06-Aug-2019 21:50:17
 
 SECTION                            START      END         SIZE   ALIGN
 B_1
-                                  00000004  0000002e        2b   1
+                                  00000004  00004230      422d   1
 R_1
-                                  0000002f  00000082        54   1
+                                  00004231  00004285        55   1
 B_2
-                                  00000084  000000d7        54   2
+                                  00004286  00004519       294   2
 R_2
-                                  000000d8  000000f5        1e   2
+                                  0000451a  0000453b        22   2
 B
-                                  000000f8  00006827      6730   4
+                                  0000453c  0000adfb      68c0   4
 R
-                                  00006828  00006b5b       334   4
+                                  0000adfc  0000b133       338   4
 SU
-                                  00006b5c  00006c5b       100   4
+                                  0000b134  0000b233       100   4
 SI
-                                  00006c5c  00006f5b       300   4
+                                  0000b234  0000b533       300   4
 PResetPRG
                                   fff80000  fff80034        35   1
 C_1
@@ -62,35 +64,35 @@ C_1
 C_2
                                   fff801d2  fff803d3       202   2
 C
-                                  fff803d4  fff8172b      1358   4
+                                  fff803d4  fff819d3      1600   4
 C$DSEC
-                                  fff8172c  fff8174f        24   4
+                                  fff819d4  fff819f7        24   4
 C$BSEC
-                                  fff81750  fff81767        18   4
+                                  fff819f8  fff81a0f        18   4
 C$INIT
-                                  fff81768  fff81768         0   1
+                                  fff81a10  fff81a10         0   1
 C$VTBL
-                                  fff81768  fff81768         0   1
+                                  fff81a10  fff81a10         0   1
 C$VECT
-                                  fff81768  fff81b67       400   4
+                                  fff81a10  fff81e0f       400   4
 D_1
-                                  fff81b68  fff81bbb        54   1
+                                  fff81e10  fff81e64        55   1
 D_2
-                                  fff81bbc  fff81bd9        1e   2
+                                  fff81e66  fff81e87        22   2
 D
-                                  fff81bdc  fff81f0f       334   4
+                                  fff81e88  fff821bf       338   4
 P
-                                  fff81f10  fff896f8      77e9   1
+                                  fff821c0  fff8d696      b4d7   1
 PIntPRG
-                                  fff896f9  fff898de       1e6   1
+                                  fff8d697  fff8d87c       1e6   1
 W_1
-                                  fff898df  fff898f0        12   1
+                                  fff8d87d  fff8d88e        12   1
 W_2
-                                  fff898f2  fff89951        60   2
+                                  fff8d890  fff8d8ef        60   2
 W
-                                  fff89954  fff89954         0   4
+                                  fff8d8f0  fff8d8f0         0   4
 L
-                                  fff89954  fff89d30       3dd   4
+                                  fff8d8f0  fff8e07c       78d   4
 $ADDR_C_FFFFFF80
                                   ffffff80  ffffff83         4   1
 $ADDR_C_FFFFFFA0

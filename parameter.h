@@ -70,15 +70,21 @@
 #define ADJ_1STEP_DIRECT			( 1 )									// 1stepの調整ゲイン、Drive走行用  (分母を上げると沢山進む)
 #define DIST_1STEP(adj)				( PI * TIRE_R / ROTATE_PULSE * adj)		// 1パルスで進む距離 [mm]
 
+#define MOVE_BACK_DIST				( 0.183f ) 							// 壁当て動作で後退した距離 [区画]
+#define MOVE_BACK_DIST_SURA			( 0.233f ) 							// 壁当て動作で後退した距離 [区画]
+
 #define ENTRY_ADD					(2)										// 進入距離の追加4
 #define ESCAPE_ADD					(2)										// 退避距離の追加5
 
+/* 探索時の最大連続スラローム回数 */
+#define MAP_SLA_NUM_MAX				( 2 )								// 最大連続スラロームを何回まで許可するか
 
 /* 迷路中での待ち時間 */
 #define MAP_TURN_WAIT				( 100 )								// 超信地旋回探索の動作切り替え待ち時間
 #define MAP_SLA_WAIT				( 150 )								// スラローム探索の動作切り替え待ち時間
 
 /* 走行速度 */
+#define MAP_SEARCH_SPEED			( 300 ) 							// 探索走行の最大速度[mm/s]
 #define SEN_BACK_CHK_SPEED			( 180 ) 							// センサチューニングのための移動最大速度[mm/s]
 
 /* ジャイロセンサ */
@@ -308,6 +314,6 @@ PUBLIC CONST stGAIN* PARAM_getGain( enPARAM_MODE en_mode );
 PUBLIC CONST stSPEED* PARAM_getSpeed( enPARAM_MODE en_mode );
 PUBLIC FLOAT PARAM_getSlaCorrDist( enPARAM_MOVE_SPEED en_speed , enSlaCorrDist en_dist);
 PUBLIC void PARAM_setSpeedType( enPARAM_MODE en_mode, enPARAM_MOVE_SPEED en_speed );
-//PUBLIC stSLA* PARAM_getSra(enSLA_TYPE en_mode);
+PUBLIC stSLA* PARAM_getSra(enSLA_TYPE en_mode);
 
 #endif

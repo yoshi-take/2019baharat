@@ -591,7 +591,7 @@ PUBLIC void INTC_sen( void )
 			break;
 		
 		case 1:		// 前壁センサ
-			DIST_Pol_Front();
+			//DIST_Pol_Front();
 			break;
 		
 		case 2:		// 横壁センサ

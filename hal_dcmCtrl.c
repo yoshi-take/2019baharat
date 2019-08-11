@@ -202,8 +202,7 @@ PUBLIC void CTRL_clrData(void){
 	f_NowDistL 		= 0;
 	f_NowSpeed		= 0;						// [速度制御]   現在の速度 [mm/s]				（1[msec]毎に更新される）
 	f_NowAngle		= 0;						// [角度制御]   現在角度						（1[msec]毎に更新される）
-	//s_GyroVal		= 0;						// ジャイロ値クリア
-	//f_GyroNowAngle	= 0;						// ジャイロ値クリア
+	GYRO_clrAngle();							// 角度リセット
 	
 	/* 目標値 */
 	f_TrgtSpeed		= 0;						// [速度制御]   目標移動速度 [mm/s]				（1[msec]毎に更新される）

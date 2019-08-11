@@ -37,6 +37,7 @@
 PRIVATE	enPARAM_MOVE_SPEED	en_Speed_st		= PARAM_NORMAL;		// 直進時の移動速度タイプ
 PRIVATE	enPARAM_MOVE_SPEED	en_Speed_turn	= PARAM_NORMAL;		// 旋回時の移動速度タイプ
 PRIVATE	enPARAM_MOVE_SPEED	en_Speed_sla	= PARAM_NORMAL;		// スラローム時の移動速度タイプ
+PRIVATE stSLA				st_Sla[SLA_TYPE_MAX];				// スラローム時の走行パラメータ
 PRIVATE	BOOL				bl_cntType		= false;			// カウントタイプ(false:探索、true:最短)
 
 /* ============ */
@@ -486,9 +487,7 @@ PUBLIC FLOAT PARAM_getSlaCorrDist( enPARAM_MOVE_SPEED en_speed , enSlaCorrDist e
 // **************************    履    歴    *******************************
 // 		v1.0		2014.09.01			外川			新規
 // *************************************************************************/
-#if 0
 PUBLIC stSLA* PARAM_getSra(enSLA_TYPE en_mode)
 {
 	return &st_Sla[en_mode];
 }
-#endif

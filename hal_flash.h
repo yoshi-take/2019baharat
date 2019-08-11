@@ -37,6 +37,15 @@
 //**************************************************
 // プロトタイプ宣言（ファイル内で必要なものだけ記述）
 //**************************************************
+PUBLIC void FLASH_init();
+static void FLASH_PEMode();
+static void FLASH_ReadMode();
+PUBLIC void FLASH_waitFCU( int timeout );
+PUBLIC void FLASH_FcuReset();
+PUBLIC void FLASH_Erase(ULONG addr);
+PUBLIC void FLASH_WriteEE(ULONG addr, USHORT *data);
+PUBLIC void FLASH_Read(USHORT *add, USHORT *data);
+PUBLIC void FLASH_CheckError( void );
 
 
 #endif

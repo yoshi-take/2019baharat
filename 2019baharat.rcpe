@@ -23,6 +23,8 @@
         <Path>lowsrc.h</Path>
       </Category>
       <Path>hal_enc.c</Path>
+      <Path>map.c</Path>
+      <Path>map.h</Path>
       <Path>hal_enc.h</Path>
       <Path>hal_dcm.c</Path>
       <Path>hal_dcm.h</Path>
@@ -50,6 +52,8 @@
       <Path>motion.c</Path>
       <Path>motion.h</Path>
       <Path>hal_spk.h</Path>
+      <Path>hal_flash.c</Path>
+      <Path>hal_flash.h</Path>
     </Files>
     <DebugOptions>
       <DebugTool>Simulator</DebugTool>
@@ -123,6 +127,8 @@
           <Path>DefaultBuild\hal_dcmCtrl.obj</Path>
           <Path>DefaultBuild\hal_enc.obj</Path>
           <Path>DefaultBuild\motion.obj</Path>
+          <Path>DefaultBuild\map.obj</Path>
+          <Path>DefaultBuild\hal_flash.obj</Path>
         </LinkOrder>
         <CommonOptions>
           <IncludePathForC>.</IncludePathForC>
