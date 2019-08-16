@@ -36,6 +36,7 @@ void abort(void);
 #include <hal_spi.h>						// SPI
 #include <hal_gyro.h>						// ジャイロ
 #include <hal_dist.h>						// DIST
+#include <hal_dcmCtrl.h>					// CTRL
 
 //**************************************************
 // グローバル変数
@@ -305,7 +306,7 @@ PUBLIC void init_Timer(void){
 	MTU2.TCNT			= 0;		// タイマカウンタクリア
 	
 	IEN(MTU2,TGIA2)		= 1;		// IRレジスタのステータスの割込先に伝える
-	IPR(MTU2,TGIA2)		= 1;		// 割込みの優先順位(その他)
+	IPR(MTU2,TGIA2)		= 8;		// 割込みの優先順位(その他)
 	IR(MTU2,TGIA2)		= 0;
 	
 	MTU.TSTR.BIT.CST2	= 0;		// カウント動作停止
@@ -489,6 +490,7 @@ PUBLIC void main(void){
 	SCI1_init();		// [SCI]シリアルをリセット
 	SPI_init();			// [SPI]SPIをリセット
 	GYRO_init();		// [ジャイロ]ジャイロをリセット
+	CTRL_Loginit();		// [CTRL]ログ変数のリセット
 			
 	for( i = 0; i < 10; i++ ){
 		LED_onAll();
@@ -591,7 +593,7 @@ PUBLIC void INTC_sen( void )
 			break;
 		
 		case 1:		// 前壁センサ
-			//DIST_Pol_Front();
+			DIST_Pol_Front();
 			break;
 		
 		case 2:		// 横壁センサ

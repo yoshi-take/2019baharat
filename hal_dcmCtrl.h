@@ -97,5 +97,6 @@ PUBLIC void CTRL_clrData(void);
 PUBLIC void CTRL_stop(void);
 PUBLIC void CTRL_showLog(void);
 PUBLIC void CTRL_Loginit(void);
+PUBLIC void CTRL_LogSta( void );
 
 #endif

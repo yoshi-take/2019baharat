@@ -27,6 +27,7 @@
 #include <hal_enc.h>		// ENC
 #include <hal_dist.h>       // DIST
 #include <motion.h>			// motion
+#include <hal_dcmCtrl.h>	// CTRL
 
 #include <parameter.h>		// parameter
 
@@ -86,7 +87,7 @@ PUBLIC void	MODE_exe( void ){
 		case MODE_1:
 			LED_offAll();
 			TIME_wait(1000);
-			//GYRO_clrAngle();		// 角度リセット
+			GYRO_clrAngle();		// 角度リセット
 
 			while(1){
 				printf("AngleSpeed:%f[deg]\r",GYRO_getNowAngleSpeed());
@@ -109,14 +110,17 @@ PUBLIC void	MODE_exe( void ){
 		case MODE_3:
 			LED_offAll();
 			
-			DIST_Check();		// 距離センサデバッグ
+			LED_on_multi(0x18);
+			//DIST_Check();		// 距離センサデバッグ
 			
 			break;
 			
 		case MODE_4:
 			LED_offAll();
-			TIME_wait(1000);
+			TIME_wait(1500);
 			GYRO_clrAngle();		// 角度リセット
+			
+			CTRL_LogSta();			// ログ開始
 
 			/* 走行パラメータ */
 			PARAM_setCntType( TRUE );
@@ -143,6 +147,8 @@ PUBLIC void	MODE_exe( void ){
 			
 		case MODE_6:
 			LED_offAll();
+			TIME_wait(100);
+			CTRL_showLog();		// ログの掃き出し
 			
 			break;
 			
@@ -253,3 +259,124 @@ PUBLIC void MODE_inc( void ){
 	
 }
 
+// *************************************************************************
+//   機能		： 前壁(右)が閾値以上だとフラグが立つ
+//   注意		： なし
+//   メモ		： なし
+//   引数		： なし
+//   返り値		： 検知した：true	検知できなかった：false
+// **************************    履    歴    *******************************
+// 		v1.0		2019.8.16			TKR			新規
+// *************************************************************************/
+PUBLIC BOOL MODE_DistRightCheck(){
+	
+	SHORT 	s_rightval;
+	BOOL	bl_check;
+	
+	s_rightval 	= DIST_getNowVal(DIST_SEN_R_FRONT);
+	
+	if( s_rightval >= EXE_THRESH_R ){
+		bl_check = true;
+	
+	}else{
+		bl_check = false;
+	
+	}
+	
+	return bl_check;
+}
+
+// *************************************************************************
+//   機能		： 前壁(左)が閾値以上だとフラグが立つ
+//   注意		： なし
+//   メモ		： なし
+//   引数		： なし
+//   返り値		： 検知した：true	検知できなかった：false
+// **************************    履    歴    *******************************
+// 		v1.0		2019.8.16			TKR			新規
+// *************************************************************************/
+PUBLIC BOOL MODE_DistLeftCheck(){
+	
+	SHORT 	s_leftval;
+	BOOL	bl_check;
+	
+	s_leftval 	= DIST_getNowVal(DIST_SEN_L_FRONT);
+	
+	if( s_leftval >= EXE_THRESH_L ){
+		bl_check = true;
+	
+	}else{
+		bl_check = false;
+	
+	}
+	
+	return bl_check;
+}
+
+// *************************************************************************
+//   機能		： 手をかざすと待機状態に入る
+//   注意		： なし
+//   メモ		： なし
+//   引数		： なし
+//   返り値		： 両方検知：true	それ以外：false
+// **************************    履    歴    *******************************
+// 		v1.0		2019.8.16			TKR			新規
+// *************************************************************************/
+PUBLIC BOOL MODE_setWaitCheck(){
+	
+	BOOL bl_check;
+	
+	if( true == MODE_DistRightCheck() ){	// 右だけ検知
+		LED_on_multi(0xc0);
+
+	}
+	if( true == MODE_DistLeftCheck() ){		// 左だけ検知
+		LED_on_multi(0x18);
+
+	}
+	
+	if( ( true == MODE_DistRightCheck() ) && ( true == MODE_DistLeftCheck() ) ){
+		LED_onAll();
+		bl_check = true;
+		
+	}else{
+		bl_check = false;
+	
+	}
+	
+	return bl_check;
+}
+
+// *************************************************************************
+//   機能		： 手をかざすと待機状態に入り、かざしてから離すと実行
+//   注意		： なし
+//   メモ		： なし
+//   引数		： なし
+//   返り値		： 待機状態から抜け出す：true	それ以外：false
+// **************************    履    歴    *******************************
+// 		v1.0		2018.8.16			吉田			新規
+// *************************************************************************/
+PUBLIC BOOL MODE_CheckExe(){
+	
+	BOOL bl_check;
+	
+	if( true == MODE_setWaitCheck() ){
+		TIME_wait(200);
+		
+		if( false == MODE_setWaitCheck() ){
+			LED_offAll();
+			TIME_wait(1000);
+			bl_check = true;
+			
+		}else{
+			bl_check = false;
+		
+		}
+		
+	}else{
+		
+		bl_check = false;
+	}
+	
+	return bl_check;
+}

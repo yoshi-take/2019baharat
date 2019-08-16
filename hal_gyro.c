@@ -18,6 +18,7 @@
 #include <hal_gyro.h>                       // GYRO
 #include <hal_spi.h>						// SPI
 #include <parameter.h>						// parameter
+#include <hal_led.h>						// LED
 
 //**************************************************
 // 定義（define）
@@ -37,8 +38,8 @@
 /* ジャイロセンサ */
 PUBLIC SHORT s_GyroVal_Lo;								// ジャイロセンサ値(下位)
 PUBLIC SHORT s_GyroVal_Hi;								// ジャイロセンサ値(上位)
-PUBLIC FLOAT  f_NowGyroAngle;		 					// ジャイロセンサの現在角度
-PUBLIC FLOAT  f_NowGyroAngleSpeed;						// ジャイロセンサの現在角速度	
+PUBLIC volatile FLOAT  f_NowGyroAngle;		 					// ジャイロセンサの現在角度
+PUBLIC volatile FLOAT  f_NowGyroAngleSpeed;						// ジャイロセンサの現在角速度	
 
 PUBLIC SHORT 	s_AccelVal_Lo;							// 加速度センサ値(下位)
 PUBLIC SHORT 	s_AccelVal_Hi;							// 加速度センサ値(上位)

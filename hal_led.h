@@ -51,6 +51,7 @@ PUBLIC void LED_on( enLED_ID en_id );
 PUBLIC void LED_onAll( void );
 PUBLIC void LED_off( enLED_ID en_id );
 PUBLIC void LED_offAll( void );
+PUBLIC void LED_on_multi( CHAR c_num );
 
 
 #endif

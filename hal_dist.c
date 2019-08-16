@@ -301,7 +301,7 @@ PUBLIC void DIST_Check( void ){
 
 	while(1){
 
-		printf(" ‹——£ƒZƒ“ƒT [R_F]%5d [L_F]%5d [R_S]%5d [L_S]%5d \r", 
+		printf(" WallSensor [R_F]%5d [L_F]%5d [R_S]%5d [L_S]%5d \r", 
 			(int)DIST_getNowVal(DIST_SEN_R_FRONT),
 			(int)DIST_getNowVal(DIST_SEN_L_FRONT),
 			(int)DIST_getNowVal(DIST_SEN_R_SIDE),

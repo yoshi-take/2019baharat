@@ -91,7 +91,7 @@ PUBLIC void SPI_init(void){
 	ICU.IER[0x05].BIT.IEN2 		= 1;		// SPRI1‚ÌŠ„‚èž‚Ý‚Ì‹–‰Â
 	ICU.IER[0x05].BIT.IEN3 		= 1;		// SPTI1‚ÌŠ„‚èž‚Ý‚Ì‹–‰Â
 	ICU.IER[0x05].BIT.IEN4 		= 1;		// SPII1‚ÌŠ„‚èž‚Ý‚Ì‹–‰Â
-	ICU.IPR[42].BIT.IPR 		= 7;		// SPI1‚ÌŠ„‚èž‚ÝƒŒƒxƒ‹‚ÌÝ’è
+	ICU.IPR[42].BIT.IPR 		= 14;		// SPI1‚ÌŠ„‚èž‚ÝƒŒƒxƒ‹‚ÌÝ’è
 	
 }
 

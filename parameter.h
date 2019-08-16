@@ -88,8 +88,12 @@
 #define SEN_BACK_CHK_SPEED			( 180 ) 							// センサチューニングのための移動最大速度[mm/s]
 
 /* ジャイロセンサ */
-#define SW_FILTER_VAL_MIN			( -2.0f )							// SWフィルタ最小値[dps]（最小値～最大値の間はSWフィルタがかかる）
-#define SW_FILTER_VAL_MAX			( 2.0f )							// SWフィルタ最大値[dps]
+#define SW_FILTER_VAL_MIN			( -1.5f )							// SWフィルタ最小値[dps]（最小値～最大値の間はSWフィルタがかかる）
+#define SW_FILTER_VAL_MAX			( 1.5f )							// SWフィルタ最大値[dps]
+
+/* 手かざし実行の閾値 */
+#define	EXE_THRESH_R				( 100 )								// 右側の閾値
+#define	EXE_THRESH_L				( 100 )								// 左側の閾値
 
 /* 距離 */
 #define MOT_BACK_SEN_ADJ			( 73.0f )							// 壁～柱+aまで（センサオートチューニングに使用する）

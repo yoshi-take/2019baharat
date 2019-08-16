@@ -45,7 +45,7 @@
 /* ログ */
 typedef struct 
 {
-	ULONG	f_time;			// 時間
+	FLOAT	f_time;				// 時間
 	FLOAT	f_trgtSpeed;		// 速度（理論値）
 	FLOAT	f_nowSpeed;			// 速度（実測値）
 	FLOAT	f_trgtPos;			// 位置（理論値）
@@ -97,6 +97,9 @@ PRIVATE FLOAT           f_LastAngle     = 0;        // [角度制御]　最終目標角度
 PUBLIC  FLOAT           f_TrgtAngle     = 0;        // [角度制御]　目標角度             （1[msec]毎に更新される）
 PUBLIC  volatile FLOAT  f_NowAngle      = 0;        // [角度制御]　現在角度             （1[msec]毎に更新される）
 PUBLIC  FLOAT           f_AngleErrSum   = 0;        // [角度制御]　距離積分距離         （1[msec]毎に更新される）
+
+extern	PUBLIC volatile FLOAT  f_NowGyroAngle;		 					// ジャイロセンサの現在角度
+extern	PUBLIC volatile FLOAT  f_NowGyroAngleSpeed;						// ジャイロセンサの現在角速度	
 
 /* 壁制御 */
 PRIVATE LONG            l_WallErr       = 0;        // [壁制御]　壁との偏差             （1[msec]毎に更新される）
@@ -655,7 +658,7 @@ PUBLIC  void CTRL_getAngleSpeedFB( FLOAT *p_err ){
 	FLOAT	f_kp = 0.0f;		// 比例ゲイン
 	
 	f_kp = PARAM_getGain(Chg_ParamID(en_Type)) -> f_FB_angleS_kp;
-	f_err = f_TrgtAngleS - GYRO_getNowAngleSpeed();
+	f_err = f_TrgtAngleS - f_NowGyroAngleSpeed;
 	
 	*p_err = f_err * f_kp;				// P制御量算出
 
@@ -678,8 +681,8 @@ PUBLIC  void    CTRL_getAngleFB( FLOAT *p_err ){
 	
 	*p_err = 0;
 	
-	f_NowAngle = GYRO_getNowAngle();					// 現在角度[deg]
-	
+	f_NowAngle = f_NowGyroAngle;					// 現在角度[deg]
+
 	f_err = f_TrgtAngle - f_NowAngle;
 	
 	/* 直進時 */
@@ -849,9 +852,9 @@ PUBLIC  void    CTRL_pol( void ){
 		st_Log[us_LogPt].f_trgtPos		= f_TrgtDist;				// 位置（目標値）
 		st_Log[us_LogPt].f_nowPos		= f_NowDist;				// 位置（実測値）
 		st_Log[us_LogPt].f_trgtAngleS	= f_TrgtAngleS;				// 角速度（目標値）
-		st_Log[us_LogPt].f_nowAngleS	= GYRO_getNowAngleSpeed();	// 角速度（実測値）
+		st_Log[us_LogPt].f_nowAngleS	= f_NowGyroAngleSpeed;			// 角速度（実測値）
 		st_Log[us_LogPt].f_trgtAngle	= f_TrgtAngle;				// 角度（目標値）
-		st_Log[us_LogPt].f_nowAngle		= f_NowAngle;				// 角度（実測値）
+		st_Log[us_LogPt].f_nowAngle		= f_NowAngle;			// 角度（実測値）
 		
 		us_LogPt++;
 		if(us_LogPt== CTRL_LOG) bl_log = false;
@@ -935,13 +938,13 @@ PUBLIC  void    CTRL_pol( void ){
 PUBLIC void CTRL_showLog( void ){
 	
 	USHORT	i;
-	printf("\033[2J");		// コンソール画面のクリア
-	printf("\n\r");
+//	printf("\033[2J");		// コンソール画面のクリア
+//	printf("\n\r");
 
-	printf("index,Time[s],TrgtSpeed[mm/s],NowSpeed[mm/s],TrgtPos[mm],NowPos[mm],TrgtAngleS[deg/s],NowAngleS[deg/s],TrgtAngle[deg],NowAngle[deg]");
+	printf("index,TrgtSpeed[mm/s],NowSpeed[mm/s],TrgtPos[mm],NowPos[mm],TrgtAngleS[deg/s],NowAngleS[deg/s],TrgtAngle[deg],NowAngle[deg]\n\r");
 	for(i=0; i<CTRL_LOG; i++){
-		printf("%4d,%0.62f,%0.62f,%0.62f,%0.62f,%0.62f,%0.62f,%0.62f,%0.62f,%0.62f",
-				i,st_Log[i].f_time,st_Log[i].f_trgtSpeed,st_Log[i].f_nowSpeed,st_Log[i].f_trgtPos,st_Log[i].f_nowPos,st_Log[i].f_trgtAngleS,st_Log[i].f_nowAngleS,st_Log[i].f_trgtAngle,st_Log[i].f_nowAngle);
+		printf("%4d,%f,%f,%f,%f,%f,%f,%f,%f\n\r",
+				i,st_Log[i].f_trgtSpeed,st_Log[i].f_nowSpeed,st_Log[i].f_trgtPos,st_Log[i].f_nowPos,st_Log[i].f_trgtAngleS,st_Log[i].f_nowAngleS,st_Log[i].f_trgtAngle,st_Log[i].f_nowAngle);
 	}
 
 }
@@ -958,4 +961,19 @@ PUBLIC void CTRL_showLog( void ){
 PUBLIC void CTRL_Loginit( void ){
 
 	memset( st_Log, 0, sizeof(st_Log) );
+}
+
+// *************************************************************************
+//   機能		： ログの許可
+//   注意		： なし
+//   メモ		： なし
+//   引数		： なし
+//   返り値		： なし
+// **************************    履    歴    *******************************
+// 		v1.0		2019.8.12			TKR			新規
+// *************************************************************************/
+PUBLIC void CTRL_LogSta( void ){
+	
+	bl_log	= true;
+
 }
