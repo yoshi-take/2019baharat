@@ -33,7 +33,7 @@
 #define A2_MIN						( 30 )			// 第2最低移動角度
 #define A3_MIN						( 20 )			// 第3最低移動角度
 
-#define ANGLE_OFFSET_R90			( 2.5 )			// 角度のオフセット値（バッファリングによる誤差を埋めるための値）
+#define ANGLE_OFFSET_R90			( 0 )			// 角度のオフセット値（バッファリングによる誤差を埋めるための値）
 #define ANGLE_OFFSET_L90			( 0 )			// 角度のオフセット値（バッファリングによる誤差を埋めるための値）
 #define ANGLE_OFFSET_R180			( 0 )			// 角度のオフセット値（バッファリングによる誤差を埋めるための値）
 #define ANGLE_OFFSET_L180			( 0 )			// 角度のオフセット値（バッファリングによる誤差を埋めるための値）
@@ -1461,7 +1461,7 @@ PUBLIC void MOT_turn( enMOT_TURN_CMD en_type){
 	}else{
 		st_info.f_angle1	= st_info.f_angle - f_angle3 - f_angle2;
 		st_info.f_angle1_2	= st_info.f_angle - f_angle3;
-		printf("第1移動角度：%5.4f \n\r",f_angle3);
+		
 		/* 最小移動距離を上書き */
 		if( st_info.f_angle < A1_MIN ){
 			st_info.f_angle1 = A1_MIN;
@@ -1483,20 +1483,19 @@ PUBLIC void MOT_turn( enMOT_TURN_CMD en_type){
 	st_data.f_trgt			= 0;						// 目標速度
 	st_data.f_nowDist		= 0;						// 進んでいない
 	st_data.f_dist			= 0;						// 加速距離
-	st_data.f_accAngleS		= st_info.f_accAngleS1;				// 角加速度
+	st_data.f_accAngleS		= st_info.f_accAngleS1;		// 角加速度
 	st_data.f_nowAngleS		= 0;						// 現在角速度
-	st_data.f_trgtAngleS	= st_info.f_trgtAngleS;				// 目標角速度
+	st_data.f_trgtAngleS	= st_info.f_trgtAngleS;		// 目標角速度
 	st_data.f_nowAngle		= 0;						// 現在角度
-	st_data.f_angle			= st_info.f_angle1;				// 目標角度
+	st_data.f_angle			= st_info.f_angle1;			// 目標角度
 	st_data.f_time 			= 0;						// 目標時間 [sec] ← 指定しない
 	
-	CTRL_clrData();									// マウスの現在位置/角度をクリア
+	CTRL_clrData();										// マウスの現在位置/角度をクリア
 	CTRL_setData( &st_data );							// データセット
-	DCM_staMotAll();								// モータON	
+	DCM_staMotAll();									// モータON	
 	//printf("第1+2移動角度：%5.4f \n\r",st_info.f_angle1_2);
 	if(( en_type == MOT_R90 ) || ( en_type == MOT_R180 ) || ( en_type == MOT_R360 )){		//-方向
 		while( f_NowAngle > st_info.f_angle1 ){				//指定角度到達待ち(右回転)
-
 			
 			/*脱出*/
 			if(SW_ON == SW_INC_PIN){
@@ -1527,25 +1526,25 @@ PUBLIC void MOT_turn( enMOT_TURN_CMD en_type){
 		f_angle3		= ( f_TrgtAngleS - st_info.f_lastAngleS ) / 2 * ( f_TrgtAngleS - st_info.f_lastAngleS) / st_info.f_accAngleS3;		//第3移動角度
 		f_angle3		= -1*f_angle3;
 		if( f_angle3 > A3_MIN*-1 ) f_angle3 = A3_MIN*-1;			//減速最低角度に書き換え
-		st_info.f_angle1_2	= st_info.f_angle - f_angle3;		//第1+2移動角度[rad]
+		st_info.f_angle1_2	= st_info.f_angle - f_angle3;			//第1+2移動角度[rad]
 	}else{
 		f_angle3		= ( f_TrgtAngleS - st_info.f_lastAngleS ) / 2 * ( f_TrgtAngleS - st_info.f_lastAngleS ) / st_info.f_accAngleS3;		// 第3移動角度
-		if( f_angle3 < A3_MIN ) f_angle3 = A3_MIN;			//減速最低角度に書き換え											
-		st_info.f_angle1_2	= st_info.f_angle - f_angle3;		//第1+2移動角度[rad]												
+		if( f_angle3 < A3_MIN ) f_angle3 = A3_MIN;					//減速最低角度に書き換え											
+		st_info.f_angle1_2	= st_info.f_angle - f_angle3;			//第1+2移動角度[rad]												
 	}
 	//printf("第1+2移動角度：%5.4f \n\r",st_info.f_angle1_2);
 	st_data.en_type			= CTRL_CONST_TURN;
-	st_data.f_acc			= 0;			//加速度指定
-	st_data.f_now			= 0;			//現在速度
-	st_data.f_trgt			= 0;			//目標速度
-	st_data.f_nowDist		= 0;			//進んでいない
-	st_data.f_dist			= 0;			//等速完了位置
-	st_data.f_accAngleS		= 0;			//角加速度
-	st_data.f_nowAngleS		= f_TrgtAngleS;		//現在角速度
-	st_data.f_trgtAngleS		= f_TrgtAngleS;		//目標角速度
-	st_data.f_nowAngle		= st_info.f_angle1;	//現在角度
+	st_data.f_acc			= 0;					//加速度指定
+	st_data.f_now			= 0;					//現在速度
+	st_data.f_trgt			= 0;					//目標速度
+	st_data.f_nowDist		= 0;					//進んでいない
+	st_data.f_dist			= 0;					//等速完了位置
+	st_data.f_accAngleS		= 0;					//角加速度
+	st_data.f_nowAngleS		= f_TrgtAngleS;			//現在角速度
+	st_data.f_trgtAngleS	= f_TrgtAngleS;			//目標角速度
+	st_data.f_nowAngle		= st_info.f_angle1;		//現在角度
 	st_data.f_angle			= st_info.f_angle1_2;	//目標角度
-	st_data.f_time			= 0;			//目標時間[sec]←指定しない
+	st_data.f_time			= 0;					//目標時間[sec]←指定しない
 	
 	CTRL_setData( &st_data );				//データセット
 	
@@ -1570,29 +1569,30 @@ PUBLIC void MOT_turn( enMOT_TURN_CMD en_type){
 			//if( SYS_isOutOfCtrl() == true ) break;		//途中で制御不能になった
 		}
 	}
-	
-	printf("目標角度：%5.4f \n\r",st_info.f_angle);
-	printf("第3移動角度：%5.4f \n\r",f_angle3);
-	printf("第1移動角度：%5.4f \n\r",st_info.f_angle1);
-	printf("第1+2移動角度：%5.4f \n\r",st_info.f_angle1_2);
 
+#ifdef TEST	
+	printf("st_info.f_angle：%5.4f \n\r",st_info.f_angle);
+	printf("f_angle3：%5.4f \n\r",f_angle3);
+	printf("st_info.f_angle1：%5.4f \n\r",st_info.f_angle1);
+	printf("st_info.f_angle1_2：%5.4f \n\r",st_info.f_angle1_2);
+#endif
 	/* ---- */
 	/* 減速 */
 	/* ---- */
 	st_data.en_type			= CTRL_DEC_TURN;
-	st_data.f_acc			= 0;			//加速度指定
-	st_data.f_now			= 0;			//現在速度
-	st_data.f_trgt			= 0;			//最終速度
-	st_data.f_nowDist		= 0;			//等速完了位置
-	st_data.f_dist			= 0;			//全移動完了位置
+	st_data.f_acc			= 0;					//加速度指定
+	st_data.f_now			= 0;					//現在速度
+	st_data.f_trgt			= 0;					//最終速度
+	st_data.f_nowDist		= 0;					//等速完了位置
+	st_data.f_dist			= 0;					//全移動完了位置
 	st_data.f_accAngleS		= st_info.f_accAngleS3;	//角加速度
-	st_data.f_nowAngleS		= f_TrgtAngleS;		//現在角速度
-	st_data.f_trgtAngleS		= 0;			//目標角速度
+	st_data.f_nowAngleS		= f_TrgtAngleS;			//現在角速度
+	st_data.f_trgtAngleS	= 0;					//目標角速度
 	st_data.f_nowAngle		= st_info.f_angle1_2;	//現在角度
-	st_data.f_angle			= st_info.f_angle;	//目標角度
-	st_data.f_time			= 0;			//目標時間[sec]←指定しない
+	st_data.f_angle			= st_info.f_angle;		//目標角度
+	st_data.f_time			= 0;					//目標時間[sec]←指定しない
 	
-	CTRL_setData( &st_data );				// データセット
+	CTRL_setData( &st_data );						// データセット
 	
 	if(( en_type == MOT_R90 ) || ( en_type == MOT_R180 ) || ( en_type == MOT_R360 )){	//-方向
 		while( f_NowAngle > ( st_info.f_angle + 1)){		//指定角度到達待ち(右回転)

@@ -839,27 +839,28 @@ PUBLIC  void    CTRL_pol( void ){
 
 #if 1
 	/* 走行ログ */
-	if( bl_log == true ){
-		uc_cycle++;
-	}
+	if(us_LogPt != CTRL_LOG){
+		if( bl_log == true ){
+			uc_cycle++;
+		}
 
-	/* ログ記録 */
-	if( uc_cycle == CTRL_LOG_CYCLE ){		// この周期で記録
-		uc_cycle			= 0;
-		st_Log[us_LogPt].f_time			= f_Time;					// 時間
-		st_Log[us_LogPt].f_trgtSpeed	= f_TrgtSpeed;				// 速度（目標値）
-		st_Log[us_LogPt].f_nowSpeed		= f_NowSpeed;				// 速度（実測値）
-		st_Log[us_LogPt].f_trgtPos		= f_TrgtDist;				// 位置（目標値）
-		st_Log[us_LogPt].f_nowPos		= f_NowDist;				// 位置（実測値）
-		st_Log[us_LogPt].f_trgtAngleS	= f_TrgtAngleS;				// 角速度（目標値）
-		st_Log[us_LogPt].f_nowAngleS	= f_NowGyroAngleSpeed;			// 角速度（実測値）
-		st_Log[us_LogPt].f_trgtAngle	= f_TrgtAngle;				// 角度（目標値）
-		st_Log[us_LogPt].f_nowAngle		= f_NowAngle;			// 角度（実測値）
-		
-		us_LogPt++;
-		if(us_LogPt== CTRL_LOG) bl_log = false;
+		/* ログ記録 */
+		if( uc_cycle == CTRL_LOG_CYCLE ){		// この周期で記録
+			uc_cycle			= 0;
+			st_Log[us_LogPt].f_time			= f_Time;					// 時間
+			st_Log[us_LogPt].f_trgtSpeed	= f_TrgtSpeed;				// 速度（目標値）
+			st_Log[us_LogPt].f_nowSpeed		= f_NowSpeed;				// 速度（実測値）
+			st_Log[us_LogPt].f_trgtPos		= f_TrgtDist;				// 位置（目標値）
+			st_Log[us_LogPt].f_nowPos		= f_NowDist;				// 位置（実測値）
+			st_Log[us_LogPt].f_trgtAngleS	= f_TrgtAngleS;				// 角速度（目標値）
+			st_Log[us_LogPt].f_nowAngleS	= f_NowGyroAngleSpeed;			// 角速度（実測値）
+			st_Log[us_LogPt].f_trgtAngle	= f_TrgtAngle;				// 角度（目標値）
+			st_Log[us_LogPt].f_nowAngle		= f_NowAngle;			// 角度（実測値）
+			
+			us_LogPt++;
+			if(us_LogPt== CTRL_LOG) bl_log = false;
+		}
 	}
-
 #endif
 
 	/* 直進制御 */

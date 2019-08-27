@@ -47,7 +47,7 @@
 //**************************************************
 // グローバル変数
 //**************************************************
-PRIVATE enMODE		en_Mode;		// 現在のモード	
+PRIVATE enMODE		en_Mode;		// 現在のモード
 
 //**************************************************
 // プロトタイプ宣言（ファイル内で必要なものだけ記述）
@@ -109,10 +109,19 @@ PUBLIC void	MODE_exe( void ){
 			
 		case MODE_3:
 			LED_offAll();
+			TIME_wait(1500);
+			GYRO_clrAngle();		// 角度リセット
 			
-			LED_on_multi(0x18);
-			//DIST_Check();		// 距離センサデバッグ
+			CTRL_LogSta();			// ログ開始
+			/* 走行パラメータ */
+			PARAM_setCntType( TRUE );
+			PARAM_setSpeedType( PARAM_ST, PARAM_SLOW );		// [直進]速度低速
+			PARAM_setSpeedType( PARAM_TURN, PARAM_SLOW );	// [旋回]速度低速
+			PARAM_setSpeedType( PARAM_SLA, PARAM_SLOW );	// [スラローム]速度低速
 			
+			MOT_turn(MOT_R90);
+			LED_onAll();
+
 			break;
 			
 		case MODE_4:
@@ -149,11 +158,12 @@ PUBLIC void	MODE_exe( void ){
 			LED_offAll();
 			TIME_wait(100);
 			CTRL_showLog();		// ログの掃き出し
-			
+
 			break;
 			
 		case MODE_7:
-			LED_offAll();		
+			LED_offAll();
+			GYRO_get_WHOAMI();		
 			break;
 			
 		case MODE_8:

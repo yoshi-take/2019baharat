@@ -91,7 +91,7 @@ PUBLIC void SPI_init(void){
 	ICU.IER[0x05].BIT.IEN2 		= 1;		// SPRI1の割り込みの許可
 	ICU.IER[0x05].BIT.IEN3 		= 1;		// SPTI1の割り込みの許可
 	ICU.IER[0x05].BIT.IEN4 		= 1;		// SPII1の割り込みの許可
-	ICU.IPR[42].BIT.IPR 		= 14;		// SPI1の割り込みレベルの設定
+	ICU.IPR[42].BIT.IPR 		= 7;		// SPI1の割り込みレベルの設定
 	
 }
 
@@ -148,7 +148,7 @@ PUBLIC void SPI_staSetData( USHORT us_adr, USHORT us_val ){
 
 	/* IDLE時以外には実行しない */
 	if( en_SpiState != SPI_IDLE ){
-		printf("SPI送信開始NG [状態]%d \n\r", en_SpiState);
+		printf("SPI_TX_START_NG [state]%d \n\r", en_SpiState);
 		return;
 	}
 	
@@ -225,7 +225,7 @@ PUBLIC void SPI_staGetData( USHORT us_adr ){
 
 	/* IDLE時以外は実行しない */
 	if( en_SpiState != SPI_IDLE ){
-		printf("SPI取得開始NG[状態]%d \n\r",en_SpiState);
+		printf("SPI_get_start_NG[state]%d \n\r",en_SpiState);
 		return;
 	}
 
