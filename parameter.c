@@ -117,9 +117,9 @@ PRIVATE	BOOL				bl_cntType		= false;			// カウントタイプ(false:探索、true:最短)
 		},
 		/* 低速(PARAM_SLOW) */
 		{	// FF		速度kp		位置kp		位置ki		角速度kp	角度kp		角速度ki	壁kp		壁kd
-			{0.07f,		3.0f,		0.0f,		0.0f,		0.0f,		2.0f,		0.0f,		0.0f,		0.0f,	},		// PARAM_ACC		
-			{0.0f,		5.0f,		0.0f,		0.0f,		0.0f,		2.0f,		0.0f,		0.0f,		0.0f,	},		// PARAM_CONST
-			{0.0f,		2.0f,		2.0f,		0.5f,		0.0f,		2.0f,		0.0f,		0.0f,		0.0f,	},		// PARAM_DEC
+			{0.07f,		3.0f,		0.0f,		0.0f,		1.0f,		3.5f,		0.0f,		0.0f,		0.0f,	},		// PARAM_ACC		
+			{0.0f,		5.0f,		0.0f,		0.0f,		1.0f,		3.5f,		0.0f,		0.0f,		0.0f,	},		// PARAM_CONST
+			{0.0f,		2.0f,		1.5f,		0.2f,		1.0f,		3.0f,		0.0f,		0.0f,		0.0f,	},		// PARAM_DEC
 			{0.1f,		0.7f,		0.0f,		0.0f,		0.5f,		4.0f,		0.0f,		0.48f,		0.01f,	},		// PARAM_BACK_ACC
 			{0.0f,		0.7f,		0.0f,		0.0f,		0.5f,		4.0f,		0.0f,		0.48f,		0.01f,	},		// PARAM_BACK_CONST
 			{0.0f,		0.7f,		7.0f,		0.0f,		0.5f,		4.0f,		0.0f,		0.48f,		0.01f,	},		// PARAM_BACK_DEC

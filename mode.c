@@ -97,14 +97,10 @@ PUBLIC void	MODE_exe( void ){
 			
 		case MODE_2:
 			LED_offAll();
-			DCM_setDirCw(DCM_L);
-			DCM_setDirCw(DCM_R);
-			DCM_setPwmDuty(DCM_L,200);
-			DCM_setPwmDuty(DCM_R,200);
-			//DCM_setPwmDuty(DCM_SUC,100);
-			DCM_staMotAll();
-			
-			
+			TIME_wait(1000);
+			GYRO_clrAngle();		// 角度リセット
+
+			DIST_Check();
 			break;
 			
 		case MODE_3:
@@ -337,11 +333,11 @@ PUBLIC BOOL MODE_setWaitCheck(){
 	BOOL bl_check;
 	
 	if( true == MODE_DistRightCheck() ){	// 右だけ検知
-		LED_on_multi(0xc0);
+		LED_on_multi(0x18);
 
 	}
 	if( true == MODE_DistLeftCheck() ){		// 左だけ検知
-		LED_on_multi(0x18);
+		LED_on_multi(0xc0);
 
 	}
 	

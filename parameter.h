@@ -63,7 +63,7 @@
 #define LIST_NUM					( 4096 )							// コマンド走行のリスト数
 
 /* メカ値 */
-#define TIRE_R						( 22.5f )								// タイヤ直径 [mm]
+#define TIRE_R						( 22.9f )								// タイヤ直径 [mm]
 #define ROTATE_PULSE				( 2048 )								// モーター1周のパルス数
 
 #define ADJ_1STEP_SEARCH			( 1 )									// 1stepの調整ゲイン、探索走行用  (分母を上げると沢山進む)
@@ -84,7 +84,7 @@
 #define MAP_SLA_WAIT				( 150 )								// スラローム探索の動作切り替え待ち時間
 
 /* 走行速度 */
-#define MAP_SEARCH_SPEED			( 300 ) 							// 探索走行の最大速度[mm/s]
+#define MAP_SEARCH_SPEED			( 500 ) 							// 探索走行の最大速度[mm/s]
 #define SEN_BACK_CHK_SPEED			( 180 ) 							// センサチューニングのための移動最大速度[mm/s]
 
 /* ジャイロセンサ */
@@ -92,8 +92,8 @@
 #define SW_FILTER_VAL_MAX			( 1.5f )							// SWフィルタ最大値[dps]
 
 /* 手かざし実行の閾値 */
-#define	EXE_THRESH_R				( 100 )								// 右側の閾値
-#define	EXE_THRESH_L				( 100 )								// 左側の閾値
+#define	EXE_THRESH_R				( 300 )								// 右側の閾値
+#define	EXE_THRESH_L				( 300 )								// 左側の閾値
 
 /* 距離 */
 #define MOT_BACK_SEN_ADJ			( 73.0f )							// 壁～柱+aまで（センサオートチューニングに使用する）

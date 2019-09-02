@@ -516,7 +516,7 @@ PUBLIC void main(void){
 			TIME_wait( SW_CHATTERING_WAIT );	// SWが離されるまで待つ
 			printf("mode selecting\r\n");
 		
-		}else if( SW_ON == SW_EXE_PIN ){
+		}else if( (SW_ON == SW_EXE_PIN) || ( true == MODE_CheckExe() ) ){
 			MODE_exe();							// モードを実行
 			TIME_wait( SW_CHATTERING_WAIT );	// SWが離されるまで待つ
 		
