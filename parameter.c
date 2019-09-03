@@ -192,9 +192,9 @@ PRIVATE	BOOL				bl_cntType		= false;			// カウントタイプ(false:探索、true:最短)
 		},
 		/* 低速(PARAM_SLOW) */
 		{	// FF		速度kp		位置kp		位置ki		角速度kp	角度kp		角度ki		壁kp		壁kd
-			{0.05f,		0.0f,		0.0f,		0.0f,		2.0f,		0.0f,		0.0f,		0,			0		},		// PARAM_ACC_TURN
+			{0.06f,		0.0f,		0.0f,		0.0f,		2.0f,		0.0f,		0.0f,		0,			0		},		// PARAM_ACC_TURN
 			{0.0f,		0.0f,		0.0f,		0.0f,		2.0f,		0.0f,		0.0f,		0,			0		},		// PARAM_CONST_TURN
-			{0.0f,		0.0f,		0.0f,		0.0f,		1.5f,		2.0f,		0.0f,		0,			0		},		// PARAM_DEC_TURN
+			{0.0f,		0.0f,		0.0f,		0.0f,		2.0f,		0.5f,		0.0f,		0,			0		},		// PARAM_DEC_TURN
 		},
 		/* 通常(PARAM_NORMAL) */
 		{	// FF		速度kp		位置kp		位置ki		角速度kp	角度kp		角度ki		壁kp		壁kd

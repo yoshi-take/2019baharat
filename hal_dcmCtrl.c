@@ -393,7 +393,7 @@ PUBLIC  void    CTRL_refTarget( void ){
 				/*äpë¨ìxêßå‰Å{äpìxêßå‰*/
 				if( f_TrgtAngleS < f_LastAngleS ){								//å∏ë¨ñ⁄ïWçXêVãÊä‘
 					f_TrgtAngleS = f_BaseAngleS + f_AccAngleS * f_Time;					//ñ⁄ïWäpë¨ìx
-					f_TrgtAngle  = f_BaseAngle  + (f_BaseAngleS - f_TrgtAngleS) * f_Time / 2;		//ñ⁄ïWäpìx
+					f_TrgtAngle  = f_BaseAngle  + (f_BaseAngleS + f_TrgtAngleS) * f_Time / 2;		//ñ⁄ïWäpìx
 				}
 				/*äpìxêßå‰*/
 				else{
