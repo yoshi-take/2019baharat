@@ -305,6 +305,7 @@ PUBLIC  void    CTRL_refTarget( void ){
 		case CTRL_SKEW_ACC:
 			if( f_TrgtSpeed < f_LastSpeed ){												// 加速目標更新区間
 				f_TrgtSpeed = f_BaseSpeed + f_Acc * f_Time;									// 目標速度
+				f_TrgtDist	= f_BaseSpeed * f_Time + 0.5 * f_Acc * f_Time * f_Time;			// 目標位置
 			}
 			break;
 		
@@ -312,6 +313,7 @@ PUBLIC  void    CTRL_refTarget( void ){
 		case CTRL_CONST:
 		case CTRL_SKEW_CONST:
 			f_TrgtSpeed = f_BaseSpeed;														// 目標速度
+			f_TrgtDist	= f_BaseDist + f_BaseSpeed * f_Time;								// 目標位置
 			break;
 		
 		/* 減速中(直進) */

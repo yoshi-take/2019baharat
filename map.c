@@ -129,7 +129,7 @@ PRIVATE void MAP_setCmdPos( UCHAR uc_x, UCHAR uc_y, enMAP_HEAD_DIR en_dir );
 
 // *************************************************************************
 //   機能		： 迷路データをクリアする
-//   注意		： なし
+//   注意		： RAMの方をクリア
 //   メモ		： なし
 //   引数		： なし
 //   返り値		： なし
@@ -199,7 +199,8 @@ PUBLIC void MAP_init( void )
 		printf("\n\r　　　　　　　　　　 /　／＼_」　/　／＼」");
 		printf("\n\r　　　　　　　　　　 ￣　　　　 / ／");
 		printf("\n\r　　　　　　　　　　　　　　　  ￣");
-//		Storage_Load( (const void*)g_sysMap, sizeof(g_sysMap), ADR_MAP );		// バックアップ迷路データで現在の迷路情報を上書き
+
+		//MAP_LoadMapData();		// 迷路データを復帰
 	}
 }
 
@@ -215,7 +216,15 @@ PUBLIC void MAP_init( void )
 // *************************************************************************/
 PUBLIC void MAP_LoadMapData( void )
 {
-//	Storage_Load( (const void*)g_sysMap, sizeof(g_sysMap), ADR_MAP );			// データロード
+	SHORT	i;
+	USHORT	*map_add;
+	map_add	= (USHORT*)&g_sysMap;
+
+	// マップデータをRAMにコピー
+	for(i=0; i<128; i++){
+		FLASH_Read( (USHORT*)(ADR_MAP+i*2), map_add );
+		map_add++;
+	}
 }
 
 
@@ -226,11 +235,10 @@ PUBLIC void MAP_LoadMapData( void )
 //   引数		： なし
 //   返り値		： なし
 // **************************    履    歴    *******************************
-// 		v1.0		2014.09.30			外川			新規
+// 		v1.0		2019.09.8			TKR			新規
 // *************************************************************************/
 PUBLIC void MAP_SaveMapData( void )
 {
-//	Storage_Save( (const void*)g_sysMap, sizeof(g_sysMap), ADR_MAP );			// データセーブ
 
 	SHORT	i;
 	USHORT	*map_add;
@@ -272,8 +280,6 @@ PUBLIC void MAP_ClearMapData( void )
 	/* 走行用のパラメータ */
 	f_MoveBackDist = 0;
 	uc_SlaCnt = 0;
-
-//	Storage_Clear( sizeof(g_sysMap), ADR_MAP );			// データセーブ
 	
 	/* データフラッシュイレース */
 	for( i=0; i<8; i++){
@@ -1106,7 +1112,14 @@ PUBLIC void MAP_searchGoal( UCHAR uc_trgX, UCHAR uc_trgY, enMAP_ACT_MODE en_type
 	
 	MOT_setTrgtSpeed(MAP_SEARCH_SPEED);		// 目標速度
 	MOT_setNowSpeed( 0.0f );
-	f_MoveBackDist = 0;
+	
+	/* ゴール座標目指すときは尻当て考慮 */
+	if( ( uc_trgX == GOAL_MAP_X ) && ( uc_trgY == GOAL_MAP_Y ) ){
+		f_MoveBackDist = MOVE_BACK_DIST;		
+	}else{
+		f_MoveBackDist = 0;
+	}
+
 	uc_SlaCnt = 0;
 
 	/* 迷路探索 */

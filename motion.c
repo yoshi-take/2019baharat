@@ -1403,7 +1403,7 @@ PUBLIC void MOT_turn( enMOT_TURN_CMD en_type){
 	FLOAT			f_angle3;
 	FLOAT			us_trgtAngleS;			//目標角速度[deg/s]
 
-	us_trgtAngleS = 300;	
+	us_trgtAngleS = 500;	
 	
 	/* -------------- */
 	/* 動作データ計算 */

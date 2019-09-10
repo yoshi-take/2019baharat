@@ -33,6 +33,8 @@ void abort(void);
 #include <hal_led.h>						// LED
 #include <mode.h>							// MODE
 #include <hal_sci.h>						// SCI
+#include <hal_flash.h>						// FLASH
+#include <map.h>							// MAP
 #include <hal_spi.h>						// SPI
 #include <hal_gyro.h>						// ジャイロ
 #include <hal_dist.h>						// DIST
@@ -488,6 +490,8 @@ PUBLIC void main(void){
 	RX631_staTimer();	// [CPU]タイマスタート
 	LED_init();			// [LED]LEDをリセット
 	SCI1_init();		// [SCI]シリアルをリセット
+//	FLASH_init();		// [FLASH]データフラッシュをリセット
+//	MAP_init();			// [MAP] マップをリセット 
 	SPI_init();			// [SPI]SPIをリセット
 	GYRO_init();		// [ジャイロ]ジャイロをリセット
 	CTRL_Loginit();		// [CTRL]ログ変数のリセット
@@ -515,8 +519,8 @@ PUBLIC void main(void){
 			MODE_inc();							// モードを1つ進める
 			TIME_wait( SW_CHATTERING_WAIT );	// SWが離されるまで待つ
 			printf("mode selecting\r\n");
-		
-		}else if( (SW_ON == SW_EXE_PIN) || ( true == MODE_CheckExe() ) ){
+		}else if( (SW_ON == SW_EXE_PIN)){
+		//}else if( (SW_ON == SW_EXE_PIN) || ( true == MODE_CheckExe() ) ){
 			MODE_exe();							// モードを実行
 			TIME_wait( SW_CHATTERING_WAIT );	// SWが離されるまで待つ
 		

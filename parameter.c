@@ -16,6 +16,7 @@
 #include <iodefine.h>						// I/O
 #include <stdio.h>							// 標準入出力
 #include <common_define.h>					// common_define
+#include <math.h>							// 数値計算
 
 #include <parameter.h>						// parameter
 
@@ -71,7 +72,7 @@ PRIVATE	BOOL				bl_cntType		= false;			// カウントタイプ(false:探索、true:最短)
 		
 		// 加速度		減速度		角速度		角減速度
 		{ 0,			0,			2000,		3000		},		// 超低速(PARAM_VERY_SLOW)
-		{ 0,			0,			1800,		1800		},		// 低速(PARAM_SLOW)
+		{ 0,			0,			2200,		2200		},		// 低速(PARAM_SLOW)
 		{ 0,			0,			1800,		1800		},		// 通常(PARAM_NORMAL)
 		{ 0,			0,			1800,		1800		},		// 高速(PARAM_FAST)
 		{ 0,			0,			1800,		1800		}		// 超高速(PARAM_VERY_FAST)
@@ -192,9 +193,9 @@ PRIVATE	BOOL				bl_cntType		= false;			// カウントタイプ(false:探索、true:最短)
 		},
 		/* 低速(PARAM_SLOW) */
 		{	// FF		速度kp		位置kp		位置ki		角速度kp	角度kp		角度ki		壁kp		壁kd
-			{0.06f,		0.0f,		0.0f,		0.0f,		2.0f,		0.0f,		0.0f,		0,			0		},		// PARAM_ACC_TURN
+			{0.065f,	0.0f,		0.0f,		0.0f,		2.0f,		0.0f,		0.0f,		0,			0		},		// PARAM_ACC_TURN
 			{0.0f,		0.0f,		0.0f,		0.0f,		2.0f,		0.0f,		0.0f,		0,			0		},		// PARAM_CONST_TURN
-			{0.0f,		0.0f,		0.0f,		0.0f,		2.0f,		0.5f,		0.0f,		0,			0		},		// PARAM_DEC_TURN
+			{0.0f,		0.0f,		0.0f,		0.0f,		2.0f,		1.3f,		0.15f,		0,			0		},		// PARAM_DEC_TURN
 		},
 		/* 通常(PARAM_NORMAL) */
 		{	// FF		速度kp		位置kp		位置ki		角速度kp	角度kp		角度ki		壁kp		壁kd
@@ -230,11 +231,11 @@ PRIVATE	BOOL				bl_cntType		= false;			// カウントタイプ(false:探索、true:最短)
 		
 		/* 低速(PARAM_SLOW) */
 		{	// FF		速度kp		位置kp		位置ki		角速度kp	角度kp		角速度ki	壁kp		壁kd
-			{0.0f,		5.0f,		0.0f,		0.0f,		0.5f,		4.0f,		0.0f,		0.48f,		0.01f	},		// PARAM_ENTRY_SLA
-			{0.0f,		5.0f,		0.0f,		0.0f,		2.0f,		0.0f,		0.0f,		0.0f,		0.0f	},		// PARAM_ACC_SLA
-			{0.0f,		5.0f,		0.0f,		0.0f,		2.0f,		0.0f,		0.0f,		0.0f,		0.0f	},		// PARAM_CONST_SLA
-			{0.0f,		5.0f,		0.0f,		0.0f,		2.0f,		4.0f,		0.0f,		0.0f,		0.0f	},		// PARAM_DEC_SLA
-			{0.0f,		5.0f,		0.0f,		0.0f,		0.5f,		4.0f,		0.0f,		0.48f,		0.01f,	},		// PARAM_EXIT_SLA
+			{0.0f,		5.0f,		0.0f,		0.0f,		1.0f,		3.5f,		0.0f,		0.0f,		0.0f,	},		// PARAM_ENTRY_SLA
+			{0.0f,		1.5f,		0.0f,		0.0f,		0.7f,		1.0f,		0.0f,		0.0f,		0.0f	},		// PARAM_ACC_SLA
+			{0.0f,		1.5f,		0.0f,		0.0f,		0.7f,		1.0f,		0.0f,		0.0f,		0.0f	},		// PARAM_CONST_SLA
+			{0.0f,		1.5f,		0.0f,		0.0f,		0.7f,		1.0f,		0.0f,		0.0f,		0.0f	},		// PARAM_DEC_SLA
+			{0.0f,		5.0f,		0.0f,		0.0f,		1.0f,		3.5f,		0.0f,		0.0f,		0.0f,	},		// PARAM_EXIT_SLA
 		},
 		
 		/* 通常(PARAM_NORMAL) */
@@ -271,11 +272,11 @@ PRIVATE	BOOL				bl_cntType		= false;			// カウントタイプ(false:探索、true:最短)
 	PRIVATE	CONST FLOAT f_SlaDistData[PARAM_MOVE_SPEED_MAX][SLA_CORR_DIST_MAX]	= {
 		
 		//進入距離		退避距離 
-		{ 	2,			2,		},		// 超低速(PARAM_VERY_SLOW)
-		{ 	2,			2,		},		// 低速(PARAM_SLOW)
-		{ 	2,			2,		},		// 通常(PARAM_NORMAL)
-		{ 	2,			2,		},		// 高速(PARAM_FAST)
-		{ 	-2,			-2,		}		// 超高速(PARAM_VERY_FAST)
+		{ 	0,			0,		},		// 超低速(PARAM_VERY_SLOW)
+		{ 	0,			0,		},		// 低速(PARAM_SLOW)
+		{ 	0,			0,		},		// 通常(PARAM_NORMAL)
+		{ 	0,			0,		},		// 高速(PARAM_FAST)
+		{ 	0,			0,		}		// 超高速(PARAM_VERY_FAST)
 	};
 
 // *************************************************************************
@@ -490,4 +491,192 @@ PUBLIC FLOAT PARAM_getSlaCorrDist( enPARAM_MOVE_SPEED en_speed , enSlaCorrDist e
 PUBLIC stSLA* PARAM_getSra(enSLA_TYPE en_mode)
 {
 	return &st_Sla[en_mode];
+}
+
+// *************************************************************************
+//   機能		： スラロームの走行パラメータを作成する
+//   注意		： なし
+//   メモ		： なし
+//   引数		： 進入速度[mm/s]，角加速度[rad/s^2]，横G[mm/s^2]，スラロームタイプ
+//   返り値		： なし
+// **************************    履    歴    *******************************
+// 		v1.0		2019.9.8			TKR			新規
+// *************************************************************************/
+PUBLIC void PARAM_makeSla( FLOAT f_speed, FLOAT f_angAcc, FLOAT f_g, enSLA_TYPE en_mode, enPARAM_MOVE_SPEED en_speed){
+	
+	FLOAT	f_start_x;					// 開始x位置 [mm]
+	FLOAT	f_start_y;					// 開始y位置 [mm]
+	FLOAT	f_final_x;					// 最終x位置 [mm]
+	FLOAT	f_final_y;					// 最終y位置 [mm]
+	FLOAT	f_final_ang;				// 角減速時の最終角度 [rad]	
+	FLOAT	f_maxAngleV		= 0;		// 最大角速度[rad/s]
+	FLOAT	f_timeAcc		= 0;		// 加速時間[s]
+	FLOAT	f_accAngle		= 0;		// 加速角度[rad]
+	FLOAT	f_timeConst		= 0;		// 等速時間[s]
+	FLOAT	f_constAngle	= 0;		// 等速角度[rad]
+	FLOAT	f_ang			= 0;		// 演算用、角度 [rad]
+	FLOAT	f_time			= 0;		// 演算用、時間 [s]
+	FLOAT	f_x;						// 演算用x位置 [mm]
+	FLOAT	f_y;						// 演算用y位置 [mm]
+	USHORT	i = 0;						// ループ用
+	stSLA	*p_adr 			= &st_Sla[en_mode];	// 記録する走行データ
+
+	//デバッグ用
+	FLOAT	f_x_acc = 0;
+	FLOAT	f_y_acc = 0;
+	FLOAT	f_x_const = 0;
+	FLOAT	f_y_const = 0;
+	FLOAT	f_x_dec = 0;
+	FLOAT	f_y_dec = 0;
+
+	/* スラロームに応じた設定値からスラロームに必要なパラメータを演算する */
+	switch(en_mode){
+
+		case SLA_90:
+			f_start_x   = HALF_BLOCK;
+			f_start_y   = 0.0f;
+			f_final_x   = BLOCK;
+			f_final_y   = HALF_BLOCK;
+			f_final_ang = 90.0f* DEG_TO_RAD;
+			break;
+
+		case SLA_45:
+			f_start_x   = HALF_BLOCK;
+			f_start_y   = 0.0f;
+			f_final_x   = BLOCK * 0.75f;
+			f_final_y   = BLOCK * 0.75f;
+			f_final_ang = 45.0f * DEG_TO_RAD;
+			break;
+			
+		case SLA_N90:
+			f_start_x   = HALF_BLOCK * 0.5f * 1.4142f;
+			f_start_y   = 0.0f;
+			f_final_x   = HALF_BLOCK * 1.4142f;
+			f_final_y   = HALF_BLOCK * 0.5f * 1.4142f;
+			f_final_ang = 90.0f * DEG_TO_RAD;
+			break;
+			
+		case SLA_135:
+			f_start_x   = HALF_BLOCK;
+			f_start_y   = 0.0f;
+			f_final_x   = BLOCK * 1.25f;
+			f_final_y   = BLOCK * 0.25;
+			f_final_ang = 135.0f * DEG_TO_RAD;
+			break;
+	}
+
+	printf("f_speed = %f[mm/s]\n\r",f_speed);
+	printf("f_angAcc = %f[rad/s]\n\r",f_angAcc);	
+	printf("f_g = %f[mm/s]\n\r",f_g);	
+	
+	/* 加減速角度の算出 */
+	f_maxAngleV		= f_g / f_speed;								// 最大角速度[rad/s] （ω[rad/s] = g[mm/s^2] / v[mm/s] ）
+	f_timeAcc		= f_maxAngleV / f_angAcc;						// 最大の角速度になるまでの加速時間[s]
+	f_accAngle		= 0.5f * f_angAcc * f_timeAcc * f_timeAcc;		// 加速をする区間の角度[rad] (θ[rad] = 1/2 * a[rad/s^2] * t[s]^2 )
+	f_constAngle	= f_final_ang - f_accAngle * 2;					// 等角速度の区間の角度[rad] (θ[rad] = Total角度 - 加速角度 + 減速角度 )
+	f_timeConst		= f_constAngle / f_maxAngleV;					// 最大の角速度で動作する時間[s]（ t[s] = θ[rad] / ω[rad/s] ）
+	
+	printf("f_maxAngleV = %f[rad/s]\n\r",f_maxAngleV);
+	printf("f_timeAcc = %f[s]\n\r",f_timeAcc);
+	printf("f_accAngle = %f[rad]\n\r",f_accAngle);
+	printf("f_constAngle = %f[rad]\n\r",f_constAngle);
+	printf("f_timeConst = %f[s]\n\r",f_timeConst);
+
+
+	/* -------------------------------- */
+	/*  スラローム完了時の位置を求める  */
+	/* -------------------------------- */
+	/* 座標開始位置 */
+	f_x		= f_start_x;
+	f_y		= f_start_y;
+
+	/* 加速時の座標演算 */
+	for( i=0; i<(USHORT)(f_timeAcc*1000); i++ ){				// [msec]
+	
+		f_time	=  0.001f * (FLOAT)i;							// 時間[s]
+		f_ang	=  0.5f * f_angAcc * f_time * f_time;			// 角度[rad] (θ[rad] = 1/2 * a[rad/s^2] * t[s]^2 )
+		f_x		+= f_speed * (FLOAT)sin( f_ang ) * 0.001f;		// X座標[mm] 
+		f_y		+= f_speed * (FLOAT)cos( f_ang ) * 0.001f;		// Y座標[mm]
+	}
+	
+	f_x_acc = f_x;
+	f_y_acc = f_y;
+	
+	printf("f_x_acc = %f\n\r",f_x_acc);
+	printf("f_y_acc = %f\n\r",f_y_acc);
+	
+	/* 等速時の座標演算 */
+	for( i=0; i<(USHORT)(f_timeConst*1000); i++ ){				// [msec]
+	
+		f_time	 = 0.001f * (FLOAT)i;							// 時間[s]
+		f_ang	 = f_accAngle + f_maxAngleV * f_time;			// 角度[rad] (θ[rad] = ω[rad/s] * t[s] )
+		f_x		+= f_speed * (FLOAT)sin( f_ang ) * 0.001f;		// X座標[mm] 
+		f_y		+= f_speed * (FLOAT)cos( f_ang ) * 0.001f;		// Y座標[mm]
+	}
+
+	f_x_const = f_x ;
+	f_y_const = f_y ;
+	
+	printf("f_x_const = %f\n\r",f_x_const);
+	printf("f_y_const = %f\n\r",f_y_const);
+	
+	/* 減速時の座標演算 */
+	for( i=0; i<(USHORT)(f_timeAcc*1000); i++ ){				// [msec]
+	
+		f_time	 = 0.001f * (FLOAT)i;							// 時間[s]
+		f_ang	 = f_accAngle + f_constAngle +0.5f * f_angAcc * f_time * f_time;	// 角度[rad] (θ[rad] = 1/2 * a[rad/s^2] * t[s]^2 )
+		f_x		+= f_speed * (FLOAT)sin( f_ang ) * 0.001f;		// X座標[mm] 
+		f_y		+= f_speed * (FLOAT)cos( f_ang ) * 0.001f;		// Y座標[mm]
+	}
+	
+	f_x_dec = f_x ;
+	f_y_dec = f_y ;
+	
+	printf("f_x_dec = %f\n\r",f_x_dec);
+	printf("f_y_dec = %f\n\r",f_y_dec);
+
+	/* ---------------------------- */
+	/*  スラローム用パラメータ作成  */
+	/* ---------------------------- */
+    	p_adr->f_speed						= f_speed;										// 進入速度[mm/s]
+    	p_adr->f_angAcc						= f_angAcc * RAD_TO_DEG ;						// 角加速度[deg/s]
+    	p_adr->f_angvel						= f_maxAngleV * RAD_TO_DEG;						// 最大角速度を算出 最大角速度[deg/s]
+    	p_adr->us_accAngvelTime				= (USHORT)( f_timeAcc * 1000.0f );				// 角加速時間[msec]
+    	p_adr->us_constAngvelTime			= (USHORT)( f_timeConst * 1000.0f );			// 等角速時間[msec]
+    	p_adr->f_ang_AccEnd					= f_accAngle * RAD_TO_DEG;						// 角加速完了角度[deg]
+    	p_adr->f_ang_ConstEnd				= ( f_accAngle + f_constAngle ) * RAD_TO_DEG;	// 等角速度完了角度[deg]
+		p_adr->f_ang_Total					= f_final_ang * RAD_TO_DEG;						// 全移動角度[deg]
+	
+	printf("\n========PARAMETER======\n\r");
+	printf("f_speed = %f[mm/s]\n\r",f_speed);
+	printf("f_angAcc = %f[deg/s]\n\r",f_angAcc*180.0f/3.1416f);
+	printf("us_accAngvelTime = %f[ms]\n\r",f_timeAcc*1000);
+	printf("us_constAngvelTime = %f[ms]\n\r",f_timeConst*1000);
+	printf("f_ang_AccEnd = %f[deg]\n\r",f_accAngle*180.0f/3.1416f);
+	printf("f_ang_ConstEnd = %f[deg/s]\n\r",( f_accAngle + f_constAngle )*180.0f/3.1416f);
+	printf("f_ang_Total = %f[deg]\n\r",f_final_ang*180.0f/3.1416f);
+	
+	/* 必要な進入と退出の距離を算出する */
+	switch(en_mode){
+		case SLA_90:
+			p_adr->f_escapeLen = f_final_x - f_x + PARAM_getSlaCorrDist(en_speed,SLA_ESCAPE_ADD);
+			p_adr->f_entryLen  = f_final_y - f_y + PARAM_getSlaCorrDist(en_speed,SLA_ENTRY_ADD);
+			break;
+
+		case SLA_45:
+			p_adr->f_escapeLen = 1.4142f * ( f_final_x - f_x );
+			p_adr->f_entryLen  = f_final_y - f_y - ( f_final_x - f_x );
+			break;
+
+		case SLA_N90:
+			p_adr->f_escapeLen = f_final_x - f_x;
+			p_adr->f_entryLen  = f_final_y - f_y;
+			break;
+
+		case SLA_135:
+			p_adr->f_escapeLen = 1.4142f * ( f_final_x - f_x );
+			p_adr->f_entryLen  = f_final_y - f_y + ( f_final_x - f_x );
+			break;
+	}
+	
 }

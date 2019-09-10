@@ -32,6 +32,8 @@
 //**************************************************
 #define PI					( 3.14159f )			// π
 #define	ENC_CONV			( 0.2f )				// ピニオン8T，スパー40T
+#define DEG_TO_RAD	 	 	( 3.1416f/180.0f );		// 度数→弧度
+#define RAD_TO_DEG  		( 180.0f/3.1416f );		// 弧度→度数
 
 /* 迷路寸法 */
 #define HALF_BLOCK					( 90.0f )							// 半区間 [mm]
@@ -70,11 +72,8 @@
 #define ADJ_1STEP_DIRECT			( 1 )									// 1stepの調整ゲイン、Drive走行用  (分母を上げると沢山進む)
 #define DIST_1STEP(adj)				( PI * TIRE_R / ROTATE_PULSE * adj)		// 1パルスで進む距離 [mm]
 
-#define MOVE_BACK_DIST				( 0.183f ) 							// 壁当て動作で後退した距離 [区画]
-#define MOVE_BACK_DIST_SURA			( 0.233f ) 							// 壁当て動作で後退した距離 [区画]
-
-#define ENTRY_ADD					(2)										// 進入距離の追加4
-#define ESCAPE_ADD					(2)										// 退避距離の追加5
+#define MOVE_BACK_DIST				( 50.0f ) 							// 壁当て動作で後退した距離 [区画]
+#define MOVE_BACK_DIST_SURA			( 50.0f ) 							// 壁当て動作で後退した距離 [区画]
 
 /* 探索時の最大連続スラローム回数 */
 #define MAP_SLA_NUM_MAX				( 2 )								// 最大連続スラロームを何回まで許可するか
@@ -319,5 +318,6 @@ PUBLIC CONST stSPEED* PARAM_getSpeed( enPARAM_MODE en_mode );
 PUBLIC FLOAT PARAM_getSlaCorrDist( enPARAM_MOVE_SPEED en_speed , enSlaCorrDist en_dist);
 PUBLIC void PARAM_setSpeedType( enPARAM_MODE en_mode, enPARAM_MOVE_SPEED en_speed );
 PUBLIC stSLA* PARAM_getSra(enSLA_TYPE en_mode);
+PUBLIC void PARAM_makeSla( FLOAT f_speed, FLOAT f_angAcc, FLOAT f_g, enSLA_TYPE en_mode, enPARAM_MOVE_SPEED en_speed);
 
 #endif
