@@ -54,8 +54,8 @@
 // 定義（define）	チューニングが必要なパラメータ 
 //**************************************************
 /* 迷路サイズ */
-#define GOAL_MAP_X					( 7 )								// ゴールのX区画数（横方向） [区画]
-#define GOAL_MAP_Y					( 7 )								// ゴールのY区画数（縦方向） [区画]
+#define GOAL_MAP_X					( 0 )								// ゴールのX区画数（横方向） [区画]
+#define GOAL_MAP_Y					( 3 )								// ゴールのY区画数（縦方向） [区画]
 #define MAP_X_SIZE					( 16 )								// 迷路のX区画数（横方向） [区画]
 #define MAP_Y_SIZE					( 16 )								// 迷路のY区画数（縦方向） [区画]
 
@@ -72,8 +72,8 @@
 #define ADJ_1STEP_DIRECT			( 1 )									// 1stepの調整ゲイン、Drive走行用  (分母を上げると沢山進む)
 #define DIST_1STEP(adj)				( PI * TIRE_R / ROTATE_PULSE * adj)		// 1パルスで進む距離 [mm]
 
-#define MOVE_BACK_DIST				( 50.0f ) 							// 壁当て動作で後退した距離 [区画]
-#define MOVE_BACK_DIST_SURA			( 50.0f ) 							// 壁当て動作で後退した距離 [区画]
+#define MOVE_BACK_DIST				( 0.27f ) 							// 壁当て動作で後退した距離 [区画]
+#define MOVE_BACK_DIST_SURA			( 0.27f ) 							// 壁当て動作で後退した距離 [区画]
 
 /* 探索時の最大連続スラローム回数 */
 #define MAP_SLA_NUM_MAX				( 2 )								// 最大連続スラロームを何回まで許可するか
@@ -101,7 +101,7 @@
 /* 距離センサ(環境変化以外) */
 #define SEN_WAIT_CNT				( 175 )								// センサの発光安定待ち（実験値）
 #define DIST_NO_WALL_DIV_FILTER		( 30 )								// 壁なしとする差分値
-#define DIST_REF_UP					( 400 )								// 壁なしと判断する際に基準値に加算する値
+#define DIST_REF_UP					( 30 )								// 壁なしと判断する際に基準値に加算する値
 #define DIST_NEAR_WALL				( 800 )								// 起動時のチューニングをする前壁の閾値
 
 /* 距離センサ(環境変化) */
@@ -125,22 +125,22 @@
 #define L_FRONT_SKEW_ERR3_GAIN		( 0.0f )							// 左前壁、斜め走行時の補正閾値3
 
 /* ↓のセンサ値は、FUNC_DIST_AUTO_THRESHが有効ならばFALSHのデータで上書きされて、無効ならば正式値として使用される */
-#define R_FRONT_REF					( 379 )							// 右前壁、基準値
-#define L_FRONT_REF					( 300 )							// 左前壁、基準値
+#define R_FRONT_REF					( 134 )							// 右前壁、基準値
+#define L_FRONT_REF					( 175 )							// 左前壁、基準値
 //#define R_45_REF					( 580 )							// 右45度、基準値
 //#define L_45_REF					( 440 )							// 左45度、基準値
-#define R_SIDE_REF					( 173 )							// 右横壁、基準値
-#define L_SIDE_REF					( 206 )							// 左横壁、基準値
-#define R_FRONT_WALL				( 43 )							// 右前壁、壁検知値
-#define L_FRONT_WALL				( 53 )							// 左前壁、壁検知値
+#define R_SIDE_REF					( 64 )							// 右横壁、基準値
+#define L_SIDE_REF					( 82 )							// 左横壁、基準値
+#define R_FRONT_WALL				( 85 )							// 右前壁、壁検知値
+#define L_FRONT_WALL				( 73 )							// 左前壁、壁検知値
 //#define R_45_WALL					( 270 )							// 右45度、壁検知値
-#define R_SIDE_WALL					( 63 )							// 右横壁、壁検知値
+#define R_SIDE_WALL					( 45 )							// 右横壁、壁検知値
 //#define L_45_WALL					( 180 )							// 左45度、壁検知値
-#define L_SIDE_WALL					( 81 )							// 左横壁、壁検知値
-#define R_FRONT_WALL_CTRL			( 82 )							// 右前壁、これ以上近いと制御する値
-#define L_FRONT_WALL_CTRL			( 100 )							// 左前壁、これ以上近いと制御する値
-#define R_FRONT_WALL_NO_CTRL		( 390 )							// 右前壁、これ以上近いと制御しない値
-#define L_FRONT_WALL_NO_CTRL		( 320 )							// 左前壁、これ以上近いと制御しない値
+#define L_SIDE_WALL					( 95 )							// 左横壁、壁検知値
+#define R_FRONT_WALL_CTRL			( 170 )							// 右前壁、これ以上近いと制御する値
+#define L_FRONT_WALL_CTRL			( 290 )							// 左前壁、これ以上近いと制御する値
+#define R_FRONT_WALL_NO_CTRL		( 195 )							// 右前壁、これ以上近いと制御しない値
+#define L_FRONT_WALL_NO_CTRL		( 375 )							// 左前壁、これ以上近いと制御しない値
 #define R_FRONT_WALL_HIT			( 1050 )						// 右前壁、壁に当たっていてもおかしくない値（前壁とマウス間が約2mmの時の値）
 #define L_FRONT_WALL_HIT			( 1550 )						// 左前壁、壁に当たっていてもおかしくない値（前壁とマウス間が約2mmの時の値）
 

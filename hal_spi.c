@@ -225,7 +225,7 @@ PUBLIC void SPI_staGetData( USHORT us_adr ){
 
 	/* IDLEˆÈŠO‚ÍÀs‚µ‚È‚¢ */
 	if( en_SpiState != SPI_IDLE ){
-		printf("SPI_get_start_NG[state]%d \n\r",en_SpiState);
+		//printf("SPI_get_start_NG[state]%d \n\r",en_SpiState);
 		return;
 	}
 

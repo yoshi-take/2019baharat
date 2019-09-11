@@ -68,7 +68,7 @@ PUBLIC void init_Timer(void);
 PRIVATE void RX631_staTimer(void)
 {
 	MTU.TSTR.BIT.CST1	= 1;		// MTU1カウント開始			システム
-	MTU.TSTR.BIT.CST2	= 1;		// MTU2カウント開始			センサ
+	MTU.TSTR.BIT.CST2	= 0;		// MTU2カウント開始			センサ
 	MTU.TSTR.BIT.CST3	= 1;		// MTU3カウント開始			バッテリ監視
 	TPUA.TSTR.BIT.CST1	= 1;		// TPU1カウント開始			位相計測
 	TPUA.TSTR.BIT.CST2	= 1;		// TPU2カウント開始			位相計測
@@ -485,16 +485,17 @@ PUBLIC void main(void){
 	UCHAR	i=0;
 	
 	/* 初期化 */
-	CPU_init();			// [CPU]レジスタ/GPIO/AD/TIMERなど	
-	TIME_init();		// [SYS]タイマ
-	RX631_staTimer();	// [CPU]タイマスタート
-	LED_init();			// [LED]LEDをリセット
-	SCI1_init();		// [SCI]シリアルをリセット
-//	FLASH_init();		// [FLASH]データフラッシュをリセット
-//	MAP_init();			// [MAP] マップをリセット 
-	SPI_init();			// [SPI]SPIをリセット
-	GYRO_init();		// [ジャイロ]ジャイロをリセット
-	CTRL_Loginit();		// [CTRL]ログ変数のリセット
+	CPU_init();						// [CPU]レジスタ/GPIO/AD/TIMERなど	
+	TIME_init();					// [SYS]タイマ
+	RX631_staTimer();				// [CPU]タイマスタート
+	LED_init();						// [LED]LEDをリセット
+	SCI1_init();					// [SCI]シリアルをリセット
+	FLASH_init();					// [FLASH]データフラッシュをリセット
+	MAP_init();						// [MAP] マップをリセット 
+	SPI_init();						// [SPI]SPIをリセット
+	GYRO_init();					// [ジャイロ]ジャイロをリセット
+	MTU.TSTR.BIT.CST2	= 1;		// [センサ]MTU2カウント開始
+	CTRL_Loginit();					// [CTRL]ログ変数のリセット
 			
 	for( i = 0; i < 10; i++ ){
 		LED_onAll();

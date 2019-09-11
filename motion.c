@@ -1403,7 +1403,7 @@ PUBLIC void MOT_turn( enMOT_TURN_CMD en_type){
 	FLOAT			f_angle3;
 	FLOAT			us_trgtAngleS;			//目標角速度[deg/s]
 
-	us_trgtAngleS = 500;	
+	us_trgtAngleS = 300;	
 	
 	/* -------------- */
 	/* 動作データ計算 */
@@ -1470,7 +1470,12 @@ PUBLIC void MOT_turn( enMOT_TURN_CMD en_type){
 	}
 	
 	//GYRO_staErrChkAngle();			//エラー検出開始(まだ)
-	
+#ifndef TEST	
+	printf("st_info.f_trgtAngleS:%5.4f \n\r",st_info.f_trgtAngleS);
+	printf("f_angle3:%5.4f \n\r",f_angle3);
+	printf("st_info.f_angle1:%5.4f \n\r",st_info.f_angle1);
+	printf("st_info.f_angle1_2:%5.4f \n\r",st_info.f_angle1_2);
+#endif
 	
 	/* ================ */
 	/*　　 実動作 　　　*/
@@ -1570,11 +1575,11 @@ PUBLIC void MOT_turn( enMOT_TURN_CMD en_type){
 		}
 	}
 
-#ifdef TEST	
-	printf("st_info.f_angle：%5.4f \n\r",st_info.f_angle);
-	printf("f_angle3：%5.4f \n\r",f_angle3);
-	printf("st_info.f_angle1：%5.4f \n\r",st_info.f_angle1);
-	printf("st_info.f_angle1_2：%5.4f \n\r",st_info.f_angle1_2);
+#ifndef TEST	
+	printf("st_info.f_angle:%5.4f \n\r",st_info.f_angle);
+	printf("f_angle3:%5.4f \n\r",f_angle3);
+	printf("st_info.f_angle1:%5.4f \n\r",st_info.f_angle1);
+	printf("st_info.f_angle1_2:%5.4f \n\r",st_info.f_angle1_2);
 #endif
 	/* ---- */
 	/* 減速 */

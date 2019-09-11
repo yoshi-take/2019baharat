@@ -22,6 +22,7 @@
 #include <hal_dcm.h>						// DCM
 #include <hal_dcmCtrl.h>					// DCM_CTRL
 #include <hal_dist.h>						// DIST
+#include <hal_led.h>						// LED
 
 #include <motion.h>							// モーション
 #include <parameter.h>						// [機種固有] パラメータ（メカ仕様/ゲイン/調整値）
@@ -157,6 +158,7 @@ PUBLIC void MAP_clearMap( void )
 			else if ( y == 0 ) uc_data = 0x44;
 			else if ( y == (MAP_Y_SIZE-1) ) uc_data = 0x11;
 			g_sysMap[y][x] = uc_data;
+
 		}
 	}
 }
@@ -461,21 +463,20 @@ PUBLIC void MAP_showLog( void )
 PRIVATE UCHAR MAP_getWallData( void )
 {
 	UCHAR	uc_wall;
-	UCHAR	uc_led = 0x00;
 
 	/* センサ情報から壁情報作成 */
 	uc_wall = 0;
 	if( TRUE == DIST_isWall_FRONT() ){
 		uc_wall = uc_wall | 0x11;
-		uc_led |= 0x06;				// debug
+		LED_on_multi(0x20);				// debug
 	}
 	if( TRUE == DIST_isWall_L_SIDE() ){
 		uc_wall = uc_wall | 0x88;
-		uc_led |= 0x08;			// debug
+		LED_on_multi(0x80);			// debug
 	}
 	if( TRUE == DIST_isWall_R_SIDE() ){
 		uc_wall = uc_wall | 0x22;
-		uc_led |= 0x01;			// debug
+		LED_on_multi(0x08);			// debug
 	}
 
 	/* マウスの進行方向にあわせてセンサデータを移動し壁データとする */
@@ -1088,9 +1089,11 @@ PRIVATE void MAP_actGoal( void )
 	MOT_goBlock_FinSpeed( 0.5, 0 );		// 半区画前進
 	TIME_wait(500);						// 停止安定待ち時間
 	MOT_turn(MOT_R180);					// 右180度旋回
-	TIME_wait(500);						// 停止安定待ち時間
 	
-	MAP_SaveMapData();					// 迷路情報のバックアップ
+	TIME_wait(500);						// 停止安定待ち時間
+	LED_onAll();						
+
+	//MAP_SaveMapData();					// 迷路情報のバックアップ
 	
 	en_Head = (enMAP_HEAD_DIR)( (en_Head + 2) & (MAP_HEAD_DIR_MAX-1) );			//	進行方向更新
 }
