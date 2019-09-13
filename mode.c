@@ -136,7 +136,7 @@ PUBLIC void	MODE_exe( void ){
 			PARAM_setSpeedType( PARAM_TURN, PARAM_SLOW );	// [旋回]速度低速
 			PARAM_setSpeedType( PARAM_SLA, PARAM_SLOW );	// [スラローム]速度低速
 			
-			for(i=0;i<10;i++){
+			for(i=0;i<1;i++){
 				MOT_turn(MOT_R90);
 				TIME_wait(100);
 			}
@@ -158,7 +158,7 @@ PUBLIC void	MODE_exe( void ){
 			PARAM_setSpeedType( PARAM_TURN, PARAM_SLOW );	// [旋回]速度低速
 			PARAM_setSpeedType( PARAM_SLA, PARAM_SLOW );	// [スラローム]速度低速
 
-			MOT_goBlock_FinSpeed(4,0);
+			MOT_goBlock_FinSpeed(5,0);
 
 			break;
 			

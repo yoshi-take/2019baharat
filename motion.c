@@ -1693,7 +1693,7 @@ PUBLIC void MOT_goHitBackWall(void){
 	/*----------------*/
 	/* 動作データ計算 */
 	/*----------------*/
-	st_info.f_acc1	= 700;
+	st_info.f_acc1	= 1200;
 	
 	/*--------*/
 	/* バック */

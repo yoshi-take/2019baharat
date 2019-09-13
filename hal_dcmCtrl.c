@@ -839,7 +839,7 @@ PUBLIC  void    CTRL_pol( void ){
 	CTRL_getAngleFB( &f_angleCtrl );				// [êßå‰] äpìx
 	CTRL_getSenFB( &f_distSenCtrl );				// [êßå‰] ï«
 
-#if 0
+#if 1
 	/* ëñçsÉçÉO */
 	if(us_LogPt != CTRL_LOG){
 		if( bl_log == true ){

@@ -72,6 +72,7 @@ PUBLIC UCHAR			mx;												// マウスのＹ座標
 PUBLIC USHORT			us_cmap[MAP_Y_SIZE][MAP_X_SIZE];				// 等高線 データ
 PUBLIC UCHAR			g_sysMap[ MAP_Y_SIZE ][ MAP_X_SIZE ];			// 迷路情報
 PRIVATE FLOAT			f_MoveBackDist;									// 壁当て動作で後退した距離[区画]
+PRIVATE UCHAR			uc_TurnCnt = 0;									// 超信地連続回数
 PRIVATE UCHAR			uc_SlaCnt = 0;									// スラローム連続回数
 PRIVATE UCHAR			uc_back[ MAP_Y_SIZE ][ MAP_X_SIZE ];			// 迷路データ
 PRIVATE USHORT			us_DashCmdIndex = 0;							// 既知コマンドインデックス
@@ -874,7 +875,8 @@ PRIVATE void MAP_refMousePos( enMAP_HEAD_DIR en_head )
 PRIVATE void MAP_moveNextBlock( enMAP_HEAD_DIR en_head, BOOL* p_type )
 {
 	*p_type = TRUE;
-	
+	f_MoveBackDist = 0;
+
 	/* 動作 */
 	switch( en_head ){
 
@@ -886,18 +888,64 @@ PRIVATE void MAP_moveNextBlock( enMAP_HEAD_DIR en_head, BOOL* p_type )
 
 		/* 右に旋回する */
 		case EAST:
-			MOT_goBlock_FinSpeed( 0.5, 0 );		// 半区画前進
-			TIME_wait( MAP_TURN_WAIT );
-			MOT_turn(MOT_R90);									// 右90度旋回
-			TIME_wait( MAP_TURN_WAIT );
+			if( uc_TurnCnt < MAP_TURN_NUM_MAX ){
+				MOT_goBlock_FinSpeed( 0.5, 0 );		// 半区画前進
+				TIME_wait( MAP_TURN_WAIT );
+				MOT_turn(MOT_R90);					// 右90度旋回
+				TIME_wait( MAP_TURN_WAIT );
+				uc_TurnCnt++;
+			
+			}else{
+				MOT_goBlock_FinSpeed( 0.5, 0 );		// 半区画前進
+				TIME_wait( MAP_TURN_WAIT );
+				MOT_turn(MOT_R90);					// 右90度旋回
+				TIME_wait( MAP_TURN_WAIT );
+				uc_TurnCnt = 0;
+				f_MoveBackDist = 0;
+				
+				/* 壁あて姿勢制御 （左に壁があったらバック＋移動距離を加算する）*/
+				if( ( (en_Head == NORTH)&&( (g_sysMap[my][mx] & WALL_WEST ) != 0 ) ) ||
+				    ( (en_Head == EAST )&&( (g_sysMap[my][mx] & WALL_NORTH) != 0  ) ) ||
+				    ( (en_Head == WEST )&&( (g_sysMap[my][mx] & WALL_SOUTH) != 0 ) ) ||
+			      	( (en_Head == SOUTH)&&( (g_sysMap[my][mx] & WALL_EAST ) != 0 ) ) ){
+						
+					MOT_goHitBackWall();					// バックする
+					f_MoveBackDist = MOVE_BACK_DIST;		// バックした分の移動距離[区画]を加算
+					TIME_wait( 100 );						// 時間待ち
+				}
+				*p_type = true;
+			}		
 			break;
 
 		/* 左に旋回する */
 		case WEST:
-			MOT_goBlock_FinSpeed( 0.5, 0 );		// 半区画前進
-			TIME_wait( MAP_TURN_WAIT );
-			MOT_turn(MOT_L90);									// 右90度旋回
-			TIME_wait( MAP_TURN_WAIT );
+			if( uc_TurnCnt < MAP_TURN_NUM_MAX ){
+				MOT_goBlock_FinSpeed( 0.5, 0 );		// 半区画前進
+				TIME_wait( MAP_TURN_WAIT );
+				MOT_turn(MOT_L90);									// 右90度旋回
+				TIME_wait( MAP_TURN_WAIT );
+				uc_TurnCnt++;
+				
+			}else{
+				MOT_goBlock_FinSpeed( 0.5, 0 );		// 半区画前進
+				TIME_wait( MAP_TURN_WAIT );
+				MOT_turn(MOT_L90);									// 右90度旋回
+				TIME_wait( MAP_TURN_WAIT );
+				uc_TurnCnt = 0;
+				f_MoveBackDist = 0;
+				
+				/* 壁あて姿勢制御 （右に壁があったらバック＋移動距離を加算する）*/
+				if( ( (en_Head == NORTH)&&( (g_sysMap[my][mx] & WALL_EAST ) != 0 ) ) ||
+				    ( (en_Head == EAST )&&( (g_sysMap[my][mx] & WALL_SOUTH) != 0  ) ) ||
+				    ( (en_Head == WEST )&&( (g_sysMap[my][mx] & WALL_NORTH) != 0 ) ) ||
+			      	( (en_Head == SOUTH)&&( (g_sysMap[my][mx] & WALL_WEST ) != 0 ) ) ){
+
+					MOT_goHitBackWall();					// バックする
+					f_MoveBackDist = MOVE_BACK_DIST;		// バックした分の移動距離[区画]を加算
+					TIME_wait( 100 );						// 時間待ち
+				}
+				*p_type = true;
+			}
 			break;
 
 		/* 反転して戻る */
@@ -905,12 +953,15 @@ PRIVATE void MAP_moveNextBlock( enMAP_HEAD_DIR en_head, BOOL* p_type )
 			MOT_goBlock_FinSpeed( 0.5, 0 );		// 半区画前進
 			TIME_wait( MAP_TURN_WAIT );
 			MOT_turn(MOT_R180);									// 右180度旋回
-			TIME_wait( MAP_TURN_WAIT );			
+			TIME_wait( MAP_TURN_WAIT );
+			uc_TurnCnt 			= 0;
+			f_MoveBackDist 		= 0;
+
 			/* 壁当て姿勢制御（後ろに壁があったらバック＋移動距離を加算する） */
-			if( ( ( en_Head == NORTH ) && ( ( g_sysMap[my][mx] & 0x01 ) != 0 ) )  ||		// 北を向いていて北に壁がある
-				( ( en_Head == EAST  ) && ( ( g_sysMap[my][mx] & 0x02 ) != 0 ) )  ||		// 東を向いていて東に壁がある
-				( ( en_Head == SOUTH ) && ( ( g_sysMap[my][mx] & 0x04 ) != 0 ) )  ||		// 南を向いていて南に壁がある
-				( ( en_Head == WEST  ) && ( ( g_sysMap[my][mx] & 0x08 ) != 0 ) ) 			// 西を向いていて西に壁がある
+			if( ( ( en_Head == NORTH ) && ( ( g_sysMap[my][mx] & WALL_NORTH ) != 0 ) )  ||		// 北を向いていて北に壁がある
+				( ( en_Head == EAST  ) && ( ( g_sysMap[my][mx] & WALL_EAST  ) != 0 ) )  ||		// 東を向いていて東に壁がある
+				( ( en_Head == SOUTH ) && ( ( g_sysMap[my][mx] & WALL_SOUTH ) != 0 ) )  ||		// 南を向いていて南に壁がある
+				( ( en_Head == WEST  ) && ( ( g_sysMap[my][mx] & WALL_WEST  ) != 0 ) ) 			// 西を向いていて西に壁がある
 			){
 				MOT_goHitBackWall();					// バックする
 				f_MoveBackDist = MOVE_BACK_DIST;		// バックした分の移動距離[区画]を加算
@@ -1134,7 +1185,8 @@ PUBLIC void MAP_searchGoal( UCHAR uc_trgX, UCHAR uc_trgY, enMAP_ACT_MODE en_type
 		
 		if( TRUE == bl_type ){
 			MOT_goBlock_FinSpeed( 0.5 + f_MoveBackDist, MAP_SEARCH_SPEED );		// 半区画前進(バックの移動量を含む)
-			f_MoveBackDist = 0;													// バックした分前進する移動量をクリア
+			f_MoveBackDist = 0;	
+			LED_onAll();
 		}
 		MAP_makeMapData();									// 壁データから迷路データを作成
 		MAP_calcMouseDir(CONTOUR_SYSTEM, &en_head);			// 等高線MAP法で進行方向を算出
