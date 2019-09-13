@@ -39,6 +39,7 @@ void abort(void);
 #include <hal_gyro.h>						// ジャイロ
 #include <hal_dist.h>						// DIST
 #include <hal_dcmCtrl.h>					// CTRL
+#include <hal_dist.h>						// DIST							
 
 //**************************************************
 // グローバル変数
@@ -496,6 +497,9 @@ PUBLIC void main(void){
 	GYRO_init();					// [ジャイロ]ジャイロをリセット
 	MTU.TSTR.BIT.CST2	= 1;		// [センサ]MTU2カウント開始
 	CTRL_Loginit();					// [CTRL]ログ変数のリセット
+
+	/* 調整 */
+	DIST_adj();
 			
 	for( i = 0; i < 10; i++ ){
 		LED_onAll();
@@ -520,8 +524,8 @@ PUBLIC void main(void){
 			MODE_inc();							// モードを1つ進める
 			TIME_wait( SW_CHATTERING_WAIT );	// SWが離されるまで待つ
 			printf("mode selecting\r\n");
-		}else if( (SW_ON == SW_EXE_PIN)){
-		//}else if( (SW_ON == SW_EXE_PIN) || ( true == MODE_CheckExe() ) ){
+		//}else if( (SW_ON == SW_EXE_PIN)){
+		}else if( (SW_ON == SW_EXE_PIN) || ( true == MODE_CheckExe() ) ){
 			MODE_exe();							// モードを実行
 			TIME_wait( SW_CHATTERING_WAIT );	// SWが離されるまで待つ
 		

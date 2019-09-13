@@ -66,6 +66,7 @@ PRIVATE enMODE		en_Mode;		// 現在のモード
 PUBLIC void	MODE_exe( void ){
 
 	enMAP_HEAD_DIR		en_endDir;
+	int i=0;
 	
 	/* 走行パラメータ設定 */
 	PARAM_setCntType( TRUE );
@@ -135,7 +136,10 @@ PUBLIC void	MODE_exe( void ){
 			PARAM_setSpeedType( PARAM_TURN, PARAM_SLOW );	// [旋回]速度低速
 			PARAM_setSpeedType( PARAM_SLA, PARAM_SLOW );	// [スラローム]速度低速
 			
-			MOT_turn(MOT_L90);
+			for(i=0;i<10;i++){
+				MOT_turn(MOT_R90);
+				TIME_wait(100);
+			}
 			LED_onAll();
 
 			break;
@@ -385,9 +389,12 @@ PUBLIC BOOL MODE_setWaitCheck(){
 		LED_onAll();
 		bl_check = true;
 		
-	}else{
+	}else if( ( false == MODE_DistRightCheck() ) && ( false == MODE_DistLeftCheck() )){
+		LED_offAll();
 		bl_check = false;
 	
+	}else{
+		bl_check = false;
 	}
 	
 	return bl_check;

@@ -23,6 +23,7 @@
 #include <hal_dcmCtrl.h>					// DCM_CTRL
 #include <hal_dist.h>						// DIST
 #include <hal_led.h>						// LED
+#include <hal_spk.h>						// SPK
 
 #include <motion.h>							// モーション
 #include <parameter.h>						// [機種固有] パラメータ（メカ仕様/ゲイン/調整値）
@@ -463,20 +464,21 @@ PUBLIC void MAP_showLog( void )
 PRIVATE UCHAR MAP_getWallData( void )
 {
 	UCHAR	uc_wall;
+	LED_offAll();	// debug
 
 	/* センサ情報から壁情報作成 */
 	uc_wall = 0;
 	if( TRUE == DIST_isWall_FRONT() ){
 		uc_wall = uc_wall | 0x11;
-		LED_on_multi(0x20);				// debug
+		LED_on(LED2);				// debug
 	}
 	if( TRUE == DIST_isWall_L_SIDE() ){
 		uc_wall = uc_wall | 0x88;
-		LED_on_multi(0x80);			// debug
+		LED_on(LED0);			// debug
 	}
 	if( TRUE == DIST_isWall_R_SIDE() ){
 		uc_wall = uc_wall | 0x22;
-		LED_on_multi(0x08);			// debug
+		LED_on(LED4);			// debug
 	}
 
 	/* マウスの進行方向にあわせてセンサデータを移動し壁データとする */

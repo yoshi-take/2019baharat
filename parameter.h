@@ -54,8 +54,8 @@
 // 定義（define）	チューニングが必要なパラメータ 
 //**************************************************
 /* 迷路サイズ */
-#define GOAL_MAP_X					( 0 )								// ゴールのX区画数（横方向） [区画]
-#define GOAL_MAP_Y					( 3 )								// ゴールのY区画数（縦方向） [区画]
+#define GOAL_MAP_X					( 4 )								// ゴールのX区画数（横方向） [区画]
+#define GOAL_MAP_Y					( 7 )								// ゴールのY区画数（縦方向） [区画]
 #define MAP_X_SIZE					( 16 )								// 迷路のX区画数（横方向） [区画]
 #define MAP_Y_SIZE					( 16 )								// 迷路のY区画数（縦方向） [区画]
 
@@ -91,7 +91,7 @@
 #define SW_FILTER_VAL_MAX			( 1.5f )							// SWフィルタ最大値[dps]
 
 /* 手かざし実行の閾値 */
-#define	EXE_THRESH_R				( 300 )								// 右側の閾値
+#define	EXE_THRESH_R				( 160 )								// 右側の閾値
 #define	EXE_THRESH_L				( 300 )								// 左側の閾値
 
 /* 距離 */
@@ -129,12 +129,12 @@
 #define L_FRONT_REF					( 175 )							// 左前壁、基準値
 //#define R_45_REF					( 580 )							// 右45度、基準値
 //#define L_45_REF					( 440 )							// 左45度、基準値
-#define R_SIDE_REF					( 64 )							// 右横壁、基準値
+#define R_SIDE_REF					( 60 )							// 右横壁、基準値
 #define L_SIDE_REF					( 82 )							// 左横壁、基準値
-#define R_FRONT_WALL				( 85 )							// 右前壁、壁検知値
-#define L_FRONT_WALL				( 73 )							// 左前壁、壁検知値
+#define R_FRONT_WALL				( 60 )							// 右前壁、壁検知値
+#define L_FRONT_WALL				( 58 )							// 左前壁、壁検知値
 //#define R_45_WALL					( 270 )							// 右45度、壁検知値
-#define R_SIDE_WALL					( 45 )							// 右横壁、壁検知値
+#define R_SIDE_WALL					( 40 )							// 右横壁、壁検知値
 //#define L_45_WALL					( 180 )							// 左45度、壁検知値
 #define L_SIDE_WALL					( 95 )							// 左横壁、壁検知値
 #define R_FRONT_WALL_CTRL			( 170 )							// 右前壁、これ以上近いと制御する値
@@ -145,7 +145,7 @@
 #define L_FRONT_WALL_HIT			( 1550 )						// 左前壁、壁に当たっていてもおかしくない値（前壁とマウス間が約2mmの時の値）
 
 /* ログ */
-#define CTRL_LOG				( 500 )								// 記録する制御ログの個数
+#define CTRL_LOG				( 300 )								// 記録する制御ログの個数
 #define CTRL_LOG_CYCLE			( 5 )								// ↑の記録周期[msec]（1より小さい値はNG）
 #define SET_LOG					( 100 )								// 設定した動作データのログ数
 #define DIST_LOG				( 5 )								// 距離センサのログの個数

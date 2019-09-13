@@ -51,5 +51,9 @@ PUBLIC void DIST_Pol_Front( void );
 PUBLIC void DIST_Pol_Side( void );
 PUBLIC void DIST_getErr( LONG* p_err );
 PUBLIC void DIST_Check( void );
+PUBLIC void DIST_adj( void );
+PUBLIC BOOL DIST_isWall_FRONT( void );
+PUBLIC BOOL DIST_isWall_R_SIDE( void );
+PUBLIC BOOL DIST_isWall_L_SIDE( void );
 
 #endif

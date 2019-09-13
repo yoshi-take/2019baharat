@@ -127,7 +127,7 @@ PRIVATE	BOOL				bl_cntType		= false;			// カウントタイプ(false:探索、true:最短)
 			{0.05f,		5.0f,		0.0f,		0.0f,		0.5f,		4.0f,		0.0f,		0.0f,		0.0f,	},		// PARAM_SKEW_ACC
 			{0.0f,		5.0f,		0.0f,		0.0f,		0.5f,		4.0f,		0.0f,		0.0f,		0.0f,	},		// PARAM_SKEW_CONST
 			{0.0f,		5.0f,		15.0f,		0.0f,		0.5f,		4.0f,		0.0f,		0.0f,		0.0f,	},		// PARAM_SKEW_DEC
-			{0.12f,		0,			0,			0,			0,			0,			0,			0,			0,		},		// PARAM_HIT_WALL
+			{0.07f,		3.0f,		0.0f,		0.0f,		1.0f,		3.5f,		0.2f,		2.0f,		0.0,	},		// PARAM_HIT_WALL
 			{0.07f,		1.5f,		0.0f,		0.0f,		0.5f,		4.0f,		0.0f,		0.095f,		0.0f,	},		// PARAM_ACC_SMOOTH		
 			{0.0f,		1.5f,		0.0f,		0.0f,		0.08f,		4.0f,		0.0f,		0.095f,		0.0f,	},		// PARAM_CONST_SMOOTH
 			{0.0f,		1.5f,		0.0f,		0.0f,		0.08f,		4.0f,		0.0f,		0.095f,		0.0f,	},		// PARAM_DEC_SMOOTH
@@ -193,9 +193,9 @@ PRIVATE	BOOL				bl_cntType		= false;			// カウントタイプ(false:探索、true:最短)
 		},
 		/* 低速(PARAM_SLOW) */
 		{	// FF		速度kp		位置kp		位置ki		角速度kp	角度kp		角度ki		壁kp		壁kd
-			{0.065f,	0.0f,		0.0f,		0.0f,		2.0f,		0.0f,		0.0f,		0,			0		},		// PARAM_ACC_TURN
-			{0.0f,		0.0f,		0.0f,		0.0f,		2.0f,		0.0f,		0.0f,		0,			0		},		// PARAM_CONST_TURN
-			{0.0f,		0.0f,		0.0f,		0.0f,		2.0f,		1.3f,		0.15f,		0,			0		},		// PARAM_DEC_TURN
+			{0.065f,	0.0f,		0.0f,		0.0f,		1.8f,		0.0f,		0.0f,		0,			0		},		// PARAM_ACC_TURN
+			{0.0f,		0.0f,		0.0f,		0.0f,		1.8f,		0.0f,		0.0f,		0,			0		},		// PARAM_CONST_TURN
+			{0.0f,		0.0f,		0.0f,		0.0f,		1.8f,		1.2f,		0.17f,		0,			0		},		// PARAM_DEC_TURN
 		},
 		/* 通常(PARAM_NORMAL) */
 		{	// FF		速度kp		位置kp		位置ki		角速度kp	角度kp		角度ki		壁kp		壁kd

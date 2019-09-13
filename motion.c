@@ -1715,7 +1715,7 @@ PUBLIC void MOT_goHitBackWall(void){
 	CTRL_setData( &st_data );					// データセット
 	DCM_staMotAll();						// モータON
 	
-	TIME_wait(400);
+	TIME_wait(450);
 	
 	/* 停止 */
 	CTRL_stop();		// 制御停止

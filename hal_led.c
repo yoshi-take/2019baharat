@@ -169,8 +169,6 @@ PUBLIC void LED_init( void ){
 // *************************************************************************/
 PUBLIC void LED_on_multi( CHAR c_num ){
 
-	LED_offAll();		// 一旦全部消す
-
 	printf("%d\n\r",c_num);
 
 	// ビット演算をして順次点灯させていく
