@@ -54,7 +54,7 @@
 // 定義（define）	チューニングが必要なパラメータ 
 //**************************************************
 /* 迷路サイズ */
-#define GOAL_MAP_X					( 4 )								// ゴールのX区画数（横方向） [区画]
+#define GOAL_MAP_X					( 7 )								// ゴールのX区画数（横方向） [区画]
 #define GOAL_MAP_Y					( 7 )								// ゴールのY区画数（縦方向） [区画]
 #define MAP_X_SIZE					( 16 )								// 迷路のX区画数（横方向） [区画]
 #define MAP_Y_SIZE					( 16 )								// 迷路のY区画数（縦方向） [区画]
@@ -77,7 +77,7 @@
 
 /* 探索時の尻当て周期 */
 #define MAP_SLA_NUM_MAX				( 2 )								// 最大連続スラロームを何回まで許可するか
-#define MAP_TURN_NUM_MAX			( 1 )								// 最大連続旋回を何回まで許可するか
+#define MAP_TURN_NUM_MAX			( 0 )								// 最大連続旋回を何回まで許可するか
 
 /* 迷路中での待ち時間 */
 #define MAP_TURN_WAIT				( 100 )								// 超信地旋回探索の動作切り替え待ち時間
@@ -126,18 +126,18 @@
 #define L_FRONT_SKEW_ERR3_GAIN		( 0.0f )							// 左前壁、斜め走行時の補正閾値3
 
 /* ↓のセンサ値は、FUNC_DIST_AUTO_THRESHが有効ならばFALSHのデータで上書きされて、無効ならば正式値として使用される */
-#define R_FRONT_REF					( 100 )							// 右前壁、基準値
-#define L_FRONT_REF					( 185 )							// 左前壁、基準値
+#define R_FRONT_REF					( 80 )							// 右前壁、基準値
+#define L_FRONT_REF					( 148 )							// 左前壁、基準値
 //#define R_45_REF					( 580 )							// 右45度、基準値
 //#define L_45_REF					( 440 )							// 左45度、基準値
-#define R_SIDE_REF					( 37 )							// 右横壁、基準値
-#define L_SIDE_REF					( 106 )							// 左横壁、基準値
-#define R_FRONT_WALL				( 43 )							// 右前壁、壁検知値
-#define L_FRONT_WALL				( 58 )							// 左前壁、壁検知値
+#define R_SIDE_REF					( 30 )							// 右横壁、基準値
+#define L_SIDE_REF					( 92 )							// 左横壁、基準値
+#define R_FRONT_WALL				( 45 )							// 右前壁、壁検知値
+#define L_FRONT_WALL				( 87 )							// 左前壁、壁検知値
 //#define R_45_WALL					( 270 )							// 右45度、壁検知値
-#define R_SIDE_WALL					( 10 )							// 右横壁、壁検知値
+#define R_SIDE_WALL					( 15 )							// 右横壁、壁検知値
 //#define L_45_WALL					( 180 )							// 左45度、壁検知値
-#define L_SIDE_WALL					( 65 )							// 左横壁、壁検知値
+#define L_SIDE_WALL					( 72 )							// 左横壁、壁検知値
 #define R_FRONT_WALL_CTRL			( 170 )							// 右前壁、これ以上近いと制御する値
 #define L_FRONT_WALL_CTRL			( 290 )							// 左前壁、これ以上近いと制御する値
 #define R_FRONT_WALL_NO_CTRL		( 195 )							// 右前壁、これ以上近いと制御しない値
