@@ -75,6 +75,7 @@ PRIVATE FLOAT           f_BaseSpeed     = 10;       // [速度制御]　初速度
 PRIVATE FLOAT           f_LastSpeed     = 180;      // [速度制御]　最終目標速度
 PRIVATE FLOAT           f_NowSpeed      = 0;        // [速度制御]　現在の速度[mm/s]     （1[msec]毎に更新される）
 PUBLIC  FLOAT           f_TrgtSpeed     = 0;        // [速度制御]　目標速度             （1[msec]毎に更新される）
+PUBLIC	FLOAT			f_SpeedErrSum	= 0;		// [速度制御]　速度積分偏差			（1[msec]毎に更新される）
 
 /* 距離制御 */
 PRIVATE FLOAT           f_BaseDist      = 0;        // [距離制御]　初期位置
@@ -83,13 +84,14 @@ PUBLIC  FLOAT           f_TrgtDist      = 0;        // [距離制御]　目標移動距離 
 PUBLIC  volatile FLOAT  f_NowDist       = 0;        // [距離制御]　現在距離             （1[msec]毎に更新される）
 PRIVATE FLOAT           f_NowDistR      = 0;        // [距離制御]　現在距離(右)         （1[msec]毎に更新される）
 PRIVATE FLOAT           f_NowDistL      = 0;        // [距離制御]　現在距離(左)         （1[msec]毎に更新される）
-PUBLIC  FLOAT           f_DistErrSum    = 0;        // [距離制御]　距離積分距離         （1[msec]毎に更新される）
+PUBLIC  FLOAT           f_DistErrSum    = 0;        // [距離制御]　距離積分偏差         （1[msec]毎に更新される）
 
 /*角速度制御*/
 PRIVATE FLOAT           f_AccAngleS     = 3;        // [角速度制御]　角加速度
 PRIVATE FLOAT           f_BaseAngleS    = 10;       // [角速度制御]　初期角速度
 PRIVATE FLOAT           f_LastAngleS    = 180;      // [角速度制御]　最終目標速度
 PUBLIC  FLOAT           f_TrgtAngleS    = 0;        // [角速度制御]　目標角速度         （1[msec]毎に更新される）
+PUBLIC	FLOAT			f_AngleSpeedErrSum	= 0;	// [角速度制御]　角速度積分			（1[msec]毎に更新される）
 
 /* 角度制御 */
 PRIVATE FLOAT           f_BaseAngle     = 0;        // [角度制御]　初期角度
@@ -558,6 +560,7 @@ PUBLIC  void    CTRL_getFF( FLOAT *p_err ){
 		case CTRL_SKEW_CONST:
 			f_ff = PARAM_getGain( Chg_ParamID( en_Type ) ) -> f_FF;
 			*p_err = f_TrgtSpeed * f_ff;
+			break;
 #endif
 		
 		/* 加速以外 */
@@ -581,11 +584,19 @@ PUBLIC  void    CTRL_getSpeedFB( FLOAT *p_err ){
 
     FLOAT	f_speedErr;		// [速度制御] 速度偏差
 	FLOAT	f_kp = 0.0f;	// 比例ゲイン
-	
-	/* 速度制御(P) */
-	f_speedErr  = f_TrgtSpeed - f_NowSpeed;						// 速度偏差[mm/s]
+	FLOAT	f_ki = 0.0f;	// 積分ゲイン
+
 	f_kp = PARAM_getGain( Chg_ParamID(en_Type) )->f_FB_speed_kp;
-	*p_err = f_speedErr * f_kp;									// P制御量算出
+	//f_ki = PARAM_getGain( Chg_ParamID(en_Type) )->f_FB_speed_ki;\
+
+	/* 速度制御(P) */
+	f_speedErr  	= f_TrgtSpeed - f_NowSpeed;						// 速度偏差[mm/s]
+	f_SpeedErrSum	+= f_speedErr * f_ki;			 
+	
+	if( f_SpeedErrSum > 10000 ){
+			f_SpeedErrSum = 10000;
+		}
+	*p_err = f_SpeedErrSum + f_speedErr * f_kp;									// P制御量算出
 
 }
 
