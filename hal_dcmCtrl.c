@@ -551,6 +551,14 @@ PUBLIC  void    CTRL_getFF( FLOAT *p_err ){
 			*p_err = f_AccAngleS * f_ff;
 			
 			break;
+#if 0
+		/* “™‘¬ */
+		case CTRL_CONST:
+		case CTRL_CONST_SMOOTH:
+		case CTRL_SKEW_CONST:
+			f_ff = PARAM_getGain( Chg_ParamID( en_Type ) ) -> f_FF;
+			*p_err = f_TrgtSpeed * f_ff;
+#endif
 		
 		/* ‰Á‘¬ˆÈŠO */
 		default:
