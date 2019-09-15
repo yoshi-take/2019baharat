@@ -610,7 +610,7 @@ PUBLIC void INTC_sen( void )
 			break;
 		
 		case 3:		// 加速度センサ
-			// フェールセーフ用に使う
+			GYRO_getAccVal();		// フェイルセーフ用
 			break;
 		
 	}

@@ -46,9 +46,9 @@
 #define	ADR_SEN						( 0x00101000 )						// センサ用データフラッシュアドレス
 
 /* ジャイロ，温度，加速度のスケール */
-#define GYRO_SCALE_FACTOR			(16.4f)							
-#define TEMP_SCALE_FACTOR			(333.87f)	
-#define ACC_SCALE_FACTOR			(8192.0f)
+#define GYRO_SCALE_FACTOR			(16.4f)								// ±2000[dps]
+#define TEMP_SCALE_FACTOR			(333.87f)							// 
+#define ACC_SCALE_FACTOR			(8192.0f)							// ±4[g]
 
 //**************************************************
 // 定義（define）	チューニングが必要なパラメータ 
@@ -87,9 +87,12 @@
 #define MAP_SEARCH_SPEED			( 500 ) 							// 探索走行の最大速度[mm/s]
 #define SEN_BACK_CHK_SPEED			( 180 ) 							// センサチューニングのための移動最大速度[mm/s]
 
-/* ジャイロセンサ */
-#define SW_FILTER_VAL_MIN			( -1.5f )							// SWフィルタ最小値[dps]（最小値～最大値の間はSWフィルタがかかる）
-#define SW_FILTER_VAL_MAX			( 1.5f )							// SWフィルタ最大値[dps]
+/* フィルタ */
+#define SW_GYRO_FILTER_VAL_MIN		( -1.5f )							// フィルタ最小値[dps]（最小値～最大値の間はフィルタがかかる）
+#define SW_GYRO_FILTER_VAL_MAX		( 1.5f )							// フィルタ最大値[dps]
+#define SW_ACC_FILTER_VAL_MIN		( -0.03f )							// フィルタ最小値[g]（最小値～最大値の間はフィルタがかかる）
+#define SW_ACC_FILTER_VAL_MAX		( 0.03f )							// フィルタ最大値[g]
+
 
 /* 手かざし実行の閾値 */
 #define	EXE_THRESH_R				( 160 )								// 右側の閾値

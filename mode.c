@@ -168,7 +168,7 @@ PUBLIC void	MODE_exe( void ){
 			GYRO_clrAngle();		// 角度リセット
 
 			while(1){
-				printf("Angle:%f[deg]\r",GYRO_getNowAngle());
+				printf("Accel:%f[g]\r",GYRO_getNowAccel());
 				TIME_wait(100);
 			}
 
