@@ -1631,6 +1631,277 @@ PUBLIC void MOT_turn( enMOT_TURN_CMD en_type){
 }
 
 // *************************************************************************
+//   機能		： 超信地旋回（目標角速度変更可能）
+//   注意		： なし
+//   メモ		： なし
+//   引数		： 旋回の種類，目標角速度[deg/s]
+//   返り値		： なし
+// **************************    履    歴    *******************************
+// 		v1.0		2019.9.17			TKR			新規
+// *************************************************************************/
+PUBLIC void MOT_turn2( enMOT_TURN_CMD en_type, FLOAT f_trgtAngleS ){
+	volatile stMOT_DATA	st_info;			//シーケンスデータ
+	stCTRL_DATA		st_data;				//制御データ
+	FLOAT			f_angle3;
+
+	/* -------------- */
+	/* 動作データ計算  */
+	/* -------------- */
+	FLOAT			f_acc1;
+	FLOAT			f_acc3;
+	FLOAT			f_theta1;
+	FLOAT			f_theta3;
+	FLOAT			f_total;	
+
+	f_acc1		= MOT_getAccAngle1();
+	f_theta1	= f_trgtAngleS * f_trgtAngleS / ( f_acc1 * 2);
+
+	f_acc3		= MOT_getAccAngle3();
+	f_theta3	=  f_trgtAngleS * f_trgtAngleS /( f_acc3 * 2 );
+
+	/* 角速度*/
+	st_info.f_nowAngleS = 0;
+	st_info.f_lastAngleS = 0;
+
+	/* 角度 */
+	switch(en_type){	
+		case MOT_R90:
+			st_info.f_angle	= -90 + ANGLE_OFFSET_R90;
+			f_total			= st_info.f_angle * (-1);
+			break;
+			
+		case MOT_L90:
+			st_info.f_angle	= 90 + ANGLE_OFFSET_L90;
+			f_total 		= st_info.f_angle;
+			break;
+			
+		case MOT_R180:
+			st_info.f_angle	= -180 + ANGLE_OFFSET_R180;
+			f_total 		= st_info.f_angle * (-1);
+			break;
+			
+		case MOT_L180:
+			st_info.f_angle	= 180 + ANGLE_OFFSET_L180;
+			f_total 		= st_info.f_angle;	
+			break;
+			
+		case MOT_R360:
+			st_info.f_angle	= -360;
+			f_total = st_info.f_angle * (-1);
+			break;
+			
+		case MOT_L360:
+			st_info.f_angle	= 360;
+			f_total = st_info.f_angle;		
+			break;
+	}
+
+	/* 台形動作の種類判定 */
+	if( ( f_total - f_theta1 - f_theta3 -  A2_MIN) >= 0 ){		// 通常の台形動作
+
+		/* 角加速度 */
+		st_info.f_accAngleS1		= MOT_getAccAngle1();
+		st_info.f_accAngleS3		= MOT_getAccAngle3();
+
+		/* 角速度 */
+		st_info.f_nowAngleS 		= 0;
+		st_info.f_lastAngleS 		= 0;
+		st_info.f_trgtAngleS	= f_trgtAngleS;
+		
+		/* 角度 */
+		st_info.f_angle1	= f_trgtAngleS * f_trgtAngleS /( st_info.f_acc1 * 2 );
+		f_angle3			= f_trgtAngleS * f_trgtAngleS /( st_info.f_acc3 * 2 );
+		st_info.f_angle1_2	= f_total - f_angle3;
+
+	}else{		// 目標角速度を変更
+
+		/* 角加速度 */
+		st_info.f_accAngleS1		= MOT_getAccAngle1();
+		st_info.f_accAngleS3		= MOT_getAccAngle3();
+
+		/* 角速度 */
+		st_info.f_nowAngleS 		= 0;
+		st_info.f_lastAngleS 		= 0;
+		st_info.f_trgtAngleS	= sqrt( 1 / ( ( st_info.f_acc3 * -1 ) - st_info.f_acc1 ) *					// 目標角速度を変更
+									( 2 * st_info.f_acc1 * ( st_info.f_acc3 * -1 ) * ( f_total - MOT_MOVE_ST_MIN ) ) );
+		
+		/* 角度 */
+		st_info.f_angle1	= st_info.f_trgtAngleS * st_info.f_trgtAngleS /( st_info.f_acc1 * 2 );
+		f_angle3			= st_info.f_trgtAngleS * st_info.f_trgtAngleS /( st_info.f_acc3 * 2 );
+		st_info.f_angle1_2	= f_total - f_angle3;
+	
+	}
+
+	/* 符号処理 */
+	if((en_type == MOT_R90) || (en_type == MOT_R180) || (en_type == MOT_R360)){
+		st_info.f_trgtAngleS 		*= -1;
+		st_info.f_angle1			*= -1;
+		st_info.f_angle1_2			*= -1;
+	}
+
+
+#ifndef TEST	
+	printf("st_info.f_trgtAngleS:%5.4f \n\r",st_info.f_trgtAngleS);
+	printf("f_angle3:%5.4f \n\r",f_angle3);
+	printf("st_info.f_angle1:%5.4f \n\r",st_info.f_angle1);
+	printf("st_info.f_angle1_2:%5.4f \n\r",st_info.f_angle1_2);
+#endif
+	
+	/* ================ */
+	/*　　 実動作 　　　*/
+	/* ================ */
+	/* -----*/
+	/* 加速 */
+	/* -----*/
+	st_data.en_type			= CTRL_ACC_TURN;
+	st_data.f_acc			= 0;						//加速度指定
+	st_data.f_trgt			= 0;						// 目標速度
+	st_data.f_nowDist		= 0;						// 進んでいない
+	st_data.f_dist			= 0;						// 加速距離
+	st_data.f_accAngleS		= st_info.f_accAngleS1;		// 角加速度
+	st_data.f_nowAngleS		= 0;						// 現在角速度
+	st_data.f_trgtAngleS	= st_info.f_trgtAngleS;		// 目標角速度
+	st_data.f_nowAngle		= 0;						// 現在角度
+	st_data.f_angle			= st_info.f_angle1;			// 目標角度
+	st_data.f_time 			= 0;						// 目標時間 [sec] ← 指定しない
+	
+	CTRL_clrData();										// マウスの現在位置/角度をクリア
+	CTRL_setData( &st_data );							// データセット
+	DCM_staMotAll();									// モータON	
+	//printf("第1+2移動角度：%5.4f \n\r",st_info.f_angle1_2);
+	if(( en_type == MOT_R90 ) || ( en_type == MOT_R180 ) || ( en_type == MOT_R360 )){		//-方向
+		while( f_NowAngle > st_info.f_angle1 ){				//指定角度到達待ち(右回転)
+			
+			/*脱出*/
+			if(SW_ON == SW_INC_PIN){
+				CTRL_stop();				// 制御停止
+				break;
+			}
+			
+			//if( SYS_isOUTOfCtrl() == true ) break;		//途中で制御不能になった
+		}
+	}else{
+		while( f_NowAngle < st_info.f_angle1){				//指定角度到達待ち(左回転)
+		
+			/*脱出*/
+			if(SW_ON == SW_INC_PIN){
+				CTRL_stop();				// 制御停止
+				break;
+			}
+			//if( SYS_isOutOfCtrl() == true ) break;		//途中で制御不能になった
+		}
+	}
+	
+	//printf("加速完了(*´▽｀*)\n\r");
+	//LED_SYS = 0;
+	/* ---- */
+	/* 等速 */
+	/* ---- */
+	if(( en_type == MOT_R90 ) || ( en_type == MOT_R180 ) || ( en_type == MOT_R360 )){
+		f_angle3		= ( f_TrgtAngleS - st_info.f_lastAngleS ) / 2 * ( f_TrgtAngleS - st_info.f_lastAngleS) / st_info.f_accAngleS3;		//第3移動角度
+		f_angle3		= -1*f_angle3;
+		if( f_angle3 > A3_MIN*-1 ) f_angle3 = A3_MIN*-1;			//減速最低角度に書き換え
+		st_info.f_angle1_2	= st_info.f_angle - f_angle3;			//第1+2移動角度[rad]
+	}else{
+		f_angle3		= ( f_TrgtAngleS - st_info.f_lastAngleS ) / 2 * ( f_TrgtAngleS - st_info.f_lastAngleS ) / st_info.f_accAngleS3;		// 第3移動角度
+		if( f_angle3 < A3_MIN ) f_angle3 = A3_MIN;					//減速最低角度に書き換え											
+		st_info.f_angle1_2	= st_info.f_angle - f_angle3;			//第1+2移動角度[rad]												
+	}
+	//printf("第1+2移動角度：%5.4f \n\r",st_info.f_angle1_2);
+	st_data.en_type			= CTRL_CONST_TURN;
+	st_data.f_acc			= 0;					//加速度指定
+	st_data.f_now			= 0;					//現在速度
+	st_data.f_trgt			= 0;					//目標速度
+	st_data.f_nowDist		= 0;					//進んでいない
+	st_data.f_dist			= 0;					//等速完了位置
+	st_data.f_accAngleS		= 0;					//角加速度
+	st_data.f_nowAngleS		= f_TrgtAngleS;			//現在角速度
+	st_data.f_trgtAngleS	= f_TrgtAngleS;			//目標角速度
+	st_data.f_nowAngle		= st_info.f_angle1;		//現在角度
+	st_data.f_angle			= st_info.f_angle1_2;	//目標角度
+	st_data.f_time			= 0;					//目標時間[sec]←指定しない
+	
+	CTRL_setData( &st_data );				//データセット
+	
+	if(( en_type == MOT_R90 ) || ( en_type == MOT_R180 ) || ( en_type == MOT_R360 )){		//-方向
+		while( f_NowAngle > st_info.f_angle1_2 ){		//指定角度到達待ち(左回転)
+			
+			/*脱出*/
+			if(SW_ON == SW_INC_PIN){
+				CTRL_stop();				// 制御停止
+				break;
+			}
+		
+			//if( SYS_isOUTOfCtrl() == true ) break;		//途中で制御不能になった
+		}
+	}else{
+		while( f_NowAngle < st_info.f_angle1_2){		//指定角度到達待ち(右回転)
+			/*脱出*/
+			if(SW_ON == SW_INC_PIN){
+				CTRL_stop();				// 制御停止
+				break;
+			}
+			//if( SYS_isOutOfCtrl() == true ) break;		//途中で制御不能になった
+		}
+	}
+
+#ifndef TEST	
+	printf("st_info.f_angle:%5.4f \n\r",st_info.f_angle);
+	printf("f_angle3:%5.4f \n\r",f_angle3);
+	printf("st_info.f_angle1:%5.4f \n\r",st_info.f_angle1);
+	printf("st_info.f_angle1_2:%5.4f \n\r",st_info.f_angle1_2);
+#endif
+	/* ---- */
+	/* 減速 */
+	/* ---- */
+	st_data.en_type			= CTRL_DEC_TURN;
+	st_data.f_acc			= 0;					//加速度指定
+	st_data.f_now			= 0;					//現在速度
+	st_data.f_trgt			= 0;					//最終速度
+	st_data.f_nowDist		= 0;					//等速完了位置
+	st_data.f_dist			= 0;					//全移動完了位置
+	st_data.f_accAngleS		= st_info.f_accAngleS3;	//角加速度
+	st_data.f_nowAngleS		= f_TrgtAngleS;			//現在角速度
+	st_data.f_trgtAngleS	= 0;					//目標角速度
+	st_data.f_nowAngle		= st_info.f_angle1_2;	//現在角度
+	st_data.f_angle			= st_info.f_angle;		//目標角度
+	st_data.f_time			= 0;					//目標時間[sec]←指定しない
+	
+	CTRL_setData( &st_data );						// データセット
+	
+	if(( en_type == MOT_R90 ) || ( en_type == MOT_R180 ) || ( en_type == MOT_R360 )){	//-方向
+		while( f_NowAngle > ( st_info.f_angle + 1)){		//指定角度到達待ち(右回転)
+			
+			/*脱出*/
+			if(SW_ON == SW_INC_PIN){
+				CTRL_stop();				// 制御停止
+				break;
+			}
+		
+			//if( SYS_isOutOfCtrl() == true ) break;		//途中で制御不能になった
+		}
+	}else{
+		while( f_NowAngle < (st_info.f_angle - 1)){		//指定角度到達待ち(左回転)
+		
+			/*脱出*/
+			if(SW_ON == SW_INC_PIN){
+				CTRL_stop();				// 制御停止
+				break;
+			}
+			//if( SYS_isOutOfCtrl() == true ) break;		//途中で制御不能になった
+		}
+	
+	}
+	//LED8=0xff;
+	//printf("旋回完了");
+	/* 停止 */
+	TIME_wait(200);		//安定待ち
+	CTRL_stop();		// 制御停止	
+	
+}
+
+
+// *************************************************************************
 //   機能		： 等速区画　前進
 //   注意		： なし
 //   メモ		： なし
