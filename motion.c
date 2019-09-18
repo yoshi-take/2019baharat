@@ -1706,11 +1706,11 @@ PUBLIC void MOT_turn2( enMOT_TURN_CMD en_type, FLOAT f_trgtAngleS ){
 		/* 角速度 */
 		st_info.f_nowAngleS 		= 0;
 		st_info.f_lastAngleS 		= 0;
-		st_info.f_trgtAngleS	= f_trgtAngleS;
+		st_info.f_trgtAngleS		= f_trgtAngleS;
 		
 		/* 角度 */
-		st_info.f_angle1	= f_trgtAngleS * f_trgtAngleS /( st_info.f_acc1 * 2 );
-		f_angle3			= f_trgtAngleS * f_trgtAngleS /( st_info.f_acc3 * 2 );
+		st_info.f_angle1	= f_trgtAngleS * f_trgtAngleS /( st_info.f_accAngleS1 * 2 );
+		f_angle3			= f_trgtAngleS * f_trgtAngleS /( st_info.f_accAngleS3 * 2 );
 		st_info.f_angle1_2	= f_total - f_angle3;
 
 	}else{		// 目標角速度を変更
@@ -1722,12 +1722,12 @@ PUBLIC void MOT_turn2( enMOT_TURN_CMD en_type, FLOAT f_trgtAngleS ){
 		/* 角速度 */
 		st_info.f_nowAngleS 		= 0;
 		st_info.f_lastAngleS 		= 0;
-		st_info.f_trgtAngleS	= sqrt( 1 / ( ( st_info.f_acc3 * -1 ) - st_info.f_acc1 ) *					// 目標角速度を変更
-									( 2 * st_info.f_acc1 * ( st_info.f_acc3 * -1 ) * ( f_total - MOT_MOVE_ST_MIN ) ) );
+		st_info.f_trgtAngleS	= sqrt( 1 / ( ( st_info.f_accAngleS3 * -1 ) - st_info.f_accAngleS1 ) *					// 目標角速度を変更
+									( 2 * st_info.f_accAngleS1 * ( st_info.f_accAngleS3 * -1 ) * ( f_total - MOT_MOVE_ST_MIN ) ) );
 		
 		/* 角度 */
-		st_info.f_angle1	= st_info.f_trgtAngleS * st_info.f_trgtAngleS /( st_info.f_acc1 * 2 );
-		f_angle3			= st_info.f_trgtAngleS * st_info.f_trgtAngleS /( st_info.f_acc3 * 2 );
+		st_info.f_angle1	= st_info.f_trgtAngleS * st_info.f_trgtAngleS /( st_info.f_accAngleS1 * 2 );
+		f_angle3			= st_info.f_trgtAngleS * st_info.f_trgtAngleS /( st_info.f_accAngleS3 * 2 );
 		st_info.f_angle1_2	= f_total - f_angle3;
 	
 	}
@@ -1737,14 +1737,15 @@ PUBLIC void MOT_turn2( enMOT_TURN_CMD en_type, FLOAT f_trgtAngleS ){
 		st_info.f_trgtAngleS 		*= -1;
 		st_info.f_angle1			*= -1;
 		st_info.f_angle1_2			*= -1;
+		f_angle3					*= -1;
 	}
 
 
 #ifndef TEST	
-	printf("st_info.f_trgtAngleS:%5.4f \n\r",st_info.f_trgtAngleS);
-	printf("f_angle3:%5.4f \n\r",f_angle3);
-	printf("st_info.f_angle1:%5.4f \n\r",st_info.f_angle1);
-	printf("st_info.f_angle1_2:%5.4f \n\r",st_info.f_angle1_2);
+	printf("st_info.f_trgtAngleS:%f \n\r",st_info.f_trgtAngleS);
+	printf("f_angle3:%f \n\r",f_angle3);
+	printf("st_info.f_angle1:%f \n\r",st_info.f_angle1);
+	printf("st_info.f_angle1_2:%f \n\r",st_info.f_angle1_2);
 #endif
 	
 	/* ================ */
@@ -1768,7 +1769,7 @@ PUBLIC void MOT_turn2( enMOT_TURN_CMD en_type, FLOAT f_trgtAngleS ){
 	CTRL_clrData();										// マウスの現在位置/角度をクリア
 	CTRL_setData( &st_data );							// データセット
 	DCM_staMotAll();									// モータON	
-	//printf("第1+2移動角度：%5.4f \n\r",st_info.f_angle1_2);
+	
 	if(( en_type == MOT_R90 ) || ( en_type == MOT_R180 ) || ( en_type == MOT_R360 )){		//-方向
 		while( f_NowAngle > st_info.f_angle1 ){				//指定角度到達待ち(右回転)
 			
@@ -1793,20 +1794,10 @@ PUBLIC void MOT_turn2( enMOT_TURN_CMD en_type, FLOAT f_trgtAngleS ){
 	}
 	
 	//printf("加速完了(*´▽｀*)\n\r");
-	//LED_SYS = 0;
+
 	/* ---- */
 	/* 等速 */
 	/* ---- */
-	if(( en_type == MOT_R90 ) || ( en_type == MOT_R180 ) || ( en_type == MOT_R360 )){
-		f_angle3		= ( f_TrgtAngleS - st_info.f_lastAngleS ) / 2 * ( f_TrgtAngleS - st_info.f_lastAngleS) / st_info.f_accAngleS3;		//第3移動角度
-		f_angle3		= -1*f_angle3;
-		if( f_angle3 > A3_MIN*-1 ) f_angle3 = A3_MIN*-1;			//減速最低角度に書き換え
-		st_info.f_angle1_2	= st_info.f_angle - f_angle3;			//第1+2移動角度[rad]
-	}else{
-		f_angle3		= ( f_TrgtAngleS - st_info.f_lastAngleS ) / 2 * ( f_TrgtAngleS - st_info.f_lastAngleS ) / st_info.f_accAngleS3;		// 第3移動角度
-		if( f_angle3 < A3_MIN ) f_angle3 = A3_MIN;					//減速最低角度に書き換え											
-		st_info.f_angle1_2	= st_info.f_angle - f_angle3;			//第1+2移動角度[rad]												
-	}
 	//printf("第1+2移動角度：%5.4f \n\r",st_info.f_angle1_2);
 	st_data.en_type			= CTRL_CONST_TURN;
 	st_data.f_acc			= 0;					//加速度指定
@@ -1847,7 +1838,6 @@ PUBLIC void MOT_turn2( enMOT_TURN_CMD en_type, FLOAT f_trgtAngleS ){
 
 #ifndef TEST	
 	printf("st_info.f_angle:%5.4f \n\r",st_info.f_angle);
-	printf("f_angle3:%5.4f \n\r",f_angle3);
 	printf("st_info.f_angle1:%5.4f \n\r",st_info.f_angle1);
 	printf("st_info.f_angle1_2:%5.4f \n\r",st_info.f_angle1_2);
 #endif
@@ -1892,7 +1882,7 @@ PUBLIC void MOT_turn2( enMOT_TURN_CMD en_type, FLOAT f_trgtAngleS ){
 		}
 	
 	}
-	//LED8=0xff;
+
 	//printf("旋回完了");
 	/* 停止 */
 	TIME_wait(200);		//安定待ち

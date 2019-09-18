@@ -131,6 +131,7 @@ PUBLIC void MOT_goHitBackWall( void );
 PUBLIC void MOT_Turn( enMOT_TURN_CMD en_type );
 PUBLIC void MOT_goBack_Const( FLOAT f_dist );
 PUBLIC void MOT_turn( enMOT_TURN_CMD en_type);
+PUBLIC void MOT_turn2( enMOT_TURN_CMD en_type, FLOAT f_trgtAngleS );
 
 PUBLIC void MOT_setWallEdgeType( enMOT_WALL_EDGE_TYPE en_type );
 PUBLIC enMOT_WALL_EDGE_TYPE MOT_getWallEdgeType( void );
