@@ -53,7 +53,8 @@ typedef struct
 	FLOAT	f_trgtAngleS;		// 角速度（理論値）
 	FLOAT	f_nowAngleS;		// 角速度（実測値）
 	FLOAT	f_trgtAngle;		// 角度（理論値）
-	FLOAT	f_nowAngle;			// 角度（実測値）	
+	FLOAT	f_nowAngle;			// 角度（実測値）
+	FLOAT	f_nowAccel;			// 加速度（実測値）
 }stDCMC_SET_LOG;
 
 
@@ -101,7 +102,8 @@ PUBLIC  volatile FLOAT  f_NowAngle      = 0;        // [角度制御]　現在角度     
 PUBLIC  FLOAT           f_AngleErrSum   = 0;        // [角度制御]　距離積分距離         （1[msec]毎に更新される）
 
 extern	PUBLIC volatile FLOAT  f_NowGyroAngle;		 					// ジャイロセンサの現在角度
-extern	PUBLIC volatile FLOAT  f_NowGyroAngleSpeed;						// ジャイロセンサの現在角速度	
+extern	PUBLIC volatile FLOAT  f_NowGyroAngleSpeed;						// ジャイロセンサの現在角速度
+extern	PUBLIC volatile FLOAT  f_NowAccel;								// 進行方向の現在加速度
 
 /* 壁制御 */
 PRIVATE LONG            l_WallErr       = 0;        // [壁制御]　壁との偏差             （1[msec]毎に更新される）
@@ -876,10 +878,10 @@ PUBLIC void CTRL_pol( void ){
 			st_Log[us_LogPt].f_trgtPos		= f_TrgtDist;				// 位置（目標値）
 			st_Log[us_LogPt].f_nowPos		= f_NowDist;				// 位置（実測値）
 			st_Log[us_LogPt].f_trgtAngleS	= f_TrgtAngleS;				// 角速度（目標値）
-			st_Log[us_LogPt].f_nowAngleS	= f_NowGyroAngleSpeed;			// 角速度（実測値）
+			st_Log[us_LogPt].f_nowAngleS	= f_NowGyroAngleSpeed;		// 角速度（実測値）
 			st_Log[us_LogPt].f_trgtAngle	= f_TrgtAngle;				// 角度（目標値）
-			st_Log[us_LogPt].f_nowAngle		= f_NowAngle;			// 角度（実測値）
-			
+			st_Log[us_LogPt].f_nowAngle		= f_NowAngle;				// 角度（実測値）
+			st_Log[us_LogPt].f_nowAccel		= f_NowAccel;				// 加速度（実測値）
 			us_LogPt++;
 			if(us_LogPt== CTRL_LOG) bl_log = false;
 		}
@@ -965,10 +967,10 @@ PUBLIC void CTRL_showLog( void ){
 //	printf("\033[2J");		// コンソール画面のクリア
 //	printf("\n\r");
 
-	printf("index,TrgtSpeed[mm/s],NowSpeed[mm/s],TrgtPos[mm],NowPos[mm],TrgtAngleS[deg/s],NowAngleS[deg/s],TrgtAngle[deg],NowAngle[deg]\n\r");
+	printf("index,TrgtSpeed[mm/s],NowSpeed[mm/s],TrgtPos[mm],NowPos[mm],TrgtAngleS[deg/s],NowAngleS[deg/s],TrgtAngle[deg],NowAngle[deg],NowAccel[m/s^2]\n\r");
 	for(i=0; i<CTRL_LOG; i++){
-		printf("%4d,%f,%f,%f,%f,%f,%f,%f,%f\n\r",
-				i,st_Log[i].f_trgtSpeed,st_Log[i].f_nowSpeed,st_Log[i].f_trgtPos,st_Log[i].f_nowPos,st_Log[i].f_trgtAngleS,st_Log[i].f_nowAngleS,st_Log[i].f_trgtAngle,st_Log[i].f_nowAngle);
+		printf("%4d,%f,%f,%f,%f,%f,%f,%f,%f,%f\n\r",
+				i,st_Log[i].f_trgtSpeed,st_Log[i].f_nowSpeed,st_Log[i].f_trgtPos,st_Log[i].f_nowPos,st_Log[i].f_trgtAngleS,st_Log[i].f_nowAngleS,st_Log[i].f_trgtAngle,st_Log[i].f_nowAngle,st_Log[i].f_nowAccel);
 	}
 
 }

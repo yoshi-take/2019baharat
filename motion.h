@@ -136,6 +136,7 @@ PUBLIC void MOT_turn2( enMOT_TURN_CMD en_type, FLOAT f_trgtAngleS );
 PUBLIC void MOT_setWallEdgeType( enMOT_WALL_EDGE_TYPE en_type );
 PUBLIC enMOT_WALL_EDGE_TYPE MOT_getWallEdgeType( void );
 PUBLIC void MOT_setWallEdge( BOOL bl_val );
+PRIVATE void MOT_Failsafe( BOOL* exists );
 
 
 #endif

@@ -45,8 +45,8 @@ PUBLIC volatile FLOAT  f_NowGyroAngleSpeed;						// ジャイロセンサの現在角速度
 
 PUBLIC SHORT 	s_AccelVal_Lo;							// 加速度センサ値(下位)
 PUBLIC SHORT 	s_AccelVal_Hi;							// 加速度センサ値(上位)
-PUBLIC FLOAT  	f_NowAccel;								// 進行方向の現在加速度	
-
+PUBLIC volatile FLOAT  	f_NowAccel;								// 進行方向の現在加速度
+PRIVATE SHORT	s_AccelValBuf[10];						// 加速度センサのバッファ
 
 PUBLIC	SHORT s_WhoamiVal;
 
@@ -506,18 +506,28 @@ PUBLIC void GYRO_getAccVal( void ){
 //   返り値		： なし
 // **************************    履    歴    *******************************
 // 		v1.0		2019.7.30			TKR			新規
+//		v2.0		2019.9.20			TKR			移動平均追加
 // *************************************************************************/
 PRIVATE void GYRO_getAccVal_2nd( void ){
 
 	SHORT	s_count;			// ICM20602から得られた加速度(カウント値)
 	FLOAT	f_tempAcc;			// 加速度[g]
+	int i = 9;
 
 	/* 初期化 */
 	p_SpiRcvData		= NULL;
 	p_SpiCallBackFunc	= NULL;
 
+	/* バッファシフト */
+//	for(i=9; i<1; i--){
+//		s_AccelValBuf[i]	= s_AccelValBuf[i-1];	
+//	}	
+
 	/* 角速度値 */
-	s_count				= (SHORT)(s_AccelVal_Lo | (s_AccelVal_Hi << 8) );		// データ結合
+	s_count	= (SHORT)(s_AccelVal_Lo | (s_AccelVal_Hi << 8) );		// データ結合
+//	s_AccelValBuf[0]	= (SHORT)(s_AccelVal_Lo | (s_AccelVal_Hi << 8) );		// データ結合
+//	s_count				= ( s_AccelValBuf[0] + s_AccelValBuf[1] + s_AccelValBuf[2] + s_AccelValBuf[3] + s_AccelValBuf[4] + // ) / 5;
+//							s_AccelValBuf[5] + s_AccelValBuf[6] + s_AccelValBuf[7] + s_AccelValBuf[8] + s_AccelValBuf[9] );
 	f_tempAcc			= (FLOAT)s_count / ACC_SCALE_FACTOR;					// [カウント]→[g]に変換
 
 	/* SWフィルタを有効にする */ 

@@ -7,10 +7,7 @@
   </Class>
   <Class Guid="2c267d36-9968-416b-8f39-cfcf1e069830">
     <Instance Guid="705a6012-3a18-4d01-903f-6c55417f8f3d">
-      <ColumnStates>Header=True,LineEditor=True,SelectionEditor=True,Out of Date Module Indicator=True,Coverage=True,Address=True,Event=True,MainDebug=True,Main=True,OpCode=True,Label=True,</ColumnStates>
-    </Instance>
-    <Instance Guid="9a2aa537-6164-42cd-80e4-e708b32cd890">
-      <Bookmarks>0</Bookmarks>
+      <ColumnStates />
     </Instance>
   </Class>
   <Class Guid="34506c0a-c7d1-4c09-aee7-5072eca3d198">
@@ -173,6 +170,17 @@
       <EvaluationText />
       <LineByteCount>16</LineByteCount>
       <ViewAddressOffset>0</ViewAddressOffset>
+    </Instance>
+  </Class>
+  <Class Guid="a86d2744-4eb1-43a4-bbcb-1f717558eac6">
+    <Instance Guid="a86d2744-4eb1-43a4-bbcb-1f717558eac6">
+      <ExtendedItems>cced56a0-8470-43da-8355-3c079dc7373d
+e432dd59-5f26-4077-aa59-86a97218a18d
+f61af997-fd32-4c1d-ad3f-5bd39b39bba8
+</ExtendedItems>
+      <TopItem>5a633102-8ce1-406a-a33a-24b78a636ee9</TopItem>
+      <ViewMode>0</ViewMode>
+      <ViewModeToggle>False</ViewModeToggle>
     </Instance>
   </Class>
   <Class Guid="611ccd33-b851-4726-9e3f-a4209353c34d">
@@ -438,17 +446,6 @@ ActiveViewPlacement:Right
 CaretPosition:0,0
 FirstVisiblePosition:Right,0,0
 </StatusText19>
-    </Instance>
-  </Class>
-  <Class Guid="a86d2744-4eb1-43a4-bbcb-1f717558eac6">
-    <Instance Guid="a86d2744-4eb1-43a4-bbcb-1f717558eac6">
-      <ExtendedItems>cced56a0-8470-43da-8355-3c079dc7373d
-e432dd59-5f26-4077-aa59-86a97218a18d
-f61af997-fd32-4c1d-ad3f-5bd39b39bba8
-</ExtendedItems>
-      <TopItem>5a633102-8ce1-406a-a33a-24b78a636ee9</TopItem>
-      <ViewMode>0</ViewMode>
-      <ViewModeToggle>False</ViewModeToggle>
     </Instance>
   </Class>
   <Class Guid="84287b3e-7c41-456a-95e9-c7acc8f124ab">

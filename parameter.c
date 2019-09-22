@@ -49,7 +49,7 @@ PRIVATE	BOOL				bl_cntType		= false;			// カウントタイプ(false:探索、true:最短)
 	PRIVATE	CONST stSPEED	f_StSpeedData[PARAM_MOVE_SPEED_MAX]	= {
 		
 		// 加速度		減速度		角速度		角減速度
-		{ 800,			1000,		0,			0			},		// 超低速(PARAM_VERY_SLOW)
+		{ 2000,			2000,		0,			0			},		// 超低速(PARAM_VERY_SLOW)
 		{ 2000,			2000,		0,			0			},		// 低速(PARAM_SLOW)
 		{ 2000,			2500,		0,			0			},		// 通常(PARAM_NORMAL)
 		{ 2000,			2000,		0,			0			},		// 高速(PARAM_FAST)
@@ -102,9 +102,9 @@ PRIVATE	BOOL				bl_cntType		= false;			// カウントタイプ(false:探索、true:最短)
 		
 		/* 超低速(PARAM_VERY_SLOW) */
 		{	// FF		速度kp		速度ki		位置kp		位置ki		角速度kp	 角速度ki	  角度kp	  角度ki	   壁kp		   壁kd
-			{0.1f,		1.0f,		0.0f,		0.0f,		0.0f,		0.08f,		0.0f,		2.0f,		0.0f,		0.03f,		0.0f,	},		// PARAM_ACC		
-			{0.0f,		1.0f,		0.0f,		0.0f,		0.0f,		0.08f,		0.0f,		2.0f,		0.0f,		0.03f,		0.0f,	},		// PARAM_CONST
-			{0.0f,		1.0f,		0.0f,		4.0f,		0.15f,		0.08f,		0.0f,		2.0f,		0.0f,		0.015f,		0.0f,	},		// PARAM_DEC
+			{0.07f,		1.7f,		0.0f,		0.0f,		0.0f,		0.2f,		0.0f,		3.0f,		0.02f,		0.0f,		0.0f,	},		// PARAM_ACC		
+			{0.28f,		1.7f,		0.0f,		0.0f,		0.0f,		0.2f,		0.0f,		3.0f,		0.02f,		0.0f,		0.0f,	},		// PARAM_CONST
+			{0.0f,		1.7f,		0.0f,		1.5f,		0.2f,		0.08f,		0.0f,		3.0f,		0.02f,		0.0f,		0.0f,	},		// PARAM_DEC
 			{0.0f,		0.7f,		0.0f,		5.5f,		0.01f,		0.04f,		0.0f,		8.0f,		0.05f,		0.025f,		0.01f,	},		// PARAM_BACK_ACC
 			{0.0f,		0.7f,		0.0f,		5.5f,		0.01f,		0.04f,		0.0f,		8.0f,		0.05f,		0.025f,		0.01f,	},		// PARAM_BACK_CONST
 			{0.0f,		0.7f,		0.0f,		5.5f,		0.01f,		0.04f,		0.0f,		8.0f,		0.05f,		0.025f,		0.01f,	},		// PARAM_BACK_DEC
@@ -187,9 +187,9 @@ PRIVATE	BOOL				bl_cntType		= false;			// カウントタイプ(false:探索、true:最短)
 		
 		/* 超低速(PARAM_VERY_SLOW) */
 		{	// FF		速度kp		速度ki		位置kp		位置ki		角速度kp	 角速度ki	  角度kp	  角度ki	   壁kp		   壁kd
-			{0.06f,		0.5f,		0.0f,		0.09f,		0.0f,		1.7f,		0.0f,		0.0f,		0.0f,		0,			0		},		// PARAM_ACC_TURN
-			{0.0f,		0.5f,		0.0f,		0.09f,		0.0f,		1.7f,		0.0f,		0.0f,		0.0f,		0,			0		},		// PARAM_CONST_TURN
-			{0.0f,		0.5f,		0.0f,		0.09f,		0.0f,		1.5f,		0.0f,		0.054f,		0.0f,		0,			0		},		// PARAM_DEC_TURN
+			{0.065f,	0.0f,		0.0f,		0.0f,		0.0f,		1.8f,		0.0f,		0.0f,		0.0f,		0,			0		},		// PARAM_ACC_TURN
+			{0.0f,		0.0f,		0.0f,		0.0f,		0.0f,		1.8f,		0.0f,		0.0f,		0.0f,		0,			0		},		// PARAM_CONST_TURN
+			{0.0f,		0.0f,		0.0f,		0.0f,		0.0f,		1.0f,		0.0f,		1.5f,		0.2f,		0,			0		},		// PARAM_DEC_TURN
 		},
 		/* 低速(PARAM_SLOW) */
 		{	// FF		速度kp		速度ki		位置kp		位置ki		角速度kp	 角速度ki	  角度kp	  角度ki	   壁kp		   壁kd

@@ -19,12 +19,14 @@
 
 #include <hal_dcm.h>						// DCM
 #include <hal_dcmCtrl.h>					// DCM_CTRL
+#include <hal_gyro.h>						// GYRO
 
 #include <motion.h>                         // motion
 #include <parameter.h>						// parameter
 
 #include <mode.h>							// mode
 #include <hal_led.h>						// LED
+#include <hal_spk.h>						// SPK
 
 //**************************************************
 // 定義（define）
@@ -86,6 +88,7 @@ PRIVATE FLOAT 				f_MotNowSpeed 			= 0.0f;		// 現在速度
 PRIVATE FLOAT 				f_MotTrgtSpeed 			= 300.0f;	// 目標速度
 PRIVATE FLOAT 				f_MotSlaStaSpeed 		= 0.0f;		// スラローム開始速度
 PRIVATE	stMOT_DATA 			st_Info;							// シーケンスデータ
+PRIVATE BOOL				bl_failsafe				= false;	// フェイルセーフ（TRUE：発動	FALSE：何もなし）
 
 /* 壁切れ関係 */
 PRIVATE enMOT_WALL_EDGE_TYPE		en_WallEdge 		= MOT_WALL_EDGE_NONE;	//壁切れ補正
@@ -254,6 +257,10 @@ PRIVATE void MOT_goBlock_AccConstDec( FLOAT f_fin, enMOT_ST_TYPE en_type, enMOT_
 				break;
 			}
 			
+			/* フェイルセーフ */
+			MOT_Failsafe(&bl_failsafe);
+			if( bl_failsafe == TRUE )return;
+
 			//MOT_setWallEdgeDIST();		// 壁切れ補正を実行する距離を設定
 			
 		}
@@ -314,7 +321,11 @@ PRIVATE void MOT_goBlock_AccConstDec( FLOAT f_fin, enMOT_ST_TYPE en_type, enMOT_
 			CTRL_stop();				// 制御停止
 			break;
 		}
-		
+
+		/* フェイルセーフ */
+		MOT_Failsafe(&bl_failsafe);
+		if( bl_failsafe == TRUE )return;
+
 		//MOT_setWallEdgeDIST();	// 壁切れ補正を実行する距離を設定
 	}
 	
@@ -372,6 +383,10 @@ PRIVATE void MOT_goBlock_AccConstDec( FLOAT f_fin, enMOT_ST_TYPE en_type, enMOT_
 				break;
 			}
 			
+			/* フェイルセーフ */
+			MOT_Failsafe(&bl_failsafe);
+			if( bl_failsafe == TRUE )return;
+
 			//MOT_setWallEdgeDIST();		// 壁切れ補正を実行する距離を設定
 			
 		}
@@ -403,6 +418,10 @@ PRIVATE void MOT_goBlock_AccConstDec( FLOAT f_fin, enMOT_ST_TYPE en_type, enMOT_
 		
 		while( f_NowDist < st_data.f_dist ){			// 指定距離到達待ち
 			
+			/* フェイルセーフ */
+			MOT_Failsafe(&bl_failsafe);
+			if( bl_failsafe == TRUE )return;
+
 			if( MOT_setWallEdgeDIST_LoopWait() == true ) break;			// 壁切れ補正を実行する距離を設定
 			
 		}
@@ -430,6 +449,11 @@ PRIVATE void MOT_goBlock_AccConstDec( FLOAT f_fin, enMOT_ST_TYPE en_type, enMOT_
 		CTRL_setData( &st_data );						// データセット
 		
 		while( f_NowDist < st_data.f_dist ){			// 指定距離到達待ち
+			
+			/* フェイルセーフ */
+			MOT_Failsafe(&bl_failsafe);
+			if( bl_failsafe == TRUE )return;
+
 		}
 		
 	}
@@ -2367,5 +2391,30 @@ PUBLIC void MOT_setNowSpeed( FLOAT f_speed){
 	
 	f_MotNowSpeed = f_speed;
 
+}
+
+// *************************************************************************
+//   機能		： フェイルセーフ
+//   注意		： なし
+//   メモ		： なし
+//   引数		： なし
+//   返り値		： TRUE：発動	FALSE：何もなし
+// **************************    履    歴    *******************************
+// 		v1.0		2019.9.22			TKR			新規
+// *************************************************************************/
+PRIVATE void MOT_Failsafe( BOOL* exists ){
+	
+	if( f_NowAccel < FAIL_THRESH_ACC ){
+		CTRL_stop();
+		*exists	= TRUE;
+
+		SPK_on(F4,16.0f,120);
+		SPK_on(E4,16.0f,120);
+		SPK_on(Eb4,16.0f,120);
+	}else{
+
+		*exists	= FALSE;
+	}
+	
 }
 

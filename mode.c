@@ -132,12 +132,12 @@ PUBLIC void	MODE_exe( void ){
 			CTRL_LogSta();			// ログ開始
 			/* 走行パラメータ */
 			PARAM_setCntType( TRUE );
-			PARAM_setSpeedType( PARAM_ST, PARAM_SLOW );		// [直進]速度低速
-			PARAM_setSpeedType( PARAM_TURN, PARAM_SLOW );	// [旋回]速度低速
-			PARAM_setSpeedType( PARAM_SLA, PARAM_SLOW );	// [スラローム]速度低速
+			PARAM_setSpeedType( PARAM_ST, PARAM_VERY_SLOW );		// [直進]速度低速
+			PARAM_setSpeedType( PARAM_TURN, PARAM_VERY_SLOW );	// [旋回]速度低速
+			PARAM_setSpeedType( PARAM_SLA, PARAM_VERY_SLOW );	// [スラローム]速度低速
 			
 			//for(i=0;i<1;i++){
-				MOT_turn2(MOT_L180,900.0f);
+				MOT_turn2(MOT_R180,900.0f);
 				TIME_wait(100);
 			//}
 			LED_onAll();
@@ -154,11 +154,11 @@ PUBLIC void	MODE_exe( void ){
 			/* 走行パラメータ */
 			PARAM_setCntType( TRUE );
 			MOT_setTrgtSpeed( 500.0f );						// 目標速度設定
-			PARAM_setSpeedType( PARAM_ST, PARAM_SLOW );		// [直進]速度低速
-			PARAM_setSpeedType( PARAM_TURN, PARAM_SLOW );	// [旋回]速度低速
-			PARAM_setSpeedType( PARAM_SLA, PARAM_SLOW );	// [スラローム]速度低速
+			PARAM_setSpeedType( PARAM_ST, PARAM_VERY_SLOW );		// [直進]速度低速
+			PARAM_setSpeedType( PARAM_TURN, PARAM_VERY_SLOW );	// [旋回]速度低速
+			PARAM_setSpeedType( PARAM_SLA, PARAM_VERY_SLOW );	// [スラローム]速度低速
 
-			MOT_goBlock_FinSpeed(5,0);
+			MOT_goBlock_FinSpeed(2,0);
 
 			break;
 			
@@ -206,7 +206,10 @@ PUBLIC void	MODE_exe( void ){
 		case MODE_8:	// マップデータの消去
 			LED_onAll();
 			TIME_wait(1000);
-			MAP_ClearMapData();
+			SPK_on(F4,16.0f,120);
+			SPK_on(E4,16.0f,120);
+			SPK_on(Eb4,16.0f,120);
+			//MAP_ClearMapData();
 			LED_offAll();
 			break;
 

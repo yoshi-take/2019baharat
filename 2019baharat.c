@@ -602,11 +602,11 @@ PUBLIC void INTC_sen( void )
 			break;
 		
 		case 1:		// 前壁センサ
-			DIST_Pol_Front();
+			//DIST_Pol_Front();
 			break;
 		
 		case 2:		// 横壁センサ
-			DIST_Pol_Side();
+			//DIST_Pol_Side();
 			break;
 		
 		case 3:		// 加速度センサ

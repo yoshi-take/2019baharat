@@ -1160,6 +1160,7 @@ PRIVATE void MAP_actGoal( void )
 //   返り値		： なし
 // **************************    履    歴    *******************************
 // 		v1.0		2014.09.30			外川			新規
+//		v1.1		2019.09.22			TKR				スタート座標に戻らない対策（コメントアウト中）
 // *************************************************************************/
 PUBLIC void MAP_searchGoal( UCHAR uc_trgX, UCHAR uc_trgY, enMAP_ACT_MODE en_type, enSEARCH_MODE en_search )
 {
@@ -1182,7 +1183,14 @@ PUBLIC void MAP_searchGoal( UCHAR uc_trgX, UCHAR uc_trgY, enMAP_ACT_MODE en_type
 	while(1){
 		MAP_refMousePos( en_Head );							// 座標更新
 		MAP_makeContourMap( uc_trgX, uc_trgY, en_type );	// 等高線マップを作る
-		
+
+		/* ダミー壁挿入 */
+	/*	
+		if( (uc_trgX == GOAL_MAP_X) && (uc_trgY == GOAL_MAP_Y) ){
+			g_sysMap[0][0]	= 0x01;
+			g_sysMap[0][1]	= 0x04;
+		}
+	*/	
 		if( TRUE == bl_type ){
 			MOT_goBlock_FinSpeed( 0.5 + f_MoveBackDist, MAP_SEARCH_SPEED );		// 半区画前進(バックの移動量を含む)
 			f_MoveBackDist = 0;	
@@ -1193,6 +1201,14 @@ PUBLIC void MAP_searchGoal( UCHAR uc_trgX, UCHAR uc_trgY, enMAP_ACT_MODE en_type
 		
 		/* 次の区画へ移動 */
 		if(( mx == uc_trgX ) && ( my == uc_trgY )){
+
+			/* ダミー壁削除 */
+		/*	
+			if( (uc_trgX == GOAL_MAP_X) && (uc_trgY == GOAL_MAP_Y) ){
+				g_sysMap[0][0]	&= ~0x01;
+				g_sysMap[0][1]	&= ~0x04;
+			}
+		*/
 			MAP_actGoal();		// ゴール時の動作
 			return;				// 探索終了
 		}

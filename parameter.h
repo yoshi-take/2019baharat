@@ -90,13 +90,15 @@
 /* フィルタ */
 #define SW_GYRO_FILTER_VAL_MIN		( -1.5f )							// フィルタ最小値[dps]（最小値～最大値の間はフィルタがかかる）
 #define SW_GYRO_FILTER_VAL_MAX		( 1.5f )							// フィルタ最大値[dps]
-#define SW_ACC_FILTER_VAL_MIN		( -0.03f )							// フィルタ最小値[g]（最小値～最大値の間はフィルタがかかる）
-#define SW_ACC_FILTER_VAL_MAX		( 0.03f )							// フィルタ最大値[g]
-
+#define SW_ACC_FILTER_VAL_MIN		( -0.008f )							// フィルタ最小値[g]（最小値～最大値の間はフィルタがかかる）
+#define SW_ACC_FILTER_VAL_MAX		( 0.008f )							// フィルタ最大値[g]
 
 /* 手かざし実行の閾値 */
 #define	EXE_THRESH_R				( 160 )								// 右側の閾値
 #define	EXE_THRESH_L				( 300 )								// 左側の閾値
+
+/* フェイルセーフの閾値 */
+#define	FAIL_THRESH_ACC				( -30.0f )							// 加速度（この値以下で発動）
 
 /* 距離 */
 #define MOT_BACK_SEN_ADJ			( 73.0f )							// 壁～柱+aまで（センサオートチューニングに使用する）
@@ -149,8 +151,8 @@
 #define L_FRONT_WALL_HIT			( 1550 )						// 左前壁、壁に当たっていてもおかしくない値（前壁とマウス間が約2mmの時の値）
 
 /* ログ */
-#define CTRL_LOG				( 500 )								// 記録する制御ログの個数
-#define CTRL_LOG_CYCLE			( 5 )								// ↑の記録周期[msec]（1より小さい値はNG）
+#define CTRL_LOG				( 700 )								// 記録する制御ログの個数
+#define CTRL_LOG_CYCLE			( 1 )								// ↑の記録周期[msec]（1より小さい値はNG）
 #define SET_LOG					( 100 )								// 設定した動作データのログ数
 #define DIST_LOG				( 5 )								// 距離センサのログの個数
 #define POS_LOG					( 5 )								// 記録する位置情報ログの個数
