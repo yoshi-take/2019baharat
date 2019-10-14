@@ -259,8 +259,9 @@ PRIVATE void MOT_goBlock_AccConstDec( FLOAT f_fin, enMOT_ST_TYPE en_type, enMOT_
 			
 			/* フェイルセーフ */
 			MOT_Failsafe(&bl_failsafe);
-			if( bl_failsafe == TRUE )return;
-
+			if( bl_failsafe == TRUE ){
+				return;
+			}
 			//MOT_setWallEdgeDIST();		// 壁切れ補正を実行する距離を設定
 			
 		}
@@ -1978,7 +1979,7 @@ PUBLIC void MOT_goHitBackWall(void){
 	/*----------------*/
 	/* 動作データ計算 */
 	/*----------------*/
-	st_info.f_acc1	= 1200;
+	st_info.f_acc1	= 700;
 	
 	/*--------*/
 	/* バック */
@@ -2062,10 +2063,10 @@ PUBLIC void MOT_goSla( enMOT_SULA_CMD en_type, stSLA *p_sla){
 
 
 	/* 方向に応じて符号を変更 */
-	if( ( en_type == MOT_R90S ) //||
-	    //( en_type == MOT_R45S_S2N ) || ( en_type == MOT_R45S_N2S )|| 
-	    //( en_type == MOT_R90S_N) ) ||
-	    //( en_type == MOT_R135S_S2N ) || (en_type == MOT_R135S_N2S)
+	if( ( en_type == MOT_R90S ) ||
+	    ( en_type == MOT_R45S_S2N ) || ( en_type == MOT_R45S_N2S )|| 
+	    ( en_type == MOT_R90S_N ) ||
+	    ( en_type == MOT_R135S_S2N ) || (en_type == MOT_R135S_N2S)
 	){
 		st_info.f_accAngleS1	*= -1;
 		st_info.f_trgtAngleS	*= -1;
@@ -2079,16 +2080,15 @@ PUBLIC void MOT_goSla( enMOT_SULA_CMD en_type, stSLA *p_sla){
 	
 	
 	/* 斜めのタイプに応じて、スラローム前の距離とスラローム後の退避距離を入れ替える */
-	/*
-	if( ( en_type == MOT_R45S_N2S ) || ( en_type == MOT_L45S_N2S ) || ( en_type == MOT_R135S_N2S ) || ( en_type == MOT_L135S_N2S ) ){	//逆にするもの
+		if( ( en_type == MOT_R45S_N2S ) || ( en_type == MOT_L45S_N2S ) || ( en_type == MOT_R135S_N2S ) || ( en_type == MOT_L135S_N2S ) ){	//逆にするもの
 		f_entryLen	= p_sla -> f_escapeLen;
 		f_escapeLen	= p_sla -> f_entryLen;
 	}
 	else{	//通常
-	*/
+	
 		f_entryLen	= p_sla -> f_entryLen;
 		f_escapeLen	= p_sla -> f_escapeLen;
-	//}
+	}
 	
 	/* ========== */
 	/* 　実動作　 */
@@ -2136,14 +2136,14 @@ PUBLIC void MOT_goSla( enMOT_SULA_CMD en_type, stSLA *p_sla){
 	CTRL_setData( &st_data );			// データセット
 	
 	if( IS_R_SLA( en_type ) == true ){	// -方向
-		//while( ( f_NowAngle > st_info.f_angle1 ) ){
-		while( ( f_NowAngle > st_info.f_angle1 ) || ( f_NowDist < st_data.f_dist ) ){
+		while( ( f_NowAngle > st_info.f_angle1 ) ){
+		//while( ( f_NowAngle > st_info.f_angle1 ) || ( f_NowDist < st_data.f_dist ) ){
 			//break;
 		}
 	}
 	else{
-		//while( ( f_NowAngle < st_info.f_angle1 ) ){
-		while( ( f_NowAngle < st_info.f_angle1 ) || ( f_NowDist < st_data.f_dist ) ){
+		while( ( f_NowAngle < st_info.f_angle1 ) ){
+		//while( ( f_NowAngle < st_info.f_angle1 ) || ( f_NowDist < st_data.f_dist ) ){
 			//break;
 		}
 	}
@@ -2168,14 +2168,14 @@ PUBLIC void MOT_goSla( enMOT_SULA_CMD en_type, stSLA *p_sla){
 	CTRL_setData( &st_data );				// データセット
 	
 	if( IS_R_SLA( en_type ) == true ){		// -方向
-		//while( ( f_NowAngle > st_info.f_angle1_2 ) ){
-		while( ( f_NowAngle > st_info.f_angle1_2 ) || ( f_NowDist < st_data.f_dist ) ){
+		while( ( f_NowAngle > st_info.f_angle1_2 ) ){
+		//while( ( f_NowAngle > st_info.f_angle1_2 ) || ( f_NowDist < st_data.f_dist ) ){
 			//break;
 		}
 	}
 	else{
-		//while( ( f_NowAngle < st_info.f_angle1_2 ) ){
-		while( ( f_NowAngle < st_info.f_angle1_2 ) || ( f_NowDist < st_data.f_dist ) ){
+		while( ( f_NowAngle < st_info.f_angle1_2 ) ){
+		//while( ( f_NowAngle < st_info.f_angle1_2 ) || ( f_NowDist < st_data.f_dist ) ){
 			//break;
 		}
 	}
@@ -2200,13 +2200,13 @@ PUBLIC void MOT_goSla( enMOT_SULA_CMD en_type, stSLA *p_sla){
 	CTRL_setData( &st_data );			// データセット
 	
 	if( IS_R_SLA( en_type ) == true ){	// -方向
-		//while( ( f_NowAngle > st_info.f_angle ) ){
-		while( ( f_NowAngle > st_info.f_angle ) || ( f_NowDist < st_data.f_dist ) ){
+		while( ( f_NowAngle > st_info.f_angle ) ){
+		//while( ( f_NowAngle > st_info.f_angle ) || ( f_NowDist < st_data.f_dist ) ){
 		}
 	
 	}else{
-		//while( ( f_NowAngle < st_info.f_angle ) ){
-		while( ( f_NowAngle < st_info.f_angle ) || ( f_NowDist < st_data.f_dist ) ){
+		while( ( f_NowAngle < st_info.f_angle ) ){
+		//while( ( f_NowAngle < st_info.f_angle ) || ( f_NowDist < st_data.f_dist ) ){
 		}
 	}
 	
@@ -2230,7 +2230,6 @@ PUBLIC void MOT_goSla( enMOT_SULA_CMD en_type, stSLA *p_sla){
 	CTRL_setData( &st_data );			// データセット
 
 	while( f_NowDist < st_data.f_dist ){				// 指定距離到達待ち
-
 	}
 	f_MotNowSpeed = st_info.f_now;			// 現在速度更新
 
@@ -2411,6 +2410,8 @@ PRIVATE void MOT_Failsafe( BOOL* exists ){
 		SPK_on(F4,16.0f,120);
 		SPK_on(E4,16.0f,120);
 		SPK_on(Eb4,16.0f,120);
+
+		while(1);
 	}else{
 
 		*exists	= FALSE;

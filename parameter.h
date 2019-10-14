@@ -54,8 +54,8 @@
 // 定義（define）	チューニングが必要なパラメータ 
 //**************************************************
 /* 迷路サイズ */
-#define GOAL_MAP_X					( 4 )								// ゴールのX区画数（横方向） [区画]
-#define GOAL_MAP_Y					( 7 )								// ゴールのY区画数（縦方向） [区画]
+#define GOAL_MAP_X					( 1 )								// ゴールのX区画数（横方向） [区画]
+#define GOAL_MAP_Y					( 3 )								// ゴールのY区画数（縦方向） [区画]
 #define MAP_X_SIZE					( 16 )								// 迷路のX区画数（横方向） [区画]
 #define MAP_Y_SIZE					( 16 )								// 迷路のY区画数（縦方向） [区画]
 
@@ -65,7 +65,7 @@
 #define LIST_NUM					( 4096 )							// コマンド走行のリスト数
 
 /* メカ値 */
-#define TIRE_R						( 22.9f )								// タイヤ直径 [mm]
+#define TIRE_R						( 23.03f )								// タイヤ直径 [mm]
 #define ROTATE_PULSE				( 2048 )								// モーター1周のパルス数
 
 #define ADJ_1STEP_SEARCH			( 1 )									// 1stepの調整ゲイン、探索走行用  (分母を上げると沢山進む)
@@ -94,8 +94,8 @@
 #define SW_ACC_FILTER_VAL_MAX		( 0.008f )							// フィルタ最大値[g]
 
 /* 手かざし実行の閾値 */
-#define	EXE_THRESH_R				( 160 )								// 右側の閾値
-#define	EXE_THRESH_L				( 300 )								// 左側の閾値
+#define	EXE_THRESH_R				( 2200 )							// 右側の閾値
+#define	EXE_THRESH_L				( 2200 )							// 左側の閾値
 
 /* フェイルセーフの閾値 */
 #define	FAIL_THRESH_ACC				( -30.0f )							// 加速度（この値以下で発動）
@@ -131,28 +131,28 @@
 #define L_FRONT_SKEW_ERR3_GAIN		( 0.0f )							// 左前壁、斜め走行時の補正閾値3
 
 /* ↓のセンサ値は、FUNC_DIST_AUTO_THRESHが有効ならばFALSHのデータで上書きされて、無効ならば正式値として使用される */
-#define R_FRONT_REF					( 100 )							// 右前壁、基準値
-#define L_FRONT_REF					( 185 )							// 左前壁、基準値
+#define R_FRONT_REF					( 2705 )							// 右前壁、基準値
+#define L_FRONT_REF					( 2416 )							// 左前壁、基準値
 //#define R_45_REF					( 580 )							// 右45度、基準値
 //#define L_45_REF					( 440 )							// 左45度、基準値
-#define R_SIDE_REF					( 37 )							// 右横壁、基準値
-#define L_SIDE_REF					( 106 )							// 左横壁、基準値
-#define R_FRONT_WALL				( 43 )							// 右前壁、壁検知値
-#define L_FRONT_WALL				( 58 )							// 左前壁、壁検知値
+#define R_SIDE_REF					( 821 )							// 右横壁、基準値
+#define L_SIDE_REF					( 777 )							// 左横壁、基準値
+#define R_FRONT_WALL				( 751 )							// 右前壁、壁検知値
+#define L_FRONT_WALL				( 872 )							// 左前壁、壁検知値
 //#define R_45_WALL					( 270 )							// 右45度、壁検知値
-#define R_SIDE_WALL					( 10 )							// 右横壁、壁検知値
+#define R_SIDE_WALL					( 476 )							// 右横壁、壁検知値
 //#define L_45_WALL					( 180 )							// 左45度、壁検知値
-#define L_SIDE_WALL					( 65 )							// 左横壁、壁検知値
-#define R_FRONT_WALL_CTRL			( 170 )							// 右前壁、これ以上近いと制御する値
-#define L_FRONT_WALL_CTRL			( 290 )							// 左前壁、これ以上近いと制御する値
-#define R_FRONT_WALL_NO_CTRL		( 195 )							// 右前壁、これ以上近いと制御しない値
-#define L_FRONT_WALL_NO_CTRL		( 375 )							// 左前壁、これ以上近いと制御しない値
+#define L_SIDE_WALL					( 564 )							// 左横壁、壁検知値
+#define R_FRONT_WALL_CTRL			( 3334 )							// 右前壁、これ以上近いと制御する値
+#define L_FRONT_WALL_CTRL			( 3158 )							// 左前壁、これ以上近いと制御する値
+#define R_FRONT_WALL_NO_CTRL		( 3386 )							// 右前壁、これ以上近いと制御しない値
+#define L_FRONT_WALL_NO_CTRL		( 2598 )							// 左前壁、これ以上近いと制御しない値
 #define R_FRONT_WALL_HIT			( 1050 )						// 右前壁、壁に当たっていてもおかしくない値（前壁とマウス間が約2mmの時の値）
 #define L_FRONT_WALL_HIT			( 1550 )						// 左前壁、壁に当たっていてもおかしくない値（前壁とマウス間が約2mmの時の値）
 
 /* ログ */
 #define CTRL_LOG				( 700 )								// 記録する制御ログの個数
-#define CTRL_LOG_CYCLE			( 1 )								// ↑の記録周期[msec]（1より小さい値はNG）
+#define CTRL_LOG_CYCLE			( 3 )								// ↑の記録周期[msec]（1より小さい値はNG）
 #define SET_LOG					( 100 )								// 設定した動作データのログ数
 #define DIST_LOG				( 5 )								// 距離センサのログの個数
 #define POS_LOG					( 5 )								// 記録する位置情報ログの個数
@@ -280,7 +280,11 @@ typedef struct{
 
 /* ゲイン */
 typedef struct {
-	FLOAT			f_FF;					// フィードフォワード
+	FLOAT			f_FF_speed_acc;			// フィードフォワード
+	FLOAT			f_FF_speed;				// フィードフォワード
+	FLOAT			f_FF_angleS_acc;		// フィードフォワード
+	FLOAT			f_FF_angleS;			// フィードフォワード
+
 	FLOAT 			f_FB_speed_kp;			// フィードバック、速度 比例制御
 	FLOAT 			f_FB_speed_ki;			// フィードバック、速度 積分制御
 	FLOAT			f_FB_dist_kp;			// フィードバック、距離 比例制御

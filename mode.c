@@ -50,6 +50,8 @@
 //**************************************************
 PRIVATE enMODE		en_Mode;		// 現在のモード
 
+extern PUBLIC UCHAR			g_sysMap[ MAP_Y_SIZE ][ MAP_X_SIZE ];			// 迷路情報
+
 //**************************************************
 // プロトタイプ宣言（ファイル内で必要なものだけ記述）
 //**************************************************
@@ -75,34 +77,37 @@ PUBLIC void	MODE_exe( void ){
 	PARAM_setSpeedType( PARAM_TURN, PARAM_SLOW );	// [旋回]速度低速
 	PARAM_setSpeedType( PARAM_SLA, PARAM_SLOW );	// [スラローム]速度低速
 	
+	
 	/* スラロームデータ生成 */
-	// 90度
+	PARAM_makeSla(500.0f, 200.0f, 5300.0f, SLA_90, PARAM_VERY_SLOW);		// 90度
 	// 45度
 	// 135度
 	// 斜め → 90°→ 斜め
 
 	switch( en_Mode ){
 		
-		case MODE_0:
+		case MODE_0:	// バッテリーチェックor壁チェック
 			LED_offAll();	
-			BAT_Check();
+			//BAT_Check();
+			DIST_Check();
 			break;
 			
-		case MODE_1:		// 探索
+		case MODE_1:		// 探索走行
 			LED_offAll();
+			MODE_wait();			// 手かざし待機
 			TIME_wait(1000);
 			GYRO_clrAngle();		// 角度リセット
 
 			/* 走行パラメータ */
 			PARAM_setCntType( FALSE );
-			MOT_setTrgtSpeed( MAP_SEARCH_SPEED );		// 目標速度設定			
-			PARAM_setSpeedType( PARAM_ST, PARAM_SLOW );		// [直進]速度低速
+			MOT_setTrgtSpeed( MAP_SEARCH_SPEED );			// 目標速度設定			
+			PARAM_setSpeedType( PARAM_ST, PARAM_SLOW );	// [直進]速度低速
 			PARAM_setSpeedType( PARAM_TURN, PARAM_SLOW );	// [旋回]速度低速
 			PARAM_setSpeedType( PARAM_SLA, PARAM_SLOW );	// [スラローム]速度低速
 
 			/* 迷路探索 */
 			MAP_setPos(0,0,NORTH);
-			MAP_searchGoal(GOAL_MAP_X, GOAL_MAP_Y, SEARCH, SEARCH_TURN);
+			MAP_searchGoal(GOAL_MAP_X, GOAL_MAP_Y, SEARCH, SEARCH_SURA);
 
 			/* 帰り探索 */
 			TIME_wait(1000);
@@ -116,36 +121,51 @@ PUBLIC void	MODE_exe( void ){
 
 			break;
 			
-		case MODE_2:
+		case MODE_2:		// マップデータのロード
 			LED_offAll();
 			TIME_wait(1000);
-			GYRO_clrAngle();		// 角度リセット
-
-			DIST_Check();
-			break;
-			
-		case MODE_3:
-			LED_offAll();
-			TIME_wait(1500);
-			GYRO_clrAngle();		// 角度リセット
-			
-			CTRL_LogSta();			// ログ開始
-			/* 走行パラメータ */
-			PARAM_setCntType( TRUE );
-			PARAM_setSpeedType( PARAM_ST, PARAM_VERY_SLOW );		// [直進]速度低速
-			PARAM_setSpeedType( PARAM_TURN, PARAM_VERY_SLOW );	// [旋回]速度低速
-			PARAM_setSpeedType( PARAM_SLA, PARAM_VERY_SLOW );	// [スラローム]速度低速
-			
-			//for(i=0;i<1;i++){
-				MOT_turn2(MOT_R180,900.0f);
-				TIME_wait(100);
-			//}
 			LED_onAll();
-
+			MAP_LoadMapData();
+			LED_offAll();
 			break;
 			
-		case MODE_4:
+		case MODE_3:		// 最短走行
 			LED_offAll();
+			MODE_wait();			// 手かざし待機
+			TIME_wait(1500);
+			GYRO_clrAngle();		// 角度リセット
+			
+			/* 走行パラメータ */
+			PARAM_setCntType( TRUE );
+			MOT_setTrgtSpeed(900.0f);
+			MOT_setSlaStaSpeed(500.0f);
+			PARAM_setSpeedType( PARAM_ST, PARAM_SLOW );		// [直進]
+			PARAM_setSpeedType( PARAM_TURN, PARAM_SLOW );		// [旋回]
+			PARAM_setSpeedType( PARAM_SLA, PARAM_SLOW );		// [スラローム]
+
+			/* コマンド作成 */
+			MAP_setPos(0,0,NORTH);
+			MAP_makeContourMap(GOAL_MAP_X,GOAL_MAP_Y,BEST_WAY);
+			MAP_makeCmdList(0,0,NORTH,GOAL_MAP_X,GOAL_MAP_Y,&en_endDir);
+			MAP_makeSuraCmdList();
+			MAP_makeSkewCmdList();
+			
+			/* コマンド走行 */
+			MAP_drive(MAP_DRIVE_SURA);
+			
+			break;
+			
+		case MODE_4:		
+			LED_offAll();
+			TIME_wait(1500);
+			GYRO_clrAngle();		// 角度リセット
+			
+			
+			break;
+			
+		case MODE_5:		// 直進&超信地調整			
+			LED_offAll();
+			MODE_wait();			// 手かざし待機
 			TIME_wait(1500);
 			GYRO_clrAngle();		// 角度リセット
 			
@@ -153,36 +173,30 @@ PUBLIC void	MODE_exe( void ){
 
 			/* 走行パラメータ */
 			PARAM_setCntType( TRUE );
-			MOT_setTrgtSpeed( 500.0f );						// 目標速度設定
-			PARAM_setSpeedType( PARAM_ST, PARAM_VERY_SLOW );		// [直進]速度低速
-			PARAM_setSpeedType( PARAM_TURN, PARAM_VERY_SLOW );	// [旋回]速度低速
-			PARAM_setSpeedType( PARAM_SLA, PARAM_VERY_SLOW );	// [スラローム]速度低速
+			MOT_setTrgtSpeed( MAP_SEARCH_SPEED );						// 目標速度設定
+			PARAM_setSpeedType( PARAM_ST, PARAM_SLOW );	// [直進]
+			PARAM_setSpeedType( PARAM_TURN, PARAM_SLOW );	// [旋回]
+			PARAM_setSpeedType( PARAM_SLA, PARAM_SLOW );	// [スラローム]
 
-			MOT_goBlock_FinSpeed(2,0);
-
+			//MOT_goBlock_FinSpeed(3,0);
+			MOT_turn2(MOT_L90,700.0f);
+			TIME_wait(100);
+			
+			LED_onAll();
+			
 			break;
 			
-		case MODE_5:
-			LED_offAll();
-			TIME_wait(1000);
-			GYRO_clrAngle();		// 角度リセット
-
-			while(1){
-				printf("Accel:%f[g]\r",GYRO_getNowAccel());
-				TIME_wait(100);
-			}
-
-			break;
-			
-		case MODE_6:
+		case MODE_6:	// ログ関係
 			LED_offAll();
 			TIME_wait(100);
 			CTRL_showLog();		// ログの掃き出し
+			//MAP_showLog();
 
 			break;
 			
 		case MODE_7:	// スラローム調整
 			LED_offAll();
+			MODE_wait();			// 手かざし待機
 			TIME_wait(1500);
 			GYRO_clrAngle();		// 角度リセット
 			
@@ -195,25 +209,33 @@ PUBLIC void	MODE_exe( void ){
 			PARAM_setSpeedType( PARAM_TURN, PARAM_SLOW );	// [旋回]速度低速
 			PARAM_setSpeedType( PARAM_SLA, PARAM_SLOW );	// [スラローム]速度低速
 
-			PARAM_makeSla(500.0f, 200.0f, 5300.0f, SLA_90, PARAM_SLOW);		// スラロームデータ生成
-			MOT_goBlock_FinSpeed(0.5,500.0f);				// 半区画走行
-			MOT_goSla( MOT_R90S, PARAM_getSra( SLA_90 ) );	// スラローム
+			PARAM_makeSla(500.0f, 200.0f, 5300.0f, SLA_90, PARAM_SLOW);		// スラロームデータ生成			
+			MOT_goBlock_FinSpeed(1.5f+MOVE_BACK_DIST,500.0f);				// 半区画走行
 			MOT_goSla( MOT_L90S, PARAM_getSra( SLA_90 ) );	// スラローム
-			MOT_goBlock_FinSpeed(0.5,0);					// 半区画走行
+//			MOT_goBlock_FinSpeed(1.0f,500.0f);				// 半区画走行
+			MOT_goSla( MOT_R90S, PARAM_getSra( SLA_90 ) );	// スラローム
 
+			MOT_goBlock_FinSpeed(1.0f,500.0f);				// 半区画走行
+
+			MOT_goSla( MOT_L90S, PARAM_getSra( SLA_90 ) );	// スラローム
+/*
+			MOT_goBlock_FinSpeed(1.0f,500.0f);				// 半区画走行
+			MOT_goSla( MOT_R90S, PARAM_getSra( SLA_90 ) );	// スラローム
+			MOT_goBlock_FinSpeed(1.0f,500.0f);				// 半区画走行
+*/
+
+			LED_onAll();
+
+			MOT_goBlock_FinSpeed(2.5f,0);					// 半区画走行
 			break;
 			
 		case MODE_8:	// マップデータの消去
 			LED_onAll();
 			TIME_wait(1000);
-			SPK_on(F4,16.0f,120);
-			SPK_on(E4,16.0f,120);
-			SPK_on(Eb4,16.0f,120);
-			//MAP_ClearMapData();
+			MAP_ClearMapData();
 			LED_offAll();
 			break;
-
-			
+	
 		default:
 			break;
 			
@@ -435,4 +457,27 @@ PUBLIC BOOL MODE_CheckExe(){
 	}
 	
 	return bl_check;
+}
+
+// *************************************************************************
+//   機能		： 手をかざすと待機状態に入り、かざしてから離すと実行
+//   注意		： なし
+//   メモ		： なし
+//   引数		： なし
+//   返り値		： 待機状態から抜け出す：true	それ以外：false
+// **************************    履    歴    *******************************
+// 		v1.0		2018.8.16			吉田			新規
+// *************************************************************************/
+PRIVATE void MODE_wait( void ){
+
+	while(1){
+		LED_onAll();
+
+		if(( true == MODE_DistRightCheck() ) && ( true == MODE_DistLeftCheck() )){
+			LED_offAll();
+			TIME_wait(1000);
+			break;
+		}	
+	}
+
 }

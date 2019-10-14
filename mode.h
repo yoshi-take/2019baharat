@@ -59,5 +59,6 @@ typedef enum{
 //**************************************************
 PUBLIC void MODE_inc(void);
 PUBLIC void	MODE_exe( void );
+PRIVATE void MODE_wait( void );
 
 #endif

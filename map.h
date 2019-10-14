@@ -288,6 +288,7 @@ extern PUBLIC UCHAR			mx;												// マウスのＹ座標
 PUBLIC void MAP_clearMap( void );
 PUBLIC void MAP_ClearMapData( void );
 PUBLIC void MAP_LoadMapData(void);
+PUBLIC void MAP_SaveMapData( void );
 PUBLIC void MAP_init( void );
 PUBLIC void MAP_showLog( void );
 

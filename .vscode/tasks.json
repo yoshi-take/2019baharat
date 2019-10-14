@@ -9,7 +9,7 @@
             "command": "C:/Program Files (x86)/Renesas Electronics/CS+/CC/CubeSuite+.exe",
             "args":[    // 引数指定
                 "/bb",  // ビルドを実行
-                "C:/Users/TAKERU/OneDrive/denken/2019baharat_vscode/2019baharat.mtpj",  // プロジェクトファイル(.mtpj)をディレクトリから指定する
+                "C:/Users/tktko.DESKTOP-DB11MAM/oneDrive/denken/2019baharat_vscode/2019baharat.mtpj",  // プロジェクトファイル(.mtpj)をディレクトリから指定する
             ],
             "group":{
                 "kind": "build",

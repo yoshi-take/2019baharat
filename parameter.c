@@ -71,7 +71,7 @@ PRIVATE	BOOL				bl_cntType		= false;			// ÉJÉEÉìÉgÉ^ÉCÉv(false:íTçıÅAtrue:ç≈íZ)
 	PRIVATE	CONST stSPEED	f_TurnSpeedData[PARAM_MOVE_SPEED_MAX]	= {
 		
 		// â¡ë¨ìx		å∏ë¨ìx		äpë¨ìx		äpå∏ë¨ìx
-		{ 0,			0,			2000,		3000		},		// í¥í·ë¨(PARAM_VERY_SLOW)
+		{ 0,			0,			2000,		2000		},		// í¥í·ë¨(PARAM_VERY_SLOW)
 		{ 0,			0,			2200,		2200		},		// í·ë¨(PARAM_SLOW)
 		{ 0,			0,			1800,		1800		},		// í èÌ(PARAM_NORMAL)
 		{ 0,			0,			1800,		1800		},		// çÇë¨(PARAM_FAST)
@@ -101,84 +101,84 @@ PRIVATE	BOOL				bl_cntType		= false;			// ÉJÉEÉìÉgÉ^ÉCÉv(false:íTçıÅAtrue:ç≈íZ)
 	PRIVATE CONST stGAIN f_StGainData[PARAM_MOVE_SPEED_MAX][PARAM_ST_MAX] = {
 		
 		/* í¥í·ë¨(PARAM_VERY_SLOW) */
-		{	// FF		ë¨ìxkp		ë¨ìxki		à íukp		à íuki		äpë¨ìxkp	 äpë¨ìxki	  äpìxkp	  äpìxki	   ï«kp		   ï«kd
-			{0.07f,		1.7f,		0.0f,		0.0f,		0.0f,		0.2f,		0.0f,		3.0f,		0.02f,		0.0f,		0.0f,	},		// PARAM_ACC		
-			{0.28f,		1.7f,		0.0f,		0.0f,		0.0f,		0.2f,		0.0f,		3.0f,		0.02f,		0.0f,		0.0f,	},		// PARAM_CONST
-			{0.0f,		1.7f,		0.0f,		1.5f,		0.2f,		0.08f,		0.0f,		3.0f,		0.02f,		0.0f,		0.0f,	},		// PARAM_DEC
-			{0.0f,		0.7f,		0.0f,		5.5f,		0.01f,		0.04f,		0.0f,		8.0f,		0.05f,		0.025f,		0.01f,	},		// PARAM_BACK_ACC
-			{0.0f,		0.7f,		0.0f,		5.5f,		0.01f,		0.04f,		0.0f,		8.0f,		0.05f,		0.025f,		0.01f,	},		// PARAM_BACK_CONST
-			{0.0f,		0.7f,		0.0f,		5.5f,		0.01f,		0.04f,		0.0f,		8.0f,		0.05f,		0.025f,		0.01f,	},		// PARAM_BACK_DEC
-			{0.0f,		0.7f,		0.0f,		5.5f,		0.01f,		0.04f,		0.0f,		8.0f,		0.05f,		0.025f,		0.01f,	},		// PARAM_SKEW_ACC
-			{0.0f,		0.7f,		0.0f,		5.5f,		0.01f,		0.04f,		0.0f,		8.0f,		0.05f,		0.025f,		0.01f,	},		// PARAM_SKEW_CONST
-			{0.0f,		0.7f,		0.0f,		5.5f,		0.01f,		0.04f,		0.0f,		8.0f,		0.05f,		0.025f,		0.01f,	},		// PARAM_SKEW_DEC
-			{0.12f,		0,			0.0f,		0,			0,			0,			0.0f,		0,			0,			0,			0,		},		// PARAM_HIT_WALL
-			{0.1f,		0.0f,		0.0f,		0.0f,		0.0f,		0.08f,		0.0f,		2.0f,		0.0f,		0.03f,		0.0f,	},		// PARAM_ACC_SMOOTH		
-			{0.0f,		0.0f,		0.0f,		0.0f,		0.0f,		0.08f,		0.0f,		2.0f,		0.0f,		0.03f,		0.0f,	},		// PARAM_CONST_SMOOTH
-			{0.0f,		0.0f,		0.0f,		4.0f,		0.15f,		0.08f,		0.0f,		2.0f,		0.0f,		0.015f,		0.0f,	},		// PARAM_DEC_SMOOTH
+		{// FF_â¡ë¨ìx	FF_ë¨ìx		FF_äpâ¡ë¨ìx	 FF_äpë¨ìx	  ë¨ìxkp	  ë¨ìxki	  à íukp	  à íuki	  äpë¨ìxkp	   äpë¨ìxki		äpìxkp		äpìxki		 ï«kp	 	ï«kd
+			{0.07f,		0.0f,		0.0f,		0.0f,		1.7f,		0.0f,		0.0f,		0.0f,		0.2f,		0.0f,		3.0f,		0.1f,		0.2f,		0.0f,	},		// PARAM_ACC		
+			{0.28f,		0.0f,		0.0f,		0.0f,		1.7f,		0.0f,		0.0f,		0.0f,		0.2f,		0.0f,		3.0f,		0.1f,		0.2f,		0.0f,	},		// PARAM_CONST
+			{0.0f,		0.0f,		0.0f,		0.0f,		1.7f,		0.0f,		1.5f,		0.2f,		0.08f,		0.0f,		3.0f,		0.1f,		0.2f,		0.0f,	},		// PARAM_DEC
+			{0.0f,		0.0f,		0.0f,		0.0f,		0.7f,		0.0f,		5.5f,		0.01f,		0.04f,		0.0f,		8.0f,		0.05f,		0.025f,		0.01f,	},		// PARAM_BACK_ACC
+			{0.0f,		0.0f,		0.0f,		0.0f,		0.7f,		0.0f,		5.5f,		0.01f,		0.04f,		0.0f,		8.0f,		0.05f,		0.025f,		0.01f,	},		// PARAM_BACK_CONST
+			{0.0f,		0.0f,		0.0f,		0.0f,		0.7f,		0.0f,		5.5f,		0.01f,		0.04f,		0.0f,		8.0f,		0.05f,		0.025f,		0.01f,	},		// PARAM_BACK_DEC
+			{0.0f,		0.0f,		0.0f,		0.0f,		0.7f,		0.0f,		5.5f,		0.01f,		0.04f,		0.0f,		8.0f,		0.05f,		0.025f,		0.01f,	},		// PARAM_SKEW_ACC
+			{0.0f,		0.0f,		0.0f,		0.0f,		0.7f,		0.0f,		5.5f,		0.01f,		0.04f,		0.0f,		8.0f,		0.05f,		0.025f,		0.01f,	},		// PARAM_SKEW_CONST
+			{0.0f,		0.0f,		0.0f,		0.0f,		0.7f,		0.0f,		5.5f,		0.01f,		0.04f,		0.0f,		8.0f,		0.05f,		0.025f,		0.01f,	},		// PARAM_SKEW_DEC
+			{0.12f,		0.0f,		0.0f,		0.0f,		0,			0.0f,		0,			0,			0,			0.0f,		0,			0,			0,			0,		},		// PARAM_HIT_WALL
+			{0.1f,		0.0f,		0.0f,		0.0f,		0.0f,		0.0f,		0.0f,		0.0f,		0.08f,		0.0f,		2.0f,		0.0f,		0.03f,		0.0f,	},		// PARAM_ACC_SMOOTH		
+			{0.0f,		0.0f,		0.0f,		0.0f,		0.0f,		0.0f,		0.0f,		0.0f,		0.08f,		0.0f,		2.0f,		0.0f,		0.03f,		0.0f,	},		// PARAM_CONST_SMOOTH
+			{0.0f,		0.0f,		0.0f,		0.0f,		0.0f,		0.0f,		4.0f,		0.15f,		0.08f,		0.0f,		2.0f,		0.0f,		0.015f,		0.0f,	},		// PARAM_DEC_SMOOTH
 		},
 		/* í·ë¨(PARAM_SLOW) */
-		{	// FF		ë¨ìxkp		ë¨ìxki		à íukp		à íuki		äpë¨ìxkp	 äpë¨ìxki	  äpìxkp	  äpìxki	   ï«kp		   ï«kd
-			{0.07f,		3.0f,		0.0f,		0.0f,		0.0f,		1.0f,		0.0f,		3.5f,		0.2f,		3.0f,		0.0f,	},		// PARAM_ACC		
-			{0.0f,		5.0f,		0.0f,		0.0f,		0.0f,		1.0f,		0.0f,		3.5f,		0.2f,		3.0f,		0.0f,	},		// PARAM_CONST
-			{0.0f,		2.0f,		0.0f,		1.5f,		0.2f,		1.0f,		0.0f,		3.0f,		0.2f,		3.0f,		0.0f,	},		// PARAM_DEC
-			{0.1f,		0.7f,		0.0f,		0.0f,		0.0f,		0.5f,		0.0f,		4.0f,		0.0f,		0.48f,		0.01f,	},		// PARAM_BACK_ACC
-			{0.0f,		0.7f,		0.0f,		0.0f,		0.0f,		0.5f,		0.0f,		4.0f,		0.0f,		0.48f,		0.01f,	},		// PARAM_BACK_CONST
-			{0.0f,		0.7f,		0.0f,		7.0f,		0.0f,		0.5f,		0.0f,		4.0f,		0.0f,		0.48f,		0.01f,	},		// PARAM_BACK_DEC
-			{0.05f,		5.0f,		0.0f,		0.0f,		0.0f,		0.5f,		0.0f,		4.0f,		0.0f,		0.0f,		0.0f,	},		// PARAM_SKEW_ACC
-			{0.0f,		5.0f,		0.0f,		0.0f,		0.0f,		0.5f,		0.0f,		4.0f,		0.0f,		0.0f,		0.0f,	},		// PARAM_SKEW_CONST
-			{0.0f,		5.0f,		0.0f,		15.0f,		0.0f,		0.5f,		0.0f,		4.0f,		0.0f,		0.0f,		0.0f,	},		// PARAM_SKEW_DEC
-			{0.07f,		3.0f,		0.0f,		0.0f,		0.0f,		1.0f,		0.0f,		3.5f,		0.2f,		2.0f,		0.0,	},		// PARAM_HIT_WALL
-			{0.07f,		1.5f,		0.0f,		0.0f,		0.0f,		0.5f,		0.0f,		4.0f,		0.0f,		0.095f,		0.0f,	},		// PARAM_ACC_SMOOTH		
-			{0.0f,		1.5f,		0.0f,		0.0f,		0.0f,		0.08f,		0.0f,		4.0f,		0.0f,		0.095f,		0.0f,	},		// PARAM_CONST_SMOOTH
-			{0.0f,		1.5f,		0.0f,		0.0f,		0.0f,		0.08f,		0.0f,		4.0f,		0.0f,		0.095f,		0.0f,	},		// PARAM_DEC_SMOOTH
+		{// FF_â¡ë¨ìx	FF_ë¨ìx		FF_äpâ¡ë¨ìx	 FF_äpë¨ìx	  ë¨ìxkp	  ë¨ìxki	  à íukp	  à íuki	  äpë¨ìxkp	   äpë¨ìxki		äpìxkp		äpìxki		 ï«kp	 	ï«kd
+			{0.055f,	0.2f,		0.0f,		0.0f,		1.0f,		0.0f,		0.0f,		0.0f,		0.2f,		0.0f,		3.0f,		0.5f,		0.1f,		0.0f,	},		// PARAM_ACC		
+			{0.0f,		0.3f,		0.0f,		0.0f,		1.0f,		0.0f,		0.0f,		0.0f,		0.2f,		0.0f,		3.0f,		0.5f,		0.1f,		0.0f,	},		// PARAM_CONST
+			{0.01f,		0.2f,		0.0f,		0.0f,		1.0f,		0.0f,		3.0f,		1.0f,		0.2f,		0.0f,		3.0f,		0.5f,		0.1f,		0.0f,	},		// PARAM_DEC
+			{0.0f,		0.0f,		0.0f,		0.0f,		0.7f,		0.0f,		5.5f,		0.01f,		0.04f,		0.0f,		8.0f,		0.05f,		0.025f,		0.01f,	},		// PARAM_BACK_ACC
+			{0.0f,		0.0f,		0.0f,		0.0f,		0.7f,		0.0f,		5.5f,		0.01f,		0.04f,		0.0f,		8.0f,		0.05f,		0.025f,		0.01f,	},		// PARAM_BACK_CONST
+			{0.0f,		0.0f,		0.0f,		0.0f,		0.7f,		0.0f,		5.5f,		0.01f,		0.04f,		0.0f,		8.0f,		0.05f,		0.025f,		0.01f,	},		// PARAM_BACK_DEC
+			{0.0f,		0.0f,		0.0f,		0.0f,		0.7f,		0.0f,		5.5f,		0.01f,		0.04f,		0.0f,		8.0f,		0.05f,		0.025f,		0.01f,	},		// PARAM_SKEW_ACC
+			{0.0f,		0.0f,		0.0f,		0.0f,		0.7f,		0.0f,		5.5f,		0.01f,		0.04f,		0.0f,		8.0f,		0.05f,		0.025f,		0.01f,	},		// PARAM_SKEW_CONST
+			{0.0f,		0.0f,		0.0f,		0.0f,		0.7f,		0.0f,		5.5f,		0.01f,		0.04f,		0.0f,		8.0f,		0.05f,		0.025f,		0.01f,	},		// PARAM_SKEW_DEC
+			{0.12f,		0.0f,		0.0f,		0.0f,		0,			0.0f,		0,			0,			0,			0.0f,		0,			0,			0,			0,		},		// PARAM_HIT_WALL
+			{0.1f,		0.0f,		0.0f,		0.0f,		0.0f,		0.0f,		0.0f,		0.0f,		0.08f,		0.0f,		2.0f,		0.0f,		0.03f,		0.0f,	},		// PARAM_ACC_SMOOTH		
+			{0.0f,		0.0f,		0.0f,		0.0f,		0.0f,		0.0f,		0.0f,		0.0f,		0.08f,		0.0f,		2.0f,		0.0f,		0.03f,		0.0f,	},		// PARAM_CONST_SMOOTH
+			{0.0f,		0.0f,		0.0f,		0.0f,		0.0f,		0.0f,		4.0f,		0.15f,		0.08f,		0.0f,		2.0f,		0.0f,		0.015f,		0.0f,	},		// PARAM_DEC_SMOOTH
 		},
 		/* í èÌ(PARAM_NORMAL) */
-		{	// FF		ë¨ìxkp		ë¨ìxki		à íukp		à íuki		äpë¨ìxkp	 äpë¨ìxki	  äpìxkp	  äpìxki	   ï«kp		   ï«kd
-			{0.05f,		5.0f,		0.0f,		0.0f,		0.0f,		0.5f,		0.0f,		4.0f,		0.0f,		0.48f,		0.1f,	},		// PARAM_ACC		
-			{0.0f,		5.0f,		0.0f,		0.0f,		0.0f,		0.5f,		0.0f,		4.0f,		0.0f,		0.48f,		0.1f,	},		// PARAM_CONST
-			{0.0f,		5.0f,		0.0f,		15.0f,		0.0f,		0.5f,		0.0f,		4.0f,		0.0f,		0.48f,		0.1f,	},		// PARAM_DEC
-			{0.1f,		0.7f,		0.0f,		0.0f,		0.0f,		0.5f,		0.0f,		4.0f,		0.0f,		0.48f,		0.01f,	},		// PARAM_BACK_ACC
-			{0.0f,		0.7f,		0.0f,		0.0f,		0.0f,		0.5f,		0.0f,		4.0f,		0.0f,		0.48f,		0.01f,	},		// PARAM_BACK_CONST
-			{0.0f,		0.7f,		0.0f,		7.0f,		0.0f,		0.5f,		0.0f,		4.0f,		0.0f,		0.48f,		0.01f,	},		// PARAM_BACK_DEC
-			{0.1f,		0.7f,		0.0f,		0.0f,		0.0f,		0.5f,		0.0f,		4.0f,		0.0f,		0.48f,		0.01f,	},		// PARAM_SKEW_ACC
-			{0.0f,		0.7f,		0.0f,		0.0f,		0.0f,		0.5f,		0.0f,		4.0f,		0.0f,		0.48f,		0.01f,	},		// PARAM_SKEW_CONST
-			{0.0f,		0.7f,		0.0f,		7.0f,		0.0f,		0.5f,		0.0f,		4.0f,		0.0f,		0.48f,		0.01f,	},		// PARAM_SKEW_DEC
-			{0.12f,		0,			0.0f,		0,			0,			0,			0.0f,		0,			0,			0,			0,		},		// PARAM_HIT_WALL
-			{0.07f,		1.5f,		0.0f,		0.0f,		0.0f,		0.5f,		0.0f,		4.0f,		0.0f,		0.095f,		0.0f,	},		// PARAM_ACC_SMOOTH		
-			{0.0f,		1.5f,		0.0f,		0.0f,		0.0f,		0.08f,		0.0f,		4.0f,		0.0f,		0.095f,		0.0f,	},		// PARAM_CONST_SMOOTH
-			{0.0f,		1.5f,		0.0f,		0.0f,		0.0f,		0.08f,		0.0f,		4.0f,		0.0f,		0.095f,		0.0f,	},		// PARAM_DEC_SMOOTH
+		{// FF_â¡ë¨ìx	FF_ë¨ìx		FF_äpâ¡ë¨ìx	 FF_äpë¨ìx	  ë¨ìxkp	  ë¨ìxki	  à íukp	  à íuki	  äpë¨ìxkp	   äpë¨ìxki		äpìxkp		äpìxki		 ï«kp	 	ï«kd
+			{0.05f,		0.0f,		0.0f,		0.0f,		5.0f,		0.0f,		0.0f,		0.0f,		0.5f,		0.0f,		4.0f,		0.0f,		0.48f,		0.1f,	},		// PARAM_ACC		
+			{0.0f,		0.0f,		0.0f,		0.0f,		5.0f,		0.0f,		0.0f,		0.0f,		0.5f,		0.0f,		4.0f,		0.0f,		0.48f,		0.1f,	},		// PARAM_CONST
+			{0.0f,		0.0f,		0.0f,		0.0f,		5.0f,		0.0f,		15.0f,		0.0f,		0.5f,		0.0f,		4.0f,		0.0f,		0.48f,		0.1f,	},		// PARAM_DEC
+			{0.1f,		0.0f,		0.0f,		0.0f,		0.7f,		0.0f,		0.0f,		0.0f,		0.5f,		0.0f,		4.0f,		0.0f,		0.48f,		0.01f,	},		// PARAM_BACK_ACC
+			{0.0f,		0.0f,		0.0f,		0.0f,		0.7f,		0.0f,		0.0f,		0.0f,		0.5f,		0.0f,		4.0f,		0.0f,		0.48f,		0.01f,	},		// PARAM_BACK_CONST
+			{0.0f,		0.0f,		0.0f,		0.0f,		0.7f,		0.0f,		7.0f,		0.0f,		0.5f,		0.0f,		4.0f,		0.0f,		0.48f,		0.01f,	},		// PARAM_BACK_DEC
+			{0.1f,		0.0f,		0.0f,		0.0f,		0.7f,		0.0f,		0.0f,		0.0f,		0.5f,		0.0f,		4.0f,		0.0f,		0.48f,		0.01f,	},		// PARAM_SKEW_ACC
+			{0.0f,		0.0f,		0.0f,		0.0f,		0.7f,		0.0f,		0.0f,		0.0f,		0.5f,		0.0f,		4.0f,		0.0f,		0.48f,		0.01f,	},		// PARAM_SKEW_CONST
+			{0.0f,		0.0f,		0.0f,		0.0f,		0.7f,		0.0f,		7.0f,		0.0f,		0.5f,		0.0f,		4.0f,		0.0f,		0.48f,		0.01f,	},		// PARAM_SKEW_DEC
+			{0.12f,		0.0f,		0.0f,		0.0f,		0,			0.0f,		0,			0,			0,			0.0f,		0,			0,			0,			0,		},		// PARAM_HIT_WALL
+			{0.07f,		0.0f,		0.0f,		0.0f,		1.5f,		0.0f,		0.0f,		0.0f,		0.5f,		0.0f,		4.0f,		0.0f,		0.095f,		0.0f,	},		// PARAM_ACC_SMOOTH		
+			{0.0f,		0.0f,		0.0f,		0.0f,		1.5f,		0.0f,		0.0f,		0.0f,		0.08f,		0.0f,		4.0f,		0.0f,		0.095f,		0.0f,	},		// PARAM_CONST_SMOOTH
+			{0.0f,		0.0f,		0.0f,		0.0f,		1.5f,		0.0f,		0.0f,		0.0f,		0.08f,		0.0f,		4.0f,		0.0f,		0.095f,		0.0f,	},		// PARAM_DEC_SMOOTH
 		},
 		/* çÇë¨(PARAM_FAST) */
-		{	// FF		ë¨ìxkp		ë¨ìxki		à íukp		à íuki		äpë¨ìxkp	 äpë¨ìxki	  äpìxkp	  äpìxki	   ï«kp		   ï«kd
-			{0.05f,		5.0f,		0.0f,		0.0f,		0.0f,		0.5f,		0.0f,		4.0f,		0.0f,		0.48f,		0.01f,	},		// PARAM_ACC		
-			{0.0f,		5.0f,		0.0f,		0.0f,		0.0f,		0.5f,		0.0f,		4.0f,		0.0f,		0.48f,		0.01f,	},		// PARAM_CONST
-			{0.0f,		5.0f,		0.0f,		15.0f,		0.0f,		0.5f,		0.0f,		4.0f,		0.0f,		0.2f,		0.0f,	},		// PARAM_DEC
-			{0.1f,		0.7f,		0.0f,		0.0f,		0.0f,		0.5f,		0.0f,		4.0f,		0.0f,		0.48f,		0.01f,	},		// PARAM_BACK_ACC
-			{0.0f,		0.7f,		0.0f,		0.0f,		0.0f,		0.5f,		0.0f,		4.0f,		0.0f,		0.48f,		0.01f,	},		// PARAM_BACK_CONST
-			{0.0f,		0.7f,		0.0f,		7.0f,		0.0f,		0.5f,		0.0f,		4.0f,		0.0f,		0.48f,		0.01f,	},		// PARAM_BACK_DEC
-			{0.1f,		0.7f,		0.0f,		0.0f,		0.0f,		0.5f,		0.0f,		4.0f,		0.0f,		0.48f,		0.01f,	},		// PARAM_SKEW_ACC
-			{0.0f,		0.7f,		0.0f,		0.0f,		0.0f,		0.5f,		0.0f,		4.0f,		0.0f,		0.48f,		0.01f,	},		// PARAM_SKEW_CONST
-			{0.0f,		0.7f,		0.0f,		7.0f,		0.0f,		0.5f,		0.0f,		4.0f,		0.0f,		0.48f,		0.01f,	},		// PARAM_SKEW_DEC
-			{0.12f,		0,			0.0f,		0,			0,			0,			0.0f,		0,			0,			0,			0,		},		// PARAM_HIT_WALL
-			{0.07f,		1.5f,		0.0f,		0.0f,		0.0f,		0.5f,		0.0f,		4.0f,		0.0f,		0.095f,		0.0f,	},		// PARAM_ACC_SMOOTH		
-			{0.0f,		1.5f,		0.0f,		0.0f,		0.0f,		0.08f,		0.0f,		4.0f,		0.0f,		0.095f,		0.0f,	},		// PARAM_CONST_SMOOTH
-			{0.0f,		1.5f,		0.0f,		0.0f,		0.0f,		0.08f,		0.0f,		4.0f,		0.0f,		0.095f,		0.0f,	},		// PARAM_DEC_SMOOTH
+		{// FF_â¡ë¨ìx	FF_ë¨ìx		FF_äpâ¡ë¨ìx	 FF_äpë¨ìx	  ë¨ìxkp	  ë¨ìxki	  à íukp	  à íuki	  äpë¨ìxkp	   äpë¨ìxki		äpìxkp		äpìxki		 ï«kp	 	ï«kd
+			{0.05f,		0.0f,		0.0f,		0.0f,		5.0f,		0.0f,		0.0f,		0.0f,		0.5f,		0.0f,		4.0f,		0.0f,		0.48f,		0.01f,	},		// PARAM_ACC		
+			{0.0f,		0.0f,		0.0f,		0.0f,		5.0f,		0.0f,		0.0f,		0.0f,		0.5f,		0.0f,		4.0f,		0.0f,		0.48f,		0.01f,	},		// PARAM_CONST
+			{0.0f,		0.0f,		0.0f,		0.0f,		5.0f,		0.0f,		15.0f,		0.0f,		0.5f,		0.0f,		4.0f,		0.0f,		0.2f,		0.0f,	},		// PARAM_DEC
+			{0.1f,		0.0f,		0.0f,		0.0f,		0.7f,		0.0f,		0.0f,		0.0f,		0.5f,		0.0f,		4.0f,		0.0f,		0.48f,		0.01f,	},		// PARAM_BACK_ACC
+			{0.0f,		0.0f,		0.0f,		0.0f,		0.7f,		0.0f,		0.0f,		0.0f,		0.5f,		0.0f,		4.0f,		0.0f,		0.48f,		0.01f,	},		// PARAM_BACK_CONST
+			{0.0f,		0.0f,		0.0f,		0.0f,		0.7f,		0.0f,		7.0f,		0.0f,		0.5f,		0.0f,		4.0f,		0.0f,		0.48f,		0.01f,	},		// PARAM_BACK_DEC
+			{0.1f,		0.0f,		0.0f,		0.0f,		0.7f,		0.0f,		0.0f,		0.0f,		0.5f,		0.0f,		4.0f,		0.0f,		0.48f,		0.01f,	},		// PARAM_SKEW_ACC
+			{0.0f,		0.0f,		0.0f,		0.0f,		0.7f,		0.0f,		0.0f,		0.0f,		0.5f,		0.0f,		4.0f,		0.0f,		0.48f,		0.01f,	},		// PARAM_SKEW_CONST
+			{0.0f,		0.0f,		0.0f,		0.0f,		0.7f,		0.0f,		7.0f,		0.0f,		0.5f,		0.0f,		4.0f,		0.0f,		0.48f,		0.01f,	},		// PARAM_SKEW_DEC
+			{0.12f,		0.0f,		0.0f,		0.0f,		0,			0.0f,		0,			0,			0,			0.0f,		0,			0,			0,			0,		},		// PARAM_HIT_WALL
+			{0.07f,		0.0f,		0.0f,		0.0f,		1.5f,		0.0f,		0.0f,		0.0f,		0.5f,		0.0f,		4.0f,		0.0f,		0.095f,		0.0f,	},		// PARAM_ACC_SMOOTH		
+			{0.0f,		0.0f,		0.0f,		0.0f,		1.5f,		0.0f,		0.0f,		0.0f,		0.08f,		0.0f,		4.0f,		0.0f,		0.095f,		0.0f,	},		// PARAM_CONST_SMOOTH
+			{0.0f,		0.0f,		0.0f,		0.0f,		1.5f,		0.0f,		0.0f,		0.0f,		0.08f,		0.0f,		4.0f,		0.0f,		0.095f,		0.0f,	},		// PARAM_DEC_SMOOTH
 		},
 		/* í¥çÇë¨(PARAM_VERY_FAST) */
-		{	// FF		ë¨ìxkp		ë¨ìxki		à íukp		à íuki		äpë¨ìxkp	 äpë¨ìxki	  äpìxkp	  äpìxki	   ï«kp		   ï«kd
-			{0.08f,		5.0f,		0.0f,		0.0f,		0.0f,		2.0f,		0.0f,		5.0f,		0.01f,		0.8f,		0.15f,	},		// PARAM_ACC		
-			{0.0f,		5.0f,		0.0f,		0.0f,		0.0f,		2.0f,		0.0f,		5.0f,		0.01f,		0.8f,		0.15f,	},		// PARAM_CONST
-			{0.0f,		5.0f,		0.0f,		15.0f,		0.0f,		1.0f,		0.0f,		5.0f,		0.01f,		0.4f,		0.15f,	},		// PARAM_DEC
-			{0.1f,		0.7f,		0.0f,		0.0f,		0.0f,		0.5f,		0.0f,		4.0f,		0.0f,		0.48f,		0.01f,	},		// PARAM_BACK_ACC
-			{0.0f,		0.7f,		0.0f,		0.0f,		0.0f,		0.5f,		0.0f,		4.0f,		0.0f,		0.48f,		0.01f,	},		// PARAM_BACK_CONST
-			{0.0f,		0.7f,		0.0f,		7.0f,		0.0f,		0.5f,		0.0f,		4.0f,		0.0f,		0.48f,		0.01f,	},		// PARAM_BACK_DEC
-			{0.1f,		0.7f,		0.0f,		0.0f,		0.0f,		0.5f,		0.0f,		4.0f,		0.0f,		0.48f,		0.01f,	},		// PARAM_SKEW_ACC
-			{0.0f,		0.7f,		0.0f,		0.0f,		0.0f,		0.5f,		0.0f,		4.0f,		0.0f,		0.48f,		0.01f,	},		// PARAM_SKEW_CONST
-			{0.0f,		0.7f,		0.0f,		7.0f,		0.0f,		0.5f,		0.0f,		4.0f,		0.0f,		0.48f,		0.01f,	},		// PARAM_SKEW_DEC
-			{0.12f,		0,			0.0f,		0,			0,			0,			0.0f,		0,			0,			0,			0,		},		// PARAM_HIT_WALL
-			{0.07f,		1.5f,		0.0f,		0.0f,		0.0f,		0.5f,		0.0f,		4.0f,		0.0f,		0.095f,		0.0f,	},		// PARAM_ACC_SMOOTH		
-			{0.0f,		1.5f,		0.0f,		0.0f,		0.0f,		0.08f,		0.0f,		4.0f,		0.0f,		0.095f,		0.0f,	},		// PARAM_CONST_SMOOTH
-			{0.0f,		1.5f,		0.0f,		0.0f,		0.0f,		0.08f,		0.0f,		4.0f,		0.0f,		0.095f,		0.0f,	},		// PARAM_DEC_SMOOTH
+		{// FF_â¡ë¨ìx	FF_ë¨ìx		FF_äpâ¡ë¨ìx	 FF_äpë¨ìx	  ë¨ìxkp	  ë¨ìxki	  à íukp	  à íuki	  äpë¨ìxkp	   äpë¨ìxki		äpìxkp		äpìxki		 ï«kp	 	ï«kd
+			{0.08f,		0.0f,		0.0f,		0.0f,		5.0f,		0.0f,		0.0f,		0.0f,		2.0f,		0.0f,		5.0f,		0.01f,		0.8f,		0.15f,	},		// PARAM_ACC		
+			{0.0f,		0.0f,		0.0f,		0.0f,		5.0f,		0.0f,		0.0f,		0.0f,		2.0f,		0.0f,		5.0f,		0.01f,		0.8f,		0.15f,	},		// PARAM_CONST
+			{0.0f,		0.0f,		0.0f,		0.0f,		5.0f,		0.0f,		15.0f,		0.0f,		1.0f,		0.0f,		5.0f,		0.01f,		0.4f,		0.15f,	},		// PARAM_DEC
+			{0.1f,		0.0f,		0.0f,		0.0f,		0.7f,		0.0f,		0.0f,		0.0f,		0.5f,		0.0f,		4.0f,		0.0f,		0.48f,		0.01f,	},		// PARAM_BACK_ACC
+			{0.0f,		0.0f,		0.0f,		0.0f,		0.7f,		0.0f,		0.0f,		0.0f,		0.5f,		0.0f,		4.0f,		0.0f,		0.48f,		0.01f,	},		// PARAM_BACK_CONST
+			{0.0f,		0.0f,		0.0f,		0.0f,		0.7f,		0.0f,		7.0f,		0.0f,		0.5f,		0.0f,		4.0f,		0.0f,		0.48f,		0.01f,	},		// PARAM_BACK_DEC
+			{0.1f,		0.0f,		0.0f,		0.0f,		0.7f,		0.0f,		0.0f,		0.0f,		0.5f,		0.0f,		4.0f,		0.0f,		0.48f,		0.01f,	},		// PARAM_SKEW_ACC
+			{0.0f,		0.0f,		0.0f,		0.0f,		0.7f,		0.0f,		0.0f,		0.0f,		0.5f,		0.0f,		4.0f,		0.0f,		0.48f,		0.01f,	},		// PARAM_SKEW_CONST
+			{0.0f,		0.0f,		0.0f,		0.0f,		0.7f,		0.0f,		7.0f,		0.0f,		0.5f,		0.0f,		4.0f,		0.0f,		0.48f,		0.01f,	},		// PARAM_SKEW_DEC
+			{0.12f,		0.0f,		0.0f,		0.0f,		0,			0.0f,		0,			0,			0,			0.0f,		0,			0,			0,			0,		},		// PARAM_HIT_WALL
+			{0.07f,		0.0f,		0.0f,		0.0f,		1.5f,		0.0f,		0.0f,		0.0f,		0.5f,		0.0f,		4.0f,		0.0f,		0.095f,		0.0f,	},		// PARAM_ACC_SMOOTH		
+			{0.0f,		0.0f,		0.0f,		0.0f,		1.5f,		0.0f,		0.0f,		0.0f,		0.08f,		0.0f,		4.0f,		0.0f,		0.095f,		0.0f,	},		// PARAM_CONST_SMOOTH
+			{0.0f,		0.0f,		0.0f,		0.0f,		1.5f,		0.0f,		0.0f,		0.0f,		0.08f,		0.0f,		4.0f,		0.0f,		0.095f,		0.0f,	},		// PARAM_DEC_SMOOTH
 		},
 	};
 	
@@ -186,34 +186,34 @@ PRIVATE	BOOL				bl_cntType		= false;			// ÉJÉEÉìÉgÉ^ÉCÉv(false:íTçıÅAtrue:ç≈íZ)
 	PRIVATE CONST stGAIN f_TurnGainData[PARAM_MOVE_SPEED_MAX][PARAM_TURN_MAX] = {
 		
 		/* í¥í·ë¨(PARAM_VERY_SLOW) */
-		{	// FF		ë¨ìxkp		ë¨ìxki		à íukp		à íuki		äpë¨ìxkp	 äpë¨ìxki	  äpìxkp	  äpìxki	   ï«kp		   ï«kd
-			{0.065f,	0.0f,		0.0f,		0.0f,		0.0f,		1.8f,		0.0f,		0.0f,		0.0f,		0,			0		},		// PARAM_ACC_TURN
-			{0.0f,		0.0f,		0.0f,		0.0f,		0.0f,		1.8f,		0.0f,		0.0f,		0.0f,		0,			0		},		// PARAM_CONST_TURN
-			{0.0f,		0.0f,		0.0f,		0.0f,		0.0f,		1.0f,		0.0f,		1.5f,		0.2f,		0,			0		},		// PARAM_DEC_TURN
+		{// FF_â¡ë¨ìx	FF_ë¨ìx		FF_äpâ¡ë¨ìx	 FF_äpë¨ìx	  ë¨ìxkp	  ë¨ìxki	  à íukp	  à íuki	  äpë¨ìxkp	   äpë¨ìxki		äpìxkp		äpìxki		 ï«kp	 	ï«kd
+			{0.0f,		0.0f,		0.065f,		0.0f,		0.0f,		0.5f,		0.0f,		0.0f,		2.0f,		0.0f,		0.0f,		0.0f,		0,			0		},		// PARAM_ACC_TURN
+			{0.0f,		0.0f,		0.0f,		0.0f,		0.0f,		0.5f,		0.0f,		0.0f,		1.5f,		0.0f,		0.0f,		0.0f,		0,			0		},		// PARAM_CONST_TURN
+			{0.0f,		0.0f,		0.0f,		0.0f,		0.0f,		0.5f,		0.0f,		0.0f,		1.0f,		0.0f,		1.0f,		0.1f,		0,			0		},		// PARAM_DEC_TURN
 		},
 		/* í·ë¨(PARAM_SLOW) */
-		{	// FF		ë¨ìxkp		ë¨ìxki		à íukp		à íuki		äpë¨ìxkp	 äpë¨ìxki	  äpìxkp	  äpìxki	   ï«kp		   ï«kd
-			{0.065f,	0.0f,		0.0f,		0.0f,		0.0f,		1.8f,		0.0f,		0.0f,		0.0f,		0,			0		},		// PARAM_ACC_TURN
-			{0.0f,		0.0f,		0.0f,		0.0f,		0.0f,		1.8f,		0.0f,		0.0f,		0.0f,		0,			0		},		// PARAM_CONST_TURN
-			{0.0f,		0.0f,		0.0f,		0.0f,		0.0f,		1.0f,		0.0f,		1.5f,		0.2f,		0,			0		},		// PARAM_DEC_TURN
+		{// FF_â¡ë¨ìx	FF_ë¨ìx		FF_äpâ¡ë¨ìx	 FF_äpë¨ìx	  ë¨ìxkp	  ë¨ìxki	  à íukp	  à íuki	  äpë¨ìxkp	   äpë¨ìxki		äpìxkp		äpìxki		 ï«kp	 	ï«kd
+			{0.0f,		0.0f,		0.065f,		0.0f,		0.0f,		0.5f,		0.0f,		0.0f,		2.0f,		0.0f,		0.0f,		0.0f,		0,			0		},		// PARAM_ACC_TURN
+			{0.0f,		0.0f,		0.0f,		0.0f,		0.0f,		0.5f,		0.0f,		0.0f,		1.5f,		0.0f,		0.0f,		0.0f,		0,			0		},		// PARAM_CONST_TURN
+			{0.0f,		0.0f,		0.0f,		0.0f,		0.0f,		0.5f,		0.0f,		0.0f,		1.0f,		0.0f,		1.0f,		0.1f,		0,			0		},		// PARAM_DEC_TURN
 		},
 		/* í èÌ(PARAM_NORMAL) */
-		{	// FF		ë¨ìxkp		ë¨ìxki		à íukp		à íuki		äpë¨ìxkp	 äpë¨ìxki	  äpìxkp	  äpìxki	   ï«kp		   ï«kd
-			{0.06f,		0.5f,		0.0f,		0.09f,		0.0f,		1.7f,		0.0f,		0.0f,		0.0f,		0,			0		},		// PARAM_ACC_TURN
-			{0.0f,		0.5f,		0.0f,		0.09f,		0.0f,		1.7f,		0.0f,		0.0f,		0.0f,		0,			0		},		// PARAM_CONST_TURN
-			{0.0f,		0.5f,		0.0f,		0.09f,		0.0f,		1.5f,		0.0f,		0.054f,		0.0f,		0,			0		},		// PARAM_DEC_TURN
+		{// FF_â¡ë¨ìx	FF_ë¨ìx		FF_äpâ¡ë¨ìx	 FF_äpë¨ìx	  ë¨ìxkp	  ë¨ìxki	  à íukp	  à íuki	  äpë¨ìxkp	   äpë¨ìxki		äpìxkp		äpìxki		 ï«kp	 	ï«kd
+			{0.0f,		0.0f,		0.06f,		0.0f,		0.5f,		0.0f,		0.09f,		0.0f,		1.7f,		0.0f,		0.0f,		0.0f,		0,			0		},		// PARAM_ACC_TURN
+			{0.0f,		0.0f,		0.0f,		0.0f,		0.5f,		0.0f,		0.09f,		0.0f,		1.7f,		0.0f,		0.0f,		0.0f,		0,			0		},		// PARAM_CONST_TURN
+			{0.0f,		0.0f,		0.0f,		0.0f,		0.5f,		0.0f,		0.09f,		0.0f,		1.5f,		0.0f,		0.054f,		0.0f,		0,			0		},		// PARAM_DEC_TURN
 		},
 		/* çÇë¨(PARAM_FAST) */
-		{	// FF		ë¨ìxkp		ë¨ìxki		à íukp		à íuki		äpë¨ìxkp	 äpë¨ìxki	  äpìxkp	  äpìxki	   ï«kp		   ï«kd
-			{0.06f,		0.5f,		0.0f,		0.09f,		0.0f,		1.7f,		0.0f,		0.0f,		0.0f,		0,			0		},		// PARAM_ACC_TURN
-			{0.0f,		0.5f,		0.0f,		0.09f,		0.0f,		1.7f,		0.0f,		0.0f,		0.0f,		0,			0		},		// PARAM_CONST_TURN
-			{0.0f,		0.5f,		0.0f,		0.09f,		0.0f,		1.5f,		0.0f,		0.054f,		0.0f,		0,			0		},		// PARAM_DEC_TURN
+		{// FF_â¡ë¨ìx	FF_ë¨ìx		FF_äpâ¡ë¨ìx	 FF_äpë¨ìx	  ë¨ìxkp	  ë¨ìxki	  à íukp	  à íuki	  äpë¨ìxkp	   äpë¨ìxki		äpìxkp		äpìxki		 ï«kp	 	ï«kd
+			{0.0f,		0.0f,		0.06f,		0.0f,		0.5f,		0.0f,		0.09f,		0.0f,		1.7f,		0.0f,		0.0f,		0.0f,		0,			0		},		// PARAM_ACC_TURN
+			{0.0f,		0.0f,		0.0f,		0.0f,		0.5f,		0.0f,		0.09f,		0.0f,		1.7f,		0.0f,		0.0f,		0.0f,		0,			0		},		// PARAM_CONST_TURN
+			{0.0f,		0.0f,		0.0f,		0.0f,		0.5f,		0.0f,		0.09f,		0.0f,		1.5f,		0.0f,		0.054f,		0.0f,		0,			0		},		// PARAM_DEC_TURN
 		},
 		/* í¥í·ë¨(PARAM_VERY_FAST) */
-		{	// FF		ë¨ìxkp		ë¨ìxki		à íukp		à íuki		äpë¨ìxkp	 äpë¨ìxki	  äpìxkp	  äpìxki	   ï«kp		   ï«kd
-			{0.06f,		0.5f,		0.0f,		0.09f,		0.0f,		1.7f,		0.0f,		0.0f,		0.0f,		0,			0		},		// PARAM_ACC_TURN
-			{0.0f,		0.5f,		0.0f,		0.09f,		0.0f,		1.7f,		0.0f,		0.0f,		0.0f,		0,			0		},		// PARAM_CONST_TURN
-			{0.0f,		0.5f,		0.0f,		0.09f,		0.0f,		1.5f,		0.0f,		0.054f,		0.0f,		0,			0		},		// PARAM_DEC_TURN
+		{// FF_â¡ë¨ìx	FF_ë¨ìx		FF_äpâ¡ë¨ìx	 FF_äpë¨ìx	  ë¨ìxkp	  ë¨ìxki	  à íukp	  à íuki	  äpë¨ìxkp	   äpë¨ìxki		äpìxkp		äpìxki		 ï«kp	 	ï«kd
+			{0.0f,		0.0f,		0.06f,		0.0f,		0.5f,		0.0f,		0.09f,		0.0f,		1.7f,		0.0f,		0.0f,		0.0f,		0,			0		},		// PARAM_ACC_TURN
+			{0.0f,		0.0f,		0.0f,		0.0f,		0.5f,		0.0f,		0.09f,		0.0f,		1.7f,		0.0f,		0.0f,		0.0f,		0,			0		},		// PARAM_CONST_TURN
+			{0.0f,		0.0f,		0.0f,		0.0f,		0.5f,		0.0f,		0.09f,		0.0f,		1.5f,		0.0f,		0.054f,		0.0f,		0,			0		},		// PARAM_DEC_TURN
 		},
 	};
 	
@@ -221,48 +221,48 @@ PRIVATE	BOOL				bl_cntType		= false;			// ÉJÉEÉìÉgÉ^ÉCÉv(false:íTçıÅAtrue:ç≈íZ)
 	PRIVATE CONST stGAIN f_SlaGainData[PARAM_MOVE_SPEED_MAX][PARAM_SULA_MAX] = {
 		
 		/* í¥í·ë¨(PARAM_VERY_SLOW) */
-		{	// FF		ë¨ìxkp		ë¨ìxki		à íukp		à íuki		äpë¨ìxkp	 äpë¨ìxki	  äpìxkp	  äpìxki	   ï«kp		   ï«kd
-			{0.0f,		0.7f,		0.0f,		0.0f,		0.0f,		0.5f,		0.0f,		4.0f,		0.0f,		0.48f,		0.01f	},		// PARAM_ENTRY_SLA
-			{0.0f,		0.7f,		0.0f,		0.0f,		0.0f,		0.34f,		0.0f,		12.0f,		0.0f,		0.0f,		0.0f	},		// PARAM_ACC_SLA
-			{0.0f,		0.7f,		0.0f,		0.0f,		0.0f,		0.34f,		0.0f,		12.0f,		0.0f,		0.0f,		0.0f	},		// PARAM_CONST_SLA
-			{0.0f,		0.7f,		0.0f,		0.0f,		0.0f,		0.34f,		0.0f,		12.0f,		0.0f,		0.0f,		0.0f	},		// PARAM_DEC_SLA
-			{0.0f,		0.7f,		0.0f,		0.0f,		0.0f,		0.5f,		0.0f,		4.0f,		0.0f,		0.48f,		0.01f,	},		// PARAM_EXIT_SLA
+		{// FF_â¡ë¨ìx	FF_ë¨ìx		FF_äpâ¡ë¨ìx	 FF_äpë¨ìx	  ë¨ìxkp	  ë¨ìxki	  à íukp	  à íuki	  äpë¨ìxkp	   äpë¨ìxki		äpìxkp		äpìxki		 ï«kp	 	ï«kd
+			{0.0f,		0.3f,		0.0f,		0.0f,		1.0f,		0.0f,		0.0f,		0.0f,		0.2f,		0.0f,		3.0f,		0.5f,		0.0f,		0.0f,	},		// PARAM_ENTRY_SLA
+			{0.0f,		0.3f,		0.01f,		0.18f,		1.0f,		0.0f,		0.0f,		0.0f,		0.7f,		0.0f,		0.0f,		0.0f,		0.0f,		0.0f	},		// PARAM_ACC_SLA
+			{0.0f,		0.3f,		0.0f,		0.2f,		1.0f,		0.0f,		0.0f,		0.0f,		0.7f,		0.0f,		0.0f,		0.0f,		0.0f,		0.0f	},		// PARAM_CONST_SLA
+			{0.0f,		0.3f,		0.0f,		0.0f,		1.0f,		0.0f,		0.0f,		0.0f,		0.7f,		0.0f,		0.0f,		0.0f,		0.0f,		0.0f	},		// PARAM_DEC_SLA
+			{0.0f,		0.3f,		0.0f,		0.0f,		1.0f,		0.0f,		0.0f,		0.0f,		0.2f,		0.0f,		3.0f,		0.5f,		0.0f,		0.0f,	},		// PARAM_EXIT_SLA
 		},
 		
 		/* í·ë¨(PARAM_SLOW) */
-		{	// FF		ë¨ìxkp		ë¨ìxki		à íukp		à íuki		äpë¨ìxkp	 äpë¨ìxki	  äpìxkp	  äpìxki	   ï«kp		   ï«kd
-			{0.0f,		5.0f,		0.0f,		0.0f,		0.0f,		1.0f,		0.0f,		3.5f,		0.0f,		0.0f,		0.0f,	},		// PARAM_ENTRY_SLA
-			{0.0f,		1.5f,		0.0f,		0.0f,		0.0f,		0.7f,		0.0f,		1.0f,		0.0f,		0.0f,		0.0f	},		// PARAM_ACC_SLA
-			{0.0f,		1.5f,		0.0f,		0.0f,		0.0f,		0.7f,		0.0f,		1.0f,		0.0f,		0.0f,		0.0f	},		// PARAM_CONST_SLA
-			{0.0f,		1.5f,		0.0f,		0.0f,		0.0f,		0.7f,		0.0f,		1.0f,		0.0f,		0.0f,		0.0f	},		// PARAM_DEC_SLA
-			{0.0f,		5.0f,		0.0f,		0.0f,		0.0f,		1.0f,		0.0f,		3.5f,		0.0f,		0.0f,		0.0f,	},		// PARAM_EXIT_SLA
+		{// FF_â¡ë¨ìx	FF_ë¨ìx		FF_äpâ¡ë¨ìx	 FF_äpë¨ìx	  ë¨ìxkp	  ë¨ìxki	  à íukp	  à íuki	  äpë¨ìxkp	   äpë¨ìxki		äpìxkp		äpìxki		 ï«kp	 	ï«kd
+			{0.0f,		0.3f,		0.0f,		0.0f,		1.0f,		0.0f,		0.0f,		0.0f,		0.2f,		0.0f,		3.0f,		0.5f,		0.0f,		0.0f,	},		// PARAM_ENTRY_SLA
+			{0.0f,		0.3f,		0.01f,		0.18f,		1.0f,		0.0f,		0.0f,		0.0f,		0.7f,		0.0f,		0.0f,		0.0f,		0.0f,		0.0f	},		// PARAM_ACC_SLA
+			{0.0f,		0.3f,		0.0f,		0.2f,		1.0f,		0.0f,		0.0f,		0.0f,		0.7f,		0.0f,		0.0f,		0.0f,		0.0f,		0.0f	},		// PARAM_CONST_SLA
+			{0.0f,		0.3f,		0.0f,		0.0f,		1.0f,		0.0f,		0.0f,		0.0f,		0.7f,		0.0f,		0.0f,		0.0f,		0.0f,		0.0f	},		// PARAM_DEC_SLA
+			{0.0f,		0.3f,		0.0f,		0.0f,		1.0f,		0.0f,		0.0f,		0.0f,		0.2f,		0.0f,		3.0f,		0.5f,		0.0f,		0.0f,	},		// PARAM_EXIT_SLA
 		},
 		
 		/* í èÌ(PARAM_NORMAL) */
-		{	// FF		ë¨ìxkp		ë¨ìxki		à íukp		à íuki		äpë¨ìxkp	 äpë¨ìxki	  äpìxkp	  äpìxki	   ï«kp		   ï«kd
-			{0.0f,		5.0f,		0.0f,		0.0f,		0.0f,		0.5f,		0.0f,		4.0f,		0.0f,		0.48f,		0.01f	},		// PARAM_ENTRY_SLA
-			{0.0f,		5.0f,		0.0f,		0.0f,		0.0f,		2.0f,		0.0f,		0.0f,		0.0f,		0.0f,		0.0f	},		// PARAM_ACC_SLA
-			{0.0f,		5.0f,		0.0f,		0.0f,		0.0f,		2.0f,		0.0f,		0.0f,		0.0f,		0.0f,		0.0f	},		// PARAM_CONST_SLA
-			{0.0f,		5.0f,		0.0f,		0.0f,		0.0f,		2.0f,		0.0f,		4.0f,		0.0f,		0.0f,		0.0f	},		// PARAM_DEC_SLA
-			{0.0f,		5.0f,		0.0f,		0.0f,		0.0f,		0.5f,		0.0f,		4.0f,		0.0f,		0.48f,		0.01f,	},		// PARAM_EXIT_SLA
+		{// FF_â¡ë¨ìx	FF_ë¨ìx		FF_äpâ¡ë¨ìx	 FF_äpë¨ìx	  ë¨ìxkp	  ë¨ìxki	  à íukp	  à íuki	  äpë¨ìxkp	   äpë¨ìxki		äpìxkp		äpìxki		 ï«kp	 	ï«kd
+			{0.0f,		0.0f,		0.0f,		0.0f,		5.0f,		0.0f,		0.0f,		0.0f,		0.5f,		0.0f,		4.0f,		0.0f,		0.48f,		0.01f	},		// PARAM_ENTRY_SLA
+			{0.0f,		0.0f,		0.0f,		0.0f,		5.0f,		0.0f,		0.0f,		0.0f,		2.0f,		0.0f,		0.0f,		0.0f,		0.0f,		0.0f	},		// PARAM_ACC_SLA
+			{0.0f,		0.0f,		0.0f,		0.0f,		5.0f,		0.0f,		0.0f,		0.0f,		2.0f,		0.0f,		0.0f,		0.0f,		0.0f,		0.0f	},		// PARAM_CONST_SLA
+			{0.0f,		0.0f,		0.0f,		0.0f,		5.0f,		0.0f,		0.0f,		0.0f,		2.0f,		0.0f,		4.0f,		0.0f,		0.0f,		0.0f	},		// PARAM_DEC_SLA
+			{0.0f,		0.0f,		0.0f,		0.0f,		5.0f,		0.0f,		0.0f,		0.0f,		0.5f,		0.0f,		4.0f,		0.0f,		0.48f,		0.01f,	},		// PARAM_EXIT_SLA
 		},
 		
 		/* çÇë¨(PARAM_FAST) */
-		{	// FF		ë¨ìxkp		ë¨ìxki		à íukp		à íuki		äpë¨ìxkp	 äpë¨ìxki	  äpìxkp	  äpìxki	   ï«kp		   ï«kd
-			{0.0f,		0.7f,		0.0f,		0.0f,		0.0f,		0.5f,		0.0f,		4.0f,		0.0f,		0.48f,		0.01f	},		// PARAM_ENTRY_SLA
-			{0.0f,		0.7f,		0.0f,		0.0f,		0.0f,		0.34f,		0.0f,		12.0f,		0.0f,		0.0f,		0.0f	},		// PARAM_ACC_SLA
-			{0.0f,		0.7f,		0.0f,		0.0f,		0.0f,		0.34f,		0.0f,		12.0f,		0.0f,		0.0f,		0.0f	},		// PARAM_CONST_SLA
-			{0.0f,		0.7f,		0.0f,		0.0f,		0.0f,		0.34f,		0.0f,		12.0f,		0.0f,		0.0f,		0.0f	},		// PARAM_DEC_SLA
-			{0.0f,		0.7f,		0.0f,		0.0f,		0.0f,		0.5f,		0.0f,		4.0f,		0.0f,		0.48f,		0.01f,	},		// PARAM_EXIT_SLA
+		{// FF_â¡ë¨ìx	FF_ë¨ìx		FF_äpâ¡ë¨ìx	 FF_äpë¨ìx	  ë¨ìxkp	  ë¨ìxki	  à íukp	  à íuki	  äpë¨ìxkp	   äpë¨ìxki		äpìxkp		äpìxki		 ï«kp	 	ï«kd
+			{0.0f,		0.0f,		0.0f,		0.0f,		0.7f,		0.0f,		0.0f,		0.0f,		0.5f,		0.0f,		4.0f,		0.0f,		0.48f,		0.01f	},		// PARAM_ENTRY_SLA
+			{0.0f,		0.0f,		0.0f,		0.0f,		0.7f,		0.0f,		0.0f,		0.0f,		0.34f,		0.0f,		12.0f,		0.0f,		0.0f,		0.0f	},		// PARAM_ACC_SLA
+			{0.0f,		0.0f,		0.0f,		0.0f,		0.7f,		0.0f,		0.0f,		0.0f,		0.34f,		0.0f,		12.0f,		0.0f,		0.0f,		0.0f	},		// PARAM_CONST_SLA
+			{0.0f,		0.0f,		0.0f,		0.0f,		0.7f,		0.0f,		0.0f,		0.0f,		0.34f,		0.0f,		12.0f,		0.0f,		0.0f,		0.0f	},		// PARAM_DEC_SLA
+			{0.0f,		0.0f,		0.0f,		0.0f,		0.7f,		0.0f,		0.0f,		0.0f,		0.5f,		0.0f,		4.0f,		0.0f,		0.48f,		0.01f,	},		// PARAM_EXIT_SLA
 		},
 		
 		/* í¥çÇë¨(PARAM_VERY_FAST) */
-		{	// FF		ë¨ìxkp		ë¨ìxki		à íukp		à íuki		äpë¨ìxkp	 äpë¨ìxki	  äpìxkp	  äpìxki	   ï«kp		   ï«kd
-			{0.0f,		5.0f,		0.0f,		0.0f,		0.0f,		1.0f,		0.0f,		5.0f,		0.0f,		0.8f,		0.2f	},		// PARAM_ENTRY_SLA
-			{0.0f,		5.0f,		0.0f,		0.0f,		0.0f,		1.8f,		0.0f,		0.0f,		0.0f,		0.0f,		0.0f	},		// PARAM_ACC_SLA
-			{0.0f,		5.0f,		0.0f,		0.0f,		0.0f,		1.8f,		0.0f,		0.0f,		0.0f,		0.0f,		0.0f	},		// PARAM_CONST_SLA
-			{0.0f,		5.0f,		0.0f,		0.0f,		0.0f,		1.8f,		0.0f,		5.0f,		0.0f,		0.0f,		0.0f	},		// PARAM_DEC_SLA
-			{0.0f,		5.0f,		0.0f,		0.0f,		0.0f,		1.0f,		0.0f,		5.0f,		0.0f,		0.8f,		0.2f,	},		// PARAM_EXIT_SLA
+		{// FF_â¡ë¨ìx	FF_ë¨ìx		FF_äpâ¡ë¨ìx	 FF_äpë¨ìx	  ë¨ìxkp	  ë¨ìxki	  à íukp	  à íuki	  äpë¨ìxkp	   äpë¨ìxki		äpìxkp		äpìxki		 ï«kp	 	ï«kd
+			{0.0f,		0.0f,		0.0f,		0.0f,		5.0f,		0.0f,		0.0f,		0.0f,		1.0f,		0.0f,		5.0f,		0.0f,		0.8f,		0.2f	},		// PARAM_ENTRY_SLA
+			{0.0f,		0.0f,		0.0f,		0.0f,		5.0f,		0.0f,		0.0f,		0.0f,		1.8f,		0.0f,		0.0f,		0.0f,		0.0f,		0.0f	},		// PARAM_ACC_SLA
+			{0.0f,		0.0f,		0.0f,		0.0f,		5.0f,		0.0f,		0.0f,		0.0f,		1.8f,		0.0f,		0.0f,		0.0f,		0.0f,		0.0f	},		// PARAM_CONST_SLA
+			{0.0f,		0.0f,		0.0f,		0.0f,		5.0f,		0.0f,		0.0f,		0.0f,		1.8f,		0.0f,		5.0f,		0.0f,		0.0f,		0.0f	},		// PARAM_DEC_SLA
+			{0.0f,		0.0f,		0.0f,		0.0f,		5.0f,		0.0f,		0.0f,		0.0f,		1.0f,		0.0f,		5.0f,		0.0f,		0.8f,		0.2f,	},		// PARAM_EXIT_SLA
 		},
 	};
 	
