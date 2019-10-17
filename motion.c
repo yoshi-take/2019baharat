@@ -1958,6 +1958,11 @@ PUBLIC void MOT_goBlock_Const( FLOAT f_num){
 	//printf("st_info.f_dist:%5.4f \n\r",st_info.f_dist);
 
 	while( f_NowDist < st_info.f_dist  ){		//指定距離到達待ち
+			MOT_Failsafe(&bl_failsafe);
+			if( bl_failsafe == TRUE ){
+				return;
+			}
+
 	}
 	
 }
@@ -1979,7 +1984,7 @@ PUBLIC void MOT_goHitBackWall(void){
 	/*----------------*/
 	/* 動作データ計算 */
 	/*----------------*/
-	st_info.f_acc1	= 700;
+	st_info.f_acc1	= 800;
 	
 	/*--------*/
 	/* バック */
@@ -2001,7 +2006,7 @@ PUBLIC void MOT_goHitBackWall(void){
 	CTRL_setData( &st_data );					// データセット
 	DCM_staMotAll();						// モータON
 	
-	TIME_wait(450);
+	TIME_wait(550);
 	
 	/* 停止 */
 	CTRL_stop();		// 制御停止
@@ -2113,6 +2118,7 @@ PUBLIC void MOT_goSla( enMOT_SULA_CMD en_type, stSLA *p_sla){
 	CTRL_setData( &st_data );			// データセット
 	DCM_staMotAll();				// モータON
 
+	LED_onAll();
 	while( f_NowDist < f_entryLen ){				// 指定距離到達待ち
 	}
 	
@@ -2200,13 +2206,13 @@ PUBLIC void MOT_goSla( enMOT_SULA_CMD en_type, stSLA *p_sla){
 	CTRL_setData( &st_data );			// データセット
 	
 	if( IS_R_SLA( en_type ) == true ){	// -方向
-		while( ( f_NowAngle > st_info.f_angle ) ){
-		//while( ( f_NowAngle > st_info.f_angle ) || ( f_NowDist < st_data.f_dist ) ){
+		while( ( f_NowAngle > st_info.f_angle + 3.0f ) ){
+		//while( ( f_NowAngle > st_info.f_angle + 1.0f ) || ( f_NowDist < st_data.f_dist ) ){
 		}
 	
 	}else{
-		while( ( f_NowAngle < st_info.f_angle ) ){
-		//while( ( f_NowAngle < st_info.f_angle ) || ( f_NowDist < st_data.f_dist ) ){
+		while( ( f_NowAngle < st_info.f_angle - 1.0f ) ){
+		//while( ( f_NowAngle < st_info.f_angle -1.0f ) || ( f_NowDist < st_data.f_dist ) ){
 		}
 	}
 	
@@ -2231,6 +2237,7 @@ PUBLIC void MOT_goSla( enMOT_SULA_CMD en_type, stSLA *p_sla){
 
 	while( f_NowDist < st_data.f_dist ){				// 指定距離到達待ち
 	}
+	LED_offAll();
 	f_MotNowSpeed = st_info.f_now;			// 現在速度更新
 
 }
