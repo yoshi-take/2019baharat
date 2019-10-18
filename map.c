@@ -454,7 +454,7 @@ PUBLIC void MAP_showLog( void )
 
 #endif
 
-	for(y = 0; x < MAP_X_SIZE; x++){
+	for(x = 0; x < MAP_X_SIZE; x++){
 		for(y = 0; y < MAP_Y_SIZE; y++){
 			printf("g_sysMap[%d][%d]=0x%x\n\r",y,x,g_sysMap[y][x]);
 		}
@@ -1920,6 +1920,8 @@ PUBLIC void MAP_makeSuraCmdList( void )
 		}
 	}
 	
+	
+	scom[0]		+= 2*MOVE_BACK_DIST_SURA;	// 壁にあてた分
 #if 0
 	for( i = 0; i < us_totalCmd; i++)
 	{
@@ -2210,7 +2212,7 @@ PUBLIC void MAP_drive( enMAP_DRIVE_TYPE en_driveType )
 					MOT_goBlock_FinSpeed( (FLOAT)scom[us_rp]*0.5f, 0 );						// 直線走行コマンド、半区間前進（最終速度なし）
 				}
 				else{
-					
+#if 1					
 					/* 壁の切れ目補正 */
 					if( ( scom[us_rp+1] == R90S )   || ( scom[us_rp+1] == L90S ) ){
 						bl_isWallCut = MAP_setWallCut( scom[us_rp+1] );		// コーナー前に壁があったら壁の切れ目補正を行う設定をする
@@ -2223,6 +2225,7 @@ PUBLIC void MAP_drive( enMAP_DRIVE_TYPE en_driveType )
 							us_LogIndexWallCut %= 30;
 						}
 					}
+#endif					
 					MOT_goBlock_FinSpeed( (FLOAT)scom[us_rp]*0.5f, MOT_getSlaStaSpeed() );		// 直線走行コマンド、半区間前進（最終速度あり）
 				}
 			}
@@ -2241,7 +2244,7 @@ PUBLIC void MAP_drive( enMAP_DRIVE_TYPE en_driveType )
 				break;
 			}
 #endif			
-		}
+		}	
 	}
 	/* 斜めモード */
 	else if( en_driveType == MAP_DRIVE_SKEW )

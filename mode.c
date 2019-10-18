@@ -72,7 +72,7 @@ PUBLIC void	MODE_exe( void ){
 	
 	/* 走行パラメータ設定 */
 	PARAM_setCntType( TRUE );
-	MOT_setTrgtSpeed( 350.0f );						// 目標速度設定
+	MOT_setTrgtSpeed( MAP_SEARCH_SPEED );						// 目標速度設定
 	PARAM_setSpeedType( PARAM_ST, PARAM_SLOW );		// [直進]速度低速
 	PARAM_setSpeedType( PARAM_TURN, PARAM_SLOW );	// [旋回]速度低速
 	PARAM_setSpeedType( PARAM_SLA, PARAM_SLOW );	// [スラローム]速度低速
@@ -110,7 +110,8 @@ PUBLIC void	MODE_exe( void ){
 			MAP_searchGoal(GOAL_MAP_X, GOAL_MAP_Y, SEARCH, SEARCH_SURA);
 
 			/* 帰り探索 */
-			TIME_wait(1000);
+			TIME_wait(500);
+			MAP_searchGoal(0, 0, SEARCH, SEARCH_SURA);
 
 			/* コマンド作成 */
 			PARAM_setCntType(TRUE);											// 最短走行
@@ -127,6 +128,7 @@ PUBLIC void	MODE_exe( void ){
 			LED_onAll();
 			MAP_LoadMapData();
 			LED_offAll();
+			MAP_showLog();
 			break;
 			
 		case MODE_3:		// 最短走行
@@ -135,13 +137,19 @@ PUBLIC void	MODE_exe( void ){
 			TIME_wait(1500);
 			GYRO_clrAngle();		// 角度リセット
 			
+			/* スラロームデータ生成 */
+			PARAM_makeSla(500.0f, 150.0f, 5300.0f, SLA_90, PARAM_NORMAL);		// 90度
+			// 45度
+			// 135度
+			// 斜め → 90°→ 斜め
+
 			/* 走行パラメータ */
 			PARAM_setCntType( TRUE );
-			MOT_setTrgtSpeed(900.0f);
+			MOT_setTrgtSpeed(1500.0f);
 			MOT_setSlaStaSpeed(500.0f);
-			PARAM_setSpeedType( PARAM_ST, PARAM_SLOW );		// [直進]
-			PARAM_setSpeedType( PARAM_TURN, PARAM_SLOW );		// [旋回]
-			PARAM_setSpeedType( PARAM_SLA, PARAM_SLOW );		// [スラローム]
+			PARAM_setSpeedType( PARAM_ST, PARAM_NORMAL );		// [直進]
+			PARAM_setSpeedType( PARAM_TURN, PARAM_NORMAL );		// [旋回]
+			PARAM_setSpeedType( PARAM_SLA, PARAM_NORMAL );		// [スラローム]
 
 			/* コマンド作成 */
 			MAP_setPos(0,0,NORTH);
@@ -149,10 +157,10 @@ PUBLIC void	MODE_exe( void ){
 			MAP_makeCmdList(0,0,NORTH,GOAL_MAP_X,GOAL_MAP_Y,&en_endDir);
 			MAP_makeSuraCmdList();
 			MAP_makeSkewCmdList();
-			
+			MAP_showCmdLog();
+
 			/* コマンド走行 */
 			MAP_drive(MAP_DRIVE_SURA);
-			
 			break;
 			
 		case MODE_4:		// スラローム
@@ -170,25 +178,29 @@ PUBLIC void	MODE_exe( void ){
 			PARAM_setSpeedType( PARAM_TURN, PARAM_SLOW );	// [旋回]速度低速
 			PARAM_setSpeedType( PARAM_SLA, PARAM_SLOW );	// [スラローム]速度低速
 
-			PARAM_makeSla(500.0f, 150.0f, 5300.0f, SLA_90, PARAM_SLOW);		// スラロームデータ生成	
+			PARAM_makeSla(500.0f, 150.0f, 5300.0f, SLA_90, PARAM_SLOW);		// スラロームデータ生成
 
+			MOT_circuit( 3, 4, MOT_R90, 10, 500.0f);	
+
+			SPK_on(Eb4,16.0f,120);
+			SPK_on(E4,16.0f,120);
+			SPK_on(F4,16.0f,120);
+
+#if 0
 			MOT_goBlock_FinSpeed(1.5f+MOVE_BACK_DIST,500.0f);				// 半区画走行
-			MOT_goSla( MOT_R90S, PARAM_getSra( SLA_90 ) );	// スラローム
-			MOT_goBlock_FinSpeed(1.0f,500.0f);				// 半区画走行
-			MOT_goSla( MOT_R90S, PARAM_getSra( SLA_90 ) );	// スラローム
-			MOT_goBlock_FinSpeed(1.0f,500.0f);				// 半区画走行
-			MOT_goSla( MOT_R90S, PARAM_getSra( SLA_90 ) );	// スラローム
-			MOT_goBlock_FinSpeed(1.0f,500.0f);				// 半区画走行
-			MOT_goSla( MOT_R90S, PARAM_getSra( SLA_90 ) );	// スラローム
-			MOT_goBlock_FinSpeed(1.0f,500.0f);				// 半区画走行
-
-
-			LED_onAll();
+			for(i=0;i<10;i++){	
+				MOT_goSla( MOT_R90S, PARAM_getSra( SLA_90 ) );	// スラローム
+				MOT_goBlock_FinSpeed(1.0f,500.0f);				// 半区画走行
+				MOT_goSla( MOT_R90S, PARAM_getSra( SLA_90 ) );	// スラローム
+				MOT_goBlock_FinSpeed(1.0f,500.0f);				// 半区画走行
+				MOT_goSla( MOT_R90S, PARAM_getSra( SLA_90 ) );	// スラローム
+				MOT_goBlock_FinSpeed(1.0f,500.0f);				// 半区画走行
+				MOT_goSla( MOT_R90S, PARAM_getSra( SLA_90 ) );	// スラローム
+				MOT_goBlock_FinSpeed(1.0f,500.0f);				// 半区画走行
+			}
 
 			MOT_goBlock_FinSpeed(0.5f,0);					// 半区画走行
-			break;
-
-			
+#endif		
 			break;
 			
 		case MODE_5:		// 直進&超信地調整			
@@ -217,8 +229,10 @@ PUBLIC void	MODE_exe( void ){
 		case MODE_6:	// ログ関係
 			LED_offAll();
 			TIME_wait(100);
-			CTRL_showLog();		// ログの掃き出し
-			//MAP_showLog();
+			//CTRL_showLog();		// ログの掃き出し
+
+			MAP_showLog();
+//			MAP_SaveMapData();
 
 			break;
 			

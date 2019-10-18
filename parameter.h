@@ -76,7 +76,7 @@
 #define MOVE_BACK_DIST_SURA			( 0.27f ) 							// 壁当て動作で後退した距離 [区画]
 
 /* 探索時の尻当て周期 */
-#define MAP_SLA_NUM_MAX				( 2 )								// 最大連続スラロームを何回まで許可するか
+#define MAP_SLA_NUM_MAX				( 20 )								// 最大連続スラロームを何回まで許可するか
 #define MAP_TURN_NUM_MAX			( 1 )								// 最大連続旋回を何回まで許可するか
 
 /* 迷路中での待ち時間 */

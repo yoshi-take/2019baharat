@@ -398,7 +398,7 @@ PRIVATE void MOT_goBlock_AccConstDec( FLOAT f_fin, enMOT_ST_TYPE en_type, enMOT_
 	/*  等速(壁の切れ目)  */
 	/* ------------------ */
 	/* 壁切れがまだ見つからない状態（壁切れ設定をしているのに、エッジを見つけていない） */
-
+#if 0
 	if( ( en_WallEdge != MOT_WALL_EDGE_NONE)  && ( bl_IsWallEdge == false) ){
 		
 		st_data.en_type			= CTRL_CONST;
@@ -458,7 +458,8 @@ PRIVATE void MOT_goBlock_AccConstDec( FLOAT f_fin, enMOT_ST_TYPE en_type, enMOT_
 		}
 		
 	}
-	
+#endif
+
 	/* 停止 */
 	if( 0.0f == f_fin ){
 		TIME_wait(500);				// 安定待ち
@@ -2426,3 +2427,46 @@ PRIVATE void MOT_Failsafe( BOOL* exists ){
 	
 }
 
+// *************************************************************************
+//   機能		： サーキット
+//   注意		： 右回り：Y	左回り：X
+//   メモ		： なし
+//   引数		： 区画の広さX，区画の広さY，回る方向，回る回数，速度
+//   返り値		： なし
+// **************************    履    歴    *******************************
+// 		v1.0		2019.10.18			TKR			新規
+// *************************************************************************/
+PUBLIC void MOT_circuit(FLOAT x,FLOAT y, enMOT_SULA_CMD en_type, int num, FLOAT f_speed){
+
+	int i = 0;
+
+	if( en_type == MOT_R90 ){
+		MOT_goBlock_FinSpeed( y-1.5f+MOVE_BACK_DIST, f_speed );	
+		for( i = 0; i < num; i++ ){
+			MOT_goSla( MOT_R90S, PARAM_getSra( SLA_90 ) );			// スラローム
+			MOT_goBlock_FinSpeed( x-2.0f, f_speed );				
+			MOT_goSla( MOT_R90S, PARAM_getSra( SLA_90 ) );			// スラローム
+			MOT_goBlock_FinSpeed( y-2.0f, f_speed);					
+			MOT_goSla( MOT_R90S, PARAM_getSra( SLA_90 ) );			// スラローム
+			MOT_goBlock_FinSpeed( x-2.0f, f_speed);				
+			MOT_goSla( MOT_R90S, PARAM_getSra( SLA_90 ) );			// スラローム
+			MOT_goBlock_FinSpeed( y-2.0f, f_speed);
+		}
+	}else{
+
+		MOT_goBlock_FinSpeed( x-1.5f+MOVE_BACK_DIST, f_speed );
+		for( i = 0; i < num; i++ ){
+			MOT_goSla( MOT_L90S, PARAM_getSra( SLA_90 ) );			// スラローム
+			MOT_goBlock_FinSpeed( y-2.0f, f_speed );				
+			MOT_goSla( MOT_L90S, PARAM_getSra( SLA_90 ) );			// スラローム
+			MOT_goBlock_FinSpeed( x-2.0f, f_speed);					
+			MOT_goSla( MOT_L90S, PARAM_getSra( SLA_90 ) );			// スラローム
+			MOT_goBlock_FinSpeed( y-2.0f, f_speed);				
+			MOT_goSla( MOT_L90S, PARAM_getSra( SLA_90 ) );			// スラローム
+			MOT_goBlock_FinSpeed( x-2.0f, f_speed);
+		}
+
+	}
+	
+	MOT_goBlock_FinSpeed(0.5f,0);					// 半区画走行
+}

@@ -137,6 +137,6 @@ PUBLIC void MOT_setWallEdgeType( enMOT_WALL_EDGE_TYPE en_type );
 PUBLIC enMOT_WALL_EDGE_TYPE MOT_getWallEdgeType( void );
 PUBLIC void MOT_setWallEdge( BOOL bl_val );
 PRIVATE void MOT_Failsafe( BOOL* exists );
-
+PUBLIC void MOT_circuit(FLOAT x,FLOAT y, enMOT_SULA_CMD en_type, int num, FLOAT f_speed);
 
 #endif
