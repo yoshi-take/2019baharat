@@ -76,13 +76,8 @@
 #define MOVE_BACK_DIST_SURA			( 0.27f ) 							// 壁当て動作で後退した距離 [区画]
 
 /* 探索時の尻当て周期 */
-<<<<<<< HEAD
-#define MAP_SLA_NUM_MAX				( 2 )								// 最大連続スラロームを何回まで許可するか
-#define MAP_TURN_NUM_MAX			( 0 )								// 最大連続旋回を何回まで許可するか
-=======
 #define MAP_SLA_NUM_MAX				( 20 )								// 最大連続スラロームを何回まで許可するか
 #define MAP_TURN_NUM_MAX			( 1 )								// 最大連続旋回を何回まで許可するか
->>>>>>> develop
 
 /* 迷路中での待ち時間 */
 #define MAP_TURN_WAIT				( 100 )								// 超信地旋回探索の動作切り替え待ち時間
@@ -136,24 +131,6 @@
 #define L_FRONT_SKEW_ERR3_GAIN		( 0.0f )							// 左前壁、斜め走行時の補正閾値3
 
 /* ↓のセンサ値は、FUNC_DIST_AUTO_THRESHが有効ならばFALSHのデータで上書きされて、無効ならば正式値として使用される */
-<<<<<<< HEAD
-#define R_FRONT_REF					( 80 )							// 右前壁、基準値
-#define L_FRONT_REF					( 148 )							// 左前壁、基準値
-//#define R_45_REF					( 580 )							// 右45度、基準値
-//#define L_45_REF					( 440 )							// 左45度、基準値
-#define R_SIDE_REF					( 30 )							// 右横壁、基準値
-#define L_SIDE_REF					( 92 )							// 左横壁、基準値
-#define R_FRONT_WALL				( 45 )							// 右前壁、壁検知値
-#define L_FRONT_WALL				( 87 )							// 左前壁、壁検知値
-//#define R_45_WALL					( 270 )							// 右45度、壁検知値
-#define R_SIDE_WALL					( 15 )							// 右横壁、壁検知値
-//#define L_45_WALL					( 180 )							// 左45度、壁検知値
-#define L_SIDE_WALL					( 72 )							// 左横壁、壁検知値
-#define R_FRONT_WALL_CTRL			( 170 )							// 右前壁、これ以上近いと制御する値
-#define L_FRONT_WALL_CTRL			( 290 )							// 左前壁、これ以上近いと制御する値
-#define R_FRONT_WALL_NO_CTRL		( 195 )							// 右前壁、これ以上近いと制御しない値
-#define L_FRONT_WALL_NO_CTRL		( 375 )							// 左前壁、これ以上近いと制御しない値
-=======
 #define R_FRONT_REF					( 2441 )							// 右前壁、基準値
 #define L_FRONT_REF					( 2280 )							// 左前壁、基準値
 //#define R_45_REF					( 580 )							// 右45度、基準値
@@ -170,7 +147,6 @@
 #define L_FRONT_WALL_CTRL			( 3158 )							// 左前壁、これ以上近いと制御する値
 #define R_FRONT_WALL_NO_CTRL		( 3386 )							// 右前壁、これ以上近いと制御しない値
 #define L_FRONT_WALL_NO_CTRL		( 2598 )							// 左前壁、これ以上近いと制御しない値
->>>>>>> develop
 #define R_FRONT_WALL_HIT			( 1050 )						// 右前壁、壁に当たっていてもおかしくない値（前壁とマウス間が約2mmの時の値）
 #define L_FRONT_WALL_HIT			( 1550 )						// 左前壁、壁に当たっていてもおかしくない値（前壁とマウス間が約2mmの時の値）
 

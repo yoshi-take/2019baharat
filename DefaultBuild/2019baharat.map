@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-Renesas Optimizing Linker (W2.08.00 )             14-Sep-2019 16:18:14
-=======
-Renesas Optimizing Linker (W2.08.00 )             20-Oct-2019 09:51:08
->>>>>>> develop
+Renesas Optimizing Linker (W2.08.00 )             22-Oct-2019 00:17:05
 
 *** Options ***
 
@@ -54,23 +50,13 @@ B_2
 R_2
                                   0000451c  0000453b        20   2
 B
-<<<<<<< HEAD
-                                  0000453c  000091db      4ca0   4
+                                  0000453c  00004bb3       678   4
 R
-                                  000091dc  00009513       338   4
+                                  00004bb4  00004ef7       344   4
 SU
-                                  00009514  00009613       100   4
+                                  00004ef8  00004ff7       100   4
 SI
-                                  00009614  00009913       300   4
-=======
-                                  00004540  00004bb7       678   4
-R
-                                  00004bb8  00004efb       344   4
-SU
-                                  00004efc  00004ffb       100   4
-SI
-                                  00004ffc  000052fb       300   4
->>>>>>> develop
+                                  00004ff8  000052f7       300   4
 PResetPRG
                                   fff80000  fff80034        35   1
 C_1
@@ -92,39 +78,21 @@ C$VECT
 D_1
                                   fff82770  fff827c5        56   1
 D_2
-<<<<<<< HEAD
-                                  fff81e66  fff81e85        20   2
-=======
-                                  fff827c6  fff827e7        22   2
->>>>>>> develop
+                                  fff827c6  fff827e5        20   2
 D
                                   fff827e8  fff82b2b       344   4
 P
-<<<<<<< HEAD
-                                  fff821c0  fff8e3a7      c1e8   1
+                                  fff82b2c  fff8f52e      ca03   1
 PIntPRG
-                                  fff8e3a8  fff8e58d       1e6   1
+                                  fff8f52f  fff8f714       1e6   1
 W_1
-                                  fff8e58e  fff8e59f        12   1
+                                  fff8f715  fff8f738        24   1
 W_2
-                                  fff8e5a0  fff8e5ff        60   2
+                                  fff8f73a  fff8f7b7        7e   2
 W
-                                  fff8e600  fff8e600         0   4
+                                  fff8f7b8  fff8f7b8         0   4
 L
-                                  fff8e600  fff8f0f0       af1   4
-=======
-                                  fff82b2c  fff8f6a0      cb75   1
-PIntPRG
-                                  fff8f6a1  fff8f886       1e6   1
-W_1
-                                  fff8f887  fff8f8aa        24   1
-W_2
-                                  fff8f8ac  fff8f929        7e   2
-W
-                                  fff8f92c  fff8f92c         0   4
-L
-                                  fff8f92c  fff9030c       9e1   4
->>>>>>> develop
+                                  fff8f7b8  fff90198       9e1   4
 $ADDR_C_FFFFFF80
                                   ffffff80  ffffff83         4   1
 $ADDR_C_FFFFFFA0
