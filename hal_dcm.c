@@ -84,8 +84,8 @@ PUBLIC void DCM_setDirCw( enDCM_ID en_id )
 {
 	/* âÒì]ï˚å¸ê›íË */
 	if( en_id == DCM_R ){			// âE
-		DCM_R_IN1 	= ON;			// BIN1
-		DCM_R_IN2	= OFF;			// BIN2	
+		DCM_R_IN1 	= OFF;			// BIN1
+		DCM_R_IN2	= ON;			// BIN2	
 	}
 	else if( en_id == DCM_L ){		// ç∂
 		DCM_L_IN1 	= OFF;			// AIN1
@@ -109,8 +109,8 @@ PUBLIC void DCM_setDirCcw( enDCM_ID en_id )
 {
 	/* âÒì]ï˚å¸ê›íË */
 	if( en_id == DCM_R ){			// âE
-		DCM_R_IN1 	= OFF;			// BIN1
-		DCM_R_IN2	= ON;			// BIN2	
+		DCM_R_IN1 	= ON;			// BIN1
+		DCM_R_IN2	= OFF;			// BIN2	
 	}
 	else if( en_id == DCM_L ){							// ç∂
 		DCM_L_IN1 	= ON;			// AIN1

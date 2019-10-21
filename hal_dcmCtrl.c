@@ -53,7 +53,8 @@ typedef struct
 	FLOAT	f_trgtAngleS;		// 角速度（理論値）
 	FLOAT	f_nowAngleS;		// 角速度（実測値）
 	FLOAT	f_trgtAngle;		// 角度（理論値）
-	FLOAT	f_nowAngle;			// 角度（実測値）	
+	FLOAT	f_nowAngle;			// 角度（実測値）
+	FLOAT	f_nowAccel;			// 加速度（実測値）
 }stDCMC_SET_LOG;
 
 
@@ -75,6 +76,7 @@ PRIVATE FLOAT           f_BaseSpeed     = 10;       // [速度制御]　初速度
 PRIVATE FLOAT           f_LastSpeed     = 180;      // [速度制御]　最終目標速度
 PRIVATE FLOAT           f_NowSpeed      = 0;        // [速度制御]　現在の速度[mm/s]     （1[msec]毎に更新される）
 PUBLIC  FLOAT           f_TrgtSpeed     = 0;        // [速度制御]　目標速度             （1[msec]毎に更新される）
+PUBLIC	FLOAT			f_SpeedErrSum	= 0;		// [速度制御]　速度積分偏差			（1[msec]毎に更新される）
 
 /* 距離制御 */
 PRIVATE FLOAT           f_BaseDist      = 0;        // [距離制御]　初期位置
@@ -83,13 +85,14 @@ PUBLIC  FLOAT           f_TrgtDist      = 0;        // [距離制御]　目標移動距離 
 PUBLIC  volatile FLOAT  f_NowDist       = 0;        // [距離制御]　現在距離             （1[msec]毎に更新される）
 PRIVATE FLOAT           f_NowDistR      = 0;        // [距離制御]　現在距離(右)         （1[msec]毎に更新される）
 PRIVATE FLOAT           f_NowDistL      = 0;        // [距離制御]　現在距離(左)         （1[msec]毎に更新される）
-PUBLIC  FLOAT           f_DistErrSum    = 0;        // [距離制御]　距離積分距離         （1[msec]毎に更新される）
+PUBLIC  FLOAT           f_DistErrSum    = 0;        // [距離制御]　距離積分偏差         （1[msec]毎に更新される）
 
 /*角速度制御*/
 PRIVATE FLOAT           f_AccAngleS     = 3;        // [角速度制御]　角加速度
 PRIVATE FLOAT           f_BaseAngleS    = 10;       // [角速度制御]　初期角速度
 PRIVATE FLOAT           f_LastAngleS    = 180;      // [角速度制御]　最終目標速度
 PUBLIC  FLOAT           f_TrgtAngleS    = 0;        // [角速度制御]　目標角速度         （1[msec]毎に更新される）
+PUBLIC	FLOAT			f_AngleSpeedErrSum	= 0;	// [角速度制御]　角速度積分			（1[msec]毎に更新される）
 
 /* 角度制御 */
 PRIVATE FLOAT           f_BaseAngle     = 0;        // [角度制御]　初期角度
@@ -99,7 +102,8 @@ PUBLIC  volatile FLOAT  f_NowAngle      = 0;        // [角度制御]　現在角度     
 PUBLIC  FLOAT           f_AngleErrSum   = 0;        // [角度制御]　距離積分距離         （1[msec]毎に更新される）
 
 extern	PUBLIC volatile FLOAT  f_NowGyroAngle;		 					// ジャイロセンサの現在角度
-extern	PUBLIC volatile FLOAT  f_NowGyroAngleSpeed;						// ジャイロセンサの現在角速度	
+extern	PUBLIC volatile FLOAT  f_NowGyroAngleSpeed;						// ジャイロセンサの現在角速度
+extern	PUBLIC volatile FLOAT  f_NowAccel;								// 進行方向の現在加速度
 
 /* 壁制御 */
 PRIVATE LONG            l_WallErr       = 0;        // [壁制御]　壁との偏差             （1[msec]毎に更新される）
@@ -504,7 +508,8 @@ PUBLIC  void    CTRL_refTarget( void ){
 		
 		/* スラローム後の前進動作(スラローム) */
 		case CTRL_EXIT_SLA:
-			f_TrgtSpeed = f_BaseSpeed;
+			f_TrgtSpeed 	= f_BaseSpeed;
+			f_TrgtAngleS	= 0;
 			if( f_TrgtDist <= f_LastDist ){
 				f_TrgtDist = f_BaseDist + f_TrgtSpeed * f_Time;
 			}else{
@@ -527,8 +532,9 @@ PUBLIC  void    CTRL_refTarget( void ){
 //   返り値		： フィードフォワード量
 // **************************    履    歴    *******************************
 // 		v1.0		2019.4.26			TKR			新規
+//		v2.0		2019.9.15			TKR			等速，減速対応
 // *************************************************************************/
-PUBLIC  void    CTRL_getFF( FLOAT *p_err ){
+PUBLIC void CTRL_getFF( FLOAT *p_err ){
 
     FLOAT   f_ff        = 0.0f;
 
@@ -540,25 +546,157 @@ PUBLIC  void    CTRL_getFF( FLOAT *p_err ){
 		case CTRL_HIT_WALL:
 		case CTRL_ACC_SMOOTH:
 		case CTRL_SKEW_ACC:
-			f_ff = PARAM_getGain( Chg_ParamID( en_Type ) ) -> f_FF;	
+			f_ff = PARAM_getGain( Chg_ParamID( en_Type ) ) -> f_FF_speed_acc;	
 			*p_err = f_Acc * f_ff;
-		
 			break;
 			
 		/* 加速（超信地旋回）*/
 		case CTRL_ACC_TURN:
-			f_ff = PARAM_getGain( Chg_ParamID( en_Type ) ) -> f_FF;
+		case CTRL_ACC_SLA:
+			f_ff = PARAM_getGain( Chg_ParamID( en_Type ) ) -> f_FF_angleS_acc;
 			*p_err = f_AccAngleS * f_ff;
-			
+			break;
+
+		/* 等速 */
+		case CTRL_CONST:
+		case CTRL_CONST_SMOOTH:
+		case CTRL_SKEW_CONST:
+			f_ff = PARAM_getGain( Chg_ParamID( en_Type ) ) -> f_FF_speed;
+			*p_err = f_TrgtSpeed * f_ff;
 			break;
 		
-		/* 加速以外 */
+		/* 等速（超信地旋回）*/
+		case CTRL_CONST_TURN:
+		case CTRL_CONST_SLA:
+			f_ff = PARAM_getGain( Chg_ParamID( en_Type ) ) -> f_FF_angleS;
+			*p_err = f_TrgtAngleS * f_ff;
+			break;
+
+		/* 減速 */
+		case CTRL_DEC:
+		case CTRL_DEC_SMOOTH:
+		case CTRL_SKEW_DEC:
+			f_ff = PARAM_getGain( Chg_ParamID( en_Type ) ) -> f_FF_speed_acc;
+			*p_err = f_Acc * (-1) * f_ff;
+			break;
+
+		/* 減速（超信地旋回）*/
+		case CTRL_DEC_TURN:
+			f_ff = PARAM_getGain( Chg_ParamID( en_Type ) ) -> f_FF_angleS_acc;
+			*p_err = f_AccAngleS* (-1) * f_ff;
+			break;
+	
+		/* その他 */
 		default:
 			*p_err = 0;
 			break;										// 何もしない
 	}
 
 }
+
+// *************************************************************************
+//   機能		： フィードフォワード量を取得する（並進方向）
+//   注意		： CTRL_polからのみ実行可能
+//   メモ		： 1msec毎に実行される
+//   引数		： なし
+//   返り値		： フィードフォワード量
+// **************************    履    歴    *******************************
+// 		v1.0		2019.10.11			TKR			新規
+// *************************************************************************/
+PUBLIC void CTRL_getFF_Speed( FLOAT *p_err ){
+
+	FLOAT	f_ff_speed_acc		= 0.0f;
+	FLOAT	f_ff_speed			= 0.0f;
+
+	f_ff_speed_acc 	= PARAM_getGain( Chg_ParamID( en_Type ) ) -> f_FF_speed_acc;
+	f_ff_speed		= PARAM_getGain( Chg_ParamID( en_Type ) ) -> f_FF_speed;
+
+	/* 動作モードに応じる */
+    switch( en_Type ){
+	
+		/* 加速 */
+		case CTRL_ACC:
+		case CTRL_HIT_WALL:
+		case CTRL_ACC_SMOOTH:
+		case CTRL_SKEW_ACC:
+		case CTRL_ACC_SLA:
+			*p_err			= f_Acc * f_ff_speed_acc + f_TrgtSpeed * f_ff_speed;
+			break;
+		
+		/* 等速 */
+		case CTRL_CONST:
+		case CTRL_CONST_SMOOTH:
+		case CTRL_SKEW_CONST:
+		case CTRL_CONST_SLA:
+		case CTRL_ENTRY_SLA:
+		case CTRL_EXIT_SLA:
+			*p_err			= f_TrgtSpeed * f_ff_speed;
+			break;
+
+		
+		/* 減速 */
+		case CTRL_DEC:
+		case CTRL_DEC_SMOOTH:
+		case CTRL_SKEW_DEC:
+		case CTRL_DEC_SLA:
+			*p_err			= f_Acc * f_ff_speed_acc * (-1) + f_TrgtSpeed * f_ff_speed;
+			break;
+
+		default:
+			*p_err			= 0;
+			break;
+	}
+
+	
+}
+
+// *************************************************************************
+//   機能		： フィードフォワード量を取得する（回転方向）
+//   注意		： CTRL_polからのみ実行可能
+//   メモ		： 1msec毎に実行される
+//   引数		： なし
+//   返り値		： フィードフォワード量
+// **************************    履    歴    *******************************
+// 		v1.0		2019.10.11			TKR			新規
+// *************************************************************************/
+PUBLIC void CTRL_getFF_Angle( FLOAT *p_err ){
+
+	FLOAT	f_ff_angleS_acc		= 0.0f;
+	FLOAT	f_ff_angleS			= 0.0f;
+
+	f_ff_angleS_acc 	= PARAM_getGain( Chg_ParamID( en_Type ) ) -> f_FF_angleS_acc;
+	f_ff_angleS			= PARAM_getGain( Chg_ParamID( en_Type ) ) -> f_FF_angleS;
+
+	/* 動作モードに応じる */
+    switch( en_Type ){
+	
+		/* 加速 */
+		case CTRL_ACC_TURN:
+		case CTRL_ACC_SLA:
+			*p_err			= FABS(f_AccAngleS) * f_ff_angleS_acc + FABS(f_TrgtAngleS) * f_ff_angleS;
+			break;
+		
+		/* 等速 */
+		case CTRL_CONST_TURN:
+		case CTRL_CONST_SLA:
+			*p_err			= FABS(f_TrgtAngleS) * f_ff_angleS;
+			break;
+
+		
+		/* 減速 */
+		case CTRL_DEC_TURN:	
+		case CTRL_DEC_SLA:
+			*p_err			= FABS(f_AccAngleS) * f_ff_angleS_acc * (-1) + FABS(f_TrgtAngleS) * f_ff_angleS;
+			break;
+
+		default:
+			*p_err			= 0;
+			break;
+	}
+
+	
+}
+
 
 // *************************************************************************
 //   機能		： 速度フィードバック量を取得する
@@ -568,16 +706,26 @@ PUBLIC  void    CTRL_getFF( FLOAT *p_err ){
 //   返り値		： 速度フィードバック制御量
 // **************************    履    歴    *******************************
 // 		v1.0		2019.4.26			TKR			新規
+//		v2.0		2019.9.15			TKR			I制御対応
 // *************************************************************************/
-PUBLIC  void    CTRL_getSpeedFB( FLOAT *p_err ){
+PUBLIC void CTRL_getSpeedFB( FLOAT *p_err ){
 
     FLOAT	f_speedErr;		// [速度制御] 速度偏差
 	FLOAT	f_kp = 0.0f;	// 比例ゲイン
-	
-	/* 速度制御(P) */
-	f_speedErr  = f_TrgtSpeed - f_NowSpeed;						// 速度偏差[mm/s]
+	FLOAT	f_ki = 0.0f;	// 積分ゲイン
+
 	f_kp = PARAM_getGain( Chg_ParamID(en_Type) )->f_FB_speed_kp;
-	*p_err = f_speedErr * f_kp;									// P制御量算出
+	f_ki = PARAM_getGain( Chg_ParamID(en_Type) )->f_FB_speed_ki;
+
+	/* 速度制御(PI) */
+	f_speedErr  	= f_TrgtSpeed - f_NowSpeed;			// 速度偏差[mm/s]
+	f_SpeedErrSum	+= f_speedErr * f_ki;			 
+	
+	if( f_SpeedErrSum > 10000 ){
+		f_SpeedErrSum = 10000;
+	}
+
+	*p_err = f_SpeedErrSum + f_speedErr * f_kp;			// PI制御量算出
 
 }
 
@@ -590,58 +738,34 @@ PUBLIC  void    CTRL_getSpeedFB( FLOAT *p_err ){
 // **************************    履    歴    *******************************
 // 		v1.0		2019.4.26			TKR			新規
 // *************************************************************************/
-PUBLIC  void    CTRL_getDistFB( FLOAT *p_err ){
+PUBLIC void CTRL_getDistFB( FLOAT *p_err ){
 
     FLOAT       f_distErr;      // [距離制御]距離偏差
-
     FLOAT       f_kp    = 0;    // 比例ゲイン
     FLOAT       f_ki    = 0;    // 積分ゲイン
 
     *p_err = 0;
 	
-	/* 加速/等速の位置制御 */
-	if( ( en_Type == CTRL_ACC ) || ( en_Type == CTRL_CONST ) || 
-		( en_Type == CTRL_ACC_SMOOTH ) || ( en_Type == CTRL_CONST_SMOOTH ) ||
-		( en_Type == CTRL_SKEW_ACC ) || ( en_Type == CTRL_SKEW_CONST )
-	){
-		// なにもしない
-		// 後でフェールセーフを追加
+	f_kp = PARAM_getGain( Chg_ParamID(en_Type) )->f_FB_dist_kp;
+	f_ki = PARAM_getGain( Chg_ParamID(en_Type) )->f_FB_dist_ki;
+	
+	/* 位置制御(PI) */
+	f_distErr = f_TrgtDist - f_NowDist;					// 距離偏差[mm]
+	f_DistErrSum += f_distErr * f_ki;					// I成分更新
+	
+	if( f_DistErrSum > 10000 ){
+		f_DistErrSum = 10000;
 	}
 	
-	/* 減速のみの位置制御 */
-	else if( ( en_Type == CTRL_DEC ) || ( en_Type == CTRL_SKEW_DEC ) ||
-			 ( en_Type == CTRL_ENTRY_SLA ) || ( en_Type == CTRL_EXIT_SLA ) ||
-			 ( en_Type == CTRL_ACC_SLA ) || ( en_Type == CTRL_CONST_SLA ) || ( en_Type == CTRL_DEC_SLA )
-	){
-		f_kp = PARAM_getGain( Chg_ParamID(en_Type) )->f_FB_dist_kp;
-		f_ki = PARAM_getGain( Chg_ParamID(en_Type) )->f_FB_dist_ki;
-		
-		/* 位置制御 */
-		f_distErr = f_TrgtDist - f_NowDist;					// 距離偏差[mm]
-		
-		f_DistErrSum += f_distErr * f_ki;					// I成分更新
-		
-		if( f_DistErrSum > 10000 ){
-			f_DistErrSum = 10000;
-		}
-		
-		*p_err = f_distErr * f_kp + f_DistErrSum;		// PI制御量算出
-		
-		// 後でここにフェールセーフを追加
-		
-		/* 累積偏差クリア */
-		if( FABS( f_TrgtDist - f_NowDist ) < 0.1 ){
-			f_DistErrSum = 0;
-		}
+	*p_err = f_distErr * f_kp + f_DistErrSum;		// PI制御量算出
+	
+	// 後でここにフェールセーフを追加
+	
+	/* 累積偏差クリア */
+	if( FABS( f_TrgtDist - f_NowDist ) < 0.1 ){
+		f_DistErrSum = 0;
 	}
 	
-	/* 超信地旋回 */
-	else if( ( en_Type == CTRL_ACC_TURN ) || ( en_Type == CTRL_CONST_TURN ) || ( en_Type == CTRL_DEC_TURN ) ){
-		f_kp = PARAM_getGain( Chg_ParamID(en_Type) )->f_FB_dist_kp;
-
-		f_distErr = f_TrgtDist - f_NowDist;		// 距離偏差[mm]
-		*p_err = f_distErr * f_kp;
-	}
 }
 
 // *************************************************************************
@@ -653,16 +777,22 @@ PUBLIC  void    CTRL_getDistFB( FLOAT *p_err ){
 // **************************    履    歴    *******************************
 // 		v1.0		2019.4.26			TKR			新規
 //		v2.0		2019.6.2			TKR			角速度をGYRO_getNowAngleSpeed関数から取得
+//		v3.0		2019.9.15			TKR			I制御追加
 // *************************************************************************/
 PUBLIC  void CTRL_getAngleSpeedFB( FLOAT *p_err ){
 
-    FLOAT	f_err;				// [入力] ジャイロセンサーエラー 
-	FLOAT	f_kp = 0.0f;		// 比例ゲイン
+    FLOAT		f_err;			// [入力] ジャイロセンサーエラー 
+	FLOAT       f_kp    = 0;    // 比例ゲイン
+    FLOAT       f_ki    = 0;    // 積分ゲイン
 	
 	f_kp = PARAM_getGain(Chg_ParamID(en_Type)) -> f_FB_angleS_kp;
-	f_err = f_TrgtAngleS - f_NowGyroAngleSpeed;
+	f_ki = PARAM_getGain(Chg_ParamID(en_Type)) -> f_FB_angleS_ki;
 	
-	*p_err = f_err * f_kp;				// P制御量算出
+	/* 角速度制御(PI) */
+	f_err 				= f_TrgtAngleS - f_NowGyroAngleSpeed;		// 角速度偏差[deg/s]
+	f_AngleSpeedErrSum	+= f_err * f_ki;							// I成分更新
+	
+	*p_err = f_err * f_kp + f_AngleSpeedErrSum;				// PI制御量算出
 
 }
 
@@ -719,7 +849,7 @@ PUBLIC  void    CTRL_getAngleFB( FLOAT *p_err ){
 // **************************    履    歴    *******************************
 // 		v1.0		2019.4.26			TKR			新規
 // *************************************************************************/
-PUBLIC  void    CTRL_getSenFB( FLOAT *p_err ){
+PUBLIC void CTRL_getSenFB( FLOAT *p_err ){
 
    	FLOAT f_err		= 0;
 	FLOAT f_kp		= 0.0f;			// 比例ゲイン
@@ -760,7 +890,7 @@ PUBLIC  void    CTRL_getSenFB( FLOAT *p_err ){
 // **************************    履    歴    *******************************
 // 		v1.0		2019.4.26			TKR			新規
 // *************************************************************************/
-PRIVATE void    CTRL_outMot( FLOAT f_duty10_R, FLOAT f_duty10_L ){
+PRIVATE void CTRL_outMot( FLOAT f_duty10_R, FLOAT f_duty10_L ){
 
     FLOAT   f_temp;     // 計算用
 
@@ -807,9 +937,11 @@ PRIVATE void    CTRL_outMot( FLOAT f_duty10_R, FLOAT f_duty10_L ){
 // 		v1.0		2019.4.26			TKR			新規
 //		v2.0		2019.8.6			TKR			ログ機能追加
 // *************************************************************************/
-PUBLIC  void    CTRL_pol( void ){
+PUBLIC void CTRL_pol( void ){
 
-    FLOAT f_feedFoard			= 0;		// [制御] フィードフォワード制御
+//  FLOAT f_feedFoard			= 0;		// [制御] フィードフォワード制御
+	FLOAT f_feedFoard_speed		= 0;		// [制御] フィードフォワード制御（並列方向）
+	FLOAT f_feedFoard_angle		= 0;		// [制御] フィードフォワード制御（回転方向）
 	FLOAT f_speedCtrl			= 0;		// [制御] 速度制御量
 	FLOAT f_distCtrl			= 0;		// [制御] 距離制御量
 	FLOAT f_angleSpeedCtrl		= 0;		// [制御] 角速度制御量
@@ -830,7 +962,9 @@ PUBLIC  void    CTRL_pol( void ){
 	CTRL_refTarget();								// 制御に使用する値を目標値に更新
 
 	/* 制御値取得 */
-	CTRL_getFF( &f_feedFoard );						// [制御] フィードフォワード
+//	CTRL_getFF( &f_feedFoard );						// [制御] フィードフォワード
+	CTRL_getFF_Speed( &f_feedFoard_speed );			// [制御] フィードフォワード制御（並列方向）			
+	CTRL_getFF_Angle( &f_feedFoard_angle );			// [制御] フィードフォワード制御（回転方向）
 
 	CTRL_getSpeedFB( &f_speedCtrl );				// [制御] 速度
 	CTRL_getDistFB( &f_distCtrl );					// [制御] 距離
@@ -855,10 +989,10 @@ PUBLIC  void    CTRL_pol( void ){
 			st_Log[us_LogPt].f_trgtPos		= f_TrgtDist;				// 位置（目標値）
 			st_Log[us_LogPt].f_nowPos		= f_NowDist;				// 位置（実測値）
 			st_Log[us_LogPt].f_trgtAngleS	= f_TrgtAngleS;				// 角速度（目標値）
-			st_Log[us_LogPt].f_nowAngleS	= f_NowGyroAngleSpeed;			// 角速度（実測値）
+			st_Log[us_LogPt].f_nowAngleS	= f_NowGyroAngleSpeed;		// 角速度（実測値）
 			st_Log[us_LogPt].f_trgtAngle	= f_TrgtAngle;				// 角度（目標値）
-			st_Log[us_LogPt].f_nowAngle		= f_NowAngle;			// 角度（実測値）
-			
+			st_Log[us_LogPt].f_nowAngle		= f_NowAngle;				// 角度（実測値）
+			st_Log[us_LogPt].f_nowAccel		= f_NowAccel;				// 加速度（実測値）
 			us_LogPt++;
 			if(us_LogPt== CTRL_LOG) bl_log = false;
 		}
@@ -871,20 +1005,32 @@ PUBLIC  void    CTRL_pol( void ){
 		( en_Type == CTRL_ENTRY_SLA ) || ( en_Type == CTRL_EXIT_SLA) ||
 		( en_Type == CTRL_SKEW_ACC ) || ( en_Type == CTRL_SKEW_CONST ) || ( en_Type == CTRL_SKEW_DEC )
 		){
-		f_duty10_R = f_feedFoard * FF_BALANCE_R +  f_distCtrl + f_speedCtrl + f_angleCtrl + f_angleSpeedCtrl + f_distSenCtrl;	// 右モータPWM-DUTY比[0.1%]
-		f_duty10_L = f_feedFoard * FF_BALANCE_L +  f_distCtrl + f_speedCtrl - f_angleCtrl - f_angleSpeedCtrl - f_distSenCtrl;	// 左モータPWM-DUTY比[0.1%]
+//		f_duty10_R = f_feedFoard * FF_BALANCE_R +  f_distCtrl + f_speedCtrl + f_angleCtrl + f_angleSpeedCtrl + f_distSenCtrl;	// 右モータPWM-DUTY比[0.1%]
+//		f_duty10_L = f_feedFoard * FF_BALANCE_L +  f_distCtrl + f_speedCtrl - f_angleCtrl - f_angleSpeedCtrl - f_distSenCtrl;	// 左モータPWM-DUTY比[0.1%]
+		f_duty10_R = f_feedFoard_speed * FF_BALANCE_R +  f_distCtrl + f_speedCtrl + f_angleCtrl + f_angleSpeedCtrl + f_distSenCtrl;	// 右モータPWM-DUTY比[0.1%]
+		f_duty10_L = f_feedFoard_speed * FF_BALANCE_L +  f_distCtrl + f_speedCtrl - f_angleCtrl - f_angleSpeedCtrl - f_distSenCtrl;	// 左モータPWM-DUTY比[0.1%]
+
 	}
 	
 	/* 壁あて制御 */
 	else if( en_Type == CTRL_HIT_WALL){
-		f_duty10_R = f_feedFoard * FF_HIT_BALANCE_R * (-1);
-		f_duty10_L = f_feedFoard * FF_HIT_BALANCE_L * (-1);
+		f_duty10_R = f_feedFoard_speed * FF_HIT_BALANCE_R * (-1);
+		f_duty10_L = f_feedFoard_speed * FF_HIT_BALANCE_L * (-1);
 	}
 	
 	/* スラローム制御 */
 	else if( ( en_Type == CTRL_ACC_SLA ) || ( en_Type == CTRL_CONST_SLA ) || ( en_Type == CTRL_DEC_SLA ) ){
-		f_duty10_R = f_feedFoard * FF_BALANCE_R + f_distCtrl + f_speedCtrl + f_angleCtrl + f_angleSpeedCtrl;		//右モータPWM-DUTY比[0.1%]
-		f_duty10_L = f_feedFoard * FF_BALANCE_L + f_distCtrl + f_speedCtrl - f_angleCtrl - f_angleSpeedCtrl;		//左モータPWM-DUTY比[0.1%]
+		if(f_LastAngle > 0){
+//			f_duty10_R = f_feedFoard * FF_BALANCE_R		+ f_distCtrl + f_speedCtrl + f_angleCtrl + f_angleSpeedCtrl;		//右モータPWM-DUTY比[0.1%]
+//			f_duty10_L = f_feedFoard * FF_BALANCE_L*(-1)+ f_distCtrl + f_speedCtrl - f_angleCtrl - f_angleSpeedCtrl;		//左モータPWM-DUTY比[0.1%]
+			f_duty10_R = f_feedFoard_speed * FF_BALANCE_R + f_feedFoard_angle * FF_BALANCE_R	+ f_distCtrl + f_speedCtrl + f_angleCtrl + f_angleSpeedCtrl;		//右モータPWM-DUTY比[0.1%]
+			f_duty10_L = f_feedFoard_speed * FF_BALANCE_L + f_feedFoard_angle * FF_BALANCE_L*(-1)		+ f_distCtrl + f_speedCtrl - f_angleCtrl - f_angleSpeedCtrl;		//左モータPWM-DUTY比[0.1%]
+		}else{
+//			f_duty10_R = f_feedFoard * FF_BALANCE_R*(-1)+ f_distCtrl + f_speedCtrl + f_angleCtrl + f_angleSpeedCtrl;		//右モータPWM-DUTY比[0.1%]
+//			f_duty10_L = f_feedFoard * FF_BALANCE_L		+ f_distCtrl + f_speedCtrl - f_angleCtrl - f_angleSpeedCtrl;		//左モータPWM-DUTY比[0.1%]
+			f_duty10_R = f_feedFoard_speed * FF_BALANCE_R + f_feedFoard_angle * FF_BALANCE_R*(-1)		+ f_distCtrl + f_speedCtrl + f_angleCtrl + f_angleSpeedCtrl;		//右モータPWM-DUTY比[0.1%]
+			f_duty10_L = f_feedFoard_speed * FF_BALANCE_L + f_feedFoard_angle * FF_BALANCE_L	+ f_distCtrl + f_speedCtrl - f_angleCtrl - f_angleSpeedCtrl;		//左モータPWM-DUTY比[0.1%]
+		}
 	}
 	
 	/*超信地旋回*/
@@ -892,13 +1038,17 @@ PUBLIC  void    CTRL_pol( void ){
 	
 		/*左旋回*/
 		if(f_LastAngle > 0){
-			f_duty10_R = f_feedFoard * FF_BALANCE_R	     + f_angleCtrl + f_angleSpeedCtrl +  f_speedCtrl + f_distCtrl;
-			f_duty10_L = f_feedFoard * FF_BALANCE_L*(-1) - f_angleCtrl - f_angleSpeedCtrl +  f_speedCtrl + f_distCtrl;
+//			f_duty10_R = f_feedFoard * FF_BALANCE_R	     + f_angleCtrl + f_angleSpeedCtrl +  f_speedCtrl + f_distCtrl;
+//			f_duty10_L = f_feedFoard * FF_BALANCE_L*(-1) - f_angleCtrl - f_angleSpeedCtrl +  f_speedCtrl + f_distCtrl;
+			f_duty10_R = f_feedFoard_angle * FF_BALANCE_R	   + f_angleCtrl + f_angleSpeedCtrl +  f_speedCtrl + f_distCtrl;
+			f_duty10_L = f_feedFoard_angle * FF_BALANCE_L*(-1) - f_angleCtrl - f_angleSpeedCtrl +  f_speedCtrl + f_distCtrl;
 		}
 		else{
 		/*右旋回*/
-			f_duty10_R = f_feedFoard * FF_BALANCE_R*(-1) + f_angleCtrl + f_angleSpeedCtrl +  f_speedCtrl + f_distCtrl;
-			f_duty10_L = f_feedFoard * FF_BALANCE_L	     - f_angleCtrl - f_angleSpeedCtrl +  f_speedCtrl + f_distCtrl;
+//			f_duty10_R = f_feedFoard * FF_BALANCE_R*(-1) + f_angleCtrl + f_angleSpeedCtrl +  f_speedCtrl + f_distCtrl;
+//			f_duty10_L = f_feedFoard * FF_BALANCE_L	     - f_angleCtrl - f_angleSpeedCtrl +  f_speedCtrl + f_distCtrl;
+			f_duty10_R = f_feedFoard_angle * FF_BALANCE_R*(-1) 	+ f_angleCtrl + f_angleSpeedCtrl +  f_speedCtrl + f_distCtrl;
+			f_duty10_L = f_feedFoard_angle * FF_BALANCE_L		- f_angleCtrl - f_angleSpeedCtrl +  f_speedCtrl + f_distCtrl;
 		}
 	}
 
@@ -941,13 +1091,11 @@ PUBLIC  void    CTRL_pol( void ){
 PUBLIC void CTRL_showLog( void ){
 	
 	USHORT	i;
-//	printf("\033[2J");		// コンソール画面のクリア
-//	printf("\n\r");
-
-	printf("index,TrgtSpeed[mm/s],NowSpeed[mm/s],TrgtPos[mm],NowPos[mm],TrgtAngleS[deg/s],NowAngleS[deg/s],TrgtAngle[deg],NowAngle[deg]\n\r");
+	
+	printf("index,TrgtSpeed[mm/s],NowSpeed[mm/s],TrgtPos[mm],NowPos[mm],TrgtAngleS[deg/s],NowAngleS[deg/s],TrgtAngle[deg],NowAngle[deg],NowAccel[m/s^2]\n\r");
 	for(i=0; i<CTRL_LOG; i++){
-		printf("%4d,%f,%f,%f,%f,%f,%f,%f,%f\n\r",
-				i,st_Log[i].f_trgtSpeed,st_Log[i].f_nowSpeed,st_Log[i].f_trgtPos,st_Log[i].f_nowPos,st_Log[i].f_trgtAngleS,st_Log[i].f_nowAngleS,st_Log[i].f_trgtAngle,st_Log[i].f_nowAngle);
+		printf("%4d,%f,%f,%f,%f,%f,%f,%f,%f,%f\n\r",
+				i,st_Log[i].f_trgtSpeed,st_Log[i].f_nowSpeed,st_Log[i].f_trgtPos,st_Log[i].f_nowPos,st_Log[i].f_trgtAngleS,st_Log[i].f_nowAngleS,st_Log[i].f_trgtAngle,st_Log[i].f_nowAngle,st_Log[i].f_nowAccel);
 	}
 
 }

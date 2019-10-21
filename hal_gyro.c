@@ -45,8 +45,8 @@ PUBLIC volatile FLOAT  f_NowGyroAngleSpeed;						// ジャイロセンサの現在角速度
 
 PUBLIC SHORT 	s_AccelVal_Lo;							// 加速度センサ値(下位)
 PUBLIC SHORT 	s_AccelVal_Hi;							// 加速度センサ値(上位)
-PUBLIC FLOAT  	f_NowAccel;								// 進行方向の現在加速度	
-
+PUBLIC volatile FLOAT  	f_NowAccel;								// 進行方向の現在加速度
+PRIVATE SHORT	s_AccelValBuf[10];						// 加速度センサのバッファ
 
 PUBLIC	SHORT s_WhoamiVal;
 
@@ -243,6 +243,29 @@ PUBLIC void GYRO_init( void ){
 		}	
 	}
 	
+	/* 信号リセット[No.104] */
+	//while(1){	
+		// 設定の書き込み
+		SPI_staSetData(SPI_SIGNAL_RESET,0x03);		// 加速度・温度リセット
+		TIME_wait(100);
+		while(1){
+			if( en_SpiState == SPI_IDLE )break;		// SPI通信完了
+		}
+
+		// レジスタチェック
+		//p_SpiRcvData		= &us_dummy;		// ダミー
+		//SPI_staGetData(SPI_SIGNAL_RESET);			// 読み出し
+		//TIME_wait(100);
+		//printf("SPI_SIGNAL_RESET:0x%x\n\r",us_dummy);
+		//if( us_dummy == 0x03 ){
+		//	printf("SPI_SIGNAL_RESET:success\n\r");
+		//	break;			// 所望の設定が書き込めていたらOK
+		//}else{
+		//	printf("SPI_SIGNAL_RESET:failure\n\r");
+		//}	
+
+	//}
+
 	/* コンフィグ[No.26] */
 	while(1){
 		// 設定の書き込み
@@ -361,6 +384,29 @@ PUBLIC void GYRO_init( void ){
 		}				
 	}
 
+	/* 精度(加速度)[No.28] */
+	while(1){	
+		// 設定の書き込み
+		SPI_staSetData(SPI_ACC_CFG,0x08);			// ±4[g]
+		TIME_wait(100);
+		while(1){
+			if( en_SpiState == SPI_IDLE )break;		// SPI通信完了
+		}
+
+		// レジスタチェック
+		p_SpiRcvData		= &us_dummy;		// ダミー
+		SPI_staGetData(SPI_ACC_CFG);			// 読み出し用レジスタ
+		TIME_wait(100);
+		printf("SPI_ACC_CFG:0x%x\n\r",us_dummy);
+		if( us_dummy == 0x08 ){
+			printf("SPI_ACC_CFG:success\n\r");
+			break;			// 所望の設定が書き込めていたらOK
+		}else{
+			printf("SPI_ACC_CFG:failure\n\r");
+		}				
+	}
+
+
 	while( 0x12 != s_WhoamiVal ){
 		printf("failure\n\r");
 		GYRO_get_WHOAMI();
@@ -392,7 +438,7 @@ PRIVATE void GYRO_getVal_2nd( void ){
 	f_tempAngleSpeed	= (FLOAT)s_count / GYRO_SCALE_FACTOR;				// [カウント]→[dps]に変換
 
 	/* SWフィルタを有効にする(後で書く) */ 
-	if((SW_FILTER_VAL_MIN<f_tempAngleSpeed)&&(f_tempAngleSpeed<SW_FILTER_VAL_MAX)){
+	if((SW_GYRO_FILTER_VAL_MIN<f_tempAngleSpeed)&&(f_tempAngleSpeed<SW_GYRO_FILTER_VAL_MAX)){
 		f_tempAngleSpeed	= 0;
 	}
 	
@@ -455,32 +501,42 @@ PUBLIC void GYRO_getAccVal( void ){
 // *************************************************************************
 //   機能		： 加速度センサ値取得用関数(2/2)
 //   注意		： なし
-//   メモ		： なし
+//   メモ		： [m/s^2]の形でf_NowAccelに代入
 //   引数		： なし
 //   返り値		： なし
 // **************************    履    歴    *******************************
 // 		v1.0		2019.7.30			TKR			新規
+//		v2.0		2019.9.20			TKR			移動平均追加
 // *************************************************************************/
 PRIVATE void GYRO_getAccVal_2nd( void ){
 
 	SHORT	s_count;			// ICM20602から得られた加速度(カウント値)
-	FLOAT	f_tempAcc;			// 加速度[]
+	FLOAT	f_tempAcc;			// 加速度[g]
+	int i = 9;
 
 	/* 初期化 */
 	p_SpiRcvData		= NULL;
 	p_SpiCallBackFunc	= NULL;
 
-	/* 角速度値 */
-	s_count				= (SHORT)(s_AccelVal_Lo | (s_AccelVal_Hi << 8) );		// データ結合
-	f_tempAcc			= (FLOAT)s_count / ACC_SCALE_FACTOR;				// [カウント]→[]に変換
+	/* バッファシフト */
+//	for(i=9; i<1; i--){
+//		s_AccelValBuf[i]	= s_AccelValBuf[i-1];	
+//	}	
 
-	/* SWフィルタを有効にする(閾値がまだジャイロ仕様になっているので後で修正) */ 
-	if((SW_FILTER_VAL_MIN<f_tempAcc)&&(f_tempAcc<SW_FILTER_VAL_MAX)){
+	/* 角速度値 */
+	s_count	= (SHORT)(s_AccelVal_Lo | (s_AccelVal_Hi << 8) );		// データ結合
+//	s_AccelValBuf[0]	= (SHORT)(s_AccelVal_Lo | (s_AccelVal_Hi << 8) );		// データ結合
+//	s_count				= ( s_AccelValBuf[0] + s_AccelValBuf[1] + s_AccelValBuf[2] + s_AccelValBuf[3] + s_AccelValBuf[4] + // ) / 5;
+//							s_AccelValBuf[5] + s_AccelValBuf[6] + s_AccelValBuf[7] + s_AccelValBuf[8] + s_AccelValBuf[9] );
+	f_tempAcc			= (FLOAT)s_count / ACC_SCALE_FACTOR;					// [カウント]→[g]に変換
+
+	/* SWフィルタを有効にする */ 
+	if( (SW_ACC_FILTER_VAL_MIN<f_tempAcc) && (f_tempAcc<SW_ACC_FILTER_VAL_MAX) ){
 		f_tempAcc	= 0;
 	}
 	
 	/* 加速度更新 */
-	f_NowAccel		= f_tempAcc;
+	f_NowAccel		= f_tempAcc * 9.8f;		// [m/s^2]
 
 }
 
@@ -500,3 +556,18 @@ PRIVATE void GYRO_getAccVal_1st( void ){
 	SPI_staGetData(SPI_ACC_H);
 
 }
+
+// *************************************************************************
+//   機能		： ジャイロの現在の加速度を取得する
+//   注意		： なし
+//   メモ		： ☆
+//   引数		： なし
+//   返り値		： なし
+// **************************    履    歴    *******************************
+// 		v1.0		2019.9.15			TKR			新規
+// *************************************************************************/
+PUBLIC FLOAT GYRO_getNowAccel( void )
+{
+	return f_NowAccel;
+}
+

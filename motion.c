@@ -19,12 +19,14 @@
 
 #include <hal_dcm.h>						// DCM
 #include <hal_dcmCtrl.h>					// DCM_CTRL
+#include <hal_gyro.h>						// GYRO
 
 #include <motion.h>                         // motion
 #include <parameter.h>						// parameter
 
 #include <mode.h>							// mode
 #include <hal_led.h>						// LED
+#include <hal_spk.h>						// SPK
 
 //**************************************************
 // 定義（define）
@@ -86,6 +88,7 @@ PRIVATE FLOAT 				f_MotNowSpeed 			= 0.0f;		// 現在速度
 PRIVATE FLOAT 				f_MotTrgtSpeed 			= 300.0f;	// 目標速度
 PRIVATE FLOAT 				f_MotSlaStaSpeed 		= 0.0f;		// スラローム開始速度
 PRIVATE	stMOT_DATA 			st_Info;							// シーケンスデータ
+PRIVATE BOOL				bl_failsafe				= false;	// フェイルセーフ（TRUE：発動	FALSE：何もなし）
 
 /* 壁切れ関係 */
 PRIVATE enMOT_WALL_EDGE_TYPE		en_WallEdge 		= MOT_WALL_EDGE_NONE;	//壁切れ補正
@@ -254,6 +257,11 @@ PRIVATE void MOT_goBlock_AccConstDec( FLOAT f_fin, enMOT_ST_TYPE en_type, enMOT_
 				break;
 			}
 			
+			/* フェイルセーフ */
+			MOT_Failsafe(&bl_failsafe);
+			if( bl_failsafe == TRUE ){
+				return;
+			}
 			//MOT_setWallEdgeDIST();		// 壁切れ補正を実行する距離を設定
 			
 		}
@@ -314,7 +322,11 @@ PRIVATE void MOT_goBlock_AccConstDec( FLOAT f_fin, enMOT_ST_TYPE en_type, enMOT_
 			CTRL_stop();				// 制御停止
 			break;
 		}
-		
+
+		/* フェイルセーフ */
+		MOT_Failsafe(&bl_failsafe);
+		if( bl_failsafe == TRUE )return;
+
 		//MOT_setWallEdgeDIST();	// 壁切れ補正を実行する距離を設定
 	}
 	
@@ -372,6 +384,10 @@ PRIVATE void MOT_goBlock_AccConstDec( FLOAT f_fin, enMOT_ST_TYPE en_type, enMOT_
 				break;
 			}
 			
+			/* フェイルセーフ */
+			MOT_Failsafe(&bl_failsafe);
+			if( bl_failsafe == TRUE )return;
+
 			//MOT_setWallEdgeDIST();		// 壁切れ補正を実行する距離を設定
 			
 		}
@@ -382,7 +398,7 @@ PRIVATE void MOT_goBlock_AccConstDec( FLOAT f_fin, enMOT_ST_TYPE en_type, enMOT_
 	/*  等速(壁の切れ目)  */
 	/* ------------------ */
 	/* 壁切れがまだ見つからない状態（壁切れ設定をしているのに、エッジを見つけていない） */
-
+#if 0
 	if( ( en_WallEdge != MOT_WALL_EDGE_NONE)  && ( bl_IsWallEdge == false) ){
 		
 		st_data.en_type			= CTRL_CONST;
@@ -403,6 +419,10 @@ PRIVATE void MOT_goBlock_AccConstDec( FLOAT f_fin, enMOT_ST_TYPE en_type, enMOT_
 		
 		while( f_NowDist < st_data.f_dist ){			// 指定距離到達待ち
 			
+			/* フェイルセーフ */
+			MOT_Failsafe(&bl_failsafe);
+			if( bl_failsafe == TRUE )return;
+
 			if( MOT_setWallEdgeDIST_LoopWait() == true ) break;			// 壁切れ補正を実行する距離を設定
 			
 		}
@@ -430,10 +450,16 @@ PRIVATE void MOT_goBlock_AccConstDec( FLOAT f_fin, enMOT_ST_TYPE en_type, enMOT_
 		CTRL_setData( &st_data );						// データセット
 		
 		while( f_NowDist < st_data.f_dist ){			// 指定距離到達待ち
+			
+			/* フェイルセーフ */
+			MOT_Failsafe(&bl_failsafe);
+			if( bl_failsafe == TRUE )return;
+
 		}
 		
 	}
-	
+#endif
+
 	/* 停止 */
 	if( 0.0f == f_fin ){
 		TIME_wait(500);				// 安定待ち
@@ -1631,6 +1657,267 @@ PUBLIC void MOT_turn( enMOT_TURN_CMD en_type){
 }
 
 // *************************************************************************
+//   機能		： 超信地旋回（目標角速度変更可能）
+//   注意		： なし
+//   メモ		： なし
+//   引数		： 旋回の種類，目標角速度[deg/s]
+//   返り値		： なし
+// **************************    履    歴    *******************************
+// 		v1.0		2019.9.17			TKR			新規
+// *************************************************************************/
+PUBLIC void MOT_turn2( enMOT_TURN_CMD en_type, FLOAT f_trgtAngleS ){
+	volatile stMOT_DATA	st_info;			//シーケンスデータ
+	stCTRL_DATA		st_data;				//制御データ
+	FLOAT			f_angle3;
+
+	/* -------------- */
+	/* 動作データ計算  */
+	/* -------------- */
+	FLOAT			f_acc1;
+	FLOAT			f_acc3;
+	FLOAT			f_theta1;
+	FLOAT			f_theta3;
+	FLOAT			f_total;	
+
+	f_acc1		= MOT_getAccAngle1();
+	f_theta1	= f_trgtAngleS * f_trgtAngleS / ( f_acc1 * 2);
+
+	f_acc3		= MOT_getAccAngle3();
+	f_theta3	=  f_trgtAngleS * f_trgtAngleS /( f_acc3 * 2 );
+
+	/* 角速度*/
+	st_info.f_nowAngleS = 0;
+	st_info.f_lastAngleS = 0;
+
+	/* 角度 */
+	switch(en_type){	
+		case MOT_R90:
+			st_info.f_angle	= -90 + ANGLE_OFFSET_R90;
+			f_total			= st_info.f_angle * (-1);
+			break;
+			
+		case MOT_L90:
+			st_info.f_angle	= 90 + ANGLE_OFFSET_L90;
+			f_total 		= st_info.f_angle;
+			break;
+			
+		case MOT_R180:
+			st_info.f_angle	= -180 + ANGLE_OFFSET_R180;
+			f_total 		= st_info.f_angle * (-1);
+			break;
+			
+		case MOT_L180:
+			st_info.f_angle	= 180 + ANGLE_OFFSET_L180;
+			f_total 		= st_info.f_angle;	
+			break;
+			
+		case MOT_R360:
+			st_info.f_angle	= -360;
+			f_total = st_info.f_angle * (-1);
+			break;
+			
+		case MOT_L360:
+			st_info.f_angle	= 360;
+			f_total = st_info.f_angle;		
+			break;
+	}
+
+	/* 台形動作の種類判定 */
+	if( ( f_total - f_theta1 - f_theta3 -  A2_MIN) >= 0 ){		// 通常の台形動作
+
+		/* 角加速度 */
+		st_info.f_accAngleS1		= MOT_getAccAngle1();
+		st_info.f_accAngleS3		= MOT_getAccAngle3();
+
+		/* 角速度 */
+		st_info.f_nowAngleS 		= 0;
+		st_info.f_lastAngleS 		= 0;
+		st_info.f_trgtAngleS		= f_trgtAngleS;
+		
+		/* 角度 */
+		st_info.f_angle1	= f_trgtAngleS * f_trgtAngleS /( st_info.f_accAngleS1 * 2 );
+		f_angle3			= f_trgtAngleS * f_trgtAngleS /( st_info.f_accAngleS3 * 2 );
+		st_info.f_angle1_2	= f_total - f_angle3;
+
+	}else{		// 目標角速度を変更
+
+		/* 角加速度 */
+		st_info.f_accAngleS1		= MOT_getAccAngle1();
+		st_info.f_accAngleS3		= MOT_getAccAngle3();
+
+		/* 角速度 */
+		st_info.f_nowAngleS 		= 0;
+		st_info.f_lastAngleS 		= 0;
+		st_info.f_trgtAngleS	= sqrt( 1 / ( ( st_info.f_accAngleS3 * -1 ) - st_info.f_accAngleS1 ) *					// 目標角速度を変更
+									( 2 * st_info.f_accAngleS1 * ( st_info.f_accAngleS3 * -1 ) * ( f_total - MOT_MOVE_ST_MIN ) ) );
+		
+		/* 角度 */
+		st_info.f_angle1	= st_info.f_trgtAngleS * st_info.f_trgtAngleS /( st_info.f_accAngleS1 * 2 );
+		f_angle3			= st_info.f_trgtAngleS * st_info.f_trgtAngleS /( st_info.f_accAngleS3 * 2 );
+		st_info.f_angle1_2	= f_total - f_angle3;
+	
+	}
+
+	/* 符号処理 */
+	if((en_type == MOT_R90) || (en_type == MOT_R180) || (en_type == MOT_R360)){
+		st_info.f_trgtAngleS 		*= -1;
+		st_info.f_angle1			*= -1;
+		st_info.f_angle1_2			*= -1;
+		f_angle3					*= -1;
+	}
+
+
+#ifndef TEST	
+	printf("st_info.f_trgtAngleS:%f \n\r",st_info.f_trgtAngleS);
+	printf("f_angle3:%f \n\r",f_angle3);
+	printf("st_info.f_angle1:%f \n\r",st_info.f_angle1);
+	printf("st_info.f_angle1_2:%f \n\r",st_info.f_angle1_2);
+#endif
+	
+	/* ================ */
+	/*　　 実動作 　　　*/
+	/* ================ */
+	/* -----*/
+	/* 加速 */
+	/* -----*/
+	st_data.en_type			= CTRL_ACC_TURN;
+	st_data.f_acc			= 0;						//加速度指定
+	st_data.f_trgt			= 0;						// 目標速度
+	st_data.f_nowDist		= 0;						// 進んでいない
+	st_data.f_dist			= 0;						// 加速距離
+	st_data.f_accAngleS		= st_info.f_accAngleS1;		// 角加速度
+	st_data.f_nowAngleS		= 0;						// 現在角速度
+	st_data.f_trgtAngleS	= st_info.f_trgtAngleS;		// 目標角速度
+	st_data.f_nowAngle		= 0;						// 現在角度
+	st_data.f_angle			= st_info.f_angle1;			// 目標角度
+	st_data.f_time 			= 0;						// 目標時間 [sec] ← 指定しない
+	
+	CTRL_clrData();										// マウスの現在位置/角度をクリア
+	CTRL_setData( &st_data );							// データセット
+	DCM_staMotAll();									// モータON	
+	
+	if(( en_type == MOT_R90 ) || ( en_type == MOT_R180 ) || ( en_type == MOT_R360 )){		//-方向
+		while( f_NowAngle > st_info.f_angle1 ){				//指定角度到達待ち(右回転)
+			
+			/*脱出*/
+			if(SW_ON == SW_INC_PIN){
+				CTRL_stop();				// 制御停止
+				break;
+			}
+			
+			//if( SYS_isOUTOfCtrl() == true ) break;		//途中で制御不能になった
+		}
+	}else{
+		while( f_NowAngle < st_info.f_angle1){				//指定角度到達待ち(左回転)
+		
+			/*脱出*/
+			if(SW_ON == SW_INC_PIN){
+				CTRL_stop();				// 制御停止
+				break;
+			}
+			//if( SYS_isOutOfCtrl() == true ) break;		//途中で制御不能になった
+		}
+	}
+	
+	//printf("加速完了(*´▽｀*)\n\r");
+
+	/* ---- */
+	/* 等速 */
+	/* ---- */
+	//printf("第1+2移動角度：%5.4f \n\r",st_info.f_angle1_2);
+	st_data.en_type			= CTRL_CONST_TURN;
+	st_data.f_acc			= 0;					//加速度指定
+	st_data.f_now			= 0;					//現在速度
+	st_data.f_trgt			= 0;					//目標速度
+	st_data.f_nowDist		= 0;					//進んでいない
+	st_data.f_dist			= 0;					//等速完了位置
+	st_data.f_accAngleS		= 0;					//角加速度
+	st_data.f_nowAngleS		= f_TrgtAngleS;			//現在角速度
+	st_data.f_trgtAngleS	= f_TrgtAngleS;			//目標角速度
+	st_data.f_nowAngle		= st_info.f_angle1;		//現在角度
+	st_data.f_angle			= st_info.f_angle1_2;	//目標角度
+	st_data.f_time			= 0;					//目標時間[sec]←指定しない
+	
+	CTRL_setData( &st_data );				//データセット
+	
+	if(( en_type == MOT_R90 ) || ( en_type == MOT_R180 ) || ( en_type == MOT_R360 )){		//-方向
+		while( f_NowAngle > st_info.f_angle1_2 ){		//指定角度到達待ち(左回転)
+			
+			/*脱出*/
+			if(SW_ON == SW_INC_PIN){
+				CTRL_stop();				// 制御停止
+				break;
+			}
+		
+			//if( SYS_isOUTOfCtrl() == true ) break;		//途中で制御不能になった
+		}
+	}else{
+		while( f_NowAngle < st_info.f_angle1_2){		//指定角度到達待ち(右回転)
+			/*脱出*/
+			if(SW_ON == SW_INC_PIN){
+				CTRL_stop();				// 制御停止
+				break;
+			}
+			//if( SYS_isOutOfCtrl() == true ) break;		//途中で制御不能になった
+		}
+	}
+
+#ifndef TEST	
+	printf("st_info.f_angle:%5.4f \n\r",st_info.f_angle);
+	printf("st_info.f_angle1:%5.4f \n\r",st_info.f_angle1);
+	printf("st_info.f_angle1_2:%5.4f \n\r",st_info.f_angle1_2);
+#endif
+	/* ---- */
+	/* 減速 */
+	/* ---- */
+	st_data.en_type			= CTRL_DEC_TURN;
+	st_data.f_acc			= 0;					//加速度指定
+	st_data.f_now			= 0;					//現在速度
+	st_data.f_trgt			= 0;					//最終速度
+	st_data.f_nowDist		= 0;					//等速完了位置
+	st_data.f_dist			= 0;					//全移動完了位置
+	st_data.f_accAngleS		= st_info.f_accAngleS3;	//角加速度
+	st_data.f_nowAngleS		= f_TrgtAngleS;			//現在角速度
+	st_data.f_trgtAngleS	= 0;					//目標角速度
+	st_data.f_nowAngle		= st_info.f_angle1_2;	//現在角度
+	st_data.f_angle			= st_info.f_angle;		//目標角度
+	st_data.f_time			= 0;					//目標時間[sec]←指定しない
+	
+	CTRL_setData( &st_data );						// データセット
+	
+	if(( en_type == MOT_R90 ) || ( en_type == MOT_R180 ) || ( en_type == MOT_R360 )){	//-方向
+		while( f_NowAngle > ( st_info.f_angle + 1)){		//指定角度到達待ち(右回転)
+			
+			/*脱出*/
+			if(SW_ON == SW_INC_PIN){
+				CTRL_stop();				// 制御停止
+				break;
+			}
+		
+			//if( SYS_isOutOfCtrl() == true ) break;		//途中で制御不能になった
+		}
+	}else{
+		while( f_NowAngle < (st_info.f_angle - 1)){		//指定角度到達待ち(左回転)
+		
+			/*脱出*/
+			if(SW_ON == SW_INC_PIN){
+				CTRL_stop();				// 制御停止
+				break;
+			}
+			//if( SYS_isOutOfCtrl() == true ) break;		//途中で制御不能になった
+		}
+	
+	}
+
+	//printf("旋回完了");
+	/* 停止 */
+	TIME_wait(200);		//安定待ち
+	CTRL_stop();		// 制御停止	
+	
+}
+
+
+// *************************************************************************
 //   機能		： 等速区画　前進
 //   注意		： なし
 //   メモ		： なし
@@ -1672,6 +1959,11 @@ PUBLIC void MOT_goBlock_Const( FLOAT f_num){
 	//printf("st_info.f_dist:%5.4f \n\r",st_info.f_dist);
 
 	while( f_NowDist < st_info.f_dist  ){		//指定距離到達待ち
+			MOT_Failsafe(&bl_failsafe);
+			if( bl_failsafe == TRUE ){
+				return;
+			}
+
 	}
 	
 }
@@ -1693,7 +1985,7 @@ PUBLIC void MOT_goHitBackWall(void){
 	/*----------------*/
 	/* 動作データ計算 */
 	/*----------------*/
-	st_info.f_acc1	= 1200;
+	st_info.f_acc1	= 800;
 	
 	/*--------*/
 	/* バック */
@@ -1715,7 +2007,7 @@ PUBLIC void MOT_goHitBackWall(void){
 	CTRL_setData( &st_data );					// データセット
 	DCM_staMotAll();						// モータON
 	
-	TIME_wait(450);
+	TIME_wait(550);
 	
 	/* 停止 */
 	CTRL_stop();		// 制御停止
@@ -1777,10 +2069,10 @@ PUBLIC void MOT_goSla( enMOT_SULA_CMD en_type, stSLA *p_sla){
 
 
 	/* 方向に応じて符号を変更 */
-	if( ( en_type == MOT_R90S ) //||
-	    //( en_type == MOT_R45S_S2N ) || ( en_type == MOT_R45S_N2S )|| 
-	    //( en_type == MOT_R90S_N) ) ||
-	    //( en_type == MOT_R135S_S2N ) || (en_type == MOT_R135S_N2S)
+	if( ( en_type == MOT_R90S ) ||
+	    ( en_type == MOT_R45S_S2N ) || ( en_type == MOT_R45S_N2S )|| 
+	    ( en_type == MOT_R90S_N ) ||
+	    ( en_type == MOT_R135S_S2N ) || (en_type == MOT_R135S_N2S)
 	){
 		st_info.f_accAngleS1	*= -1;
 		st_info.f_trgtAngleS	*= -1;
@@ -1794,16 +2086,15 @@ PUBLIC void MOT_goSla( enMOT_SULA_CMD en_type, stSLA *p_sla){
 	
 	
 	/* 斜めのタイプに応じて、スラローム前の距離とスラローム後の退避距離を入れ替える */
-	/*
-	if( ( en_type == MOT_R45S_N2S ) || ( en_type == MOT_L45S_N2S ) || ( en_type == MOT_R135S_N2S ) || ( en_type == MOT_L135S_N2S ) ){	//逆にするもの
+		if( ( en_type == MOT_R45S_N2S ) || ( en_type == MOT_L45S_N2S ) || ( en_type == MOT_R135S_N2S ) || ( en_type == MOT_L135S_N2S ) ){	//逆にするもの
 		f_entryLen	= p_sla -> f_escapeLen;
 		f_escapeLen	= p_sla -> f_entryLen;
 	}
 	else{	//通常
-	*/
+	
 		f_entryLen	= p_sla -> f_entryLen;
 		f_escapeLen	= p_sla -> f_escapeLen;
-	//}
+	}
 	
 	/* ========== */
 	/* 　実動作　 */
@@ -1828,6 +2119,7 @@ PUBLIC void MOT_goSla( enMOT_SULA_CMD en_type, stSLA *p_sla){
 	CTRL_setData( &st_data );			// データセット
 	DCM_staMotAll();				// モータON
 
+	LED_onAll();
 	while( f_NowDist < f_entryLen ){				// 指定距離到達待ち
 	}
 	
@@ -1851,14 +2143,14 @@ PUBLIC void MOT_goSla( enMOT_SULA_CMD en_type, stSLA *p_sla){
 	CTRL_setData( &st_data );			// データセット
 	
 	if( IS_R_SLA( en_type ) == true ){	// -方向
-		//while( ( f_NowAngle > st_info.f_angle1 ) ){
-		while( ( f_NowAngle > st_info.f_angle1 ) || ( f_NowDist < st_data.f_dist ) ){
+		while( ( f_NowAngle > st_info.f_angle1 ) ){
+		//while( ( f_NowAngle > st_info.f_angle1 ) || ( f_NowDist < st_data.f_dist ) ){
 			//break;
 		}
 	}
 	else{
-		//while( ( f_NowAngle < st_info.f_angle1 ) ){
-		while( ( f_NowAngle < st_info.f_angle1 ) || ( f_NowDist < st_data.f_dist ) ){
+		while( ( f_NowAngle < st_info.f_angle1 ) ){
+		//while( ( f_NowAngle < st_info.f_angle1 ) || ( f_NowDist < st_data.f_dist ) ){
 			//break;
 		}
 	}
@@ -1883,14 +2175,14 @@ PUBLIC void MOT_goSla( enMOT_SULA_CMD en_type, stSLA *p_sla){
 	CTRL_setData( &st_data );				// データセット
 	
 	if( IS_R_SLA( en_type ) == true ){		// -方向
-		//while( ( f_NowAngle > st_info.f_angle1_2 ) ){
-		while( ( f_NowAngle > st_info.f_angle1_2 ) || ( f_NowDist < st_data.f_dist ) ){
+		while( ( f_NowAngle > st_info.f_angle1_2 ) ){
+		//while( ( f_NowAngle > st_info.f_angle1_2 ) || ( f_NowDist < st_data.f_dist ) ){
 			//break;
 		}
 	}
 	else{
-		//while( ( f_NowAngle < st_info.f_angle1_2 ) ){
-		while( ( f_NowAngle < st_info.f_angle1_2 ) || ( f_NowDist < st_data.f_dist ) ){
+		while( ( f_NowAngle < st_info.f_angle1_2 ) ){
+		//while( ( f_NowAngle < st_info.f_angle1_2 ) || ( f_NowDist < st_data.f_dist ) ){
 			//break;
 		}
 	}
@@ -1915,13 +2207,13 @@ PUBLIC void MOT_goSla( enMOT_SULA_CMD en_type, stSLA *p_sla){
 	CTRL_setData( &st_data );			// データセット
 	
 	if( IS_R_SLA( en_type ) == true ){	// -方向
-		//while( ( f_NowAngle > st_info.f_angle ) ){
-		while( ( f_NowAngle > st_info.f_angle ) || ( f_NowDist < st_data.f_dist ) ){
+		while( ( f_NowAngle > st_info.f_angle + 3.0f ) ){
+		//while( ( f_NowAngle > st_info.f_angle + 1.0f ) || ( f_NowDist < st_data.f_dist ) ){
 		}
 	
 	}else{
-		//while( ( f_NowAngle < st_info.f_angle ) ){
-		while( ( f_NowAngle < st_info.f_angle ) || ( f_NowDist < st_data.f_dist ) ){
+		while( ( f_NowAngle < st_info.f_angle - 1.0f ) ){
+		//while( ( f_NowAngle < st_info.f_angle -1.0f ) || ( f_NowDist < st_data.f_dist ) ){
 		}
 	}
 	
@@ -1945,8 +2237,8 @@ PUBLIC void MOT_goSla( enMOT_SULA_CMD en_type, stSLA *p_sla){
 	CTRL_setData( &st_data );			// データセット
 
 	while( f_NowDist < st_data.f_dist ){				// 指定距離到達待ち
-
 	}
+	LED_offAll();
 	f_MotNowSpeed = st_info.f_now;			// 現在速度更新
 
 }
@@ -2108,3 +2400,73 @@ PUBLIC void MOT_setNowSpeed( FLOAT f_speed){
 
 }
 
+// *************************************************************************
+//   機能		： フェイルセーフ
+//   注意		： なし
+//   メモ		： なし
+//   引数		： なし
+//   返り値		： TRUE：発動	FALSE：何もなし
+// **************************    履    歴    *******************************
+// 		v1.0		2019.9.22			TKR			新規
+// *************************************************************************/
+PRIVATE void MOT_Failsafe( BOOL* exists ){
+	
+	if( f_NowAccel < FAIL_THRESH_ACC ){
+		CTRL_stop();
+		*exists	= TRUE;
+
+		SPK_on(F4,16.0f,120);
+		SPK_on(E4,16.0f,120);
+		SPK_on(Eb4,16.0f,120);
+
+		while(1);
+	}else{
+
+		*exists	= FALSE;
+	}
+	
+}
+
+// *************************************************************************
+//   機能		： サーキット
+//   注意		： 右回り：Y	左回り：X
+//   メモ		： なし
+//   引数		： 区画の広さX，区画の広さY，回る方向，回る回数，速度
+//   返り値		： なし
+// **************************    履    歴    *******************************
+// 		v1.0		2019.10.18			TKR			新規
+// *************************************************************************/
+PUBLIC void MOT_circuit(FLOAT x,FLOAT y, enMOT_SULA_CMD en_type, int num, FLOAT f_speed){
+
+	int i = 0;
+
+	if( en_type == MOT_R90 ){
+		MOT_goBlock_FinSpeed( y-1.5f+MOVE_BACK_DIST, f_speed );	
+		for( i = 0; i < num; i++ ){
+			MOT_goSla( MOT_R90S, PARAM_getSra( SLA_90 ) );			// スラローム
+			MOT_goBlock_FinSpeed( x-2.0f, f_speed );				
+			MOT_goSla( MOT_R90S, PARAM_getSra( SLA_90 ) );			// スラローム
+			MOT_goBlock_FinSpeed( y-2.0f, f_speed);					
+			MOT_goSla( MOT_R90S, PARAM_getSra( SLA_90 ) );			// スラローム
+			MOT_goBlock_FinSpeed( x-2.0f, f_speed);				
+			MOT_goSla( MOT_R90S, PARAM_getSra( SLA_90 ) );			// スラローム
+			MOT_goBlock_FinSpeed( y-2.0f, f_speed);
+		}
+	}else{
+
+		MOT_goBlock_FinSpeed( x-1.5f+MOVE_BACK_DIST, f_speed );
+		for( i = 0; i < num; i++ ){
+			MOT_goSla( MOT_L90S, PARAM_getSra( SLA_90 ) );			// スラローム
+			MOT_goBlock_FinSpeed( y-2.0f, f_speed );				
+			MOT_goSla( MOT_L90S, PARAM_getSra( SLA_90 ) );			// スラローム
+			MOT_goBlock_FinSpeed( x-2.0f, f_speed);					
+			MOT_goSla( MOT_L90S, PARAM_getSra( SLA_90 ) );			// スラローム
+			MOT_goBlock_FinSpeed( y-2.0f, f_speed);				
+			MOT_goSla( MOT_L90S, PARAM_getSra( SLA_90 ) );			// スラローム
+			MOT_goBlock_FinSpeed( x-2.0f, f_speed);
+		}
+
+	}
+	
+	MOT_goBlock_FinSpeed(0.5f,0);					// 半区画走行
+}

@@ -46,9 +46,9 @@
 #define	ADR_SEN						( 0x00101000 )						// センサ用データフラッシュアドレス
 
 /* ジャイロ，温度，加速度のスケール */
-#define GYRO_SCALE_FACTOR			(16.4f)							
-#define TEMP_SCALE_FACTOR			(333.87f)	
-#define ACC_SCALE_FACTOR			(8192.0f)
+#define GYRO_SCALE_FACTOR			(16.4f)								// ±2000[dps]
+#define TEMP_SCALE_FACTOR			(333.87f)							// 
+#define ACC_SCALE_FACTOR			(8192.0f)							// ±4[g]
 
 //**************************************************
 // 定義（define）	チューニングが必要なパラメータ 
@@ -65,7 +65,7 @@
 #define LIST_NUM					( 4096 )							// コマンド走行のリスト数
 
 /* メカ値 */
-#define TIRE_R						( 22.9f )								// タイヤ直径 [mm]
+#define TIRE_R						( 23.03f )								// タイヤ直径 [mm]
 #define ROTATE_PULSE				( 2048 )								// モーター1周のパルス数
 
 #define ADJ_1STEP_SEARCH			( 1 )									// 1stepの調整ゲイン、探索走行用  (分母を上げると沢山進む)
@@ -76,8 +76,13 @@
 #define MOVE_BACK_DIST_SURA			( 0.27f ) 							// 壁当て動作で後退した距離 [区画]
 
 /* 探索時の尻当て周期 */
+<<<<<<< HEAD
 #define MAP_SLA_NUM_MAX				( 2 )								// 最大連続スラロームを何回まで許可するか
 #define MAP_TURN_NUM_MAX			( 0 )								// 最大連続旋回を何回まで許可するか
+=======
+#define MAP_SLA_NUM_MAX				( 20 )								// 最大連続スラロームを何回まで許可するか
+#define MAP_TURN_NUM_MAX			( 1 )								// 最大連続旋回を何回まで許可するか
+>>>>>>> develop
 
 /* 迷路中での待ち時間 */
 #define MAP_TURN_WAIT				( 100 )								// 超信地旋回探索の動作切り替え待ち時間
@@ -87,13 +92,18 @@
 #define MAP_SEARCH_SPEED			( 500 ) 							// 探索走行の最大速度[mm/s]
 #define SEN_BACK_CHK_SPEED			( 180 ) 							// センサチューニングのための移動最大速度[mm/s]
 
-/* ジャイロセンサ */
-#define SW_FILTER_VAL_MIN			( -1.5f )							// SWフィルタ最小値[dps]（最小値～最大値の間はSWフィルタがかかる）
-#define SW_FILTER_VAL_MAX			( 1.5f )							// SWフィルタ最大値[dps]
+/* フィルタ */
+#define SW_GYRO_FILTER_VAL_MIN		( -1.5f )							// フィルタ最小値[dps]（最小値～最大値の間はフィルタがかかる）
+#define SW_GYRO_FILTER_VAL_MAX		( 1.5f )							// フィルタ最大値[dps]
+#define SW_ACC_FILTER_VAL_MIN		( -0.008f )							// フィルタ最小値[g]（最小値～最大値の間はフィルタがかかる）
+#define SW_ACC_FILTER_VAL_MAX		( 0.008f )							// フィルタ最大値[g]
 
 /* 手かざし実行の閾値 */
-#define	EXE_THRESH_R				( 160 )								// 右側の閾値
-#define	EXE_THRESH_L				( 300 )								// 左側の閾値
+#define	EXE_THRESH_R				( 1300 )							// 右側の閾値
+#define	EXE_THRESH_L				( 1300 )							// 左側の閾値
+
+/* フェイルセーフの閾値 */
+#define	FAIL_THRESH_ACC				( -30.0f )							// 加速度（この値以下で発動）
 
 /* 距離 */
 #define MOT_BACK_SEN_ADJ			( 73.0f )							// 壁～柱+aまで（センサオートチューニングに使用する）
@@ -126,6 +136,7 @@
 #define L_FRONT_SKEW_ERR3_GAIN		( 0.0f )							// 左前壁、斜め走行時の補正閾値3
 
 /* ↓のセンサ値は、FUNC_DIST_AUTO_THRESHが有効ならばFALSHのデータで上書きされて、無効ならば正式値として使用される */
+<<<<<<< HEAD
 #define R_FRONT_REF					( 80 )							// 右前壁、基準値
 #define L_FRONT_REF					( 148 )							// 左前壁、基準値
 //#define R_45_REF					( 580 )							// 右45度、基準値
@@ -142,12 +153,30 @@
 #define L_FRONT_WALL_CTRL			( 290 )							// 左前壁、これ以上近いと制御する値
 #define R_FRONT_WALL_NO_CTRL		( 195 )							// 右前壁、これ以上近いと制御しない値
 #define L_FRONT_WALL_NO_CTRL		( 375 )							// 左前壁、これ以上近いと制御しない値
+=======
+#define R_FRONT_REF					( 2441 )							// 右前壁、基準値
+#define L_FRONT_REF					( 2280 )							// 左前壁、基準値
+//#define R_45_REF					( 580 )							// 右45度、基準値
+//#define L_45_REF					( 440 )							// 左45度、基準値
+#define R_SIDE_REF					( 854 )							// 右横壁、基準値
+#define L_SIDE_REF					( 828 )							// 左横壁、基準値
+#define R_FRONT_WALL				( 664 )							// 右前壁、壁検知値
+#define L_FRONT_WALL				( 778 )							// 左前壁、壁検知値
+//#define R_45_WALL					( 270 )							// 右45度、壁検知値
+#define R_SIDE_WALL					( 419 )							// 右横壁、壁検知値
+//#define L_45_WALL					( 180 )							// 左45度、壁検知値
+#define L_SIDE_WALL					( 473 )							// 左横壁、壁検知値
+#define R_FRONT_WALL_CTRL			( 3334 )							// 右前壁、これ以上近いと制御する値
+#define L_FRONT_WALL_CTRL			( 3158 )							// 左前壁、これ以上近いと制御する値
+#define R_FRONT_WALL_NO_CTRL		( 3386 )							// 右前壁、これ以上近いと制御しない値
+#define L_FRONT_WALL_NO_CTRL		( 2598 )							// 左前壁、これ以上近いと制御しない値
+>>>>>>> develop
 #define R_FRONT_WALL_HIT			( 1050 )						// 右前壁、壁に当たっていてもおかしくない値（前壁とマウス間が約2mmの時の値）
 #define L_FRONT_WALL_HIT			( 1550 )						// 左前壁、壁に当たっていてもおかしくない値（前壁とマウス間が約2mmの時の値）
 
 /* ログ */
-#define CTRL_LOG				( 500 )								// 記録する制御ログの個数
-#define CTRL_LOG_CYCLE			( 5 )								// ↑の記録周期[msec]（1より小さい値はNG）
+#define CTRL_LOG				( 1 )								// 記録する制御ログの個数
+#define CTRL_LOG_CYCLE			( 3 )								// ↑の記録周期[msec]（1より小さい値はNG）
 #define SET_LOG					( 100 )								// 設定した動作データのログ数
 #define DIST_LOG				( 5 )								// 距離センサのログの個数
 #define POS_LOG					( 5 )								// 記録する位置情報ログの個数
@@ -275,11 +304,17 @@ typedef struct{
 
 /* ゲイン */
 typedef struct {
-	FLOAT			f_FF;					// フィードフォワード
+	FLOAT			f_FF_speed_acc;			// フィードフォワード
+	FLOAT			f_FF_speed;				// フィードフォワード
+	FLOAT			f_FF_angleS_acc;		// フィードフォワード
+	FLOAT			f_FF_angleS;			// フィードフォワード
+
 	FLOAT 			f_FB_speed_kp;			// フィードバック、速度 比例制御
+	FLOAT 			f_FB_speed_ki;			// フィードバック、速度 積分制御
 	FLOAT			f_FB_dist_kp;			// フィードバック、距離 比例制御
 	FLOAT 			f_FB_dist_ki;			// フィードバック、距離 積分制御
 	FLOAT			f_FB_angleS_kp;			// フィードバック、角速度 比例制御
+	FLOAT			f_FB_angleS_ki;			// フィードバック、角速度 積分制御
 	FLOAT			f_FB_angle_kp;			// フィードバック、角度 比例制御
 	FLOAT			f_FB_angle_ki;			// フィードバック、角度 積分制御
 	FLOAT			f_FB_wall_kp;			// フィードバック、壁 比例制御

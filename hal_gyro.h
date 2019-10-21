@@ -57,7 +57,7 @@
 //**************************************************
 // グローバル変数
 //**************************************************
-
+extern	PUBLIC volatile FLOAT  f_NowAccel;								// 進行方向の現在加速度
 //**************************************************
 // プロトタイプ宣言（ファイル内で必要なものだけ記述）
 //**************************************************
@@ -65,7 +65,7 @@ PUBLIC FLOAT GYRO_getNowAngle( void );
 PUBLIC FLOAT GYRO_getNowAngleSpeed( void );
 PUBLIC void GYRO_clrAngle( void );
 PUBLIC void GYRO_Pol( void );
-PUBLIC	void GYRO_get_WHOAMI( void );
+PUBLIC void GYRO_get_WHOAMI( void );
 PUBLIC void GYRO_init( void );
 PRIVATE void GYRO_getVal_2nd( void );
 PRIVATE void GYRO_getVal_1st( void );
@@ -73,5 +73,6 @@ PUBLIC void GYRO_getVal(void);
 PRIVATE void GYRO_getAccVal_2nd( void );
 PRIVATE void GYRO_getAccVal_1st( void );
 PUBLIC void GYRO_getAccVal( void );
+PUBLIC FLOAT GYRO_getNowAccel( void );
 
 #endif

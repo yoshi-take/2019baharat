@@ -28,8 +28,8 @@
 #define	LED3_PIN		(PORTC.PODR.BIT.B3)
 #define	LED4_PIN		(PORTC.PODR.BIT.B4)
 
-#define	LED_SYS_PIN		(PORTC.PODR.BIT.B5)
-#define LED_BATT_PIN	(PORTC.PODR.BIT.B6)
+#define	LED_SYS_PIN		(PORTC.PODR.BIT.B6)
+#define LED_BATT_PIN	(PORTC.PODR.BIT.B5)
 
 
 //**************************************************

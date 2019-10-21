@@ -49,9 +49,9 @@ PRIVATE	BOOL				bl_cntType		= false;			// カウントタイプ(false:探索、true:最短)
 	PRIVATE	CONST stSPEED	f_StSpeedData[PARAM_MOVE_SPEED_MAX]	= {
 		
 		// 加速度		減速度		角速度		角減速度
-		{ 800,			1000,		0,			0			},		// 超低速(PARAM_VERY_SLOW)
+		{ 2000,			2000,		0,			0			},		// 超低速(PARAM_VERY_SLOW)
 		{ 2000,			2000,		0,			0			},		// 低速(PARAM_SLOW)
-		{ 2000,			2500,		0,			0			},		// 通常(PARAM_NORMAL)
+		{ 2500,			2500,		0,			0			},		// 通常(PARAM_NORMAL)
 		{ 2000,			2000,		0,			0			},		// 高速(PARAM_FAST)
 		{ 2000,			2000,		0,			0			}		// 超高速(PARAM_VERY_FAST)
 	};
@@ -71,7 +71,7 @@ PRIVATE	BOOL				bl_cntType		= false;			// カウントタイプ(false:探索、true:最短)
 	PRIVATE	CONST stSPEED	f_TurnSpeedData[PARAM_MOVE_SPEED_MAX]	= {
 		
 		// 加速度		減速度		角速度		角減速度
-		{ 0,			0,			2000,		3000		},		// 超低速(PARAM_VERY_SLOW)
+		{ 0,			0,			2000,		2000		},		// 超低速(PARAM_VERY_SLOW)
 		{ 0,			0,			2200,		2200		},		// 低速(PARAM_SLOW)
 		{ 0,			0,			1800,		1800		},		// 通常(PARAM_NORMAL)
 		{ 0,			0,			1800,		1800		},		// 高速(PARAM_FAST)
@@ -101,22 +101,23 @@ PRIVATE	BOOL				bl_cntType		= false;			// カウントタイプ(false:探索、true:最短)
 	PRIVATE CONST stGAIN f_StGainData[PARAM_MOVE_SPEED_MAX][PARAM_ST_MAX] = {
 		
 		/* 超低速(PARAM_VERY_SLOW) */
-		{	// FF		速度kp		位置kp		位置ki		角速度kp	角度kp		角速度ki	壁kp		壁kd
-			{0.1f,		1.0f,		0.0f,		0.0f,		0.08f,		2.0f,		0.0f,		0.03f,		0.0f,	},		// PARAM_ACC		
-			{0.0f,		1.0f,		0.0f,		0.0f,		0.08f,		2.0f,		0.0f,		0.03f,		0.0f,	},		// PARAM_CONST
-			{0.0f,		1.0f,		4.0f,		0.15f,		0.08f,		2.0f,		0.0f,		0.015f,		0.0f,	},		// PARAM_DEC
-			{0.0f,		0.7f,		5.5f,		0.01f,		0.04f,		8.0f,		0.05f,		0.025f,		0.01f,	},		// PARAM_BACK_ACC
-			{0.0f,		0.7f,		5.5f,		0.01f,		0.04f,		8.0f,		0.05f,		0.025f,		0.01f,	},		// PARAM_BACK_CONST
-			{0.0f,		0.7f,		5.5f,		0.01f,		0.04f,		8.0f,		0.05f,		0.025f,		0.01f,	},		// PARAM_BACK_DEC
-			{0.0f,		0.7f,		5.5f,		0.01f,		0.04f,		8.0f,		0.05f,		0.025f,		0.01f,	},		// PARAM_SKEW_ACC
-			{0.0f,		0.7f,		5.5f,		0.01f,		0.04f,		8.0f,		0.05f,		0.025f,		0.01f,	},		// PARAM_SKEW_CONST
-			{0.0f,		0.7f,		5.5f,		0.01f,		0.04f,		8.0f,		0.05f,		0.025f,		0.01f,	},		// PARAM_SKEW_DEC
-			{0.12f,		0,			0,			0,			0,			0,			0,			0,			0,		},		// PARAM_HIT_WALL
-			{0.1f,		1.0f,		0.0f,		0.0f,		0.08f,		2.0f,		0.0f,		0.03f,		0.0f,	},		// PARAM_ACC_SMOOTH		
-			{0.0f,		1.0f,		0.0f,		0.0f,		0.08f,		2.0f,		0.0f,		0.03f,		0.0f,	},		// PARAM_CONST_SMOOTH
-			{0.0f,		1.0f,		4.0f,		0.15f,		0.08f,		2.0f,		0.0f,		0.015f,		0.0f,	},		// PARAM_DEC_SMOOTH
+		{// FF_加速度	FF_速度		FF_角加速度	 FF_角速度	  速度kp	  速度ki	  位置kp	  位置ki	  角速度kp	   角速度ki		角度kp		角度ki		 壁kp	 	壁kd
+			{0.07f,		0.0f,		0.0f,		0.0f,		1.7f,		0.0f,		0.0f,		0.0f,		0.2f,		0.0f,		3.0f,		0.1f,		0.2f,		0.0f,	},		// PARAM_ACC		
+			{0.28f,		0.0f,		0.0f,		0.0f,		1.7f,		0.0f,		0.0f,		0.0f,		0.2f,		0.0f,		3.0f,		0.1f,		0.2f,		0.0f,	},		// PARAM_CONST
+			{0.0f,		0.0f,		0.0f,		0.0f,		1.7f,		0.0f,		1.0f,		0.2f,		0.08f,		0.0f,		3.0f,		0.1f,		0.2f,		0.0f,	},		// PARAM_DEC
+			{0.0f,		0.0f,		0.0f,		0.0f,		0.7f,		0.0f,		5.5f,		0.01f,		0.04f,		0.0f,		8.0f,		0.05f,		0.025f,		0.01f,	},		// PARAM_BACK_ACC
+			{0.0f,		0.0f,		0.0f,		0.0f,		0.7f,		0.0f,		5.5f,		0.01f,		0.04f,		0.0f,		8.0f,		0.05f,		0.025f,		0.01f,	},		// PARAM_BACK_CONST
+			{0.0f,		0.0f,		0.0f,		0.0f,		0.7f,		0.0f,		5.5f,		0.01f,		0.04f,		0.0f,		8.0f,		0.05f,		0.025f,		0.01f,	},		// PARAM_BACK_DEC
+			{0.0f,		0.0f,		0.0f,		0.0f,		0.7f,		0.0f,		5.5f,		0.01f,		0.04f,		0.0f,		8.0f,		0.05f,		0.025f,		0.01f,	},		// PARAM_SKEW_ACC
+			{0.0f,		0.0f,		0.0f,		0.0f,		0.7f,		0.0f,		5.5f,		0.01f,		0.04f,		0.0f,		8.0f,		0.05f,		0.025f,		0.01f,	},		// PARAM_SKEW_CONST
+			{0.0f,		0.0f,		0.0f,		0.0f,		0.7f,		0.0f,		5.5f,		0.01f,		0.04f,		0.0f,		8.0f,		0.05f,		0.025f,		0.01f,	},		// PARAM_SKEW_DEC
+			{0.12f,		0.0f,		0.0f,		0.0f,		0,			0.0f,		0,			0,			0,			0.0f,		0,			0,			0,			0,		},		// PARAM_HIT_WALL
+			{0.1f,		0.0f,		0.0f,		0.0f,		0.0f,		0.0f,		0.0f,		0.0f,		0.08f,		0.0f,		2.0f,		0.0f,		0.03f,		0.0f,	},		// PARAM_ACC_SMOOTH		
+			{0.0f,		0.0f,		0.0f,		0.0f,		0.0f,		0.0f,		0.0f,		0.0f,		0.08f,		0.0f,		2.0f,		0.0f,		0.03f,		0.0f,	},		// PARAM_CONST_SMOOTH
+			{0.0f,		0.0f,		0.0f,		0.0f,		0.0f,		0.0f,		4.0f,		0.15f,		0.08f,		0.0f,		2.0f,		0.0f,		0.015f,		0.0f,	},		// PARAM_DEC_SMOOTH
 		},
 		/* 低速(PARAM_SLOW) */
+<<<<<<< HEAD
 		{	// FF		速度kp		位置kp		位置ki		角速度kp	角度kp		角速度ki	壁kp		壁kd
 			{0.07f,		3.0f,		0.0f,		0.0f,		1.0f,		3.5f,		0.2f,		2.0f,		0.0f,	},		// PARAM_ACC		
 			{0.0f,		5.0f,		0.0f,		0.0f,		1.0f,		3.5f,		0.2f,		2.0f,		0.0f,	},		// PARAM_CONST
@@ -131,54 +132,70 @@ PRIVATE	BOOL				bl_cntType		= false;			// カウントタイプ(false:探索、true:最短)
 			{0.07f,		1.5f,		0.0f,		0.0f,		0.5f,		4.0f,		0.0f,		0.095f,		0.0f,	},		// PARAM_ACC_SMOOTH		
 			{0.0f,		1.5f,		0.0f,		0.0f,		0.08f,		4.0f,		0.0f,		0.095f,		0.0f,	},		// PARAM_CONST_SMOOTH
 			{0.0f,		1.5f,		0.0f,		0.0f,		0.08f,		4.0f,		0.0f,		0.095f,		0.0f,	},		// PARAM_DEC_SMOOTH
+=======
+		{// FF_加速度	FF_速度		FF_角加速度	 FF_角速度	  速度kp	  速度ki	  位置kp	  位置ki	  角速度kp	   角速度ki		角度kp		角度ki		 壁kp	 	壁kd
+			{0.055f,	0.2f,		0.0f,		0.0f,		1.0f,		0.0f,		0.0f,		0.0f,		0.2f,		0.0f,		3.0f,		0.5f,		0.1f,		0.0f,	},		// PARAM_ACC		
+			{0.0f,		0.3f,		0.0f,		0.0f,		1.0f,		0.0f,		0.0f,		0.0f,		0.2f,		0.0f,		3.0f,		0.5f,		0.1f,		0.0f,	},		// PARAM_CONST
+			{0.0f,		0.2f,		0.0f,		0.0f,		1.0f,		0.0f,		0.0f,		0.0f,		0.2f,		0.0f,		3.0f,		0.5f,		0.1f,		0.0f,	},		// PARAM_DEC
+			{0.0f,		0.0f,		0.0f,		0.0f,		0.7f,		0.0f,		5.5f,		0.01f,		0.04f,		0.0f,		8.0f,		0.05f,		0.025f,		0.01f,	},		// PARAM_BACK_ACC
+			{0.0f,		0.0f,		0.0f,		0.0f,		0.7f,		0.0f,		5.5f,		0.01f,		0.04f,		0.0f,		8.0f,		0.05f,		0.025f,		0.01f,	},		// PARAM_BACK_CONST
+			{0.0f,		0.0f,		0.0f,		0.0f,		0.7f,		0.0f,		5.5f,		0.01f,		0.04f,		0.0f,		8.0f,		0.05f,		0.025f,		0.01f,	},		// PARAM_BACK_DEC
+			{0.0f,		0.0f,		0.0f,		0.0f,		0.7f,		0.0f,		5.5f,		0.01f,		0.04f,		0.0f,		8.0f,		0.05f,		0.025f,		0.01f,	},		// PARAM_SKEW_ACC
+			{0.0f,		0.0f,		0.0f,		0.0f,		0.7f,		0.0f,		5.5f,		0.01f,		0.04f,		0.0f,		8.0f,		0.05f,		0.025f,		0.01f,	},		// PARAM_SKEW_CONST
+			{0.0f,		0.0f,		0.0f,		0.0f,		0.7f,		0.0f,		5.5f,		0.01f,		0.04f,		0.0f,		8.0f,		0.05f,		0.025f,		0.01f,	},		// PARAM_SKEW_DEC
+			{0.12f,		0.0f,		0.0f,		0.0f,		0,			0.0f,		0,			0,			0,			0.0f,		0,			0,			0,			0,		},		// PARAM_HIT_WALL
+			{0.1f,		0.0f,		0.0f,		0.0f,		0.0f,		0.0f,		0.0f,		0.0f,		0.08f,		0.0f,		2.0f,		0.0f,		0.03f,		0.0f,	},		// PARAM_ACC_SMOOTH		
+			{0.0f,		0.0f,		0.0f,		0.0f,		0.0f,		0.0f,		0.0f,		0.0f,		0.08f,		0.0f,		2.0f,		0.0f,		0.03f,		0.0f,	},		// PARAM_CONST_SMOOTH
+			{0.0f,		0.0f,		0.0f,		0.0f,		0.0f,		0.0f,		4.0f,		0.15f,		0.08f,		0.0f,		2.0f,		0.0f,		0.015f,		0.0f,	},		// PARAM_DEC_SMOOTH
+>>>>>>> develop
 		},
 		/* 通常(PARAM_NORMAL) */
-		{	// FF		速度kp		位置kp		位置ki		角速度kp	角度kp		角速度ki	壁kp		壁kd
-			{0.05f,		5.0f,		0.0f,		0.0f,		0.5f,		4.0f,		0.0f,		0.48f,		0.1f,	},		// PARAM_ACC		
-			{0.0f,		5.0f,		0.0f,		0.0f,		0.5f,		4.0f,		0.0f,		0.48f,		0.1f,	},		// PARAM_CONST
-			{0.0f,		5.0f,		15.0f,		0.0f,		0.5f,		4.0f,		0.0f,		0.48f,		0.1f,	},		// PARAM_DEC
-			{0.1f,		0.7f,		0.0f,		0.0f,		0.5f,		4.0f,		0.0f,		0.48f,		0.01f,	},		// PARAM_BACK_ACC
-			{0.0f,		0.7f,		0.0f,		0.0f,		0.5f,		4.0f,		0.0f,		0.48f,		0.01f,	},		// PARAM_BACK_CONST
-			{0.0f,		0.7f,		7.0f,		0.0f,		0.5f,		4.0f,		0.0f,		0.48f,		0.01f,	},		// PARAM_BACK_DEC
-			{0.1f,		0.7f,		0.0f,		0.0f,		0.5f,		4.0f,		0.0f,		0.48f,		0.01f,	},		// PARAM_SKEW_ACC
-			{0.0f,		0.7f,		0.0f,		0.0f,		0.5f,		4.0f,		0.0f,		0.48f,		0.01f,	},		// PARAM_SKEW_CONST
-			{0.0f,		0.7f,		7.0f,		0.0f,		0.5f,		4.0f,		0.0f,		0.48f,		0.01f,	},		// PARAM_SKEW_DEC
-			{0.12f,		0,			0,			0,			0,			0,			0,			0,			0,		},		// PARAM_HIT_WALL
-			{0.07f,		1.5f,		0.0f,		0.0f,		0.5f,		4.0f,		0.0f,		0.095f,		0.0f,	},		// PARAM_ACC_SMOOTH		
-			{0.0f,		1.5f,		0.0f,		0.0f,		0.08f,		4.0f,		0.0f,		0.095f,		0.0f,	},		// PARAM_CONST_SMOOTH
-			{0.0f,		1.5f,		0.0f,		0.0f,		0.08f,		4.0f,		0.0f,		0.095f,		0.0f,	},		// PARAM_DEC_SMOOTH
+		{// FF_加速度	FF_速度		FF_角加速度	 FF_角速度	  速度kp	  速度ki	  位置kp	  位置ki	  角速度kp	   角速度ki		角度kp		角度ki		 壁kp	 	壁kd
+			{0.05f,		0.0f,		0.0f,		0.0f,		5.0f,		0.0f,		0.0f,		0.0f,		0.5f,		0.0f,		4.0f,		0.0f,		0.48f,		0.1f,	},		// PARAM_ACC		
+			{0.0f,		0.0f,		0.0f,		0.0f,		5.0f,		0.0f,		0.0f,		0.0f,		0.5f,		0.0f,		4.0f,		0.0f,		0.48f,		0.1f,	},		// PARAM_CONST
+			{0.0f,		0.0f,		0.0f,		0.0f,		5.0f,		0.0f,		15.0f,		0.0f,		0.5f,		0.0f,		4.0f,		0.0f,		0.48f,		0.1f,	},		// PARAM_DEC
+			{0.1f,		0.0f,		0.0f,		0.0f,		0.7f,		0.0f,		0.0f,		0.0f,		0.5f,		0.0f,		4.0f,		0.0f,		0.48f,		0.01f,	},		// PARAM_BACK_ACC
+			{0.0f,		0.0f,		0.0f,		0.0f,		0.7f,		0.0f,		0.0f,		0.0f,		0.5f,		0.0f,		4.0f,		0.0f,		0.48f,		0.01f,	},		// PARAM_BACK_CONST
+			{0.0f,		0.0f,		0.0f,		0.0f,		0.7f,		0.0f,		7.0f,		0.0f,		0.5f,		0.0f,		4.0f,		0.0f,		0.48f,		0.01f,	},		// PARAM_BACK_DEC
+			{0.1f,		0.0f,		0.0f,		0.0f,		0.7f,		0.0f,		0.0f,		0.0f,		0.5f,		0.0f,		4.0f,		0.0f,		0.48f,		0.01f,	},		// PARAM_SKEW_ACC
+			{0.0f,		0.0f,		0.0f,		0.0f,		0.7f,		0.0f,		0.0f,		0.0f,		0.5f,		0.0f,		4.0f,		0.0f,		0.48f,		0.01f,	},		// PARAM_SKEW_CONST
+			{0.0f,		0.0f,		0.0f,		0.0f,		0.7f,		0.0f,		7.0f,		0.0f,		0.5f,		0.0f,		4.0f,		0.0f,		0.48f,		0.01f,	},		// PARAM_SKEW_DEC
+			{0.12f,		0.0f,		0.0f,		0.0f,		0,			0.0f,		0,			0,			0,			0.0f,		0,			0,			0,			0,		},		// PARAM_HIT_WALL
+			{0.07f,		0.0f,		0.0f,		0.0f,		1.5f,		0.0f,		0.0f,		0.0f,		0.5f,		0.0f,		4.0f,		0.0f,		0.095f,		0.0f,	},		// PARAM_ACC_SMOOTH		
+			{0.0f,		0.0f,		0.0f,		0.0f,		1.5f,		0.0f,		0.0f,		0.0f,		0.08f,		0.0f,		4.0f,		0.0f,		0.095f,		0.0f,	},		// PARAM_CONST_SMOOTH
+			{0.0f,		0.0f,		0.0f,		0.0f,		1.5f,		0.0f,		0.0f,		0.0f,		0.08f,		0.0f,		4.0f,		0.0f,		0.095f,		0.0f,	},		// PARAM_DEC_SMOOTH
 		},
 		/* 高速(PARAM_FAST) */
-		{	// FF		速度kp		位置kp		位置ki		角速度kp	角度kp		角速度ki	壁kp		壁kd
-			{0.05f,		5.0f,		0.0f,		0.0f,		0.5f,		4.0f,		0.0f,		0.48f,		0.01f,	},		// PARAM_ACC		
-			{0.0f,		5.0f,		0.0f,		0.0f,		0.5f,		4.0f,		0.0f,		0.48f,		0.01f,	},		// PARAM_CONST
-			{0.0f,		5.0f,		15.0f,		0.0f,		0.5f,		4.0f,		0.0f,		0.2f,		0.0f,	},		// PARAM_DEC
-			{0.1f,		0.7f,		0.0f,		0.0f,		0.5f,		4.0f,		0.0f,		0.48f,		0.01f,	},		// PARAM_BACK_ACC
-			{0.0f,		0.7f,		0.0f,		0.0f,		0.5f,		4.0f,		0.0f,		0.48f,		0.01f,	},		// PARAM_BACK_CONST
-			{0.0f,		0.7f,		7.0f,		0.0f,		0.5f,		4.0f,		0.0f,		0.48f,		0.01f,	},		// PARAM_BACK_DEC
-			{0.1f,		0.7f,		0.0f,		0.0f,		0.5f,		4.0f,		0.0f,		0.48f,		0.01f,	},		// PARAM_SKEW_ACC
-			{0.0f,		0.7f,		0.0f,		0.0f,		0.5f,		4.0f,		0.0f,		0.48f,		0.01f,	},		// PARAM_SKEW_CONST
-			{0.0f,		0.7f,		7.0f,		0.0f,		0.5f,		4.0f,		0.0f,		0.48f,		0.01f,	},		// PARAM_SKEW_DEC
-			{0.12f,		0,			0,			0,			0,			0,			0,			0,			0,		},		// PARAM_HIT_WALL
-			{0.07f,		1.5f,		0.0f,		0.0f,		0.5f,		4.0f,		0.0f,		0.095f,		0.0f,	},		// PARAM_ACC_SMOOTH		
-			{0.0f,		1.5f,		0.0f,		0.0f,		0.08f,		4.0f,		0.0f,		0.095f,		0.0f,	},		// PARAM_CONST_SMOOTH
-			{0.0f,		1.5f,		0.0f,		0.0f,		0.08f,		4.0f,		0.0f,		0.095f,		0.0f,	},		// PARAM_DEC_SMOOTH
+		{// FF_加速度	FF_速度		FF_角加速度	 FF_角速度	  速度kp	  速度ki	  位置kp	  位置ki	  角速度kp	   角速度ki		角度kp		角度ki		 壁kp	 	壁kd
+			{0.05f,		0.0f,		0.0f,		0.0f,		5.0f,		0.0f,		0.0f,		0.0f,		0.5f,		0.0f,		4.0f,		0.0f,		0.48f,		0.01f,	},		// PARAM_ACC		
+			{0.0f,		0.0f,		0.0f,		0.0f,		5.0f,		0.0f,		0.0f,		0.0f,		0.5f,		0.0f,		4.0f,		0.0f,		0.48f,		0.01f,	},		// PARAM_CONST
+			{0.0f,		0.0f,		0.0f,		0.0f,		5.0f,		0.0f,		15.0f,		0.0f,		0.5f,		0.0f,		4.0f,		0.0f,		0.2f,		0.0f,	},		// PARAM_DEC
+			{0.1f,		0.0f,		0.0f,		0.0f,		0.7f,		0.0f,		0.0f,		0.0f,		0.5f,		0.0f,		4.0f,		0.0f,		0.48f,		0.01f,	},		// PARAM_BACK_ACC
+			{0.0f,		0.0f,		0.0f,		0.0f,		0.7f,		0.0f,		0.0f,		0.0f,		0.5f,		0.0f,		4.0f,		0.0f,		0.48f,		0.01f,	},		// PARAM_BACK_CONST
+			{0.0f,		0.0f,		0.0f,		0.0f,		0.7f,		0.0f,		7.0f,		0.0f,		0.5f,		0.0f,		4.0f,		0.0f,		0.48f,		0.01f,	},		// PARAM_BACK_DEC
+			{0.1f,		0.0f,		0.0f,		0.0f,		0.7f,		0.0f,		0.0f,		0.0f,		0.5f,		0.0f,		4.0f,		0.0f,		0.48f,		0.01f,	},		// PARAM_SKEW_ACC
+			{0.0f,		0.0f,		0.0f,		0.0f,		0.7f,		0.0f,		0.0f,		0.0f,		0.5f,		0.0f,		4.0f,		0.0f,		0.48f,		0.01f,	},		// PARAM_SKEW_CONST
+			{0.0f,		0.0f,		0.0f,		0.0f,		0.7f,		0.0f,		7.0f,		0.0f,		0.5f,		0.0f,		4.0f,		0.0f,		0.48f,		0.01f,	},		// PARAM_SKEW_DEC
+			{0.12f,		0.0f,		0.0f,		0.0f,		0,			0.0f,		0,			0,			0,			0.0f,		0,			0,			0,			0,		},		// PARAM_HIT_WALL
+			{0.07f,		0.0f,		0.0f,		0.0f,		1.5f,		0.0f,		0.0f,		0.0f,		0.5f,		0.0f,		4.0f,		0.0f,		0.095f,		0.0f,	},		// PARAM_ACC_SMOOTH		
+			{0.0f,		0.0f,		0.0f,		0.0f,		1.5f,		0.0f,		0.0f,		0.0f,		0.08f,		0.0f,		4.0f,		0.0f,		0.095f,		0.0f,	},		// PARAM_CONST_SMOOTH
+			{0.0f,		0.0f,		0.0f,		0.0f,		1.5f,		0.0f,		0.0f,		0.0f,		0.08f,		0.0f,		4.0f,		0.0f,		0.095f,		0.0f,	},		// PARAM_DEC_SMOOTH
 		},
 		/* 超高速(PARAM_VERY_FAST) */
-		{	// FF		速度kp		位置kp		位置ki		角速度kp	角度kp		角速度ki	壁kp		壁kd
-			{0.08f,		5.0f,		0.0f,		0.0f,		2.0f,		5.0f,		0.01f,		0.8f,		0.15f,	},		// PARAM_ACC		
-			{0.0f,		5.0f,		0.0f,		0.0f,		2.0f,		5.0f,		0.01f,		0.8f,		0.15f,	},		// PARAM_CONST
-			{0.0f,		5.0f,		15.0f,		0.0f,		1.0f,		5.0f,		0.01f,		0.4f,		0.15f,	},		// PARAM_DEC
-			{0.1f,		0.7f,		0.0f,		0.0f,		0.5f,		4.0f,		0.0f,		0.48f,		0.01f,	},		// PARAM_BACK_ACC
-			{0.0f,		0.7f,		0.0f,		0.0f,		0.5f,		4.0f,		0.0f,		0.48f,		0.01f,	},		// PARAM_BACK_CONST
-			{0.0f,		0.7f,		7.0f,		0.0f,		0.5f,		4.0f,		0.0f,		0.48f,		0.01f,	},		// PARAM_BACK_DEC
-			{0.1f,		0.7f,		0.0f,		0.0f,		0.5f,		4.0f,		0.0f,		0.48f,		0.01f,	},		// PARAM_SKEW_ACC
-			{0.0f,		0.7f,		0.0f,		0.0f,		0.5f,		4.0f,		0.0f,		0.48f,		0.01f,	},		// PARAM_SKEW_CONST
-			{0.0f,		0.7f,		7.0f,		0.0f,		0.5f,		4.0f,		0.0f,		0.48f,		0.01f,	},		// PARAM_SKEW_DEC
-			{0.12f,		0,			0,			0,			0,			0,			0,			0,			0,		},		// PARAM_HIT_WALL
-			{0.07f,		1.5f,		0.0f,		0.0f,		0.5f,		4.0f,		0.0f,		0.095f,		0.0f,	},		// PARAM_ACC_SMOOTH		
-			{0.0f,		1.5f,		0.0f,		0.0f,		0.08f,		4.0f,		0.0f,		0.095f,		0.0f,	},		// PARAM_CONST_SMOOTH
-			{0.0f,		1.5f,		0.0f,		0.0f,		0.08f,		4.0f,		0.0f,		0.095f,		0.0f,	},		// PARAM_DEC_SMOOTH
+		{// FF_加速度	FF_速度		FF_角加速度	 FF_角速度	  速度kp	  速度ki	  位置kp	  位置ki	  角速度kp	   角速度ki		角度kp		角度ki		 壁kp	 	壁kd
+			{0.08f,		0.0f,		0.0f,		0.0f,		5.0f,		0.0f,		0.0f,		0.0f,		2.0f,		0.0f,		5.0f,		0.01f,		0.8f,		0.15f,	},		// PARAM_ACC		
+			{0.0f,		0.0f,		0.0f,		0.0f,		5.0f,		0.0f,		0.0f,		0.0f,		2.0f,		0.0f,		5.0f,		0.01f,		0.8f,		0.15f,	},		// PARAM_CONST
+			{0.0f,		0.0f,		0.0f,		0.0f,		5.0f,		0.0f,		15.0f,		0.0f,		1.0f,		0.0f,		5.0f,		0.01f,		0.4f,		0.15f,	},		// PARAM_DEC
+			{0.1f,		0.0f,		0.0f,		0.0f,		0.7f,		0.0f,		0.0f,		0.0f,		0.5f,		0.0f,		4.0f,		0.0f,		0.48f,		0.01f,	},		// PARAM_BACK_ACC
+			{0.0f,		0.0f,		0.0f,		0.0f,		0.7f,		0.0f,		0.0f,		0.0f,		0.5f,		0.0f,		4.0f,		0.0f,		0.48f,		0.01f,	},		// PARAM_BACK_CONST
+			{0.0f,		0.0f,		0.0f,		0.0f,		0.7f,		0.0f,		7.0f,		0.0f,		0.5f,		0.0f,		4.0f,		0.0f,		0.48f,		0.01f,	},		// PARAM_BACK_DEC
+			{0.1f,		0.0f,		0.0f,		0.0f,		0.7f,		0.0f,		0.0f,		0.0f,		0.5f,		0.0f,		4.0f,		0.0f,		0.48f,		0.01f,	},		// PARAM_SKEW_ACC
+			{0.0f,		0.0f,		0.0f,		0.0f,		0.7f,		0.0f,		0.0f,		0.0f,		0.5f,		0.0f,		4.0f,		0.0f,		0.48f,		0.01f,	},		// PARAM_SKEW_CONST
+			{0.0f,		0.0f,		0.0f,		0.0f,		0.7f,		0.0f,		7.0f,		0.0f,		0.5f,		0.0f,		4.0f,		0.0f,		0.48f,		0.01f,	},		// PARAM_SKEW_DEC
+			{0.12f,		0.0f,		0.0f,		0.0f,		0,			0.0f,		0,			0,			0,			0.0f,		0,			0,			0,			0,		},		// PARAM_HIT_WALL
+			{0.07f,		0.0f,		0.0f,		0.0f,		1.5f,		0.0f,		0.0f,		0.0f,		0.5f,		0.0f,		4.0f,		0.0f,		0.095f,		0.0f,	},		// PARAM_ACC_SMOOTH		
+			{0.0f,		0.0f,		0.0f,		0.0f,		1.5f,		0.0f,		0.0f,		0.0f,		0.08f,		0.0f,		4.0f,		0.0f,		0.095f,		0.0f,	},		// PARAM_CONST_SMOOTH
+			{0.0f,		0.0f,		0.0f,		0.0f,		1.5f,		0.0f,		0.0f,		0.0f,		0.08f,		0.0f,		4.0f,		0.0f,		0.095f,		0.0f,	},		// PARAM_DEC_SMOOTH
 		},
 	};
 	
@@ -186,34 +203,34 @@ PRIVATE	BOOL				bl_cntType		= false;			// カウントタイプ(false:探索、true:最短)
 	PRIVATE CONST stGAIN f_TurnGainData[PARAM_MOVE_SPEED_MAX][PARAM_TURN_MAX] = {
 		
 		/* 超低速(PARAM_VERY_SLOW) */
-		{	// FF		速度kp		位置kp		位置ki		角速度kp	角度kp		角度ki		壁kp		壁kd
-			{0.06f,		0.5f,		0.09f,		0.0f,		1.7f,		0.0f,		0.0f,		0,			0		},		// PARAM_ACC_TURN
-			{0.0f,		0.5f,		0.09f,		0.0f,		1.7f,		0.0f,		0.0f,		0,			0		},		// PARAM_CONST_TURN
-			{0.0f,		0.5f,		0.09f,		0.0f,		1.5f,		0.054f,		0.0f,		0,			0		},		// PARAM_DEC_TURN
+		{// FF_加速度	FF_速度		FF_角加速度	 FF_角速度	  速度kp	  速度ki	  位置kp	  位置ki	  角速度kp	   角速度ki		角度kp		角度ki		 壁kp	 	壁kd
+			{0.0f,		0.0f,		0.065f,		0.0f,		0.0f,		0.5f,		0.0f,		0.0f,		2.0f,		0.0f,		0.0f,		0.0f,		0,			0		},		// PARAM_ACC_TURN
+			{0.0f,		0.0f,		0.0f,		0.0f,		0.0f,		0.5f,		0.0f,		0.0f,		1.5f,		0.0f,		0.0f,		0.0f,		0,			0		},		// PARAM_CONST_TURN
+			{0.0f,		0.0f,		0.0f,		0.0f,		0.0f,		0.5f,		0.0f,		0.0f,		1.0f,		0.0f,		1.0f,		0.1f,		0,			0		},		// PARAM_DEC_TURN
 		},
 		/* 低速(PARAM_SLOW) */
-		{	// FF		速度kp		位置kp		位置ki		角速度kp	角度kp		角度ki		壁kp		壁kd
-			{0.065f,	0.0f,		0.0f,		0.0f,		1.8f,		0.0f,		0.0f,		0,			0		},		// PARAM_ACC_TURN
-			{0.0f,		0.0f,		0.0f,		0.0f,		1.8f,		0.0f,		0.0f,		0,			0		},		// PARAM_CONST_TURN
-			{0.0f,		0.0f,		0.0f,		0.0f,		1.0f,		1.5f,		0.2f,		0,			0		},		// PARAM_DEC_TURN
+		{// FF_加速度	FF_速度		FF_角加速度	 FF_角速度	  速度kp	  速度ki	  位置kp	  位置ki	  角速度kp	   角速度ki		角度kp		角度ki		 壁kp	 	壁kd
+			{0.0f,		0.0f,		0.065f,		0.0f,		0.0f,		0.5f,		0.0f,		0.0f,		2.0f,		0.0f,		0.0f,		0.0f,		0,			0		},		// PARAM_ACC_TURN
+			{0.0f,		0.0f,		0.0f,		0.0f,		0.0f,		0.5f,		0.0f,		0.0f,		1.5f,		0.0f,		0.0f,		0.0f,		0,			0		},		// PARAM_CONST_TURN
+			{0.0f,		0.0f,		0.0f,		0.0f,		0.0f,		0.5f,		0.0f,		0.0f,		1.0f,		0.0f,		1.0f,		0.1f,		0,			0		},		// PARAM_DEC_TURN
 		},
-		/*5通常(PARAM_NORMAL) */
-		{	// FF		速度kp		位置kp		位置ki		角速度kp	角度kp		角度ki		壁kp		壁kd
-			{0.06f,		0.5f,		0.09f,		0.0f,		1.7f,		0.0f,		0.0f,		0,			0		},		// PARAM_ACC_TURN
-			{0.0f,		0.5f,		0.09f,		0.0f,		1.7f,		0.0f,		0.0f,		0,			0		},		// PARAM_CONST_TURN
-			{0.0f,		0.5f,		0.09f,		0.0f,		1.5f,		0.054f,		0.0f,		0,			0		},		// PARAM_DEC_TURN
+		/* 通常(PARAM_NORMAL) */
+		{// FF_加速度	FF_速度		FF_角加速度	 FF_角速度	  速度kp	  速度ki	  位置kp	  位置ki	  角速度kp	   角速度ki		角度kp		角度ki		 壁kp	 	壁kd
+			{0.0f,		0.0f,		0.06f,		0.0f,		0.5f,		0.0f,		0.09f,		0.0f,		1.7f,		0.0f,		0.0f,		0.0f,		0,			0		},		// PARAM_ACC_TURN
+			{0.0f,		0.0f,		0.0f,		0.0f,		0.5f,		0.0f,		0.09f,		0.0f,		1.7f,		0.0f,		0.0f,		0.0f,		0,			0		},		// PARAM_CONST_TURN
+			{0.0f,		0.0f,		0.0f,		0.0f,		0.5f,		0.0f,		0.09f,		0.0f,		1.5f,		0.0f,		0.054f,		0.0f,		0,			0		},		// PARAM_DEC_TURN
 		},
 		/* 高速(PARAM_FAST) */
-		{	// FF		速度kp		位置kp		位置ki		角速度kp	角度kp		角度ki		壁kp		壁kd
-			{0.06f,		0.5f,		0.09f,		0.0f,		1.7f,		0.0f,		0.0f,		0,			0		},		// PARAM_ACC_TURN
-			{0.0f,		0.5f,		0.09f,		0.0f,		1.7f,		0.0f,		0.0f,		0,			0		},		// PARAM_CONST_TURN
-			{0.0f,		0.5f,		0.09f,		0.0f,		1.5f,		0.054f,		0.0f,		0,			0		},		// PARAM_DEC_TURN
+		{// FF_加速度	FF_速度		FF_角加速度	 FF_角速度	  速度kp	  速度ki	  位置kp	  位置ki	  角速度kp	   角速度ki		角度kp		角度ki		 壁kp	 	壁kd
+			{0.0f,		0.0f,		0.06f,		0.0f,		0.5f,		0.0f,		0.09f,		0.0f,		1.7f,		0.0f,		0.0f,		0.0f,		0,			0		},		// PARAM_ACC_TURN
+			{0.0f,		0.0f,		0.0f,		0.0f,		0.5f,		0.0f,		0.09f,		0.0f,		1.7f,		0.0f,		0.0f,		0.0f,		0,			0		},		// PARAM_CONST_TURN
+			{0.0f,		0.0f,		0.0f,		0.0f,		0.5f,		0.0f,		0.09f,		0.0f,		1.5f,		0.0f,		0.054f,		0.0f,		0,			0		},		// PARAM_DEC_TURN
 		},
 		/* 超低速(PARAM_VERY_FAST) */
-		{	// FF		速度kp		位置kp		位置ki		角速度kp	角度kp		角度ki		壁kp		壁kd
-			{0.06f,		0.5f,		0.09f,		0.0f,		1.7f,		0.0f,		0.0f,		0,			0		},		// PARAM_ACC_TURN
-			{0.0f,		0.5f,		0.09f,		0.0f,		1.7f,		0.0f,		0.0f,		0,			0		},		// PARAM_CONST_TURN
-			{0.0f,		0.5f,		0.09f,		0.0f,		1.5f,		0.054f,		0.0f,		0,			0		},		// PARAM_DEC_TURN
+		{// FF_加速度	FF_速度		FF_角加速度	 FF_角速度	  速度kp	  速度ki	  位置kp	  位置ki	  角速度kp	   角速度ki		角度kp		角度ki		 壁kp	 	壁kd
+			{0.0f,		0.0f,		0.06f,		0.0f,		0.5f,		0.0f,		0.09f,		0.0f,		1.7f,		0.0f,		0.0f,		0.0f,		0,			0		},		// PARAM_ACC_TURN
+			{0.0f,		0.0f,		0.0f,		0.0f,		0.5f,		0.0f,		0.09f,		0.0f,		1.7f,		0.0f,		0.0f,		0.0f,		0,			0		},		// PARAM_CONST_TURN
+			{0.0f,		0.0f,		0.0f,		0.0f,		0.5f,		0.0f,		0.09f,		0.0f,		1.5f,		0.0f,		0.054f,		0.0f,		0,			0		},		// PARAM_DEC_TURN
 		},
 	};
 	
@@ -221,48 +238,49 @@ PRIVATE	BOOL				bl_cntType		= false;			// カウントタイプ(false:探索、true:最短)
 	PRIVATE CONST stGAIN f_SlaGainData[PARAM_MOVE_SPEED_MAX][PARAM_SULA_MAX] = {
 		
 		/* 超低速(PARAM_VERY_SLOW) */
-		{	// FF		速度kp		位置kp		位置ki		角速度kp	角度kp		角速度ki	壁kp		壁kd
-			{0.0f,		0.7f,		0.0f,		0.0f,		0.5f,		4.0f,		0.0f,		0.48f,		0.01f	},		// PARAM_ENTRY_SLA
-			{0.0f,		0.7f,		0.0f,		0.0f,		0.34f,		12.0f,		0.0f,		0.0f,		0.0f	},		// PARAM_ACC_SLA
-			{0.0f,		0.7f,		0.0f,		0.0f,		0.34f,		12.0f,		0.0f,		0.0f,		0.0f	},		// PARAM_CONST_SLA
-			{0.0f,		0.7f,		0.0f,		0.0f,		0.34f,		12.0f,		0.0f,		0.0f,		0.0f	},		// PARAM_DEC_SLA
-			{0.0f,		0.7f,		0.0f,		0.0f,		0.5f,		4.0f,		0.0f,		0.48f,		0.01f,	},		// PARAM_EXIT_SLA
+		{// FF_加速度	FF_速度		FF_角加速度	 FF_角速度	  速度kp	  速度ki	  位置kp	  位置ki	  角速度kp	   角速度ki		角度kp		角度ki		 壁kp	 	壁kd
+			{0.0f,		0.3f,		0.0f,		0.0f,		1.0f,		0.0f,		0.0f,		0.0f,		0.2f,		0.0f,		3.0f,		0.5f,		0.0f,		0.0f,	},		// PARAM_ENTRY_SLA
+			{0.0f,		0.3f,		0.01f,		0.18f,		1.0f,		0.0f,		0.0f,		0.0f,		0.7f,		0.0f,		0.0f,		0.0f,		0.0f,		0.0f	},		// PARAM_ACC_SLA
+			{0.0f,		0.3f,		0.0f,		0.2f,		1.0f,		0.0f,		0.0f,		0.0f,		0.7f,		0.0f,		0.0f,		0.0f,		0.0f,		0.0f	},		// PARAM_CONST_SLA
+			{0.0f,		0.3f,		0.0f,		0.0f,		1.0f,		0.0f,		0.0f,		0.0f,		0.7f,		0.0f,		0.0f,		0.0f,		0.0f,		0.0f	},		// PARAM_DEC_SLA
+			{0.0f,		0.3f,		0.0f,		0.0f,		1.0f,		0.0f,		0.0f,		0.0f,		0.2f,		0.0f,		3.0f,		0.5f,		0.0f,		0.0f,	},		// PARAM_EXIT_SLA
 		},
 		
 		/* 低速(PARAM_SLOW) */
-		{	// FF		速度kp		位置kp		位置ki		角速度kp	角度kp		角速度ki	壁kp		壁kd
-			{0.0f,		5.0f,		0.0f,		0.0f,		1.0f,		3.5f,		0.0f,		0.0f,		0.0f,	},		// PARAM_ENTRY_SLA
-			{0.0f,		1.5f,		0.0f,		0.0f,		0.7f,		1.0f,		0.0f,		0.0f,		0.0f	},		// PARAM_ACC_SLA
-			{0.0f,		1.5f,		0.0f,		0.0f,		0.7f,		1.0f,		0.0f,		0.0f,		0.0f	},		// PARAM_CONST_SLA
-			{0.0f,		1.5f,		0.0f,		0.0f,		0.7f,		1.0f,		0.0f,		0.0f,		0.0f	},		// PARAM_DEC_SLA
-			{0.0f,		5.0f,		0.0f,		0.0f,		1.0f,		3.5f,		0.0f,		0.0f,		0.0f,	},		// PARAM_EXIT_SLA
+		{// FF_加速度	FF_速度		FF_角加速度	 FF_角速度	  速度kp	  速度ki	  位置kp	  位置ki	  角速度kp	   角速度ki		角度kp		角度ki		 壁kp	 	壁kd
+			{0.0f,		0.3f,		0.0f,		0.0f,		1.0f,		0.0f,		0.0f,		0.0f,		0.2f,		0.0f,		3.0f,		0.5f,		0.0f,		0.0f,	},		// PARAM_ENTRY_SLA
+			{0.0f,		0.3f,		0.013f,		0.13f,		1.0f,		0.0f,		0.0f,		0.0f,		0.7f,		0.0f,		0.0f,		0.0f,		0.0f,		0.0f	},		// PARAM_ACC_SLA
+			{0.0f,		0.3f,		0.0f,		0.20f,		1.0f,		0.0f,		0.0f,		0.0f,		0.7f,		0.0f,		0.0f,		0.0f,		0.0f,		0.0f	},		// PARAM_CONST_SLA
+			{0.0f,		0.3f,		0.0002f,	0.0f,		1.0f,		0.0f,		0.0f,		0.0f,		0.7f,		0.0f,		0.0f,		0.0f,		0.0f,		0.0f	},		// PARAM_DEC_SLA
+			{0.0f,		0.3f,		0.0f,		0.0f,		1.0f,		0.0f,		0.0f,		0.0f,		0.2f,		0.0f,		3.0f,		0.5f,		0.0f,		0.0f,	},		// PARAM_EXIT_SLA
 		},
 		
 		/* 通常(PARAM_NORMAL) */
-		{	// FF		速度kp		位置kp		位置ki		角速度kp	角度kp		角速度ki	壁kp		壁kd
-			{0.0f,		5.0f,		0.0f,		0.0f,		0.5f,		4.0f,		0.0f,		0.48f,		0.01f	},		// PARAM_ENTRY_SLA
-			{0.0f,		5.0f,		0.0f,		0.0f,		2.0f,		0.0f,		0.0f,		0.0f,		0.0f	},		// PARAM_ACC_SLA
-			{0.0f,		5.0f,		0.0f,		0.0f,		2.0f,		0.0f,		0.0f,		0.0f,		0.0f	},		// PARAM_CONST_SLA
-			{0.0f,		5.0f,		0.0f,		0.0f,		2.0f,		4.0f,		0.0f,		0.0f,		0.0f	},		// PARAM_DEC_SLA
-			{0.0f,		5.0f,		0.0f,		0.0f,		0.5f,		4.0f,		0.0f,		0.48f,		0.01f,	},		// PARAM_EXIT_SLA
+		{// FF_加速度	FF_速度		FF_角加速度	 FF_角速度	  速度kp	  速度ki	  位置kp	  位置ki	  角速度kp	   角速度ki		角度kp		角度ki		 壁kp	 	壁kd
+			{0.0f,		0.3f,		0.0f,		0.0f,		1.0f,		0.0f,		0.0f,		0.0f,		0.2f,		0.0f,		3.0f,		0.5f,		0.0f,		0.0f	},		// PARAM_ENTRY_SLA
+			{0.0f,		0.3f,		0.013f,		0.13f,		1.0f,		0.0f,		0.0f,		0.0f,		0.7f,		0.0f,		0.0f,		0.0f,		0.0f,		0.0f	},		// PARAM_ACC_SLA
+			{0.0f,		0.3f,		0.0f,		0.20f,		1.0f,		0.0f,		0.0f,		0.0f,		0.7f,		0.0f,		0.0f,		0.0f,		0.0f,		0.0f	},		// PARAM_CONST_SLA
+			{0.0f,		0.3f,		0.0002f,	0.0f,		1.0f,		0.0f,		0.0f,		0.0f,		0.7f,		0.0f,		0.0f,		0.0f,		0.0f,		0.0f	},		// PARAM_DEC_SLA
+			{0.0f,		0.3f,		0.0f,		0.0f,		1.0f,		0.0f,		0.0f,		0.0f,		0.2f,		0.0f,		3.0f,		0.5f,		0.0f,		0.0f	},		// PARAM_EXIT_SLA
+
 		},
 		
 		/* 高速(PARAM_FAST) */
-		{	// FF		速度kp		位置kp		位置ki		角速度kp	角度kp		角速度ki	壁kp		壁kd
-			{0.0f,		0.7f,		0.0f,		0.0f,		0.5f,		4.0f,		0.0f,		0.48f,		0.01f	},		// PARAM_ENTRY_SLA
-			{0.0f,		0.7f,		0.0f,		0.0f,		0.34f,		12.0f,		0.0f,		0.0f,		0.0f	},		// PARAM_ACC_SLA
-			{0.0f,		0.7f,		0.0f,		0.0f,		0.34f,		12.0f,		0.0f,		0.0f,		0.0f	},		// PARAM_CONST_SLA
-			{0.0f,		0.7f,		0.0f,		0.0f,		0.34f,		12.0f,		0.0f,		0.0f,		0.0f	},		// PARAM_DEC_SLA
-			{0.0f,		0.7f,		0.0f,		0.0f,		0.5f,		4.0f,		0.0f,		0.48f,		0.01f,	},		// PARAM_EXIT_SLA
+		{// FF_加速度	FF_速度		FF_角加速度	 FF_角速度	  速度kp	  速度ki	  位置kp	  位置ki	  角速度kp	   角速度ki		角度kp		角度ki		 壁kp	 	壁kd
+			{0.0f,		0.0f,		0.0f,		0.0f,		0.7f,		0.0f,		0.0f,		0.0f,		0.5f,		0.0f,		4.0f,		0.0f,		0.48f,		0.01f	},		// PARAM_ENTRY_SLA
+			{0.0f,		0.0f,		0.0f,		0.0f,		0.7f,		0.0f,		0.0f,		0.0f,		0.34f,		0.0f,		12.0f,		0.0f,		0.0f,		0.0f	},		// PARAM_ACC_SLA
+			{0.0f,		0.0f,		0.0f,		0.0f,		0.7f,		0.0f,		0.0f,		0.0f,		0.34f,		0.0f,		12.0f,		0.0f,		0.0f,		0.0f	},		// PARAM_CONST_SLA
+			{0.0f,		0.0f,		0.0f,		0.0f,		0.7f,		0.0f,		0.0f,		0.0f,		0.34f,		0.0f,		12.0f,		0.0f,		0.0f,		0.0f	},		// PARAM_DEC_SLA
+			{0.0f,		0.0f,		0.0f,		0.0f,		0.7f,		0.0f,		0.0f,		0.0f,		0.5f,		0.0f,		4.0f,		0.0f,		0.48f,		0.01f,	},		// PARAM_EXIT_SLA
 		},
 		
 		/* 超高速(PARAM_VERY_FAST) */
-		{	// FF		速度kp		位置kp		位置ki		角速度kp	角度kp		角速度ki	壁kp		壁kd
-			{0.0f,		5.0f,		0.0f,		0.0f,		1.0f,		5.0f,		0.0f,		0.8f,		0.2f	},		// PARAM_ENTRY_SLA
-			{0.0f,		5.0f,		0.0f,		0.0f,		1.8f,		0.0f,		0.0f,		0.0f,		0.0f	},		// PARAM_ACC_SLA
-			{0.0f,		5.0f,		0.0f,		0.0f,		1.8f,		0.0f,		0.0f,		0.0f,		0.0f	},		// PARAM_CONST_SLA
-			{0.0f,		5.0f,		0.0f,		0.0f,		1.8f,		5.0f,		0.0f,		0.0f,		0.0f	},		// PARAM_DEC_SLA
-			{0.0f,		5.0f,		0.0f,		0.0f,		1.0f,		5.0f,		0.0f,		0.8f,		0.2f,	},		// PARAM_EXIT_SLA
+		{// FF_加速度	FF_速度		FF_角加速度	 FF_角速度	  速度kp	  速度ki	  位置kp	  位置ki	  角速度kp	   角速度ki		角度kp		角度ki		 壁kp	 	壁kd
+			{0.0f,		0.0f,		0.0f,		0.0f,		5.0f,		0.0f,		0.0f,		0.0f,		1.0f,		0.0f,		5.0f,		0.0f,		0.8f,		0.2f	},		// PARAM_ENTRY_SLA
+			{0.0f,		0.0f,		0.0f,		0.0f,		5.0f,		0.0f,		0.0f,		0.0f,		1.8f,		0.0f,		0.0f,		0.0f,		0.0f,		0.0f	},		// PARAM_ACC_SLA
+			{0.0f,		0.0f,		0.0f,		0.0f,		5.0f,		0.0f,		0.0f,		0.0f,		1.8f,		0.0f,		0.0f,		0.0f,		0.0f,		0.0f	},		// PARAM_CONST_SLA
+			{0.0f,		0.0f,		0.0f,		0.0f,		5.0f,		0.0f,		0.0f,		0.0f,		1.8f,		0.0f,		5.0f,		0.0f,		0.0f,		0.0f	},		// PARAM_DEC_SLA
+			{0.0f,		0.0f,		0.0f,		0.0f,		5.0f,		0.0f,		0.0f,		0.0f,		1.0f,		0.0f,		5.0f,		0.0f,		0.8f,		0.2f,	},		// PARAM_EXIT_SLA
 		},
 	};
 	
@@ -273,8 +291,8 @@ PRIVATE	BOOL				bl_cntType		= false;			// カウントタイプ(false:探索、true:最短)
 		
 		//進入距離		退避距離 
 		{ 	0,			0,		},		// 超低速(PARAM_VERY_SLOW)
-		{ 	0,			0,		},		// 低速(PARAM_SLOW)
-		{ 	0,			0,		},		// 通常(PARAM_NORMAL)
+		{ 	5,			0,		},		// 低速(PARAM_SLOW)
+		{ 	5,			0,		},		// 通常(PARAM_NORMAL)
 		{ 	0,			0,		},		// 高速(PARAM_FAST)
 		{ 	0,			0,		}		// 超高速(PARAM_VERY_FAST)
 	};
@@ -564,11 +582,12 @@ PUBLIC void PARAM_makeSla( FLOAT f_speed, FLOAT f_angAcc, FLOAT f_g, enSLA_TYPE 
 			f_final_ang = 135.0f * DEG_TO_RAD;
 			break;
 	}
-
+#ifdef TEST
 	printf("f_speed = %f[mm/s]\n\r",f_speed);
 	printf("f_angAcc = %f[rad/s]\n\r",f_angAcc);	
 	printf("f_g = %f[mm/s]\n\r",f_g);	
-	
+#endif
+
 	/* 加減速角度の算出 */
 	f_maxAngleV		= f_g / f_speed;								// 最大角速度[rad/s] （ω[rad/s] = g[mm/s^2] / v[mm/s] ）
 	f_timeAcc		= f_maxAngleV / f_angAcc;						// 最大の角速度になるまでの加速時間[s]
@@ -576,12 +595,13 @@ PUBLIC void PARAM_makeSla( FLOAT f_speed, FLOAT f_angAcc, FLOAT f_g, enSLA_TYPE 
 	f_constAngle	= f_final_ang - f_accAngle * 2;					// 等角速度の区間の角度[rad] (θ[rad] = Total角度 - 加速角度 + 減速角度 )
 	f_timeConst		= f_constAngle / f_maxAngleV;					// 最大の角速度で動作する時間[s]（ t[s] = θ[rad] / ω[rad/s] ）
 	
+#ifdef TEST	
 	printf("f_maxAngleV = %f[rad/s]\n\r",f_maxAngleV);
 	printf("f_timeAcc = %f[s]\n\r",f_timeAcc);
 	printf("f_accAngle = %f[rad]\n\r",f_accAngle);
 	printf("f_constAngle = %f[rad]\n\r",f_constAngle);
 	printf("f_timeConst = %f[s]\n\r",f_timeConst);
-
+#endif
 
 	/* -------------------------------- */
 	/*  スラローム完了時の位置を求める  */
@@ -601,10 +621,10 @@ PUBLIC void PARAM_makeSla( FLOAT f_speed, FLOAT f_angAcc, FLOAT f_g, enSLA_TYPE 
 	
 	f_x_acc = f_x;
 	f_y_acc = f_y;
-	
+#ifdef TEST	
 	printf("f_x_acc = %f\n\r",f_x_acc);
 	printf("f_y_acc = %f\n\r",f_y_acc);
-	
+#endif
 	/* 等速時の座標演算 */
 	for( i=0; i<(USHORT)(f_timeConst*1000); i++ ){				// [msec]
 	
@@ -616,10 +636,10 @@ PUBLIC void PARAM_makeSla( FLOAT f_speed, FLOAT f_angAcc, FLOAT f_g, enSLA_TYPE 
 
 	f_x_const = f_x ;
 	f_y_const = f_y ;
-	
+#ifdef	TEST
 	printf("f_x_const = %f\n\r",f_x_const);
 	printf("f_y_const = %f\n\r",f_y_const);
-	
+#endif
 	/* 減速時の座標演算 */
 	for( i=0; i<(USHORT)(f_timeAcc*1000); i++ ){				// [msec]
 	
@@ -631,10 +651,10 @@ PUBLIC void PARAM_makeSla( FLOAT f_speed, FLOAT f_angAcc, FLOAT f_g, enSLA_TYPE 
 	
 	f_x_dec = f_x ;
 	f_y_dec = f_y ;
-	
+#ifdef TEST	
 	printf("f_x_dec = %f\n\r",f_x_dec);
 	printf("f_y_dec = %f\n\r",f_y_dec);
-
+#endif
 	/* ---------------------------- */
 	/*  スラローム用パラメータ作成  */
 	/* ---------------------------- */
@@ -646,7 +666,7 @@ PUBLIC void PARAM_makeSla( FLOAT f_speed, FLOAT f_angAcc, FLOAT f_g, enSLA_TYPE 
     	p_adr->f_ang_AccEnd					= f_accAngle * RAD_TO_DEG;						// 角加速完了角度[deg]
     	p_adr->f_ang_ConstEnd				= ( f_accAngle + f_constAngle ) * RAD_TO_DEG;	// 等角速度完了角度[deg]
 		p_adr->f_ang_Total					= f_final_ang * RAD_TO_DEG;						// 全移動角度[deg]
-	
+#ifdef TEST	
 	printf("\n========PARAMETER======\n\r");
 	printf("f_speed = %f[mm/s]\n\r",f_speed);
 	printf("f_angAcc = %f[deg/s]\n\r",f_angAcc*180.0f/3.1416f);
@@ -655,7 +675,7 @@ PUBLIC void PARAM_makeSla( FLOAT f_speed, FLOAT f_angAcc, FLOAT f_g, enSLA_TYPE 
 	printf("f_ang_AccEnd = %f[deg]\n\r",f_accAngle*180.0f/3.1416f);
 	printf("f_ang_ConstEnd = %f[deg/s]\n\r",( f_accAngle + f_constAngle )*180.0f/3.1416f);
 	printf("f_ang_Total = %f[deg]\n\r",f_final_ang*180.0f/3.1416f);
-	
+#endif	
 	/* 必要な進入と退出の距離を算出する */
 	switch(en_mode){
 		case SLA_90:
