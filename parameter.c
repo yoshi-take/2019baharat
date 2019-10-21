@@ -274,8 +274,8 @@ PRIVATE	BOOL				bl_cntType		= false;			// カウントタイプ(false:探索、true:最短)
 		
 		//進入距離		退避距離 
 		{ 	0,			0,		},		// 超低速(PARAM_VERY_SLOW)
-		{ 	1,			0,		},		// 低速(PARAM_SLOW)
-		{ 	0,			0,		},		// 通常(PARAM_NORMAL)
+		{ 	5,			0,		},		// 低速(PARAM_SLOW)
+		{ 	5,			0,		},		// 通常(PARAM_NORMAL)
 		{ 	0,			0,		},		// 高速(PARAM_FAST)
 		{ 	0,			0,		}		// 超高速(PARAM_VERY_FAST)
 	};

@@ -88,8 +88,8 @@ PUBLIC void	MODE_exe( void ){
 		
 		case MODE_0:	// バッテリーチェックor壁チェック
 			LED_offAll();	
-			//BAT_Check();
-			DIST_Check();
+			BAT_Check();
+			//DIST_Check();
 			break;
 			
 		case MODE_1:		// 探索走行
@@ -255,6 +255,10 @@ PUBLIC void	MODE_exe( void ){
 
 			/* 帰り探索 */
 			TIME_wait(1000);
+			PARAM_setSpeedType( PARAM_ST, PARAM_SLOW );	// [直進]速度低速
+			PARAM_setSpeedType( PARAM_TURN, PARAM_SLOW );	// [旋回]速度低速
+			PARAM_setSpeedType( PARAM_SLA, PARAM_SLOW );	// [スラローム]速度低速
+			MAP_searchGoal(0, 0, SEARCH, SEARCH_SURA);
 
 			/* コマンド作成 */
 			PARAM_setCntType(TRUE);											// 最短走行
