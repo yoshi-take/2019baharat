@@ -2225,8 +2225,14 @@ PUBLIC void MAP_drive( enMAP_DRIVE_TYPE en_driveType )
 							us_LogIndexWallCut %= 30;
 						}
 					}
-#endif					
-					MOT_goBlock_FinSpeed( (FLOAT)scom[us_rp]*0.5f, MOT_getSlaStaSpeed() );		// 直線走行コマンド、半区間前進（最終速度あり）
+#endif				
+					/* 直線走行コマンド、半区間前進（最終速度あり） */
+					if( us_rp == 0 ){
+						MOT_goBlock_FinSpeed( (FLOAT)(scom[us_rp]*0.5f+MOVE_BACK_DIST_SURA ), MOT_getSlaStaSpeed() );		// 尻当て分を加味
+					}else{
+						MOT_goBlock_FinSpeed( (FLOAT)scom[us_rp]*0.5f, MOT_getSlaStaSpeed() );								// 通常走行
+					}	
+					
 				}
 			}
 			else if( scom[us_rp] == R90S )

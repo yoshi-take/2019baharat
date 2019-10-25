@@ -262,7 +262,8 @@ PRIVATE void MOT_goBlock_AccConstDec( FLOAT f_fin, enMOT_ST_TYPE en_type, enMOT_
 			if( bl_failsafe == TRUE ){
 				return;
 			}
-			//MOT_setWallEdgeDIST();		// 壁切れ補正を実行する距離を設定
+			
+			MOT_setWallEdgeDIST();		// 壁切れ補正を実行する距離を設定
 			
 		}
 		
@@ -327,7 +328,7 @@ PRIVATE void MOT_goBlock_AccConstDec( FLOAT f_fin, enMOT_ST_TYPE en_type, enMOT_
 		MOT_Failsafe(&bl_failsafe);
 		if( bl_failsafe == TRUE )return;
 
-		//MOT_setWallEdgeDIST();	// 壁切れ補正を実行する距離を設定
+		MOT_setWallEdgeDIST();	// 壁切れ補正を実行する距離を設定
 	}
 	
 	/* ------ */
@@ -388,7 +389,7 @@ PRIVATE void MOT_goBlock_AccConstDec( FLOAT f_fin, enMOT_ST_TYPE en_type, enMOT_
 			MOT_Failsafe(&bl_failsafe);
 			if( bl_failsafe == TRUE )return;
 
-			//MOT_setWallEdgeDIST();		// 壁切れ補正を実行する距離を設定
+			MOT_setWallEdgeDIST();		// 壁切れ補正を実行する距離を設定
 			
 		}
 
@@ -398,7 +399,7 @@ PRIVATE void MOT_goBlock_AccConstDec( FLOAT f_fin, enMOT_ST_TYPE en_type, enMOT_
 	/*  等速(壁の切れ目)  */
 	/* ------------------ */
 	/* 壁切れがまだ見つからない状態（壁切れ設定をしているのに、エッジを見つけていない） */
-#if 0
+#if 1
 	if( ( en_WallEdge != MOT_WALL_EDGE_NONE)  && ( bl_IsWallEdge == false) ){
 		
 		st_data.en_type			= CTRL_CONST;
