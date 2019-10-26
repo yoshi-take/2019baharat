@@ -498,6 +498,41 @@ PUBLIC void DIST_getErr( LONG* p_err )
 	
 }
 
+// *************************************************************************
+//   機能		： 前壁の基準値と現在値の偏差を取得する
+//   注意		： なし
+//   メモ		： 前壁補正用
+//   引数		： なし
+//   返り値		： 偏差
+// **************************    履    歴    *******************************
+// 		v1.0		2019.10.22			TKR			新規
+// *************************************************************************/
+PUBLIC void DIST_getErrFront( LONG* p_err )
+{
+#if 0
+	/* エラーチェックしない */
+	if( bl_NoChkErr == TRUE ){
+		*p_err = 0;		// クリア
+		return SUCCESS;
+	}
+#endif	
+	
+	/* ------------ */
+	/*  制御値算出  */
+	/* ------------ */
+	*p_err = 0;		// クリア
+		
+	/* 前壁 */
+	if( ( st_sen[DIST_SEN_R_FRONT].s_now > st_sen[DIST_SEN_R_FRONT].s_ctrl ) &&
+	    ( st_sen[DIST_SEN_L_FRONT].s_now > st_sen[DIST_SEN_L_FRONT].s_ctrl )
+	){
+		*p_err = ( st_sen[DIST_SEN_L_FRONT].s_now - st_sen[DIST_SEN_L_FRONT].s_ref ) -
+				 ( st_sen[DIST_SEN_R_FRONT].s_now - st_sen[DIST_SEN_R_FRONT].s_ref );
+			
+		//printf("[Val]%6d 前壁補正\n\r", *p_err);
+	}
+	
+}
 
 // *************************************************************************
 //   機能		： 距離センサ用（前壁）ポーリング関数

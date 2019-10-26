@@ -55,6 +55,8 @@ typedef enum{
 	
 	CTRL_ENTRY_SLA,			// [16] スラローム前の前進動作(スラローム)
 	CTRL_EXIT_SLA,			// [17] スラローム後の前進動作(スラローム)
+
+	CTRL_FRONT_WALL,		// [18] 前壁補正
 	
 	CTRL_MAX,
 

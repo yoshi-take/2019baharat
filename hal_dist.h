@@ -50,6 +50,7 @@ PUBLIC SHORT DIST_getNowVal( enDIST_SEN_ID en_id );
 PUBLIC void DIST_Pol_Front( void );
 PUBLIC void DIST_Pol_Side( void );
 PUBLIC void DIST_getErr( LONG* p_err );
+PUBLIC void DIST_getErrFront( LONG* p_err );
 PUBLIC void DIST_Check( void );
 PUBLIC void DIST_adj( void );
 PUBLIC BOOL DIST_isWall_FRONT( void );

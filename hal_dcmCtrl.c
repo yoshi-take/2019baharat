@@ -879,6 +879,16 @@ PUBLIC void CTRL_getSenFB( FLOAT *p_err ){
 		*p_err = f_err * f_kp + ( f_err - f_ErrDistBuf ) * f_kd;		// PD制御
 		*p_err = f_err * f_kp;
 	}
+	else if ( en_Type == CTRL_FRONT_WALL ){		// 前壁補正用
+
+		/* 偏差取得 */
+		DIST_getErrFront( &l_WallErr );		// 前壁の偏差をとる
+		f_err = (FLOAT)l_WallErr;
+
+		*p_err = f_err * f_kp;
+
+	}
+
 }
 
 // *************************************************************************
@@ -1034,7 +1044,7 @@ PUBLIC void CTRL_pol( void ){
 	}
 	
 	/*超信地旋回*/
-	else{
+	else if( ( en_Type == CTRL_ACC_TURN ) || ( en_Type == CTRL_CONST_TURN ) || ( en_Type == CTRL_DEC_TURN ) ){
 	
 		/*左旋回*/
 		if(f_LastAngle > 0){
@@ -1050,6 +1060,12 @@ PUBLIC void CTRL_pol( void ){
 			f_duty10_R = f_feedFoard_angle * FF_BALANCE_R*(-1) 	+ f_angleCtrl + f_angleSpeedCtrl +  f_speedCtrl + f_distCtrl;
 			f_duty10_L = f_feedFoard_angle * FF_BALANCE_L		- f_angleCtrl - f_angleSpeedCtrl +  f_speedCtrl + f_distCtrl;
 		}
+	}
+	
+	/*前壁補正*/
+	else if( en_Type == CTRL_FRONT_WALL ){
+			f_duty10_R	= f_distSenCtrl;
+			f_duty10_L	= f_distSenCtrl*(-1);
 	}
 
 	CTRL_outMot( f_duty10_R, f_duty10_L );				// モータへ出力
