@@ -27,6 +27,11 @@
 //**************************************************
 // 列挙体（enum）
 //**************************************************
+typedef enum{
+    ENC_R   = 0,        // 右モータ
+    ENC_L,              // 左モータ
+    ENC_ID_MAX
+}enENC_ID;
 
 //**************************************************
 // 構造体（struct）
@@ -44,5 +49,6 @@ PUBLIC void ENC_Stop( void );
 PUBLIC void ENC_clr( void );
 PUBLIC void ENC_GetDiv( LONG* p_r, LONG* p_l );
 PUBLIC void ENC_Check( void );
+PUBLIC USHORT ENC_getCnt( enENC_ID en_id );
 
 #endif

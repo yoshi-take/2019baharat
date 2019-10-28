@@ -48,6 +48,14 @@
 #define	A4		(440)			// ラ
 #define B4      (494)           // シ
 #define C5      (523)           // ド
+#define D5      (587)           // レ
+#define E5      (659)           // ミ
+#define F5      (698)           // ファ
+#define G5      (784)           // ソ
+#define A5      (880)           // ラ
+#define B_5     (988)           // シ
+#define C6      (1047)          // ド
+#define D6      (1175)          // レ
 #define REST 	(0)				// 休符
 
 //**************************************************

@@ -486,7 +486,8 @@ PUBLIC void main(void){
 	UCHAR	i=0;
 	
 	/* 初期化 */
-	CPU_init();						// [CPU]レジスタ/GPIO/AD/TIMERなど	
+	CPU_init();						// [CPU]レジスタ/GPIO/AD/TIMERなど
+	MODE_init();					// [MODE]モード	
 	TIME_init();					// [SYS]タイマ
 	RX631_staTimer();				// [CPU]タイマスタート
 	LED_init();						// [LED]LEDをリセット
@@ -519,7 +520,9 @@ PUBLIC void main(void){
 	printf("-------------------------------------------------\r\n\r\n");
 	
 	while(1){
-		
+
+		MODE_chkMode();		// モードチェック
+
 		if( SW_ON == SW_INC_PIN ){
 			MODE_inc();							// モードを1つ進める
 			TIME_wait( SW_CHATTERING_WAIT );	// SWが離されるまで待つ
@@ -528,8 +531,7 @@ PUBLIC void main(void){
 		//}else if( (SW_ON == SW_EXE_PIN) || ( true == MODE_CheckExe() ) ){
 			MODE_exe();							// モードを実行
 			TIME_wait( SW_CHATTERING_WAIT );	// SWが離されるまで待つ
-		
-		}
+		}	
 	}	
 }
 

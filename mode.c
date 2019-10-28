@@ -49,12 +49,27 @@
 // グローバル変数
 //**************************************************
 PRIVATE enMODE		en_Mode;		// 現在のモード
+PRIVATE	USHORT		us_DefaultCnt;	// カウンタ初期値
 
 extern PUBLIC UCHAR			g_sysMap[ MAP_Y_SIZE ][ MAP_X_SIZE ];			// 迷路情報
 
 //**************************************************
 // プロトタイプ宣言（ファイル内で必要なものだけ記述）
 //**************************************************
+
+// *************************************************************************
+//   機能		： モードの初期化。
+//   注意		： なし
+//   メモ		： なし
+//   引数		： なし
+//   返り値		： なし
+// **************************    履    歴    *******************************
+//		v1.0		2019.10.27			TKR				新規
+// *************************************************************************/
+PUBLIC void MODE_init( void ){
+	us_DefaultCnt 	= ENC_getCnt(ENC_R);
+}
+
 
 // *************************************************************************
 //   機能		： モードを実行する。
@@ -276,7 +291,40 @@ PUBLIC void	MODE_exe( void ){
 			MAP_ClearMapData();
 			LED_offAll();
 			break;
+
+		case MODE_9:
+			LED_offAll();
+			TIME_wait(100);
+			g_sysMap[0][1]	= 0xff;
+			g_sysMap[1][0]	= 0xff;
+
+			break;
+
+		case MODE_10:
+			MAP_showLog();	
+			break;
+
+		case MODE_11:
+			LED_offAll();
+			MAP_SaveMapData();
+			LED_onAll();
+			break;
+
+		case MODE_12:
+			LED_offAll();
+			MAP_LoadMapData();
+			LED_onAll();
+			break;
+
+		case MODE_13:
+			break;
+
+		case MODE_14:
+			break;
 	
+		case MODE_15:
+			break;
+
 		default:
 			break;
 			
@@ -299,7 +347,7 @@ PRIVATE void MODE_chg( enMODE en_mode ){
 	switch( en_mode ){
 		
 		case MODE_0:
-			SPK_on(A4,16.0f,120);
+			SPK_on(D6,16.0f,120);
 			break;
 			
 		case MODE_1:
@@ -344,7 +392,49 @@ PRIVATE void MODE_chg( enMODE en_mode ){
 			LED_on(LED0);
 			LED_on(LED3);
 			break;
-			
+
+		case MODE_9:
+			SPK_on(D5,16.0f,120);
+			LED_on(LED0);
+			LED_on(LED4);
+			break;
+
+		case MODE_10:
+			SPK_on(E5,16.0f,120);
+			LED_on(LED1);
+			LED_on(LED2);
+			break;
+
+		case MODE_11:
+			SPK_on(F5,16.0f,120);
+			LED_on(LED1);
+			LED_on(LED3);
+			break;
+
+		case MODE_12:
+			SPK_on(G5,16.0f,120);
+			LED_on(LED1);
+			LED_on(LED4);
+			break;
+
+		case MODE_13:
+			SPK_on(A5,16.0f,120);
+			LED_on(LED2);
+			LED_on(LED3);
+			break;
+
+		case MODE_14:
+			SPK_on(B_5,16.0f,120);
+			LED_on(LED2);
+			LED_on(LED4);
+			break;
+	
+		case MODE_15:
+			SPK_on(C6,16.0f,120);
+			LED_on(LED3);
+			LED_on(LED4);
+			break;
+
 		default:
 			break;
 			
@@ -374,6 +464,51 @@ PUBLIC void MODE_inc( void ){
 	MODE_chg(en_Mode);		// モード変更
 	
 }
+
+// *************************************************************************
+//   機能		： モードを減算変更する。
+//   注意		： なし
+//   メモ		： エンコーダでモード変更できるように追加
+//   引数		： なし
+//   返り値		： なし
+// **************************    履    歴    *******************************
+//		v1.0		2019.10.27			TKR				新規
+// *************************************************************************/
+PUBLIC void MODE_dec( void ){
+		
+	/* 最大値チェック */
+	if( MODE_0 == en_Mode ){
+		en_Mode = MODE_MAX;
+	}
+	
+	en_Mode--;
+
+	MODE_chg(en_Mode);		// モード変更
+	
+}
+
+
+// *************************************************************************
+//   機能		： モードの切り替えチェック
+//   注意		： なし
+//   メモ		： 
+//   引数		： なし
+//   返り値		： なし
+// **************************    履    歴    *******************************
+//		v1.0		2019.10.27			TKR				新規
+// *************************************************************************/
+PUBLIC void MODE_chkMode( void ){
+
+	if (( us_DefaultCnt - MODE_CHG_COUNT ) > ENC_getCnt(ENC_R) ){
+		ENC_clr();
+		MODE_inc();
+	}else if( ( us_DefaultCnt + MODE_CHG_COUNT ) < ENC_getCnt(ENC_R) ){
+		ENC_clr();
+		MODE_dec();
+	}
+
+}
+
 
 // *************************************************************************
 //   機能		： 前壁(右)が閾値以上だとフラグが立つ

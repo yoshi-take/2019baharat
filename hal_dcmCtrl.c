@@ -26,6 +26,7 @@
 #include <hal_battery.h>				// バッテリー
 #include <hal_dist.h>					// DIST
 #include <hal_gyro.h>					// GYRO
+#include <motion.h>						// motion
 //**************************************************
 // 定義（define）
 //**************************************************
