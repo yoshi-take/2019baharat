@@ -234,12 +234,12 @@ PUBLIC void GYRO_init( void ){
 		p_SpiRcvData		= &us_dummy;		// ダミー
 		SPI_staGetData(SPI_PWR_MGMT_1);			// 読み出し
 		TIME_wait(100);
-		printf("SPI_PWR_MGMT_1:0x%x\n\r",us_dummy);
+//		printf("SPI_PWR_MGMT_1:0x%x\n\r",us_dummy);
 		if( us_dummy == 0x01 ){
-			printf("SPI_PWR_MGMT_1:success\n\r");
+//			printf("SPI_PWR_MGMT_1:success\n\r");
 			break;			// 所望の設定が書き込めていたらOK
 		}else{
-			printf("SPI_PWR_MGMT_1:failure\n\r");
+//			printf("SPI_PWR_MGMT_1:failure\n\r");
 		}	
 	}
 	
@@ -279,12 +279,12 @@ PUBLIC void GYRO_init( void ){
 		p_SpiRcvData		= &us_dummy;		// ダミー
 		SPI_staGetData(SPI_CONFIG);				// 読み出し
 		TIME_wait(100);
-		printf("SPI_CONFIG:0x%x\n\r",us_dummy);
+//		printf("SPI_CONFIG:0x%x\n\r",us_dummy);
 		if( us_dummy == 0x00 ){
-			printf("SPI_CONFIG:success\n\r");
+//			printf("SPI_CONFIG:success\n\r");
 			break;			// 所望の設定が書き込めていたらOK			
 		}else{
-			printf("SPI_CONFIG:failure\n\r");
+//			printf("SPI_CONFIG:failure\n\r");
 		}
 	}
 
@@ -293,15 +293,15 @@ PUBLIC void GYRO_init( void ){
 		p_SpiRcvData		= &us_dummy;		// ダミー
 		SPI_staGetData(SPI_FSYNC_INT);			// 読み出し用レジスタ
 		TIME_wait(100);
-		printf("SPI_FSYNC_INT:0x%x\n\r",us_dummy);
+//		printf("SPI_FSYNC_INT:0x%x\n\r",us_dummy);
 		while(1){
 			if( en_SpiState == SPI_IDLE )break;	// SPI通信完了
 		}
 		if( (us_dummy>>7) == 0 ){
-			printf("SPI_FSYNC_INT:success\n\r");
+//			printf("SPI_FSYNC_INT:success\n\r");
 			break;			// 最上位ビットが0になっていることを確認
 		}else{
-			printf("SPI_FSYNC_INT:failure\n\r");
+//			printf("SPI_FSYNC_INT:failure\n\r");
 		}
 	}
 
@@ -318,12 +318,12 @@ PUBLIC void GYRO_init( void ){
 		p_SpiRcvData		= &us_dummy;		// ダミー
 		SPI_staGetData(SPI_INT_PIN_COMFIG);		// 読み出し用レジスタ
 		TIME_wait(100);
-		printf("SPI_INT_PIN_COMFIG:0x%x\n\r",us_dummy);		
+//		printf("SPI_INT_PIN_COMFIG:0x%x\n\r",us_dummy);		
 		if( us_dummy == 0xe8 ){
-			printf("SPI_INT_PIN_COMFIG:success\n\r");
+//			printf("SPI_INT_PIN_COMFIG:success\n\r");
 			break;			// 所望の設定が書き込めていたらOK
 		}else{
-			printf("SPI_INT_PIN_COMFIG:failure\n\r");
+//			printf("SPI_INT_PIN_COMFIG:failure\n\r");
 		}			
 	}
 
@@ -338,7 +338,7 @@ PUBLIC void GYRO_init( void ){
 	p_SpiRcvData		= &us_dummy;		// ダミー
 	SPI_staGetData(SPI_USER_CONTROL);		// 読み出し用レジスタ
 	TIME_wait(100);
-	printf("SPI_USER_CONTROL:0x%x\n\r",us_dummy);
+//	printf("SPI_USER_CONTROL:0x%x\n\r",us_dummy);
 	
 	/* SPI有効[No.112] */
 	while(1){
@@ -353,12 +353,12 @@ PUBLIC void GYRO_init( void ){
 		p_SpiRcvData		= &us_dummy;		// ダミー
 		SPI_staGetData(SPI_I2C_IF);				// 読み出し用レジスタ
 		TIME_wait(100);
-		printf("SPI_I2C_IF:0x%x\n\r",us_dummy);
+//		printf("SPI_I2C_IF:0x%x\n\r",us_dummy);
 		if( us_dummy == 0x40 ){
-			printf("SPI_I2C_IF:success\n\r");
+//			printf("SPI_I2C_IF:success\n\r");
 			break;			// 所望の設定が書き込めていたらOK			
 		}else{
-			printf("SPI_I2C_IF:failure\n\r");
+//			printf("SPI_I2C_IF:failure\n\r");
 		}
 	}
 
@@ -375,12 +375,12 @@ PUBLIC void GYRO_init( void ){
 		p_SpiRcvData		= &us_dummy;		// ダミー
 		SPI_staGetData(SPI_GYRO_CFG);			// 読み出し用レジスタ
 		TIME_wait(100);
-		printf("SPI_GYRO_CFG:0x%x\n\r",us_dummy);
+//		printf("SPI_GYRO_CFG:0x%x\n\r",us_dummy);
 		if( us_dummy == 0x18 ){
-			printf("SPI_GYRO_CFG:success\n\r");
+//			printf("SPI_GYRO_CFG:success\n\r");
 			break;			// 所望の設定が書き込めていたらOK
 		}else{
-			printf("SPI_GYRO_CFG:failure\n\r");
+//			printf("SPI_GYRO_CFG:failure\n\r");
 		}				
 	}
 
@@ -397,21 +397,21 @@ PUBLIC void GYRO_init( void ){
 		p_SpiRcvData		= &us_dummy;		// ダミー
 		SPI_staGetData(SPI_ACC_CFG);			// 読み出し用レジスタ
 		TIME_wait(100);
-		printf("SPI_ACC_CFG:0x%x\n\r",us_dummy);
+//		printf("SPI_ACC_CFG:0x%x\n\r",us_dummy);
 		if( us_dummy == 0x08 ){
-			printf("SPI_ACC_CFG:success\n\r");
+//			printf("SPI_ACC_CFG:success\n\r");
 			break;			// 所望の設定が書き込めていたらOK
 		}else{
-			printf("SPI_ACC_CFG:failure\n\r");
+//			printf("SPI_ACC_CFG:failure\n\r");
 		}				
 	}
 
 
 	while( 0x12 != s_WhoamiVal ){
-		printf("failure\n\r");
+//		printf("failure\n\r");
 		GYRO_get_WHOAMI();
 	}
-	if( 0x12 == s_WhoamiVal )printf("success\n\r");
+//	if( 0x12 == s_WhoamiVal )printf("success\n\r");
 
 }
 

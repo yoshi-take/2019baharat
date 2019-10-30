@@ -136,7 +136,7 @@ static void FLASH_ReadMode(){
 // **************************    履    歴    *******************************
 // 		v1.0		2019.4.14			TKR			新規
 // *************************************************************************/
-PUBLIC void FLASH_waitFCU( int timeout ){
+static void FLASH_waitFCU( int timeout ){
 
 	BOOL bl_Timeout	= FALSE;
 
@@ -144,12 +144,15 @@ PUBLIC void FLASH_waitFCU( int timeout ){
 
 	if( FLASH.FSTATR0.BIT.FRDY == 0 ){		// タイムアウト発生していたら
 		bl_Timeout = TRUE;
+		printf("FCU TimeOut\n\r");
 	}
 
 	/* タイムアウトしていたらリセット */
 	if(bl_Timeout == TRUE){
 		FLASH_FcuReset();
 	}
+
+	return;
 
 }
 
@@ -167,6 +170,7 @@ PUBLIC void FLASH_FcuReset(){
 	FLASH.FRESETR.BIT.FRESET	= 1;
 	TIME_wait(2);
 	FLASH.FRESETR.BIT.FRESET	= 0;
+	printf("FcuReset\n\r");
 
 }
 
@@ -252,7 +256,7 @@ PUBLIC void FLASH_Read(USHORT *add, USHORT *data){
 // **************************    履    歴    *******************************
 // 		v1.0		2019.4.14			TKR			新規
 // *************************************************************************/
-PUBLIC void FLASH_CheckError( void ){
+static void FLASH_CheckError( void ){
 
 	int	iserr	= 0;
 
@@ -261,13 +265,16 @@ PUBLIC void FLASH_CheckError( void ){
 	iserr |= FLASH.FSTATR0.BIT.PRGERR;		//プログラム中にエラー発生
 
 	if(iserr == 0){
+		printf("No error\n\r");
 		return;
 	}
 
 	iserr = 1;
-	//LEDデバッグ
+	printf("FCU Error\n\r");
 
 	if(FLASH.FSTATR0.BIT.ILGLERR == 1){
+
+		printf("FSTATR0:%02X\nFSTATR1:%02X\nFASTAT:%02X\n\n",FLASH.FSTATR0.BYTE,FLASH.FSTATR1.BYTE,FLASH.FASTAT.BYTE);
 
 		if(FLASH.FASTAT.BYTE != 0x10){
 			FLASH.FASTAT.BYTE = 0x10;
