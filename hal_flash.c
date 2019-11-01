@@ -17,6 +17,7 @@
 #include <common_define.h>	// 共通定義
 #include <stdio.h>			// 標準入出力
 #include <hal_flash.h>		// FLASH
+#include <hal_led.h>
 
 //**************************************************
 // 定義（define）
@@ -144,7 +145,7 @@ static void FLASH_waitFCU( int timeout ){
 
 	if( FLASH.FSTATR0.BIT.FRDY == 0 ){		// タイムアウト発生していたら
 		bl_Timeout = TRUE;
-		printf("FCU TimeOut\n\r");
+//		printf("FCU TimeOut\n\r");
 	}
 
 	/* タイムアウトしていたらリセット */
@@ -170,7 +171,7 @@ PUBLIC void FLASH_FcuReset(){
 	FLASH.FRESETR.BIT.FRESET	= 1;
 	TIME_wait(2);
 	FLASH.FRESETR.BIT.FRESET	= 0;
-	printf("FcuReset\n\r");
+//	printf("FcuReset\n\r");
 
 }
 
@@ -240,11 +241,14 @@ PUBLIC void FLASH_Read(USHORT *add, USHORT *data){
 	if(FLASH.FENTRYR.WORD&0x00ff){
 		FLASH.FENTRYR.WORD = 0xAA00;
 	}
+	printf("FLASH.FENTRYR.WORD = 0x%x\n\r",FLASH.FENTRYR.WORD);
+
 	FLASH.DFLRE0.WORD = 0x2DFF;
 	FLASH.DFLRE1.WORD = 0xD2FF;
 			
 	*read = *(USHORT *)add;
 	*data = *read;
+	printf("*add = 0x%x\n\r",*add);
 }
 
 // *************************************************************************
@@ -265,16 +269,16 @@ static void FLASH_CheckError( void ){
 	iserr |= FLASH.FSTATR0.BIT.PRGERR;		//プログラム中にエラー発生
 
 	if(iserr == 0){
-		printf("No error\n\r");
+//		printf("No error\n\r");
 		return;
 	}
 
 	iserr = 1;
-	printf("FCU Error\n\r");
+//	printf("FCU Error\n\r");
 
 	if(FLASH.FSTATR0.BIT.ILGLERR == 1){
 
-		printf("FSTATR0:%02X\nFSTATR1:%02X\nFASTAT:%02X\n\n",FLASH.FSTATR0.BYTE,FLASH.FSTATR1.BYTE,FLASH.FASTAT.BYTE);
+//		printf("FSTATR0:%02X\nFSTATR1:%02X\nFASTAT:%02X\n\n",FLASH.FSTATR0.BYTE,FLASH.FSTATR1.BYTE,FLASH.FASTAT.BYTE);
 
 		if(FLASH.FASTAT.BYTE != 0x10){
 			FLASH.FASTAT.BYTE = 0x10;

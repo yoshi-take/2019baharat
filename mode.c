@@ -103,8 +103,8 @@ PUBLIC void	MODE_exe( void ){
 		
 		case MODE_0:	// バッテリーチェックor壁チェック
 			LED_offAll();	
-			BAT_Check();
-			//DIST_Check();
+			//BAT_Check();
+			DIST_Check();
 			break;
 			
 		case MODE_1:		// 探索走行

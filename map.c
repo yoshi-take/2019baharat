@@ -209,7 +209,6 @@ PUBLIC void MAP_init( void )
 	}
 }
 
-
 // *************************************************************************
 //   機能		： バックアップ迷路情報を実データに反映する
 //   注意		： なし
@@ -232,10 +231,13 @@ PUBLIC void MAP_LoadMapData( void )
 	// マップデータをRAMにコピー
 	for(i=0; i<128; i++){
 		FLASH_Read( (USHORT*)(ADR_MAP+i*2), map_add );
+		printf("map_add before[%d]:%x\n\r",i,map_add);
 		map_add++;
+		printf("map_add after[%d]:%x\n\r",i,map_add);
 	}
-}
 
+	printf("Load Complete\n\r");
+}
 
 // *************************************************************************
 //   機能		： バックアップ迷路情報をバックアップする
@@ -264,6 +266,7 @@ PUBLIC void MAP_SaveMapData( void )
 		map_add++;
 	}
 
+	printf("Save Complete\n\r");
 }
 
 
@@ -294,6 +297,8 @@ PUBLIC void MAP_ClearMapData( void )
 	for( i=0; i<8; i++){
 		FLASH_Erase((ULONG)(ADR_MAP+i*32));
 	}
+
+	printf("Map Erase Complete\n\r");
 }
 
 
@@ -1388,10 +1393,10 @@ PUBLIC void MAP_searchGoal( UCHAR uc_trgX, UCHAR uc_trgY, enMAP_ACT_MODE en_type
 			f_MoveBackDist = 0;	
 			LED_onAll();
 		}
-/*		if( uc_StrCnt == 1 ){		// 既知区間加速するときは実行しない
+//		if( uc_StrCnt == 1 ){		// 既知区間加速するときは実行しない
 			MAP_makeMapData();									// 壁データから迷路データを作成
 			MAP_calcMouseDir(CONTOUR_SYSTEM, &en_head);			// 等高線MAP法で進行方向を算出
-		}*/
+//		}
 		/* 次の区画へ移動 */
 		if(( mx == uc_trgX ) && ( my == uc_trgY )){
 
@@ -1412,8 +1417,8 @@ PUBLIC void MAP_searchGoal( UCHAR uc_trgX, UCHAR uc_trgY, enMAP_ACT_MODE en_type
 			}
 			/* スラローム探索 */
 			else if( SEARCH_SURA == en_search ){
-			//	MAP_moveNextBlock_Sura(en_head, &bl_type, FALSE );	// 次の区画へ移動	← ここで改めてリリースチェック＋壁再度作成＋等高線＋超信地旋回動作
-				MAP_moveNextBlock_acc(en_head, &bl_type);
+				MAP_moveNextBlock_Sura(en_head, &bl_type, FALSE );	// 次の区画へ移動	← ここで改めてリリースチェック＋壁再度作成＋等高線＋超信地旋回動作
+			//	MAP_moveNextBlock_acc(en_head, &bl_type);
 			}
 		}
 #else if

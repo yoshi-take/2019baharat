@@ -47,5 +47,4 @@ PUBLIC void FLASH_WriteEE(ULONG addr, USHORT *data);
 PUBLIC void FLASH_Read(USHORT *add, USHORT *data);
 static void FLASH_CheckError( void );
 
-
 #endif

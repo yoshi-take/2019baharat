@@ -2120,7 +2120,7 @@ PUBLIC void MOT_goSla( enMOT_SULA_CMD en_type, stSLA *p_sla){
 	CTRL_setData( &st_data );			// データセット
 	DCM_staMotAll();				// モータON
 
-	LED_onAll();
+//	LED_onAll();
 	while( f_NowDist < f_entryLen ){				// 指定距離到達待ち
 	}
 	
