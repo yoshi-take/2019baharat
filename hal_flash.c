@@ -241,14 +241,11 @@ PUBLIC void FLASH_Read(USHORT *add, USHORT *data){
 	if(FLASH.FENTRYR.WORD&0x00ff){
 		FLASH.FENTRYR.WORD = 0xAA00;
 	}
-	printf("FLASH.FENTRYR.WORD = 0x%x\n\r",FLASH.FENTRYR.WORD);
 
 	FLASH.DFLRE0.WORD = 0x2DFF;
 	FLASH.DFLRE1.WORD = 0xD2FF;
-			
-	*read = *(USHORT *)add;
-	*data = *read;
-	printf("*add = 0x%x\n\r",*add);
+
+	*data = *(USHORT *)add;
 }
 
 // *************************************************************************
@@ -277,9 +274,7 @@ static void FLASH_CheckError( void ){
 //	printf("FCU Error\n\r");
 
 	if(FLASH.FSTATR0.BIT.ILGLERR == 1){
-
 //		printf("FSTATR0:%02X\nFSTATR1:%02X\nFASTAT:%02X\n\n",FLASH.FSTATR0.BYTE,FLASH.FSTATR1.BYTE,FLASH.FASTAT.BYTE);
-
 		if(FLASH.FASTAT.BYTE != 0x10){
 			FLASH.FASTAT.BYTE = 0x10;
 		}

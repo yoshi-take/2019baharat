@@ -118,9 +118,9 @@ PRIVATE	BOOL				bl_cntType		= false;			// カウントタイプ(false:探索、true:最短)
 		},
 		/* 低速(PARAM_SLOW) */
 		{// FF_加速度	FF_速度		FF_角加速度	 FF_角速度	  速度kp	  速度ki	  位置kp	  位置ki	  角速度kp	   角速度ki		角度kp		角度ki		 壁kp	 	壁kd
-			{0.055f,	0.2f,		0.0f,		0.0f,		1.0f,		0.0f,		0.0f,		0.0f,		0.2f,		0.0f,		3.0f,		0.5f,		0.1f,		0.0f,	},		// PARAM_ACC		
-			{0.0f,		0.3f,		0.0f,		0.0f,		1.0f,		0.0f,		0.0f,		0.0f,		0.2f,		0.0f,		3.0f,		0.5f,		0.1f,		0.0f,	},		// PARAM_CONST
-			{0.0f,		0.2f,		0.0f,		0.0f,		1.0f,		0.0f,		0.0f,		0.0f,		0.2f,		0.0f,		3.0f,		0.5f,		0.1f,		0.0f,	},		// PARAM_DEC
+			{0.055f,	0.2f,		0.0f,		0.0f,		1.0f,		0.0f,		0.0f,		0.0f,		0.2f,		0.0f,		3.0f,		0.5f,		0.07f,		0.0f,	},		// PARAM_ACC		
+			{0.0f,		0.3f,		0.0f,		0.0f,		1.0f,		0.0f,		0.0f,		0.0f,		0.2f,		0.0f,		3.0f,		0.5f,		0.07f,		0.0f,	},		// PARAM_CONST
+			{0.0f,		0.2f,		0.0f,		0.0f,		1.0f,		0.0f,		0.0f,		0.0f,		0.2f,		0.0f,		3.0f,		0.5f,		0.07f,		0.0f,	},		// PARAM_DEC
 			{0.0f,		0.0f,		0.0f,		0.0f,		0.7f,		0.0f,		5.5f,		0.01f,		0.04f,		0.0f,		8.0f,		0.05f,		0.025f,		0.01f,	},		// PARAM_BACK_ACC
 			{0.0f,		0.0f,		0.0f,		0.0f,		0.7f,		0.0f,		5.5f,		0.01f,		0.04f,		0.0f,		8.0f,		0.05f,		0.025f,		0.01f,	},		// PARAM_BACK_CONST
 			{0.0f,		0.0f,		0.0f,		0.0f,		0.7f,		0.0f,		5.5f,		0.01f,		0.04f,		0.0f,		8.0f,		0.05f,		0.025f,		0.01f,	},		// PARAM_BACK_DEC
@@ -274,8 +274,8 @@ PRIVATE	BOOL				bl_cntType		= false;			// カウントタイプ(false:探索、true:最短)
 		
 		//進入距離		退避距離 
 		{ 	0,			0,		},		// 超低速(PARAM_VERY_SLOW)
-		{ 	5,			0,		},		// 低速(PARAM_SLOW)
-		{ 	5,			0,		},		// 通常(PARAM_NORMAL)
+		{ 	0,			0,		},		// 低速(PARAM_SLOW)
+		{ 	0,			0,		},		// 通常(PARAM_NORMAL)
 		{ 	0,			0,		},		// 高速(PARAM_FAST)
 		{ 	0,			0,		}		// 超高速(PARAM_VERY_FAST)
 	};

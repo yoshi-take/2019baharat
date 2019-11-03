@@ -139,7 +139,7 @@ PUBLIC void	MODE_exe( void ){
 			
 		case MODE_2:		// マップデータのロード
 			LED_offAll();
-			TIME_wait(1000);
+			TIME_wait(500);
 			LED_onAll();
 			MAP_LoadMapData();
 			LED_offAll();
@@ -201,21 +201,6 @@ PUBLIC void	MODE_exe( void ){
 			SPK_on(E4,16.0f,120);
 			SPK_on(F4,16.0f,120);
 
-#if 0
-			MOT_goBlock_FinSpeed(1.5f+MOVE_BACK_DIST,500.0f);				// 半区画走行
-			for(i=0;i<10;i++){	
-				MOT_goSla( MOT_R90S, PARAM_getSra( SLA_90 ) );	// スラローム
-				MOT_goBlock_FinSpeed(1.0f,500.0f);				// 半区画走行
-				MOT_goSla( MOT_R90S, PARAM_getSra( SLA_90 ) );	// スラローム
-				MOT_goBlock_FinSpeed(1.0f,500.0f);				// 半区画走行
-				MOT_goSla( MOT_R90S, PARAM_getSra( SLA_90 ) );	// スラローム
-				MOT_goBlock_FinSpeed(1.0f,500.0f);				// 半区画走行
-				MOT_goSla( MOT_R90S, PARAM_getSra( SLA_90 ) );	// スラローム
-				MOT_goBlock_FinSpeed(1.0f,500.0f);				// 半区画走行
-			}
-
-			MOT_goBlock_FinSpeed(0.5f,0);					// 半区画走行
-#endif		
 			break;
 			
 		case MODE_5:		// 直進&超信地調整			
@@ -245,9 +230,7 @@ PUBLIC void	MODE_exe( void ){
 			LED_offAll();
 			TIME_wait(100);
 			//CTRL_showLog();		// ログの掃き出し
-
 			MAP_showLog();
-//			MAP_SaveMapData();
 
 			break;
 			
@@ -285,18 +268,11 @@ PUBLIC void	MODE_exe( void ){
 
 			break;
 			
-		case MODE_8:	// マップデータの消去
-			LED_onAll();
-			TIME_wait(1000);
-			MAP_ClearMapData();
-			LED_offAll();
+		case MODE_8:	
 			break;
 
 		case MODE_9:
 			LED_offAll();
-			TIME_wait(100);
-			g_sysMap[0][1]	= 0xff;
-			g_sysMap[1][0]	= 0xff;
 
 			break;
 
@@ -322,7 +298,11 @@ PUBLIC void	MODE_exe( void ){
 		case MODE_14:
 			break;
 	
-		case MODE_15:
+		case MODE_15:			// マップデータの消去
+			LED_onAll();
+			TIME_wait(1000);
+			MAP_ClearMapData();
+			LED_offAll();
 			break;
 
 		default:

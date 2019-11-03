@@ -223,20 +223,14 @@ PUBLIC void MAP_LoadMapData( void )
 	SHORT	i;
 	USHORT	*map_add;
 	map_add	= (USHORT*)&g_sysMap;
-	printf("g_sysMap:%x\n\r",g_sysMap);
-	printf("&g_sysMap%x\n\r",&g_sysMap);
-	printf("map_add:%x\n\r",map_add);
-	printf("*map_add:%x\n\r",*map_add);
 
 	// マップデータをRAMにコピー
 	for(i=0; i<128; i++){
 		FLASH_Read( (USHORT*)(ADR_MAP+i*2), map_add );
-		printf("map_add before[%d]:%x\n\r",i,map_add);
 		map_add++;
-		printf("map_add after[%d]:%x\n\r",i,map_add);
 	}
 
-	printf("Load Complete\n\r");
+	printf(" MAP Load Complete\n\r");
 }
 
 // *************************************************************************
