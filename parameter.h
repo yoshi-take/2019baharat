@@ -42,7 +42,7 @@
 #define BLOCK_SKEW					( 254.56f )							// 斜め１区間 [mm]
 
 /* アドレス */
-#define	ADR_MAP						( 0x00100800 )						// 迷路バックアップ用アドレス
+#define	ADR_MAP						( 0x00100000 )						// 迷路バックアップ用アドレス
 #define	ADR_SEN						( 0x00101000 )						// センサ用データフラッシュアドレス
 
 /* ジャイロ，温度，加速度のスケール */
@@ -85,6 +85,7 @@
 
 /* 走行速度 */
 #define MAP_SEARCH_SPEED			( 500 ) 							// 探索走行の最大速度[mm/s]
+#define MAP_KNOWN_ACC_SPEED			( 1200 )							// 既知区間加速するときの目標速度[mm/s]
 #define SEN_BACK_CHK_SPEED			( 180 ) 							// センサチューニングのための移動最大速度[mm/s]
 
 /* フィルタ */
@@ -158,6 +159,8 @@
 #define POS_LOG					( 5 )								// 記録する位置情報ログの個数
 #define POS_LOG_INTERVAL		( 5 )								// ←msec毎に記録
 
+/* その他 */
+#define TIME_THRE_WAIT			(3)									// この時間以上たつと減速ループから抜ける
 		
 
 

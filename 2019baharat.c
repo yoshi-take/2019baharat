@@ -48,6 +48,7 @@ PRIVATE	VUSHORT		uc_Msec;	// 内部時計[msec]
 PRIVATE	VUCHAR		uc_Sec;		// 内部時計[sec]
 PRIVATE	VUCHAR		uc_Min;		// 内部時計[min]
 PRIVATE VULONG		ul_Wait;	// 1msecのwaitに使用する カウンタ[msec]
+PUBLIC	VUCHAR		uc_CntSec;	// 減速時にループから抜け出せなくなったとき用[sec]
 
 //**************************************************
 // プロトタイプ宣言（ファイル内で必要なものだけ記述）
@@ -92,6 +93,7 @@ PUBLIC void TIME_init( void )
 	uc_Sec  = 0;		// 内部時計[sec]
 	uc_Min  = 0;		// 内部時計[min]
 	ul_Wait = 0;		// 1msecのwaitに使用する カウンタ[msec]
+	uc_CntSec = TIME_THRE_WAIT;		// 減速時にループから抜け無くなったとき用[sec]
 }
 
 // *************************************************************************
@@ -563,6 +565,9 @@ PUBLIC void INTC_sys(void){
 	if( uc_Msec > 999 ){		// msec → sec
 		uc_Msec  = 0;
 		uc_Sec++;
+
+		if( uc_CntSec != TIME_THRE_WAIT )uc_CntSec++;	// 減速チェック時以外ではカウントしない
+
 	}
 	if( uc_Sec > 59 ){			// sec → min
 		uc_Sec = 0;

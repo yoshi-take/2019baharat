@@ -1027,9 +1027,14 @@ PRIVATE void MAP_moveNextBlock_acc( enMAP_HEAD_DIR en_head, BOOL* p_type )
 		case NORTH:			
 			*p_type = FALSE;
 			
-			if( MAP_KnownAcc() == false ){		// 次に進む区画の北方向に壁が存在するとき
-				MOT_setTrgtSpeed(1200.0f);		// 既知区間加速するときの目標速度	
-				MOT_goBlock_FinSpeed( (FLOAT)uc_StrCnt, MAP_SEARCH_SPEED );				// n区画前進
+			if( MAP_KnownAcc() == false ){					// 次に進む区画の北方向に壁が存在するとき
+				if( uc_StrCnt == 1 ){
+					MOT_goBlock_Const( 1 );					// 1区画の場合は等速のまま
+				}else{
+					MOT_setTrgtSpeed(MAP_KNOWN_ACC_SPEED);									// 既知区間加速するときの目標速度	
+					MOT_goBlock_FinSpeed( (FLOAT)uc_StrCnt, MAP_SEARCH_SPEED );				// n区画前進
+					MOT_setTrgtSpeed(MAP_SEARCH_SPEED);										// 目標速度をデフォルト値に戻す
+				}
 				uc_StrCnt	= 1;
 
 			}else{
@@ -1343,7 +1348,7 @@ PRIVATE void MAP_actGoal( void )
 
 
 // *************************************************************************
-//   機能		： ゴール時の動作
+//   機能		： 探索
 //   注意		： なし
 //   メモ		： なし
 //   引数		： 目標x座標、目標y座標、探索方法、探索動作
@@ -1354,7 +1359,6 @@ PRIVATE void MAP_actGoal( void )
 // *************************************************************************/
 PUBLIC void MAP_searchGoal( UCHAR uc_trgX, UCHAR uc_trgY, enMAP_ACT_MODE en_type, enSEARCH_MODE en_search )
 {
-#ifndef	KNOWN
 	enMAP_HEAD_DIR	en_head = NORTH;
 	BOOL			bl_type = TRUE;			// 現在位置、FALSE: １区間前進状態、TURE:半区間前進状態
 	
@@ -1387,10 +1391,10 @@ PUBLIC void MAP_searchGoal( UCHAR uc_trgX, UCHAR uc_trgY, enMAP_ACT_MODE en_type
 			f_MoveBackDist = 0;	
 			LED_onAll();
 		}
-//		if( uc_StrCnt == 1 ){		// 既知区間加速するときは実行しない
+		if( uc_StrCnt == 1 ){		// 既知区間加速するときは実行しない
 			MAP_makeMapData();									// 壁データから迷路データを作成
 			MAP_calcMouseDir(CONTOUR_SYSTEM, &en_head);			// 等高線MAP法で進行方向を算出
-//		}
+		}
 		/* 次の区画へ移動 */
 		if(( mx == uc_trgX ) && ( my == uc_trgY )){
 
@@ -1415,7 +1419,37 @@ PUBLIC void MAP_searchGoal( UCHAR uc_trgX, UCHAR uc_trgY, enMAP_ACT_MODE en_type
 			//	MAP_moveNextBlock_acc(en_head, &bl_type);
 			}
 		}
-#else if
+
+#if 0		
+		/* 途中で制御不能になった */
+		if( SYS_isOutOfCtrl() == TRUE ){
+			
+			/* 迷路関連を初期化 */
+			en_Head		= NORTH;
+			mx			= 0;
+			my			= 0;
+			f_MoveBackDist = 0;
+			
+			// DCMCは下位モジュールで既にクリアと緊急停止を行っている。
+			break;
+		}
+#endif
+	}
+	
+	TIME_wait(10000);
+}
+
+// *************************************************************************
+//   機能		： 探索（既知区間加速）
+//   注意		： なし
+//   メモ		： なし
+//   引数		： 目標x座標、目標y座標、探索方法
+//   返り値		： なし
+// **************************    履    歴    *******************************
+// 		v1.0		2019.11.3			TKR			searchGoal関数から移植
+// *************************************************************************/
+PUBLIC void MAP_searchGoalKnown( UCHAR uc_trgX, UCHAR uc_trgY, enMAP_ACT_MODE en_type )
+{
 	enMAP_HEAD_DIR	en_head = NORTH;
 	BOOL			bl_type = TRUE;			// 現在位置、FALSE: １区間前進状態、TURE:半区間前進状態
 	
@@ -1448,10 +1482,12 @@ PUBLIC void MAP_searchGoal( UCHAR uc_trgX, UCHAR uc_trgY, enMAP_ACT_MODE en_type
 			f_MoveBackDist = 0;	
 			LED_onAll();
 		}
-/*		if( uc_StrCnt == 1 ){		// 既知区間加速するときは実行しない
+
+		if( uc_StrCnt == 1 ){		// 既知区間加速するときは実行しない
 			MAP_makeMapData();									// 壁データから迷路データを作成
 			MAP_calcMouseDir(CONTOUR_SYSTEM, &en_head);			// 等高線MAP法で進行方向を算出
-		}*/
+		}
+
 		/* 次の区画へ移動 */
 		if(( mx == uc_trgX ) && ( my == uc_trgY )){
 
@@ -1466,36 +1502,10 @@ PUBLIC void MAP_searchGoal( UCHAR uc_trgX, UCHAR uc_trgY, enMAP_ACT_MODE en_type
 			return;				// 探索終了
 		}
 		else{
-			/* 超信地旋回探索 */
-			if( SEARCH_TURN == en_search ){
-				MAP_moveNextBlock(en_head, &bl_type);				// 次の区画へ移動	← ここで改めてリリースチェック＋壁再度作成＋等高線＋超信地旋回動作
-			}
-			/* スラローム探索 */
-			else if( SEARCH_SURA == en_search ){
-				MAP_moveNextBlock_Sura(en_head, &bl_type, FALSE );	// 次の区画へ移動	← ここで改めてリリースチェック＋壁再度作成＋等高線＋超信地旋回動作
-			}
-		}		
-#endif
-
-#if 0		
-		/* 途中で制御不能になった */
-		if( SYS_isOutOfCtrl() == TRUE ){
-			
-			/* 迷路関連を初期化 */
-			en_Head		= NORTH;
-			mx			= 0;
-			my			= 0;
-			f_MoveBackDist = 0;
-			
-			// DCMCは下位モジュールで既にクリアと緊急停止を行っている。
-			break;
+			MAP_moveNextBlock_acc(en_head, &bl_type);
 		}
-#endif
 	}
-
-	TIME_wait(10000);
 }
-
 
 // *************************************************************************
 //   機能		： PCIF、現在のマップを表示する

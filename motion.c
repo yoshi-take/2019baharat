@@ -95,6 +95,8 @@ PRIVATE enMOT_WALL_EDGE_TYPE		en_WallEdge 		= MOT_WALL_EDGE_NONE;	//壁切れ補正
 PRIVATE BOOL						bl_IsWallEdge		= false;				//壁切れ検知(true:検知　false:非検知)
 PRIVATE FLOAT						f_WallEdgeAddDist	= 0;					//壁切れ補正後の移動距離
 
+/* その他 */
+extern PUBLIC	VUCHAR		uc_CntSec;		// 内部時計[sec]
 
 //**************************************************
 // プロトタイプ宣言（ファイル内で必要なものだけ記述）
@@ -196,11 +198,11 @@ PUBLIC FLOAT MOT_getAccAngle3( void )
 //   返り値		： 前進のタイプ
 // **************************    履    歴    *******************************
 // 		v1.0		2013.12.14			外川			新規
+//		v2.0		2019.11.3			TKR				減速時にループから抜け出せなくなったときの対策追加		
 // *************************************************************************/
 PRIVATE void MOT_goBlock_AccConstDec( FLOAT f_fin, enMOT_ST_TYPE en_type, enMOT_GO_ST_TYPE en_goType )
 {
 	stCTRL_DATA		st_data;					// 制御データ
-
 	
 	f_WallEdgeAddDist = 0;
 	/* ================ */
@@ -358,7 +360,8 @@ PRIVATE void MOT_goBlock_AccConstDec( FLOAT f_fin, enMOT_ST_TYPE en_type, enMOT_
 		st_data.f_angle			= 0;						// 目標角度
 		st_data.f_time 			= 0;						// 目標時間 [sec] ← 指定しない
 		CTRL_setData( &st_data );							// データセット
-						
+
+		uc_CntSec	= 0;	// ループにいる時間を数える用					
 		while( f_NowDist < ( st_Info.f_dist ) ){		// 怪しい
 
 		#ifdef	TEST
@@ -390,6 +393,8 @@ PRIVATE void MOT_goBlock_AccConstDec( FLOAT f_fin, enMOT_ST_TYPE en_type, enMOT_
 			if( bl_failsafe == TRUE )return;
 
 			MOT_setWallEdgeDIST();		// 壁切れ補正を実行する距離を設定
+
+			if( uc_CntSec > TIME_THRE_WAIT )break;		// 一定時間経つとループから抜ける
 			
 		}
 

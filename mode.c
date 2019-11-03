@@ -95,7 +95,7 @@ PUBLIC void	MODE_exe( void ){
 	
 	/* スラロームデータ生成 */
 	PARAM_makeSla(500.0f, 150.0f, 5300.0f, SLA_90, PARAM_SLOW);		// 90度
-	// 45度
+	PARAM_makeSla(500.0f, 100.0f, 2500.0f, SLA_45, PARAM_VERY_SLOW);	// 45度
 	// 135度
 	// 斜め → 90°→ 斜め
 
@@ -234,37 +234,34 @@ PUBLIC void	MODE_exe( void ){
 
 			break;
 			
-		case MODE_7:	// 探索
+		case MODE_7:	// 斜め
 			LED_offAll();
 			MODE_wait();			// 手かざし待機
 			TIME_wait(1000);
 			GYRO_clrAngle();		// 角度リセット
 
+			CTRL_LogSta();			// ログ開始
+
+			/* スラロームデータ生成 */
+			PARAM_makeSla(500.0f, 150.0f, 5300.0f, SLA_90, PARAM_SLOW);					// 90度
+			PARAM_makeSla(500.0f, 100.0f, 2500.0f, SLA_45, PARAM_SLOW);					// 45度
+			// 135度
+			// 斜め → 90°→ 斜め
+			
 			/* 走行パラメータ */
 			PARAM_setCntType( FALSE );
-			MOT_setTrgtSpeed( MAP_SEARCH_SPEED );			// 目標速度設定			
-			PARAM_setSpeedType( PARAM_ST, PARAM_VERY_SLOW );	// [直進]速度低速
-			PARAM_setSpeedType( PARAM_TURN, PARAM_VERY_SLOW );	// [旋回]速度低速
+			MOT_setTrgtSpeed( MAP_SEARCH_SPEED );				// 目標速度設定			
+			PARAM_setSpeedType( PARAM_ST, PARAM_SLOW );			// [直進]速度低速
+			PARAM_setSpeedType( PARAM_TURN, PARAM_SLOW );		// [旋回]速度低速
 			PARAM_setSpeedType( PARAM_SLA, PARAM_VERY_SLOW );	// [スラローム]速度低速
 
-			/* 迷路探索 */
-			MAP_setPos(0,0,NORTH);
-			MAP_searchGoal(GOAL_MAP_X, GOAL_MAP_Y, SEARCH, SEARCH_TURN);
-
-			/* 帰り探索 */
-			TIME_wait(1000);
-			PARAM_setSpeedType( PARAM_ST, PARAM_SLOW );	// [直進]速度低速
-			PARAM_setSpeedType( PARAM_TURN, PARAM_SLOW );	// [旋回]速度低速
-			PARAM_setSpeedType( PARAM_SLA, PARAM_SLOW );	// [スラローム]速度低速
-			MAP_searchGoal(0, 0, SEARCH, SEARCH_SURA);
-
-			/* コマンド作成 */
-			PARAM_setCntType(TRUE);											// 最短走行
-			MAP_setPos(0,0,NORTH);											// 初期座標
-			MAP_makeContourMap(GOAL_MAP_X, GOAL_MAP_Y, BEST_WAY);			// 等高線マップ作成
-			MAP_makeCmdList(0,0,NORTH,GOAL_MAP_X,GOAL_MAP_Y, &en_endDir);	// ドライブコマンド作成
-			MAP_makeSuraCmdList();											// スラロームコマンド作成
-
+			/* 走行 */
+			MOT_goBlock_FinSpeed(1.5f+MOVE_BACK_DIST,MAP_SEARCH_SPEED);
+			MOT_goSla(MOT_R45S_S2N,PARAM_getSra( SLA_45 ));
+			MOT_goSkewBlock_FinSpeed(3,MAP_SEARCH_SPEED);
+			MOT_goSla(MOT_L45S_N2S,PARAM_getSra( SLA_45 ));
+			MOT_goBlock_FinSpeed(1,0);
+			LED_onAll();
 
 			break;
 			
@@ -277,7 +274,6 @@ PUBLIC void	MODE_exe( void ){
 			break;
 
 		case MODE_10:
-			MAP_showLog();	
 			break;
 
 		case MODE_11:
