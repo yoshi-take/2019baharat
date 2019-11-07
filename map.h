@@ -292,11 +292,11 @@ PUBLIC void MAP_SaveMapData( void );
 PUBLIC void MAP_init( void );
 PUBLIC void MAP_showLog( void );
 
-
 PUBLIC void MAP_makeContourMap_search( void );
 PUBLIC void MAP_makeContourMap_bestWay( void );
 PUBLIC void MAP_makeContourMap( UCHAR uc_goalX, UCHAR uc_goalY, enMAP_ACT_MODE en_type );
 PUBLIC void MAP_searchGoal( UCHAR uc_trgX, UCHAR uc_trgY, enMAP_ACT_MODE en_type, enSEARCH_MODE en_search );
+PUBLIC void MAP_searchGoalKnown( UCHAR uc_trgX, UCHAR uc_trgY, enMAP_ACT_MODE en_type );
 
 PUBLIC void MAP_makeCmdList( UCHAR uc_staX, UCHAR uc_staY, enMAP_HEAD_DIR en_staDir, UCHAR uc_endX,	UCHAR uc_endY, enMAP_HEAD_DIR* en_endDir );
 PUBLIC void MAP_makeSuraCmdList( void );

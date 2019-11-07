@@ -122,7 +122,8 @@ PUBLIC void	MODE_exe( void ){
 
 			/* 迷路探索 */
 			MAP_setPos(0,0,NORTH);
-			MAP_searchGoal(GOAL_MAP_X, GOAL_MAP_Y, SEARCH, SEARCH_SURA);
+			//MAP_searchGoal(GOAL_MAP_X, GOAL_MAP_Y, SEARCH, SEARCH_SURA);
+			MAP_searchGoalKnown(GOAL_MAP_X, GOAL_MAP_Y, SEARCH_SURA);
 
 			/* 帰り探索 */
 			TIME_wait(500);
@@ -256,7 +257,7 @@ PUBLIC void	MODE_exe( void ){
 			PARAM_setSpeedType( PARAM_SLA, PARAM_VERY_SLOW );	// [スラローム]速度低速
 
 			/* 走行 */
-			MOT_goBlock_FinSpeed(1.5f+MOVE_BACK_DIST,MAP_SEARCH_SPEED);
+			MOT_goBlock_FinSpeed(1.0f+MOVE_BACK_DIST,MAP_SEARCH_SPEED);
 			MOT_goSla(MOT_R45S_S2N,PARAM_getSra( SLA_45 ));
 			MOT_goSkewBlock_FinSpeed(3,MAP_SEARCH_SPEED);
 			MOT_goSla(MOT_L45S_N2S,PARAM_getSra( SLA_45 ));
@@ -265,11 +266,41 @@ PUBLIC void	MODE_exe( void ){
 
 			break;
 			
-		case MODE_8:	
+		case MODE_8:
+			LED_offAll();
+			printf("g_sysMap:%x\n\r",sizeof(g_sysMap));	
 			break;
 
 		case MODE_9:
 			LED_offAll();
+			LED_offAll();
+			MODE_wait();			// 手かざし待機
+			TIME_wait(1000);
+			GYRO_clrAngle();		// 角度リセット
+
+			/* 走行パラメータ */
+			PARAM_setCntType( FALSE );
+			MOT_setTrgtSpeed( MAP_SEARCH_SPEED );			// 目標速度設定			
+			PARAM_setSpeedType( PARAM_ST, PARAM_SLOW );	// [直進]速度低速
+			PARAM_setSpeedType( PARAM_TURN, PARAM_SLOW );	// [旋回]速度低速
+			PARAM_setSpeedType( PARAM_SLA, PARAM_SLOW );	// [スラローム]速度低速
+
+			/* 迷路探索 */
+			MAP_setPos(0,0,NORTH);
+			MAP_searchGoal(GOAL_MAP_X, GOAL_MAP_Y, SEARCH, SEARCH_SURA);
+			//MAP_searchGoalKnown(GOAL_MAP_X, GOAL_MAP_Y, SEARCH_SURA);
+
+			/* 帰り探索 */
+			TIME_wait(500);
+			MAP_searchGoal(0, 0, SEARCH, SEARCH_SURA);
+
+			/* コマンド作成 */
+			PARAM_setCntType(TRUE);											// 最短走行
+			MAP_setPos(0,0,NORTH);											// 初期座標
+			MAP_makeContourMap(GOAL_MAP_X, GOAL_MAP_Y, BEST_WAY);			// 等高線マップ作成
+			MAP_makeCmdList(0,0,NORTH,GOAL_MAP_X,GOAL_MAP_Y, &en_endDir);	// ドライブコマンド作成
+			MAP_makeSuraCmdList();											// スラロームコマンド作成
+
 
 			break;
 

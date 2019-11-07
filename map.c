@@ -121,6 +121,10 @@ PRIVATE USHORT us_LogIndex = 0;
 PRIVATE USHORT us_LogWallCut[30];
 PRIVATE USHORT us_LogIndexWallCut = 0;
 
+/* 後で消す */
+PUBLIC	UCHAR	num	= 0;
+PUBLIC	UCHAR	log_mask[20][8][5];
+
 
 //**************************************************
 // プロトタイプ宣言（ファイル内で必要なものだけ記述）
@@ -230,7 +234,7 @@ PUBLIC void MAP_LoadMapData( void )
 		map_add++;
 	}
 
-	printf(" MAP Load Complete\n\r");
+	printf("MAP Load Complete\n\r");
 }
 
 // *************************************************************************
@@ -258,6 +262,7 @@ PUBLIC void MAP_SaveMapData( void )
 	for( i=0; i<128; i++){
 		FLASH_WriteEE((ULONG)(ADR_MAP+i*2),map_add);
 		map_add++;
+		printf("0x%x\n\r",(ULONG)(ADR_MAP+i*2));
 	}
 
 	printf("Save Complete\n\r");
@@ -1027,7 +1032,8 @@ PRIVATE void MAP_moveNextBlock_acc( enMAP_HEAD_DIR en_head, BOOL* p_type )
 		case NORTH:			
 			*p_type = FALSE;
 			
-			if( MAP_KnownAcc() == false ){					// 次に進む区画の北方向に壁が存在するとき
+			if( MAP_KnownAcc() == false ){					// 次に進む区画が未探索のとき
+
 				if( uc_StrCnt == 1 ){
 					MOT_goBlock_Const( 1 );					// 1区画の場合は等速のまま
 				}else{
@@ -1142,23 +1148,31 @@ PRIVATE void MAP_moveNextBlock_acc( enMAP_HEAD_DIR en_head, BOOL* p_type )
 }
 
 // *************************************************************************
-//   機能		： 進む区画方向に壁があるか判定
+//   機能		： 進む区画方向が探索済みか未探索かを判定
 //   注意		： なし
 //   メモ		： なし
 //   引数		： なし
-//   返り値		： TRUE:壁なし	FALSE:壁あり
+//   返り値		： TRUE:探索済み	FALSE:未探索
 // **************************    履    歴    *******************************
 // 		v1.0		2014.09.29			TKR			新規
 // *************************************************************************/
 PRIVATE BOOL MAP_KnownAcc( void ){
 
 	BOOL	bl_acc = FALSE;
-
+#if 0
+	if((g_sysMap[my][mx]&0xf0)==0xf0){
+		bl_acc	= TRUE;
+	}else{
+		bl_acc	= FALSE;
+	}
+#endif
+#if 0
 	switch ( en_Head ){
 		case NORTH:
 			if( (g_sysMap[my][mx] & 0xf1) == 0xf0){
 				bl_acc	= TRUE;
 			} 
+			
 			break;
 
 		case EAST:
@@ -1182,6 +1196,7 @@ PRIVATE BOOL MAP_KnownAcc( void ){
 		default:
 			break;
 	}
+#endif
 
 	return	bl_acc;
 
@@ -1480,7 +1495,6 @@ PUBLIC void MAP_searchGoalKnown( UCHAR uc_trgX, UCHAR uc_trgY, enMAP_ACT_MODE en
 		if( TRUE == bl_type ){
 			MOT_goBlock_FinSpeed( 0.5 + f_MoveBackDist, MAP_SEARCH_SPEED );		// 半区画前進(バックの移動量を含む)
 			f_MoveBackDist = 0;	
-			LED_onAll();
 		}
 
 		if( uc_StrCnt == 1 ){		// 既知区間加速するときは実行しない

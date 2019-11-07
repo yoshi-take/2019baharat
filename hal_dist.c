@@ -22,6 +22,7 @@
 #include <hal_dist.h>		// DIST
 #include <hal_sci.h>		// SCI
 #include <parameter.h>		// PARAMETER
+#include <hal_flash.h>		// FLASH
 
 
 //**************************************************
@@ -70,13 +71,11 @@ typedef struct{
 	SHORT		s_noCtrl;					///< @var : 壁に近すぎるため制御無効化する際の閾値   ( AD 値 ) 主に前壁で使用
 }stDIST_SEN_DATA;
 
-#if 0
 /* データフラッシュのバックアップ or 復帰用 */
 typedef struct{
 	stDIST_SEN_DATA		st_common[DIST_SEN_MAX];			// センサデータ(全センサ共通)
 	stDIST_FRONT_SEN	st_front[DIST_SEN_L_FRONT+1];		// センサデータ(前壁のみ)
 }stDIST_FLASH;
-#endif
 
 //**************************************************
 // グローバル変数
@@ -122,11 +121,45 @@ PUBLIC void DIST_init( void ){
 //   引数		： なし
 //   返り値		： なし
 // **************************    履    歴    *******************************
-// 		v1.0		2018.5.5			TKR			新規
+// 		v1.0		2019.11.4			TKR			新規
 // *************************************************************************/
 PUBLIC void DIST_setThresh_AllSenData( void )
 {	
-	// Flashと抱き合わせ。後で書く
+	stDIST_FLASH	st_FlashData;					// データフラッシュ
+	ULONG			ul_sum[DIST_SEN_MAX] = {0};
+	UCHAR			i,j;
+
+	for( i = 0; i < 100; i++){		// 100回サンプリング
+		for( j = 0; j < DIST_SEN_MAX; j++){
+			ul_sum[j]	+= (ULONG)st_sen[j].s_now;	// 合計
+		}
+		TIME_wait(1);
+	}
+	for( j = 0; j < DIST_SEN_MAX; j++){
+		st_FlashData.st_common[j].s_ref		= (SHORT)( ul_sum[j] / 100 );
+	}
+	
+	/* リファレンス値を元に各閾値を算出 */
+	st_FlashData.st_common[DIST_SEN_R_FRONT].s_limit  	= (SHORT)( (FLOAT)st_FlashData.st_common[DIST_SEN_R_FRONT].s_ref * R_FRONT_WALL_GAIN );
+	st_FlashData.st_common[DIST_SEN_L_FRONT].s_limit  	= (SHORT)( (FLOAT)st_FlashData.st_common[DIST_SEN_L_FRONT].s_ref * L_FRONT_WALL_GAIN );
+	st_FlashData.st_common[DIST_SEN_R_SIDE].s_limit   	= (SHORT)( (FLOAT)st_FlashData.st_common[DIST_SEN_R_SIDE].s_ref  * R_SIDE_WALL_GAIN );
+	st_FlashData.st_common[DIST_SEN_L_SIDE].s_limit   	= (SHORT)( (FLOAT)st_FlashData.st_common[DIST_SEN_L_SIDE].s_ref  * L_SIDE_WALL_GAIN );
+	st_FlashData.st_common[DIST_SEN_R_FRONT].s_ctrl   	= (SHORT)( (FLOAT)st_FlashData.st_common[DIST_SEN_R_FRONT].s_ref * R_FRONT_WALL_CTRL_GAIN );
+	st_FlashData.st_common[DIST_SEN_L_FRONT].s_ctrl   	= (SHORT)( (FLOAT)st_FlashData.st_common[DIST_SEN_L_FRONT].s_ref * L_FRONT_WALL_CTRL_GAIN );
+	st_FlashData.st_common[DIST_SEN_R_FRONT].s_noCtrl 	= (SHORT)( (FLOAT)st_FlashData.st_common[DIST_SEN_R_FRONT].s_ref * R_FRONT_WALL_NO_CTRL_GAIN );
+	st_FlashData.st_common[DIST_SEN_L_FRONT].s_noCtrl 	= (SHORT)( (FLOAT)st_FlashData.st_common[DIST_SEN_L_FRONT].s_ref * L_FRONT_WALL_NO_CTRL_GAIN );
+	st_FlashData.st_front[DIST_SEN_R_FRONT].s_wallHit 	= (SHORT)( (FLOAT)st_FlashData.st_common[DIST_SEN_R_FRONT].s_ref * R_FRONT_WALL_HIT_GAIN );
+	st_FlashData.st_front[DIST_SEN_L_FRONT].s_wallHit 	= (SHORT)( (FLOAT)st_FlashData.st_common[DIST_SEN_L_FRONT].s_ref * L_FRONT_WALL_HIT_GAIN );
+	st_FlashData.st_front[DIST_SEN_R_FRONT].s_skewErr1 	= (SHORT)( (FLOAT)st_FlashData.st_common[DIST_SEN_R_FRONT].s_ref * R_FRONT_SKEW_ERR1_GAIN );
+	st_FlashData.st_front[DIST_SEN_L_FRONT].s_skewErr1 	= (SHORT)( (FLOAT)st_FlashData.st_common[DIST_SEN_L_FRONT].s_ref * L_FRONT_SKEW_ERR1_GAIN );
+	st_FlashData.st_front[DIST_SEN_R_FRONT].s_skewErr2 	= (SHORT)( (FLOAT)st_FlashData.st_common[DIST_SEN_R_FRONT].s_ref * R_FRONT_SKEW_ERR2_GAIN );
+	st_FlashData.st_front[DIST_SEN_L_FRONT].s_skewErr2 	= (SHORT)( (FLOAT)st_FlashData.st_common[DIST_SEN_L_FRONT].s_ref * L_FRONT_SKEW_ERR2_GAIN );
+	st_FlashData.st_front[DIST_SEN_R_FRONT].s_skewErr3 	= (SHORT)( (FLOAT)st_FlashData.st_common[DIST_SEN_R_FRONT].s_ref * R_FRONT_SKEW_ERR3_GAIN );
+	st_FlashData.st_front[DIST_SEN_L_FRONT].s_skewErr3 	= (SHORT)( (FLOAT)st_FlashData.st_common[DIST_SEN_L_FRONT].s_ref * L_FRONT_SKEW_ERR3_GAIN );
+
+	printf("st_FlashData:%d\n\r",sizeof(st_FlashData));
+
+	//ここでデータセーブする
 }
 
 // *************************************************************************
@@ -173,7 +206,7 @@ PUBLIC void DIST_setThresh_AllSenData_Move( void ){
 // *************************************************************************/
 PUBLIC void DIST_adj( void ){
 	
-//	stDIST_FLASH st_FlashData;					// データフラッシュのバックアップデータ
+	stDIST_FLASH st_FlashData	= {0};					// データフラッシュのバックアップデータ
 	
 	/* 初期値として、まずは固定値を代入する */
 	st_sen[DIST_SEN_R_FRONT].s_ref       = R_FRONT_REF;
@@ -210,10 +243,10 @@ PUBLIC void DIST_adj( void ){
 	st_senF[DIST_SEN_L_FRONT].s_skewErr3 = L_FRONT_REF;
 
 	
-//#ifdef FUNC_DIST_AUTO_THRESH
+#ifdef FUNC_DIST_AUTO_THRESH
 
 	/* 起動時に前壁が近ければチューニングモーションを取る */
-	/*
+
 	if( ( st_sen[DIST_SEN_R_FRONT].s_now > DIST_NEAR_WALL ) ||
 		( st_sen[DIST_SEN_L_FRONT].s_now > DIST_NEAR_WALL )
 	){
@@ -221,54 +254,50 @@ PUBLIC void DIST_adj( void ){
 		DIST_setThresh_AllSenData_Move();		// チューニングを行う
 		printf("チューニング \n\r" );
 	}
-	*/
+
 	/* 起動時に前壁なければ、データフラッシュから以前に保存したセンサの値をロードする */
-	//else{
+	else{
 		
 		/* データフラッシュからの値をロード */
-//		Storage_Load( (const void*)&st_FlashData, SEN_FLASH_SIZE, ADR_SEN );			// データロード
-//		TIME_wait(10);
-		
+		Storage_Load( (const void*)&st_FlashData, SEN_FLASH_SIZE, ADR_SEN );			// データロード
+		TIME_wait(10);
+
 		/* 全センサ共通 */
-//		st_sen[DIST_SEN_R_FRONT].s_ref       = st_FlashData.st_common[DIST_SEN_R_FRONT].s_ref;
-//		st_sen[DIST_SEN_L_FRONT].s_ref       = st_FlashData.st_common[DIST_SEN_L_FRONT].s_ref;
-//		st_sen[DIST_SEN_R_45].s_ref          = st_FlashData.st_common[DIST_SEN_R_45].s_ref;
-//		st_sen[DIST_SEN_L_45].s_ref          = st_FlashData.st_common[DIST_SEN_L_45].s_ref;
-//		st_sen[DIST_SEN_R_SIDE].s_ref        = st_FlashData.st_common[DIST_SEN_R_SIDE].s_ref;
-//		st_sen[DIST_SEN_L_SIDE].s_ref        = st_FlashData.st_common[DIST_SEN_L_SIDE].s_ref;
-		
-//		st_sen[DIST_SEN_R_FRONT].s_limit     = st_FlashData.st_common[DIST_SEN_R_FRONT].s_limit;
-//		st_sen[DIST_SEN_L_FRONT].s_limit     = st_FlashData.st_common[DIST_SEN_L_FRONT].s_limit;
-////		st_sen[DIST_SEN_R_45].s_limit        = st_FlashData.st_common[DIST_SEN_R_45].s_limit;
-////		st_sen[DIST_SEN_L_45].s_limit        = st_FlashData.st_common[DIST_SEN_L_45].s_limit;
-//		st_sen[DIST_SEN_R_SIDE].s_limit      = st_FlashData.st_common[DIST_SEN_R_SIDE].s_limit;
-//		st_sen[DIST_SEN_L_SIDE].s_limit      = st_FlashData.st_common[DIST_SEN_L_SIDE].s_limit;
-		
-//		st_sen[DIST_SEN_R_FRONT].s_ctrl      = st_FlashData.st_common[DIST_SEN_R_FRONT].s_ctrl;
-//		st_sen[DIST_SEN_L_FRONT].s_ctrl      = st_FlashData.st_common[DIST_SEN_L_FRONT].s_ctrl;
-		
-//		st_sen[DIST_SEN_R_FRONT].s_noCtrl    = st_FlashData.st_common[DIST_SEN_R_FRONT].s_noCtrl;
-//		st_sen[DIST_SEN_L_FRONT].s_noCtrl    = st_FlashData.st_common[DIST_SEN_L_FRONT].s_noCtrl;
-		
+		st_sen[DIST_SEN_R_FRONT].s_ref       = st_FlashData.st_common[DIST_SEN_R_FRONT].s_ref;
+		st_sen[DIST_SEN_L_FRONT].s_ref       = st_FlashData.st_common[DIST_SEN_L_FRONT].s_ref;
+		st_sen[DIST_SEN_R_45].s_ref          = st_FlashData.st_common[DIST_SEN_R_45].s_ref;
+		st_sen[DIST_SEN_L_45].s_ref          = st_FlashData.st_common[DIST_SEN_L_45].s_ref;
+		st_sen[DIST_SEN_R_SIDE].s_ref        = st_FlashData.st_common[DIST_SEN_R_SIDE].s_ref;
+		st_sen[DIST_SEN_L_SIDE].s_ref        = st_FlashData.st_common[DIST_SEN_L_SIDE].s_ref;
+
+		st_sen[DIST_SEN_R_FRONT].s_limit     = st_FlashData.st_common[DIST_SEN_R_FRONT].s_limit;
+		st_sen[DIST_SEN_L_FRONT].s_limit     = st_FlashData.st_common[DIST_SEN_L_FRONT].s_limit;
+//		st_sen[DIST_SEN_R_45].s_limit        = st_FlashData.st_common[DIST_SEN_R_45].s_limit;
+//		st_sen[DIST_SEN_L_45].s_limit        = st_FlashData.st_common[DIST_SEN_L_45].s_limit;
+		st_sen[DIST_SEN_R_SIDE].s_limit      = st_FlashData.st_common[DIST_SEN_R_SIDE].s_limit;
+		st_sen[DIST_SEN_L_SIDE].s_limit      = st_FlashData.st_common[DIST_SEN_L_SIDE].s_limit;
+
+		st_sen[DIST_SEN_R_FRONT].s_ctrl      = st_FlashData.st_common[DIST_SEN_R_FRONT].s_ctrl;
+		st_sen[DIST_SEN_L_FRONT].s_ctrl      = st_FlashData.st_common[DIST_SEN_L_FRONT].s_ctrl;
+
+		st_sen[DIST_SEN_R_FRONT].s_noCtrl    = st_FlashData.st_common[DIST_SEN_R_FRONT].s_noCtrl;
+		st_sen[DIST_SEN_L_FRONT].s_noCtrl    = st_FlashData.st_common[DIST_SEN_L_FRONT].s_noCtrl;
+
 		/* 前壁のみ */
-//		st_senF[DIST_SEN_R_FRONT].s_wallHit  = st_FlashData.st_front[DIST_SEN_R_FRONT].s_wallHit;
-//		st_senF[DIST_SEN_L_FRONT].s_wallHit  = st_FlashData.st_front[DIST_SEN_L_FRONT].s_wallHit;
-		
-//		st_senF[DIST_SEN_R_FRONT].s_skewErr1 = st_FlashData.st_front[DIST_SEN_R_FRONT].s_skewErr1;
-//		st_senF[DIST_SEN_L_FRONT].s_skewErr1 = st_FlashData.st_front[DIST_SEN_L_FRONT].s_skewErr1;
-		
-//		st_senF[DIST_SEN_R_FRONT].s_skewErr2 = st_FlashData.st_front[DIST_SEN_R_FRONT].s_skewErr2;
-//		st_senF[DIST_SEN_L_FRONT].s_skewErr2 = st_FlashData.st_front[DIST_SEN_L_FRONT].s_skewErr2;
+		st_senF[DIST_SEN_R_FRONT].s_wallHit  = st_FlashData.st_front[DIST_SEN_R_FRONT].s_wallHit;
+		st_senF[DIST_SEN_L_FRONT].s_wallHit  = st_FlashData.st_front[DIST_SEN_L_FRONT].s_wallHit;
 
-//		st_senF[DIST_SEN_R_FRONT].s_skewErr3 = st_FlashData.st_front[DIST_SEN_R_FRONT].s_skewErr3;
-//		st_senF[DIST_SEN_L_FRONT].s_skewErr3 = st_FlashData.st_front[DIST_SEN_L_FRONT].s_skewErr3;
-//		printf("通常ロード \n\r" );
-//	}
+		st_senF[DIST_SEN_R_FRONT].s_skewErr1 = st_FlashData.st_front[DIST_SEN_R_FRONT].s_skewErr1;
+		st_senF[DIST_SEN_L_FRONT].s_skewErr1 = st_FlashData.st_front[DIST_SEN_L_FRONT].s_skewErr1;
 
-//#else
-//	st_FlashData = st_FlashData;		// バカよけ
-//#endif
-//#endif
+		st_senF[DIST_SEN_R_FRONT].s_skewErr2 = st_FlashData.st_front[DIST_SEN_R_FRONT].s_skewErr2;
+		st_senF[DIST_SEN_L_FRONT].s_skewErr2 = st_FlashData.st_front[DIST_SEN_L_FRONT].s_skewErr2;
+
+		st_senF[DIST_SEN_R_FRONT].s_skewErr3 = st_FlashData.st_front[DIST_SEN_R_FRONT].s_skewErr3;
+		st_senF[DIST_SEN_L_FRONT].s_skewErr3 = st_FlashData.st_front[DIST_SEN_L_FRONT].s_skewErr3;
+		printf("通常ロード \n\r" );
+	}
+#endif
 }
 
 // *************************************************************************
@@ -613,3 +642,79 @@ PUBLIC void DIST_Pol_Side( void )
 	LED_DIST_LS = OFF;
 }
 
+// *************************************************************************
+//   機能		： バックアップした壁センサの値を実データに反映する
+//   注意		： なし
+//   メモ		： 割り込みから実行される
+//   引数		： なし
+//   返り値		： なし
+// **************************    履    歴    *******************************
+// 		v1.0		2019.11.4			TKR			新規
+// *************************************************************************/
+PUBLIC void DIST_LoadData( void ){
+
+	SHORT	i;
+	USHORT	*dist_add;
+//	dist_add = (USHORT*)&;
+
+	// 壁データをRAMにコピー
+	for( i= 0; i<128; i++ ){
+		FLASH_Read( (USHORT*)(ADR_SEN+i*2), dist_add );
+		dist_add++;
+	}
+
+	printf("SENSOR Load Complete\n\r");
+
+}
+
+// *************************************************************************
+//   機能		： バックアップ迷路情報をバックアップする
+//   注意		： なし
+//   メモ		： なし
+//   引数		： なし
+//   返り値		： なし
+// **************************    履    歴    *******************************
+// 		v1.0		2019.11.4			TKR			新規
+// *************************************************************************/
+PUBLIC void DIST_SaveData( void )
+{
+
+	SHORT	i;
+	USHORT	*dist_add;
+//	dist_add	= (USHORT*)g_sysMap;
+
+	// データフラッシュのイレース
+	for( i=0; i<8; i++ ){
+		FLASH_Erase((ULONG)(ADR_SEN+i*32));
+	}
+
+	// MAPデータをデータフラッシュに書き込み
+	for( i=0; i<128; i++){
+		FLASH_WriteEE((ULONG)(ADR_SEN+i*2),dist_add);
+		dist_add++;
+		printf("0x%x\n\r",(ULONG)(ADR_SEN+i*2));
+	}
+
+	printf("Sensor Save Complete\n\r");
+}
+
+// *************************************************************************
+//   機能		： バックアップ迷路情報をクリアする
+//   注意		： なし
+//   メモ		： なし
+//   引数		： なし
+//   返り値		： なし
+// **************************    履    歴    *******************************
+// 		v1.0		2019.11.4			TKR			新規
+// *************************************************************************/
+PUBLIC void Dist_ClearSensorData( void )
+{
+	SHORT	i;
+	
+	/* データフラッシュイレース */
+	for( i=0; i<8; i++){
+		FLASH_Erase((ULONG)(ADR_SEN+i*32));
+	}
+
+	printf("Sensor Erase Complete\n\r");
+}
