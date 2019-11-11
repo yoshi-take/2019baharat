@@ -59,6 +59,13 @@ typedef struct{
 	SHORT		s_dir;			// 進行方向（[0]北 [1]北東 [2]東 [3]南東 [4]南 [5]南西 [6]西 [7]北西 ）
 }stMAP_SIM;
 
+/* 既知区間加速 */
+typedef struct 
+{
+	UCHAR	uc_StrCnt;
+	BOOL	bl_Known	= FALSE;
+}stMAP_KNOWN;
+
 
 //**************************************************
 // グローバル変数
@@ -75,6 +82,7 @@ PRIVATE FLOAT			f_MoveBackDist;									// 壁当て動作で後退した距離[区画]
 PRIVATE UCHAR			uc_TurnCnt = 0;									// 超信地連続回数
 PRIVATE UCHAR			uc_SlaCnt = 0;									// スラローム連続回数
 PRIVATE	UCHAR			uc_StrCnt = 1;									// 既知区間加速する区画
+PRIVATE	BOOL			bl_Known = FALSE;								// 既知区間加速を後でするかどうか　FALSE:しない TRUE:する
 PRIVATE UCHAR			uc_back[ MAP_Y_SIZE ][ MAP_X_SIZE ];			// 迷路データ
 PRIVATE USHORT			us_DashCmdIndex = 0;							// 既知コマンドインデックス
 
@@ -1042,15 +1050,31 @@ PRIVATE void MAP_moveNextBlock_acc( enMAP_HEAD_DIR en_head, BOOL* p_type )
 					MOT_setTrgtSpeed(MAP_SEARCH_SPEED);										// 目標速度をデフォルト値に戻す
 				}
 				uc_StrCnt	= 1;
+				bl_Known	= FALSE;	
 
 			}else{
-				uc_StrCnt++;	// 移動区画の加算
+				uc_StrCnt++;			// 移動区画の加算
+				bl_Known	= TRUE;
 			}
 
 			break;
 
 		/* 右に旋回する */
 		case EAST:
+
+			if( bl_Known == TRUE ){
+				if( uc_StrCnt == 1 ){
+					MOT_goBlock_Const( 1 );					// 1区画の場合は等速のまま
+				}else{
+					MOT_setTrgtSpeed(MAP_KNOWN_ACC_SPEED);									// 既知区間加速するときの目標速度	
+					MOT_goBlock_FinSpeed( (FLOAT)uc_StrCnt, MAP_SEARCH_SPEED );				// n区画前進
+					MOT_setTrgtSpeed(MAP_SEARCH_SPEED);										// 目標速度をデフォルト値に戻す
+				}
+				bl_Known	= FALSE;
+			}else{
+
+			}
+
 			if( uc_SlaCnt < MAP_SLA_NUM_MAX ){
 				MOT_goSla( MOT_R90S, PARAM_getSra( SLA_90 ) );	// 右スラローム
 				uc_SlaCnt++;
@@ -1077,6 +1101,9 @@ PRIVATE void MAP_moveNextBlock_acc( enMAP_HEAD_DIR en_head, BOOL* p_type )
 
 		/* 左に旋回する */
 		case WEST:
+
+			//ここに既知区間加速の処理を入れる
+
 			if( uc_SlaCnt < MAP_SLA_NUM_MAX ){
 				MOT_goSla( MOT_L90S, PARAM_getSra( SLA_90 ) );	// 左スラローム
 				uc_SlaCnt++;
@@ -1166,29 +1193,29 @@ PRIVATE BOOL MAP_KnownAcc( void ){
 		bl_acc	= FALSE;
 	}
 #endif
-#if 0
+#if 1
 	switch ( en_Head ){
 		case NORTH:
-			if( (g_sysMap[my][mx] & 0xf1) == 0xf0){
+			if( (g_sysMap[my+1][mx] & 0xf1) == 0xf0){
 				bl_acc	= TRUE;
 			} 
 			
 			break;
 
 		case EAST:
-			if( (g_sysMap[my][mx] & 0xf2) == 0xf0){
+			if( (g_sysMap[my][mx+1] & 0xf2) == 0xf0){
 				bl_acc	= TRUE;
 			} 
 			break;
 
 		case SOUTH:
-			if( (g_sysMap[my][mx] & 0xf4) == 0xf0){
+			if( (g_sysMap[my-1][mx] & 0xf4) == 0xf0){
 				bl_acc	= TRUE;
 			} 
 			break;
 
 		case WEST:
-			if( (g_sysMap[my][mx] & 0xf8) == 0xf0){
+			if( (g_sysMap[my][mx-1] & 0xf8) == 0xf0){
 				bl_acc	= TRUE;
 			}
 			break;
@@ -1496,11 +1523,11 @@ PUBLIC void MAP_searchGoalKnown( UCHAR uc_trgX, UCHAR uc_trgY, enMAP_ACT_MODE en
 			MOT_goBlock_FinSpeed( 0.5 + f_MoveBackDist, MAP_SEARCH_SPEED );		// 半区画前進(バックの移動量を含む)
 			f_MoveBackDist = 0;	
 		}
-
-		if( uc_StrCnt == 1 ){		// 既知区間加速するときは実行しない
-			MAP_makeMapData();									// 壁データから迷路データを作成
-			MAP_calcMouseDir(CONTOUR_SYSTEM, &en_head);			// 等高線MAP法で進行方向を算出
-		}
+		
+		// 既知区間加速するときは実行しない
+		if( bl_Known == FALSE )MAP_makeMapData();		// 壁データから迷路データを作成
+	
+		MAP_calcMouseDir(CONTOUR_SYSTEM, &en_head);			// 等高線MAP法で進行方向を算出
 
 		/* 次の区画へ移動 */
 		if(( mx == uc_trgX ) && ( my == uc_trgY )){
