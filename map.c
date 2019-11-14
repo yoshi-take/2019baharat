@@ -497,15 +497,15 @@ PRIVATE UCHAR MAP_getWallData( void )
 	uc_wall = 0;
 	if( TRUE == DIST_isWall_FRONT() ){
 		uc_wall = uc_wall | 0x11;
-//		LED_on(LED2);				// debug
+		LED_on(LED2);				// debug
 	}
 	if( TRUE == DIST_isWall_L_SIDE() ){
 		uc_wall = uc_wall | 0x88;
-//		LED_on(LED0);			// debug
+		LED_on(LED0);			// debug
 	}
 	if( TRUE == DIST_isWall_R_SIDE() ){
 		uc_wall = uc_wall | 0x22;
-//		LED_on(LED4);			// debug
+		LED_on(LED4);			// debug
 	}
 
 	/* マウスの進行方向にあわせてセンサデータを移動し壁データとする */
@@ -1042,11 +1042,11 @@ PRIVATE void MAP_moveNextBlock_acc( enMAP_HEAD_DIR en_head, BOOL* p_type )
 			
 			if( MAP_KnownAcc() == FALSE ){					// 次に進む区画が未探索のとき
 
-				if( st_known.uc_StrCnt == 1 ){
+				if( st_known.uc_StrCnt <= 2 ){
 					MOT_goBlock_Const( 1 );					// 1区画の場合は等速のまま
 				}else{
 					MOT_setTrgtSpeed(MAP_KNOWN_ACC_SPEED);									// 既知区間加速するときの目標速度	
-					MOT_goBlock_FinSpeed( (FLOAT)uc_StrCnt, MAP_SEARCH_SPEED );				// n区画前進
+					MOT_goBlock_FinSpeed( (FLOAT)(st_known.uc_StrCnt - 1), MAP_SEARCH_SPEED );				// n区画前進
 					MOT_setTrgtSpeed(MAP_SEARCH_SPEED);										// 目標速度をデフォルト値に戻す
 				}
 				st_known.uc_StrCnt	= 1;
@@ -1063,11 +1063,11 @@ PRIVATE void MAP_moveNextBlock_acc( enMAP_HEAD_DIR en_head, BOOL* p_type )
 		case EAST:
 
 			if( st_known.bl_Known == TRUE ){		// 直線分を消化
-				if( st_known.uc_StrCnt == 1 ){
+				if( st_known.uc_StrCnt <= 2 ){
 					MOT_goBlock_Const( 1 );					// 1区画の場合は等速のまま
 				}else{
 					MOT_setTrgtSpeed(MAP_KNOWN_ACC_SPEED);									// 既知区間加速するときの目標速度	
-					MOT_goBlock_FinSpeed( (FLOAT)st_known.uc_StrCnt, MAP_SEARCH_SPEED );				// n区画前進
+					MOT_goBlock_FinSpeed( (FLOAT)(st_known.uc_StrCnt - 1), MAP_SEARCH_SPEED );				// n区画前進
 					MOT_setTrgtSpeed(MAP_SEARCH_SPEED);										// 目標速度をデフォルト値に戻す
 				}
 				st_known.bl_Known	= FALSE;
@@ -1101,11 +1101,11 @@ PRIVATE void MAP_moveNextBlock_acc( enMAP_HEAD_DIR en_head, BOOL* p_type )
 		case WEST:
 
 			if( st_known.bl_Known == TRUE ){		// 直線分を消化
-				if( st_known.uc_StrCnt == 1 ){
+				if( st_known.uc_StrCnt <= 2 ){
 					MOT_goBlock_Const( 1 );					// 1区画の場合は等速のまま
 				}else{
 					MOT_setTrgtSpeed(MAP_KNOWN_ACC_SPEED);									// 既知区間加速するときの目標速度	
-					MOT_goBlock_FinSpeed( (FLOAT)st_known.uc_StrCnt, MAP_SEARCH_SPEED );				// n区画前進
+					MOT_goBlock_FinSpeed( (FLOAT)(st_known.uc_StrCnt - 1), MAP_SEARCH_SPEED );				// n区画前進
 					MOT_setTrgtSpeed(MAP_SEARCH_SPEED);										// 目標速度をデフォルト値に戻す
 				}
 				st_known.bl_Known	= FALSE;

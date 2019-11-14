@@ -122,8 +122,8 @@ PUBLIC void	MODE_exe( void ){
 
 			/* ñ¿òHíTçı */
 			MAP_setPos(0,0,NORTH);
-			//MAP_searchGoal(GOAL_MAP_X, GOAL_MAP_Y, SEARCH, SEARCH_SURA);
-			MAP_searchGoalKnown(GOAL_MAP_X, GOAL_MAP_Y, SEARCH_SURA);
+			MAP_searchGoal(GOAL_MAP_X, GOAL_MAP_Y, SEARCH, SEARCH_SURA);
+			//MAP_searchGoalKnown(GOAL_MAP_X, GOAL_MAP_Y, SEARCH_SURA);
 
 			/* ãAÇËíTçı */
 			TIME_wait(500);
@@ -287,12 +287,12 @@ PUBLIC void	MODE_exe( void ){
 
 			/* ñ¿òHíTçı */
 			MAP_setPos(0,0,NORTH);
-			MAP_searchGoal(GOAL_MAP_X, GOAL_MAP_Y, SEARCH, SEARCH_SURA);
-			//MAP_searchGoalKnown(GOAL_MAP_X, GOAL_MAP_Y, SEARCH_SURA);
+			//MAP_searchGoal(GOAL_MAP_X, GOAL_MAP_Y, SEARCH, SEARCH_SURA);
+			MAP_searchGoalKnown(GOAL_MAP_X, GOAL_MAP_Y, SEARCH_SURA);
 
 			/* ãAÇËíTçı */
 			TIME_wait(500);
-			MAP_searchGoal(0, 0, SEARCH, SEARCH_SURA);
+			MAP_searchGoalKnown(0, 0, SEARCH_SURA);
 
 			/* ÉRÉ}ÉìÉhçÏê¨ */
 			PARAM_setCntType(TRUE);											// ç≈íZëñçs
