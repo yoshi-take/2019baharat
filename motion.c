@@ -2127,6 +2127,9 @@ PUBLIC void MOT_goSla( enMOT_SULA_CMD en_type, stSLA *p_sla){
 
 //	LED_onAll();
 	while( f_NowDist < f_entryLen ){				// 指定距離到達待ち
+			/* フェイルセーフ */
+			MOT_Failsafe(&bl_failsafe);
+			if( bl_failsafe == TRUE )return;
 	}
 	
 	
@@ -2151,12 +2154,20 @@ PUBLIC void MOT_goSla( enMOT_SULA_CMD en_type, stSLA *p_sla){
 	if( IS_R_SLA( en_type ) == true ){	// -方向
 		while( ( f_NowAngle > st_info.f_angle1 ) ){
 		//while( ( f_NowAngle > st_info.f_angle1 ) || ( f_NowDist < st_data.f_dist ) ){
+			/* フェイルセーフ */
+			MOT_Failsafe(&bl_failsafe);
+			if( bl_failsafe == TRUE )return;
+			
 			//break;
 		}
 	}
 	else{
 		while( ( f_NowAngle < st_info.f_angle1 ) ){
 		//while( ( f_NowAngle < st_info.f_angle1 ) || ( f_NowDist < st_data.f_dist ) ){
+			/* フェイルセーフ */
+			MOT_Failsafe(&bl_failsafe);
+			if( bl_failsafe == TRUE )return;
+
 			//break;
 		}
 	}
@@ -2183,12 +2194,18 @@ PUBLIC void MOT_goSla( enMOT_SULA_CMD en_type, stSLA *p_sla){
 	if( IS_R_SLA( en_type ) == true ){		// -方向
 		while( ( f_NowAngle > st_info.f_angle1_2 ) ){
 		//while( ( f_NowAngle > st_info.f_angle1_2 ) || ( f_NowDist < st_data.f_dist ) ){
+			/* フェイルセーフ */
+			MOT_Failsafe(&bl_failsafe);
+			if( bl_failsafe == TRUE )return;
 			//break;
 		}
 	}
 	else{
 		while( ( f_NowAngle < st_info.f_angle1_2 ) ){
 		//while( ( f_NowAngle < st_info.f_angle1_2 ) || ( f_NowDist < st_data.f_dist ) ){
+			/* フェイルセーフ */
+			MOT_Failsafe(&bl_failsafe);
+			if( bl_failsafe == TRUE )return;
 			//break;
 		}
 	}
@@ -2215,11 +2232,17 @@ PUBLIC void MOT_goSla( enMOT_SULA_CMD en_type, stSLA *p_sla){
 	if( IS_R_SLA( en_type ) == true ){	// -方向
 		while( ( f_NowAngle > st_info.f_angle + 3.0f ) ){
 		//while( ( f_NowAngle > st_info.f_angle + 1.0f ) || ( f_NowDist < st_data.f_dist ) ){
+			/* フェイルセーフ */
+			MOT_Failsafe(&bl_failsafe);
+			if( bl_failsafe == TRUE )return;
 		}
 	
 	}else{
 		while( ( f_NowAngle < st_info.f_angle - 1.0f ) ){
 		//while( ( f_NowAngle < st_info.f_angle -1.0f ) || ( f_NowDist < st_data.f_dist ) ){
+			/* フェイルセーフ */
+			MOT_Failsafe(&bl_failsafe);
+			if( bl_failsafe == TRUE )return;
 		}
 	}
 	
@@ -2243,6 +2266,9 @@ PUBLIC void MOT_goSla( enMOT_SULA_CMD en_type, stSLA *p_sla){
 	CTRL_setData( &st_data );			// データセット
 
 	while( f_NowDist < st_data.f_dist ){				// 指定距離到達待ち
+			/* フェイルセーフ */
+			MOT_Failsafe(&bl_failsafe);
+			if( bl_failsafe == TRUE )return;
 	}
 	LED_offAll();
 	f_MotNowSpeed = st_info.f_now;			// 現在速度更新

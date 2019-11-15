@@ -1532,8 +1532,11 @@ PUBLIC void MAP_searchGoalKnown( UCHAR uc_trgX, UCHAR uc_trgY, enMAP_ACT_MODE en
 		}
 		
 		// 既知区間加速するときは実行しない
-		if( st_known.bl_Known == FALSE )MAP_makeMapData();		// 壁データから迷路データを作成
-	
+		if( st_known.bl_Known != TRUE ){
+			MAP_makeMapData();		// 壁データから迷路データを作成
+			SPK_debug();
+		}
+
 		MAP_calcMouseDir(CONTOUR_SYSTEM, &en_head);			// 等高線MAP法で進行方向を算出
 
 		/* 次の区画へ移動 */
