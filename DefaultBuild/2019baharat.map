@@ -1,4 +1,4 @@
-Renesas Optimizing Linker (W2.08.00 )             14-Nov-2019 20:48:33
+Renesas Optimizing Linker (W2.08.00 )             19-Nov-2019 21:24:59
 
 *** Options ***
 
@@ -48,15 +48,15 @@ R_1
 B_2
                                   000045aa  0000483f       296   2
 R_2
-                                  00004840  0000485f        20   2
+                                  00004840  00004861        22   2
 B
-                                  00004860  00004ed7       678   4
+                                  00004864  0000bc13      73b0   4
 R
-                                  00004ed8  00005223       34c   4
+                                  0000bc14  0000bf5f       34c   4
 SU
-                                  00005224  00005323       100   4
+                                  0000bf60  0000c05f       100   4
 SI
-                                  00005324  00005623       300   4
+                                  0000c060  0000c35f       300   4
 PResetPRG
                                   fff80000  fff80034        35   1
 C_1
@@ -78,21 +78,21 @@ C$VECT
 D_1
                                   fff82770  fff827c7        58   1
 D_2
-                                  fff827c8  fff827e7        20   2
+                                  fff827c8  fff827e9        22   2
 D
-                                  fff827e8  fff82b33       34c   4
+                                  fff827ec  fff82b37       34c   4
 P
-                                  fff82b34  fff90327      d7f4   1
+                                  fff82b38  fff9056e      da37   1
 PIntPRG
-                                  fff90328  fff9050d       1e6   1
+                                  fff9056f  fff90754       1e6   1
 W_1
-                                  fff9050e  fff90531        24   1
+                                  fff90755  fff90778        24   1
 W_2
-                                  fff90532  fff905cb        9a   2
+                                  fff9077a  fff90813        9a   2
 W
-                                  fff905cc  fff905cc         0   4
+                                  fff90814  fff90814         0   4
 L
-                                  fff905cc  fff90e40       875   4
+                                  fff90814  fff91088       875   4
 $ADDR_C_FFFFFF80
                                   ffffff80  ffffff83         4   1
 $ADDR_C_FFFFFFA0

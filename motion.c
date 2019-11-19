@@ -394,8 +394,7 @@ PRIVATE void MOT_goBlock_AccConstDec( FLOAT f_fin, enMOT_ST_TYPE en_type, enMOT_
 
 			MOT_setWallEdgeDIST();		// 壁切れ補正を実行する距離を設定
 
-			if( uc_CntSec > TIME_THRE_WAIT )break;		// 一定時間経つとループから抜ける
-			
+			if( uc_CntSec >= TIME_THRE_WAIT )break;		// 一定時間経つとループから抜ける
 		}
 
 	}

@@ -497,15 +497,15 @@ PRIVATE UCHAR MAP_getWallData( void )
 	uc_wall = 0;
 	if( TRUE == DIST_isWall_FRONT() ){
 		uc_wall = uc_wall | 0x11;
-		LED_on(LED2);				// debug
+//		LED_on(LED2);				// debug
 	}
 	if( TRUE == DIST_isWall_L_SIDE() ){
 		uc_wall = uc_wall | 0x88;
-		LED_on(LED0);			// debug
+//		LED_on(LED0);			// debug
 	}
 	if( TRUE == DIST_isWall_R_SIDE() ){
 		uc_wall = uc_wall | 0x22;
-		LED_on(LED4);			// debug
+//		LED_on(LED4);			// debug
 	}
 
 	/* マウスの進行方向にあわせてセンサデータを移動し壁データとする */

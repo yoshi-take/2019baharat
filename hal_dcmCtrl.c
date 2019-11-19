@@ -27,6 +27,7 @@
 #include <hal_dist.h>					// DIST
 #include <hal_gyro.h>					// GYRO
 #include <motion.h>						// motion
+#include <hal_spk.h>					// SPK
 //**************************************************
 // 定義（define）
 //**************************************************
@@ -984,7 +985,7 @@ PUBLIC void CTRL_pol( void ){
 	CTRL_getAngleFB( &f_angleCtrl );				// [制御] 角度
 	CTRL_getSenFB( &f_distSenCtrl );				// [制御] 壁
 
-#if 0
+#if 1
 	/* 走行ログ */
 	if(us_LogPt != CTRL_LOG){
 		if( bl_log == true ){
@@ -1080,6 +1081,7 @@ PUBLIC void CTRL_pol( void ){
 		/* 壁抜け */
 		if( DIST_isWall_R_SIDE() == false){	
 			MOT_setWallEdge( true );	//壁の切れ目を検知
+			SPK_debug();
 		}
 		
 	}else if( MOT_getWallEdgeType() == MOT_WALL_EDGE_LEFT ){
@@ -1087,6 +1089,7 @@ PUBLIC void CTRL_pol( void ){
 		/* 壁抜け */
 		if( DIST_isWall_L_SIDE() == false){	
 			MOT_setWallEdge( true );
+			SPK_debug();
 		}
 	}else{
 

@@ -152,8 +152,8 @@
 #define L_FRONT_WALL_HIT			( 1550 )						// 左前壁、壁に当たっていてもおかしくない値（前壁とマウス間が約2mmの時の値）
 
 /* ログ */
-#define CTRL_LOG				( 1 )								// 記録する制御ログの個数
-#define CTRL_LOG_CYCLE			( 3 )								// ↑の記録周期[msec]（1より小さい値はNG）
+#define CTRL_LOG				( 700 )								// 記録する制御ログの個数
+#define CTRL_LOG_CYCLE			( 5 )								// ↑の記録周期[msec]（1より小さい値はNG）
 #define SET_LOG					( 100 )								// 設定した動作データのログ数
 #define DIST_LOG				( 5 )								// 距離センサのログの個数
 #define POS_LOG					( 5 )								// 記録する位置情報ログの個数
