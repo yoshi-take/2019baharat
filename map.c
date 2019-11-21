@@ -497,15 +497,15 @@ PRIVATE UCHAR MAP_getWallData( void )
 	uc_wall = 0;
 	if( TRUE == DIST_isWall_FRONT() ){
 		uc_wall = uc_wall | 0x11;
-//		LED_on(LED2);				// debug
+		LED_on(LED2);				// debug
 	}
 	if( TRUE == DIST_isWall_L_SIDE() ){
 		uc_wall = uc_wall | 0x88;
-//		LED_on(LED0);			// debug
+		LED_on(LED0);			// debug
 	}
 	if( TRUE == DIST_isWall_R_SIDE() ){
 		uc_wall = uc_wall | 0x22;
-//		LED_on(LED4);			// debug
+		LED_on(LED4);			// debug
 	}
 
 	/* マウスの進行方向にあわせてセンサデータを移動し壁データとする */
@@ -1070,6 +1070,7 @@ PRIVATE void MAP_moveNextBlock_acc( enMAP_HEAD_DIR en_head, BOOL* p_type )
 					MOT_goBlock_FinSpeed( (FLOAT)(st_known.uc_StrCnt - 1), MAP_SEARCH_SPEED );				// n区画前進
 					MOT_setTrgtSpeed(MAP_SEARCH_SPEED);										// 目標速度をデフォルト値に戻す
 				}
+				st_known.uc_StrCnt	= 1;
 				st_known.bl_Known	= FALSE;
 			}
 
@@ -1108,6 +1109,7 @@ PRIVATE void MAP_moveNextBlock_acc( enMAP_HEAD_DIR en_head, BOOL* p_type )
 					MOT_goBlock_FinSpeed( (FLOAT)(st_known.uc_StrCnt - 1), MAP_SEARCH_SPEED );				// n区画前進
 					MOT_setTrgtSpeed(MAP_SEARCH_SPEED);										// 目標速度をデフォルト値に戻す
 				}
+				st_known.uc_StrCnt	= 1;
 				st_known.bl_Known	= FALSE;
 			}
 
@@ -1534,10 +1536,13 @@ PUBLIC void MAP_searchGoalKnown( UCHAR uc_trgX, UCHAR uc_trgY, enMAP_ACT_MODE en
 		// 既知区間加速するときは実行しない
 		if( st_known.bl_Known != TRUE ){
 			MAP_makeMapData();		// 壁データから迷路データを作成
-			SPK_debug();
 		}
 
 		MAP_calcMouseDir(CONTOUR_SYSTEM, &en_head);			// 等高線MAP法で進行方向を算出
+
+		if((mx==0)&&(my==5)){
+			SPK_debug();
+		}
 
 		/* 次の区画へ移動 */
 		if(( mx == uc_trgX ) && ( my == uc_trgY )){

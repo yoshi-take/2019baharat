@@ -230,8 +230,8 @@ PUBLIC void	MODE_exe( void ){
 		case MODE_6:	// ログ関係
 			LED_offAll();
 			TIME_wait(100);
-			CTRL_showLog();		// ログの掃き出し
-			//MAP_showLog();
+			//CTRL_showLog();		// ログの掃き出し
+			MAP_showLog();
 
 			break;
 			
