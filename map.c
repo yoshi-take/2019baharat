@@ -84,7 +84,7 @@ PRIVATE UCHAR			uc_SlaCnt = 0;									// スラローム連続回数
 PRIVATE	UCHAR			uc_StrCnt = 1;									// 既知区間加速する区画
 PRIVATE UCHAR			uc_back[ MAP_Y_SIZE ][ MAP_X_SIZE ];			// 迷路データ
 PRIVATE USHORT			us_DashCmdIndex = 0;							// 既知コマンドインデックス
-PRIVATE stMAP_KNOWN		st_known = {1,FALSE};
+PRIVATE stMAP_KNOWN		st_known = {0,FALSE};
 
 /* -------------- */
 /*  コマンド走行  */
@@ -1042,14 +1042,14 @@ PRIVATE void MAP_moveNextBlock_acc( enMAP_HEAD_DIR en_head, BOOL* p_type )
 			
 			if( MAP_KnownAcc() == FALSE ){					// 次に進む区画が未探索のとき
 
-				if( st_known.uc_StrCnt <= 2 ){
+				if( st_known.uc_StrCnt <= 1 ){
 					MOT_goBlock_Const( 1 );					// 1区画の場合は等速のまま
 				}else{
 					MOT_setTrgtSpeed(MAP_KNOWN_ACC_SPEED);									// 既知区間加速するときの目標速度	
-					MOT_goBlock_FinSpeed( (FLOAT)(st_known.uc_StrCnt - 1), MAP_SEARCH_SPEED );				// n区画前進
+					MOT_goBlock_FinSpeed( (FLOAT)(st_known.uc_StrCnt), MAP_SEARCH_SPEED );				// n区画前進
 					MOT_setTrgtSpeed(MAP_SEARCH_SPEED);										// 目標速度をデフォルト値に戻す
 				}
-				st_known.uc_StrCnt	= 1;
+				st_known.uc_StrCnt	= 0;
 				st_known.bl_Known	= FALSE;	
 
 			}else{
@@ -1063,14 +1063,14 @@ PRIVATE void MAP_moveNextBlock_acc( enMAP_HEAD_DIR en_head, BOOL* p_type )
 		case EAST:
 
 			if( st_known.bl_Known == TRUE ){		// 直線分を消化
-				if( st_known.uc_StrCnt <= 2 ){
+				if( st_known.uc_StrCnt <= 1 ){
 					MOT_goBlock_Const( 1 );					// 1区画の場合は等速のまま
 				}else{
 					MOT_setTrgtSpeed(MAP_KNOWN_ACC_SPEED);									// 既知区間加速するときの目標速度	
-					MOT_goBlock_FinSpeed( (FLOAT)(st_known.uc_StrCnt - 1), MAP_SEARCH_SPEED );				// n区画前進
+					MOT_goBlock_FinSpeed( (FLOAT)(st_known.uc_StrCnt), MAP_SEARCH_SPEED );				// n区画前進
 					MOT_setTrgtSpeed(MAP_SEARCH_SPEED);										// 目標速度をデフォルト値に戻す
 				}
-				st_known.uc_StrCnt	= 1;
+				st_known.uc_StrCnt	= 0;
 				st_known.bl_Known	= FALSE;
 			}
 
@@ -1102,14 +1102,14 @@ PRIVATE void MAP_moveNextBlock_acc( enMAP_HEAD_DIR en_head, BOOL* p_type )
 		case WEST:
 
 			if( st_known.bl_Known == TRUE ){		// 直線分を消化
-				if( st_known.uc_StrCnt <= 2 ){
+				if( st_known.uc_StrCnt <= 1 ){
 					MOT_goBlock_Const( 1 );					// 1区画の場合は等速のまま
 				}else{
 					MOT_setTrgtSpeed(MAP_KNOWN_ACC_SPEED);									// 既知区間加速するときの目標速度	
-					MOT_goBlock_FinSpeed( (FLOAT)(st_known.uc_StrCnt - 1), MAP_SEARCH_SPEED );				// n区画前進
+					MOT_goBlock_FinSpeed( (FLOAT)(st_known.uc_StrCnt), MAP_SEARCH_SPEED );				// n区画前進
 					MOT_setTrgtSpeed(MAP_SEARCH_SPEED);										// 目標速度をデフォルト値に戻す
 				}
-				st_known.uc_StrCnt	= 1;
+				st_known.uc_StrCnt	= 0;
 				st_known.bl_Known	= FALSE;
 			}
 
@@ -1533,16 +1533,12 @@ PUBLIC void MAP_searchGoalKnown( UCHAR uc_trgX, UCHAR uc_trgY, enMAP_ACT_MODE en
 			f_MoveBackDist = 0;	
 		}
 		
-		// 既知区間加速するときは実行しない
+		// 既知区間加速するとき(TRUE)は実行しない
 		if( st_known.bl_Known != TRUE ){
 			MAP_makeMapData();		// 壁データから迷路データを作成
 		}
 
 		MAP_calcMouseDir(CONTOUR_SYSTEM, &en_head);			// 等高線MAP法で進行方向を算出
-
-		if((mx==0)&&(my==5)){
-			SPK_debug();
-		}
 
 		/* 次の区画へ移動 */
 		if(( mx == uc_trgX ) && ( my == uc_trgY )){
@@ -1554,8 +1550,10 @@ PUBLIC void MAP_searchGoalKnown( UCHAR uc_trgX, UCHAR uc_trgY, enMAP_ACT_MODE en
 				g_sysMap[0][1]	&= ~0x04;
 			}
 		*/
-			MAP_actGoal();		// ゴール時の動作
-			return;				// 探索終了
+			MAP_actGoal();			// ゴール時の動作
+			st_known.uc_StrCnt	= 0;		// 既知区間のリセット
+			st_known.bl_Known	= FALSE;
+			return;					// 探索終了
 		}
 		else{
 			MAP_moveNextBlock_acc(en_head, &bl_type);
