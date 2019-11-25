@@ -310,7 +310,7 @@ PUBLIC void MAP_showMap_ForPCIF( void );
 PUBLIC void MAP_showCmdList( void );
 PUBLIC void MAP_showMakeCmdList( void );
 PUBLIC void MAP_debug( void );
-
+PUBLIC void MAP_knowndebug(void);
 
 
 #endif	// _MAP_H

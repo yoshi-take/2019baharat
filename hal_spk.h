@@ -65,5 +65,6 @@ PUBLIC void SPK_on( int frq, float beat, int bpm );
 PUBLIC void SPK_OnTest(void);
 PUBLIC void SPK_Off(void);
 PUBLIC void SPK_debug( void );
+PUBLIC void SPK_success( void );
 
 #endif

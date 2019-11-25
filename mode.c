@@ -216,8 +216,8 @@ PUBLIC void	MODE_exe( void ){
 			PARAM_setCntType( TRUE );
 			MOT_setTrgtSpeed( 3200.0f );						// 目標速度設定
 			PARAM_setSpeedType( PARAM_ST, PARAM_VERY_FAST );	// [直進]
-			PARAM_setSpeedType( PARAM_TURN, PARAM_NORMAL );	// [旋回]
-			PARAM_setSpeedType( PARAM_SLA, PARAM_NORMAL );	// [スラローム]
+			PARAM_setSpeedType( PARAM_TURN, PARAM_NORMAL );		// [旋回]
+			PARAM_setSpeedType( PARAM_SLA, PARAM_NORMAL );		// [スラローム]
 
 			MOT_goBlock_FinSpeed(7,0);
 			//MOT_turn2(MOT_L90,700.0f);
@@ -246,16 +246,16 @@ PUBLIC void	MODE_exe( void ){
 			/* スラロームデータ生成 */
 			PARAM_makeSla(500.0f, 150.0f, 5300.0f, SLA_90, PARAM_SLOW);					// 90度
 			PARAM_makeSla(500.0f, 100.0f, 2500.0f, SLA_45, PARAM_SLOW);					// 45度
-			PARAM_makeSla(800.0f, 250.0f, 13000.0f, SLA_135, PARAM_SLOW);				// 135度			
-			// 135度
-			// 斜め → 90°→ 斜め
+//			PARAM_makeSla(800.0f, 250.0f, 13000.0f, SLA_135, PARAM_SLOW);				// 135度			
+			PARAM_makeSla(500.0f, 150.0f, 5500.0f, SLA_135, PARAM_SLOW);				// 135度
+			PARAM_makeSla(500.0f, 250.0f, 7500.0f, SLA_N90, PARAM_SLOW);				// 斜め → 90°→ 斜め
 			
 			/* 走行パラメータ */
 			PARAM_setCntType( FALSE );
-			MOT_setTrgtSpeed( 800.0f );				// 目標速度設定			
+			MOT_setTrgtSpeed( 500.0f );				// 目標速度設定			
 			PARAM_setSpeedType( PARAM_ST, PARAM_SLOW );			// [直進]速度低速
 			PARAM_setSpeedType( PARAM_TURN, PARAM_SLOW );		// [旋回]速度低速
-			PARAM_setSpeedType( PARAM_SLA, PARAM_VERY_SLOW );	// [スラローム]速度低速
+			PARAM_setSpeedType( PARAM_SLA, PARAM_SLOW );	// [スラローム]速度低速
 
 			/* 走行(45) */
 #if 0			
@@ -265,15 +265,27 @@ PUBLIC void	MODE_exe( void ){
 			MOT_goSla(MOT_L45S_N2S,PARAM_getSra( SLA_45 ));
 			MOT_goBlock_FinSpeed(0.5,0);
 #endif			
+#if 0
 			/* 走行(135) */
-			MOT_goBlock_FinSpeed(3.5f+MOVE_BACK_DIST,800.0f);
+			MOT_goBlock_FinSpeed(3.5f+MOVE_BACK_DIST,MAP_SEARCH_SPEED);
 			MOT_goSla(MOT_R135S_S2N,PARAM_getSra( SLA_135 ));
 			MOT_goSkewBlock_FinSpeed(3.5f,0);
 //			MOT_goSla(MOT_L135S_N2S,PARAM_getSra( SLA_135 ));
 //			MOT_goBlock_FinSpeed(0.5,0);
-
+#endif
+#if 1
+			/* 走行(N90) */
+			MOT_goBlock_FinSpeed(3.5f+MOVE_BACK_DIST,500.0f);
+			MOT_goSla(MOT_R135S_S2N,PARAM_getSra( SLA_135 ));
+			MOT_goSkewBlock_FinSpeed(0.5f,MAP_SEARCH_SPEED);
+			MOT_goSla(MOT_L90S_N,PARAM_getSra( SLA_N90 ));
+			MOT_goSkewBlock_FinSpeed(0.5f,MAP_SEARCH_SPEED);
+			MOT_goSla(MOT_R90S_N,PARAM_getSra( SLA_N90 ));
+			MOT_goSkewBlock_FinSpeed(0.5f,MAP_SEARCH_SPEED);
+			MOT_goSla(MOT_L45S_N2S,PARAM_getSra( SLA_45 ));
+			MOT_goBlock_FinSpeed(0.5f,0);
 			LED_onAll();
-
+#endif
 			break;
 			
 		case MODE_8:
@@ -297,7 +309,6 @@ PUBLIC void	MODE_exe( void ){
 
 			/* 迷路探索 */
 			MAP_setPos(0,0,NORTH);
-			//MAP_searchGoal(GOAL_MAP_X, GOAL_MAP_Y, SEARCH, SEARCH_SURA);
 			MAP_searchGoalKnown(GOAL_MAP_X, GOAL_MAP_Y, SEARCH_SURA);
 
 			/* 帰り探索 */
@@ -315,6 +326,8 @@ PUBLIC void	MODE_exe( void ){
 			break;
 
 		case MODE_10:
+			LED_offAll();
+			MAP_knowndebug();
 			break;
 
 		case MODE_11:

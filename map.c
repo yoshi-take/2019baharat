@@ -243,6 +243,7 @@ PUBLIC void MAP_LoadMapData( void )
 	}
 
 	printf("MAP Load Complete\n\r");
+	SPK_success();
 }
 
 // *************************************************************************
@@ -497,15 +498,15 @@ PRIVATE UCHAR MAP_getWallData( void )
 	uc_wall = 0;
 	if( TRUE == DIST_isWall_FRONT() ){
 		uc_wall = uc_wall | 0x11;
-		LED_on(LED2);				// debug
+//		LED_on(LED2);				// debug
 	}
 	if( TRUE == DIST_isWall_L_SIDE() ){
 		uc_wall = uc_wall | 0x88;
-		LED_on(LED0);			// debug
+//		LED_on(LED0);			// debug
 	}
 	if( TRUE == DIST_isWall_R_SIDE() ){
 		uc_wall = uc_wall | 0x22;
-		LED_on(LED4);			// debug
+//		LED_on(LED4);			// debug
 	}
 
 	/* マウスの進行方向にあわせてセンサデータを移動し壁データとする */
@@ -851,6 +852,25 @@ PRIVATE void MAP_calcMouseDir( enMAP_SEARCH_TYPE en_calcType, enMAP_HEAD_DIR* p_
 	else{
 		*p_head = (enMAP_HEAD_DIR)0;
 	}
+
+	switch(*p_head){
+		case NORTH:
+			LED_on(LED2);
+			break;
+
+		case EAST:
+			LED_on(LED4);
+			break;
+
+		case SOUTH:
+			LED_onAll();
+			break;
+
+		case WEST:
+			LED_on(LED0);
+			break;
+
+	}
 }
 
 
@@ -1030,7 +1050,7 @@ PRIVATE void MAP_moveNextBlock( enMAP_HEAD_DIR en_head, BOOL* p_type )
 // *************************************************************************/
 PRIVATE void MAP_moveNextBlock_acc( enMAP_HEAD_DIR en_head, BOOL* p_type )
 {
-	*p_type = TRUE;
+	*p_type = FALSE;
 	f_MoveBackDist	= 0;
 
 	/* 動作 */
@@ -1063,7 +1083,7 @@ PRIVATE void MAP_moveNextBlock_acc( enMAP_HEAD_DIR en_head, BOOL* p_type )
 		case EAST:
 
 			if( st_known.bl_Known == TRUE ){		// 直線分を消化
-				if( st_known.uc_StrCnt <= 1 ){
+				if( st_known.uc_StrCnt == 1 ){
 					MOT_goBlock_Const( 1 );					// 1区画の場合は等速のまま
 				}else{
 					MOT_setTrgtSpeed(MAP_KNOWN_ACC_SPEED);									// 既知区間加速するときの目標速度	
@@ -1102,7 +1122,7 @@ PRIVATE void MAP_moveNextBlock_acc( enMAP_HEAD_DIR en_head, BOOL* p_type )
 		case WEST:
 
 			if( st_known.bl_Known == TRUE ){		// 直線分を消化
-				if( st_known.uc_StrCnt <= 1 ){
+				if( st_known.uc_StrCnt == 1 ){
 					MOT_goBlock_Const( 1 );					// 1区画の場合は等速のまま
 				}else{
 					MOT_setTrgtSpeed(MAP_KNOWN_ACC_SPEED);									// 既知区間加速するときの目標速度	
@@ -1140,6 +1160,8 @@ PRIVATE void MAP_moveNextBlock_acc( enMAP_HEAD_DIR en_head, BOOL* p_type )
 
 		/* 反転して戻る */
 		case SOUTH:
+			st_known.bl_Known	= FALSE;
+			st_known.uc_StrCnt	= 0;
 			MOT_goBlock_FinSpeed( 0.5, 0 );			// 半区画前進
 			TIME_wait( MAP_SLA_WAIT );
 			MOT_turn(MOT_R180);									// 右180度旋回
@@ -1165,8 +1187,8 @@ PRIVATE void MAP_moveNextBlock_acc( enMAP_HEAD_DIR en_head, BOOL* p_type )
 	
 #ifndef POWER_RELESASE
 	/* 進行方向更新 */
-//	en_Head = (enMAP_HEAD_DIR)( (en_Head + en_head) & (MAP_HEAD_DIR_MAX-1) );
-	en_Head = (enMAP_HEAD_DIR)( ((UCHAR)en_Head + (UCHAR)en_head) & (MAP_HEAD_DIR_MAX-1) );
+	en_Head = (enMAP_HEAD_DIR)( (en_Head + en_head) & (MAP_HEAD_DIR_MAX-1) );
+//	en_Head = (enMAP_HEAD_DIR)( ((UCHAR)en_Head + (UCHAR)en_head) & (MAP_HEAD_DIR_MAX-1) );
 #else
 	/* 前進中にパワーリリース機能が働いてレジュームしなければならない */
 	if( ( TRUE == DCMC_isPowerRelease() ) && ( en_head == NORTH ) ){
@@ -2628,19 +2650,6 @@ PUBLIC void MAP_debug( void )
 
 	MAP_SaveMapData();
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 #if 0
 	MAP_makeContourMap( 3, 3, BEST_WAY );					// 等高線マップを作る
 	MAP_makeCmdList( 0, 0, NORTH, 3, 3, &en_endDir );
@@ -2657,8 +2666,6 @@ PUBLIC void MAP_debug( void )
 	}
 
 #endif	
-
-
 
 #if 0
 	printf( "0x%x \n\r", g_sysMap[0][0]);
@@ -2716,8 +2723,7 @@ PUBLIC void MAP_debug( void )
 	MAP_makeSkewCmdList();
 	
 #endif
-	
-	
+		
 #if 0
 //	UCHAR x,z;
 
@@ -2754,7 +2760,19 @@ PUBLIC void MAP_debug( void )
 }
 
 
-
+// *************************************************************************
+//   機能		： debug
+//   注意		： なし
+//   メモ		： なし
+//   引数		： なし
+//   返り値		： なし
+// **************************    履    歴    *******************************
+// 		v1.0		2019.11.25			TKR			新規
+// *************************************************************************/
+PUBLIC void MAP_knowndebug(void){
+	printf("st_known.uc_StrCnt = %d\n\r",st_known.uc_StrCnt);
+	printf("st_known.bl_known = %d\n\r",st_known.bl_Known);
+}
 
 #ifdef __cplusplus
     }
