@@ -1074,7 +1074,7 @@ PUBLIC void CTRL_pol( void ){
     		
 	f_Time += 0.001;
 	
-#if 1	
+#if 0	
 	/* 壁切れチェック */
 	if( MOT_getWallEdgeType() == MOT_WALL_EDGE_RIGHT ){
 		

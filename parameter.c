@@ -231,21 +231,20 @@ PRIVATE	BOOL				bl_cntType		= false;			// カウントタイプ(false:探索、true:最短)
 		
 		/* 低速(PARAM_SLOW) */
 		{// FF_加速度	FF_速度		FF_角加速度	 FF_角速度	  速度kp	  速度ki	  位置kp	  位置ki	  角速度kp	   角速度ki		角度kp		角度ki		 壁kp	 	壁kd
-			{0.0f,		0.3f,		0.0f,		0.0f,		1.0f,		0.0f,		0.0f,		0.0f,		0.2f,		0.0f,		3.0f,		0.5f,		0.0f,		0.0f,	},		// PARAM_ENTRY_SLA
+			{0.0f,		0.3f,		0.0f,		0.0f,		1.0f,		0.0f,		0.0f,		0.0f,		1.0f,		0.0f,		3.0f,		1.0f,		0.1f,		0.0f,	},		// PARAM_ENTRY_SLA
 			{0.0f,		0.3f,		0.013f,		0.13f,		1.0f,		0.0f,		0.0f,		0.0f,		0.7f,		0.0f,		0.0f,		0.0f,		0.0f,		0.0f	},		// PARAM_ACC_SLA
 			{0.0f,		0.3f,		0.0f,		0.20f,		1.0f,		0.0f,		0.0f,		0.0f,		0.7f,		0.0f,		0.0f,		0.0f,		0.0f,		0.0f	},		// PARAM_CONST_SLA
 			{0.0f,		0.3f,		0.0002f,	0.0f,		1.0f,		0.0f,		0.0f,		0.0f,		0.7f,		0.0f,		0.0f,		0.0f,		0.0f,		0.0f	},		// PARAM_DEC_SLA
-			{0.0f,		0.3f,		0.0f,		0.0f,		1.0f,		0.0f,		0.0f,		0.0f,		0.2f,		0.0f,		3.0f,		0.5f,		0.0f,		0.0f,	},		// PARAM_EXIT_SLA
+			{0.0f,		0.3f,		0.0f,		0.0f,		1.0f,		0.0f,		0.0f,		0.0f,		1.0f,		0.0f,		3.0f,		1.0f,		0.1f,		0.0f,	},		// PARAM_EXIT_SLA
 		},
 		
 		/* 通常(PARAM_NORMAL) */
 		{// FF_加速度	FF_速度		FF_角加速度	 FF_角速度	  速度kp	  速度ki	  位置kp	  位置ki	  角速度kp	   角速度ki		角度kp		角度ki		 壁kp	 	壁kd
-			{0.0f,		0.3f,		0.0f,		0.0f,		1.0f,		0.0f,		0.0f,		0.0f,		0.2f,		0.0f,		3.0f,		0.5f,		0.0f,		0.0f	},		// PARAM_ENTRY_SLA
+			{0.0f,		0.3f,		0.0f,		0.0f,		1.0f,		0.0f,		0.0f,		0.0f,		1.0f,		0.0f,		3.0f,		1.0f,		0.1f,		0.0f,	},		// PARAM_ENTRY_SLA
 			{0.0f,		0.3f,		0.013f,		0.13f,		1.0f,		0.0f,		0.0f,		0.0f,		0.7f,		0.0f,		0.0f,		0.0f,		0.0f,		0.0f	},		// PARAM_ACC_SLA
 			{0.0f,		0.3f,		0.0f,		0.20f,		1.0f,		0.0f,		0.0f,		0.0f,		0.7f,		0.0f,		0.0f,		0.0f,		0.0f,		0.0f	},		// PARAM_CONST_SLA
 			{0.0f,		0.3f,		0.0002f,	0.0f,		1.0f,		0.0f,		0.0f,		0.0f,		0.7f,		0.0f,		0.0f,		0.0f,		0.0f,		0.0f	},		// PARAM_DEC_SLA
-			{0.0f,		0.3f,		0.0f,		0.0f,		1.0f,		0.0f,		0.0f,		0.0f,		0.2f,		0.0f,		3.0f,		0.5f,		0.0f,		0.0f	},		// PARAM_EXIT_SLA
-
+			{0.0f,		0.3f,		0.0f,		0.0f,		1.0f,		0.0f,		0.0f,		0.0f,		1.0f,		0.0f,		3.0f,		1.0f,		0.1f,		0.0f,	},		// PARAM_EXIT_SLA
 		},
 		
 		/* 高速(PARAM_FAST) */

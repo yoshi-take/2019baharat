@@ -786,12 +786,12 @@ PUBLIC void MAP_makeContourMap( UCHAR uc_goalX, UCHAR uc_goalY, enMAP_ACT_MODE e
 // **************************    履    歴    *******************************
 // 		v1.0		2014.09.30			外川			新規
 // *************************************************************************/
-PRIVATE void MAP_calcMouseDir( enMAP_SEARCH_TYPE en_calcType, enMAP_HEAD_DIR* p_head )
+PRIVATE void MAP_calcMouseDir( enMAP_SEARCH_TYPE en_calcType, volatile enMAP_HEAD_DIR* p_head )
 {
 	UCHAR		uc_wall;				// 壁情報
 	USHORT		us_base;				// 等高線優先度決定値
 	USHORT		us_new;
-	enMAP_HEAD_DIR	en_tmpHead;
+	volatile enMAP_HEAD_DIR	en_tmpHead;
 
 	/* ========== */
 	/*  方向計算  */
@@ -1061,14 +1061,16 @@ PRIVATE void MAP_moveNextBlock_acc( enMAP_HEAD_DIR en_head, BOOL* p_type )
 			*p_type = FALSE;
 			
 			if( MAP_KnownAcc() == FALSE ){					// 次に進む区画が未探索のとき
-
-				if( st_known.uc_StrCnt <= 1 ){
-					MOT_goBlock_Const( 1 );					// 1区画の場合は等速のまま
-				}else{
-					MOT_setTrgtSpeed(MAP_KNOWN_ACC_SPEED);									// 既知区間加速するときの目標速度	
-					MOT_goBlock_FinSpeed( (FLOAT)(st_known.uc_StrCnt), MAP_SEARCH_SPEED );				// n区画前進
-					MOT_setTrgtSpeed(MAP_SEARCH_SPEED);										// 目標速度をデフォルト値に戻す
+				if(st_known.bl_Known == TRUE){
+					if( st_known.uc_StrCnt < 2 ){
+						MOT_goBlock_Const( 1 );					// 1区画の場合は等速のまま
+					}else{
+						MOT_setTrgtSpeed(MAP_KNOWN_ACC_SPEED);									// 既知区間加速するときの目標速度	
+						MOT_goBlock_FinSpeed( (FLOAT)(st_known.uc_StrCnt), MAP_SEARCH_SPEED );				// n区画前進
+						MOT_setTrgtSpeed(MAP_SEARCH_SPEED);										// 目標速度をデフォルト値に戻す
+					}
 				}
+				MOT_goBlock_Const(1);
 				st_known.uc_StrCnt	= 0;
 				st_known.bl_Known	= FALSE;	
 
@@ -1523,8 +1525,8 @@ PUBLIC void MAP_searchGoal( UCHAR uc_trgX, UCHAR uc_trgY, enMAP_ACT_MODE en_type
 // *************************************************************************/
 PUBLIC void MAP_searchGoalKnown( UCHAR uc_trgX, UCHAR uc_trgY, enMAP_ACT_MODE en_type )
 {
-	enMAP_HEAD_DIR	en_head = NORTH;
-	BOOL			bl_type = TRUE;			// 現在位置、FALSE: １区間前進状態、TURE:半区間前進状態
+	volatile enMAP_HEAD_DIR	en_head = NORTH;
+	BOOL					bl_type = TRUE;			// 現在位置、FALSE: １区間前進状態、TURE:半区間前進状態
 	
 	MOT_setTrgtSpeed(MAP_SEARCH_SPEED);		// 目標速度
 	MOT_setNowSpeed( 0.0f );
@@ -2357,7 +2359,7 @@ PUBLIC void MAP_drive( enMAP_DRIVE_TYPE en_driveType )
 					MOT_goBlock_FinSpeed( (FLOAT)scom[us_rp]*0.5f, 0 );						// 直線走行コマンド、半区間前進（最終速度なし）
 				}
 				else{
-#if 1					
+#if 0					
 					/* 壁の切れ目補正 */
 					if( ( scom[us_rp+1] == R90S )   || ( scom[us_rp+1] == L90S ) ){
 						bl_isWallCut = MAP_setWallCut( scom[us_rp+1] );		// コーナー前に壁があったら壁の切れ目補正を行う設定をする

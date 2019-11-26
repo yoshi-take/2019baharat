@@ -127,7 +127,7 @@ PUBLIC void	MODE_exe( void ){
 
 			/* 帰り探索 */
 			TIME_wait(500);
-			MAP_searchGoal(0, 0, SEARCH, SEARCH_SURA);
+//			MAP_searchGoal(0, 0, SEARCH, SEARCH_SURA);
 
 			/* コマンド作成 */
 			PARAM_setCntType(TRUE);											// 最短走行
@@ -155,9 +155,9 @@ PUBLIC void	MODE_exe( void ){
 			
 			/* スラロームデータ生成 */
 			PARAM_makeSla(500.0f, 150.0f, 5300.0f, SLA_90, PARAM_NORMAL);		// 90度
-			// 45度
-			// 135度
-			// 斜め → 90°→ 斜め
+			PARAM_makeSla(500.0f, 100.0f, 2500.0f, SLA_45, PARAM_SLOW);			// 45度
+			PARAM_makeSla(500.0f, 150.0f, 5500.0f, SLA_135, PARAM_SLOW);		// 135度
+			PARAM_makeSla(500.0f, 250.0f, 7500.0f, SLA_N90, PARAM_SLOW);		// 斜め → 90°→ 斜め
 
 			/* 走行パラメータ */
 			PARAM_setCntType( TRUE );
@@ -176,7 +176,7 @@ PUBLIC void	MODE_exe( void ){
 			MAP_showCmdLog();
 
 			/* コマンド走行 */
-			MAP_drive(MAP_DRIVE_SURA);
+			MAP_drive(MAP_DRIVE_SKEW);
 			break;
 			
 		case MODE_4:		// スラローム
@@ -189,14 +189,14 @@ PUBLIC void	MODE_exe( void ){
 
 			/* 走行パラメータ */
 			PARAM_setCntType( TRUE );
-			MOT_setTrgtSpeed( 500.0f );						// 目標速度設定
+			MOT_setTrgtSpeed( 700.0f );						// 目標速度設定
 			PARAM_setSpeedType( PARAM_ST, PARAM_SLOW );		// [直進]速度低速
 			PARAM_setSpeedType( PARAM_TURN, PARAM_SLOW );	// [旋回]速度低速
-			PARAM_setSpeedType( PARAM_SLA, PARAM_SLOW );	// [スラローム]速度低速
+			PARAM_setSpeedType( PARAM_SLA, PARAM_NORMAL );	// [スラローム]速度低速
 
-			PARAM_makeSla(500.0f, 150.0f, 5300.0f, SLA_90, PARAM_SLOW);		// スラロームデータ生成
+			PARAM_makeSla(700.0f, 300.0f, 9000.0f, SLA_90, PARAM_NORMAL);		// スラロームデータ生成
 
-			MOT_circuit( 3, 4, MOT_R90, 10, 500.0f);	
+			MOT_circuit( 3, 3, MOT_L90, 10, 700.0f);	
 
 			SPK_on(Eb4,16.0f,120);
 			SPK_on(E4,16.0f,120);
@@ -230,8 +230,8 @@ PUBLIC void	MODE_exe( void ){
 		case MODE_6:	// ログ関係
 			LED_offAll();
 			TIME_wait(100);
-			CTRL_showLog();		// ログの掃き出し
-			//MAP_showLog();
+			//CTRL_showLog();		// ログの掃き出し
+			MAP_showLog();
 
 			break;
 			
@@ -265,15 +265,16 @@ PUBLIC void	MODE_exe( void ){
 			MOT_goSla(MOT_L45S_N2S,PARAM_getSra( SLA_45 ));
 			MOT_goBlock_FinSpeed(0.5,0);
 #endif			
-#if 0
+#if 1
 			/* 走行(135) */
+			MOT_setTrgtSpeed(900.0f);
 			MOT_goBlock_FinSpeed(3.5f+MOVE_BACK_DIST,MAP_SEARCH_SPEED);
 			MOT_goSla(MOT_R135S_S2N,PARAM_getSra( SLA_135 ));
 			MOT_goSkewBlock_FinSpeed(3.5f,0);
 //			MOT_goSla(MOT_L135S_N2S,PARAM_getSra( SLA_135 ));
 //			MOT_goBlock_FinSpeed(0.5,0);
 #endif
-#if 1
+#if 0
 			/* 走行(N90) */
 			MOT_goBlock_FinSpeed(3.5f+MOVE_BACK_DIST,500.0f);
 			MOT_goSla(MOT_R135S_S2N,PARAM_getSra( SLA_135 ));

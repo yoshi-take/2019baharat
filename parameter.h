@@ -54,7 +54,7 @@
 // 定義（define）	チューニングが必要なパラメータ 
 //**************************************************
 /* 迷路サイズ */
-#define GOAL_MAP_X					( 1 )								// ゴールのX区画数（横方向） [区画]
+#define GOAL_MAP_X					( 7 )								// ゴールのX区画数（横方向） [区画]
 #define GOAL_MAP_Y					( 4 )								// ゴールのY区画数（縦方向） [区画]
 #define MAP_X_SIZE					( 16 )								// 迷路のX区画数（横方向） [区画]
 #define MAP_Y_SIZE					( 16 )								// 迷路のY区画数（縦方向） [区画]
@@ -99,7 +99,7 @@
 #define	EXE_THRESH_L				( 1300 )							// 左側の閾値
 
 /* フェイルセーフの閾値 */
-#define	FAIL_THRESH_ACC				( -30.0f )							// 加速度（この値以下で発動）
+#define	FAIL_THRESH_ACC				( -35.0f )							// 加速度（この値以下で発動）
 
 /* 距離 */
 #define MOT_BACK_SEN_ADJ			( 73.0f )							// 壁～柱+aまで（センサオートチューニングに使用する）
