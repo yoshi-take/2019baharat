@@ -54,8 +54,8 @@
 // 定義（define）	チューニングが必要なパラメータ 
 //**************************************************
 /* 迷路サイズ */
-#define GOAL_MAP_X					( 7 )								// ゴールのX区画数（横方向） [区画]
-#define GOAL_MAP_Y					( 4 )								// ゴールのY区画数（縦方向） [区画]
+#define GOAL_MAP_X					( 1 )								// ゴールのX区画数（横方向） [区画]
+#define GOAL_MAP_Y					( 1 )								// ゴールのY区画数（縦方向） [区画]
 #define MAP_X_SIZE					( 16 )								// 迷路のX区画数（横方向） [区画]
 #define MAP_Y_SIZE					( 16 )								// 迷路のY区画数（縦方向） [区画]
 
@@ -138,8 +138,8 @@
 //#define L_45_REF					( 440 )							// 左45度、基準値
 #define R_SIDE_REF					( 928 )							// 右横壁、基準値
 #define L_SIDE_REF					( 790 )							// 左横壁、基準値
-#define R_FRONT_WALL				( 660 )							// 右前壁、壁検知値
-#define L_FRONT_WALL				( 790 )							// 左前壁、壁検知値
+#define R_FRONT_WALL				( 656 )							// 右前壁、壁検知値
+#define L_FRONT_WALL				( 697 )							// 左前壁、壁検知値
 //#define R_45_WALL					( 270 )							// 右45度、壁検知値
 #define R_SIDE_WALL					( 437 )							// 右横壁、壁検知値
 //#define L_45_WALL					( 180 )							// 左45度、壁検知値

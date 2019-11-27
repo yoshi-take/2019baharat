@@ -127,7 +127,7 @@ PUBLIC void	MODE_exe( void ){
 
 			/* 帰り探索 */
 			TIME_wait(500);
-//			MAP_searchGoal(0, 0, SEARCH, SEARCH_SURA);
+			MAP_searchGoal(0, 0, SEARCH, SEARCH_SURA);
 
 			/* コマンド作成 */
 			PARAM_setCntType(TRUE);											// 最短走行
@@ -154,18 +154,18 @@ PUBLIC void	MODE_exe( void ){
 			GYRO_clrAngle();		// 角度リセット
 			
 			/* スラロームデータ生成 */
-			PARAM_makeSla(500.0f, 150.0f, 5300.0f, SLA_90, PARAM_NORMAL);		// 90度
+			PARAM_makeSla(500.0f, 150.0f, 5300.0f, SLA_90, PARAM_SLOW);		// 90度
 			PARAM_makeSla(500.0f, 100.0f, 2500.0f, SLA_45, PARAM_SLOW);			// 45度
 			PARAM_makeSla(500.0f, 150.0f, 5500.0f, SLA_135, PARAM_SLOW);		// 135度
 			PARAM_makeSla(500.0f, 250.0f, 7500.0f, SLA_N90, PARAM_SLOW);		// 斜め → 90°→ 斜め
 
 			/* 走行パラメータ */
 			PARAM_setCntType( TRUE );
-			MOT_setTrgtSpeed(1500.0f);
+			MOT_setTrgtSpeed(1000.0f);
 			MOT_setSlaStaSpeed(500.0f);
 			PARAM_setSpeedType( PARAM_ST, PARAM_NORMAL );		// [直進]
-			PARAM_setSpeedType( PARAM_TURN, PARAM_NORMAL );		// [旋回]
-			PARAM_setSpeedType( PARAM_SLA, PARAM_NORMAL );		// [スラローム]
+			PARAM_setSpeedType( PARAM_TURN, PARAM_SLOW );		// [旋回]
+			PARAM_setSpeedType( PARAM_SLA, PARAM_SLOW );		// [スラローム]
 
 			/* コマンド作成 */
 			MAP_setPos(0,0,NORTH);
@@ -337,10 +337,36 @@ PUBLIC void	MODE_exe( void ){
 			LED_onAll();
 			break;
 
-		case MODE_12:
+		case MODE_12:		// 最短走行
 			LED_offAll();
-			MAP_LoadMapData();
-			LED_onAll();
+			MODE_wait();			// 手かざし待機
+			TIME_wait(1500);
+			GYRO_clrAngle();		// 角度リセット
+			
+			/* スラロームデータ生成 */
+			PARAM_makeSla(600.0f, 200.0f, 7000.0f, SLA_90, PARAM_NORMAL);		// 90度
+			PARAM_makeSla(600.0f, 100.0f, 4000.0f, SLA_45, PARAM_NORMAL);		// 45度
+			PARAM_makeSla(600.0f, 200.0f, 8500.0f, SLA_135, PARAM_NORMAL);		// 135度
+			PARAM_makeSla(600.0f, 350.0f, 10000.0f, SLA_N90, PARAM_NORMAL);		// 斜め → 90°→ 斜め
+
+			/* 走行パラメータ */
+			PARAM_setCntType( TRUE );
+			MOT_setTrgtSpeed(3000.0f);
+			MOT_setSlaStaSpeed(600.0f);
+			PARAM_setSpeedType( PARAM_ST, PARAM_FAST );			// [直進]
+			PARAM_setSpeedType( PARAM_TURN, PARAM_SLOW );		// [旋回]
+			PARAM_setSpeedType( PARAM_SLA, PARAM_NORMAL );		// [スラローム]
+
+			/* コマンド作成 */
+			MAP_setPos(0,0,NORTH);
+			MAP_makeContourMap(GOAL_MAP_X,GOAL_MAP_Y,BEST_WAY);
+			MAP_makeCmdList(0,0,NORTH,GOAL_MAP_X,GOAL_MAP_Y,&en_endDir);
+			MAP_makeSuraCmdList();
+			MAP_makeSkewCmdList();
+			MAP_showCmdLog();
+
+			/* コマンド走行 */
+			MAP_drive(MAP_DRIVE_SKEW);
 			break;
 
 		case MODE_13:

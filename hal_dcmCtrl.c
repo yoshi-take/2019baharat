@@ -1076,7 +1076,7 @@ PUBLIC void CTRL_pol( void ){
 	
 #if 0	
 	/* 壁切れチェック */
-	if( MOT_getWallEdgeType() == MOT_WALL_EDGE_RIGHT ){
+//	if( MOT_getWallEdgeType() == MOT_WALL_EDGE_RIGHT ){
 		
 		/* 壁抜け */
 		if( DIST_isWall_R_SIDE() == false){	
@@ -1084,18 +1084,18 @@ PUBLIC void CTRL_pol( void ){
 			SPK_debug();
 		}
 		
-	}else if( MOT_getWallEdgeType() == MOT_WALL_EDGE_LEFT ){
+//	}else if( MOT_getWallEdgeType() == MOT_WALL_EDGE_LEFT ){
 		
 		/* 壁抜け */
 		if( DIST_isWall_L_SIDE() == false){	
 			MOT_setWallEdge( true );
 			SPK_debug();
 		}
-	}else{
+//	}else{
 
 		/* 何もしない */
 	
-    }
+//   }
 #endif
 }
 

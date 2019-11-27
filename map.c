@@ -498,15 +498,15 @@ PRIVATE UCHAR MAP_getWallData( void )
 	uc_wall = 0;
 	if( TRUE == DIST_isWall_FRONT() ){
 		uc_wall = uc_wall | 0x11;
-//		LED_on(LED2);				// debug
+		LED_on(LED2);				// debug
 	}
 	if( TRUE == DIST_isWall_L_SIDE() ){
 		uc_wall = uc_wall | 0x88;
-//		LED_on(LED0);			// debug
+		LED_on(LED0);			// debug
 	}
 	if( TRUE == DIST_isWall_R_SIDE() ){
 		uc_wall = uc_wall | 0x22;
-//		LED_on(LED4);			// debug
+		LED_on(LED4);			// debug
 	}
 
 	/* マウスの進行方向にあわせてセンサデータを移動し壁データとする */
@@ -855,19 +855,19 @@ PRIVATE void MAP_calcMouseDir( enMAP_SEARCH_TYPE en_calcType, volatile enMAP_HEA
 
 	switch(*p_head){
 		case NORTH:
-			LED_on(LED2);
+//			LED_on(LED2);
 			break;
 
 		case EAST:
-			LED_on(LED4);
+//			LED_on(LED4);
 			break;
 
 		case SOUTH:
-			LED_onAll();
+//			LED_onAll();
 			break;
 
 		case WEST:
-			LED_on(LED0);
+//			LED_on(LED0);
 			break;
 
 	}
@@ -2420,7 +2420,7 @@ PUBLIC void MAP_drive( enMAP_DRIVE_TYPE en_driveType )
 					MOT_goBlock_FinSpeed( (FLOAT)tcom[us_rp]*0.5f, 0 );						// 直線走行コマンド、半区間前進（最終速度なし）
 				}
 				else{
-					
+#if 0					
 					/* 壁の切れ目補正 */
 					if( ( tcom[us_rp+1] == R90S )   || ( tcom[us_rp+1] == L90S )   || 
 					 	( tcom[us_rp+1] == RS135N ) || ( tcom[us_rp+1] == LS135N ) 
@@ -2435,7 +2435,13 @@ PUBLIC void MAP_drive( enMAP_DRIVE_TYPE en_driveType )
 							us_LogIndexWallCut %= 30;
 						}
 					}
-					MOT_goBlock_FinSpeed( (FLOAT)tcom[us_rp]*0.5f, MOT_getSlaStaSpeed() );		// 直線走行コマンド、半区間前進（最終速度あり）
+#endif
+					/* 直線走行コマンド、半区間前進（最終速度あり）*/
+					if( us_rp == 0 ){
+						MOT_goBlock_FinSpeed( (FLOAT)(tcom[us_rp]*0.5f+MOVE_BACK_DIST_SURA ), MOT_getSlaStaSpeed() );	// 尻当て分を加味
+					}else{
+						MOT_goBlock_FinSpeed( (FLOAT)tcom[us_rp]*0.5f, MOT_getSlaStaSpeed() );							// 通常走行
+					}
 				}
 			}
 			else if ( ( tcom[us_rp] <=  NGO71 ) && ( tcom[us_rp] >=  NGO1) )

@@ -1,4 +1,4 @@
-Renesas Optimizing Linker (W2.08.00 )             26-Nov-2019 21:03:14
+Renesas Optimizing Linker (W2.08.00 )             27-Nov-2019 20:48:57
 
 *** Options ***
 
@@ -46,17 +46,17 @@ B_1
 R_1
                                   00004552  000045a9        58   1
 B_2
-                                  000045aa  0000483f       296   2
+                                  000045aa  00004803       25a   2
 R_2
-                                  00004840  00004861        22   2
+                                  00004804  00004823        20   2
 B
-                                  00004864  0000bc13      73b0   4
+                                  00004824  0000bbd3      73b0   4
 R
-                                  0000bc14  0000bf5f       34c   4
+                                  0000bbd4  0000bf1f       34c   4
 SU
-                                  0000bf60  0000c05f       100   4
+                                  0000bf20  0000c01f       100   4
 SI
-                                  0000c060  0000c35f       300   4
+                                  0000c020  0000c31f       300   4
 PResetPRG
                                   fff80000  fff80034        35   1
 C_1
@@ -78,21 +78,21 @@ C$VECT
 D_1
                                   fff82770  fff827c7        58   1
 D_2
-                                  fff827c8  fff827e9        22   2
+                                  fff827c8  fff827e7        20   2
 D
-                                  fff827ec  fff82b37       34c   4
+                                  fff827e8  fff82b33       34c   4
 P
-                                  fff82b38  fff90614      dadd   1
+                                  fff82b34  fff8fee1      d3ae   1
 PIntPRG
-                                  fff90615  fff907fa       1e6   1
+                                  fff8fee2  fff900c7       1e6   1
 W_1
-                                  fff907fb  fff9081e        24   1
+                                  fff900c8  fff900eb        24   1
 W_2
-                                  fff90820  fff908b9        9a   2
+                                  fff900ec  fff90185        9a   2
 W
-                                  fff908bc  fff908bc         0   4
+                                  fff90188  fff90188         0   4
 L
-                                  fff908bc  fff91164       8a9   4
+                                  fff90188  fff90a30       8a9   4
 $ADDR_C_FFFFFF80
                                   ffffff80  ffffff83         4   1
 $ADDR_C_FFFFFFA0

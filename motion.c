@@ -411,7 +411,7 @@ PRIVATE void MOT_goBlock_AccConstDec( FLOAT f_fin, enMOT_ST_TYPE en_type, enMOT_
 		st_data.f_now			= st_Info.f_last;		// 現在速度
 		st_data.f_trgt			= st_Info.f_last;		// 目標速度
 		st_data.f_nowDist		= f_NowDist;			// 現在位置
-		st_data.f_dist			= f_NowDist + 180.0f;	// 等速完了位置
+		st_data.f_dist			= f_NowDist + 180.0f;	// 等速完了位置（180.0f：壁切れをどこまで救うかの距離）
 		st_data.f_accAngleS		= 0;					// 角加速度
 		st_data.f_nowAngleS		= 0;					// 現在角速度
 		st_data.f_trgtAngleS	= 0;					// 目標角速度
