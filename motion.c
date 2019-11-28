@@ -87,6 +87,7 @@ typedef struct{
 PRIVATE FLOAT 				f_MotNowSpeed 			= 0.0f;		// 現在速度
 PRIVATE FLOAT 				f_MotTrgtSpeed 			= 300.0f;	// 目標速度
 PRIVATE FLOAT 				f_MotSlaStaSpeed 		= 0.0f;		// スラローム開始速度
+PUBLIC	FLOAT				f_MotTrgtSkewSpeed		= 0.0f;		// 目標速度（斜め用）
 PRIVATE	stMOT_DATA 			st_Info;							// シーケンスデータ
 PRIVATE BOOL				bl_failsafe				= false;	// フェイルセーフ（TRUE：発動	FALSE：何もなし）
 
@@ -132,6 +133,37 @@ PUBLIC  FLOAT   MOT_getAcc3( void ){
     return 	PARAM_getSpeed( PARAM_ST ) -> f_dec;
 
 }
+
+// *************************************************************************
+//   機能		： 加速度を取得する（斜め走行用）
+//   注意		： なし
+//   メモ		： 後でMOT_getAcc1関数とマージ
+//   引数		： なし
+//   返り値		： 加速度[mm/s^2]
+// **************************    履    歴    *******************************
+// 		v1.0		2019.11.28			TKR			新規
+// *************************************************************************/
+PUBLIC  FLOAT   MOT_getAcc1Skew( void ){
+
+    return 	PARAM_getSpeed( PARAM_SKEW_ACC ) -> f_acc;
+
+}
+
+// *************************************************************************
+//   機能		： 減速度を取得する（斜め走行用）
+//   注意		： 正の値(絶対値)で指定
+//   メモ		： 後でMOT_getAcc3関数とマージ
+//   引数		： なし
+//   返り値		： 減速度[mm/s^2]
+// **************************    履    歴    *******************************
+// 		v1.0		2019.11.28			TKR			新規
+// *************************************************************************/
+PUBLIC  FLOAT   MOT_getAcc3Skew( void ){
+
+    return 	PARAM_getSpeed( PARAM_SKEW_DEC ) -> f_dec;
+
+}
+
 
 // *************************************************************************
 //   機能		： 加速度を取得する(cos近似)
@@ -499,8 +531,13 @@ PRIVATE void MOT_setData_ACC_CONST_DEC( FLOAT f_num, FLOAT f_fin, enMOT_GO_ST_TY
 	}
 	
 	/* 加速度 */
-	st_Info.f_acc1 		= MOT_getAcc1();													// 加速度1[mm/s^2]
-	st_Info.f_acc3 		= MOT_getAcc3();													// 加速度3[mm/s^2]
+	if( MOT_GO_ST_NORMAL == en_type ){		// 通常の走行
+		st_Info.f_acc1 		= MOT_getAcc1();													// 加速度1[mm/s^2]
+		st_Info.f_acc3 		= MOT_getAcc3();													// 加速度3[mm/s^2]
+	}else{									// 斜め走行
+		st_Info.f_acc1 		= MOT_getAcc1Skew();												// 加速度1[mm/s^2]
+		st_Info.f_acc3 		= MOT_getAcc3Skew();												// 加速度3[mm/s^2]
+	}
 
 	/* 速度 */
 	st_Info.f_now		= f_MotNowSpeed;													// 現在速度	
@@ -548,9 +585,13 @@ PRIVATE void MOT_setData_MOT_ACC_CONST_DEC_CUSTOM( FLOAT f_num, FLOAT f_fin, enM
 	}
 
 	/* 加速度 */
-	st_Info.f_acc1 		= MOT_getAcc1();													// 加速度1[mm/s^2]
-	st_Info.f_acc3 		= MOT_getAcc3();													// 加速度3[mm/s^2]
-
+	if( MOT_GO_ST_NORMAL == en_type ){		// 通常の走行
+		st_Info.f_acc1 		= MOT_getAcc1();													// 加速度1[mm/s^2]
+		st_Info.f_acc3 		= MOT_getAcc3();													// 加速度3[mm/s^2]
+	}else{									// 斜め走行
+		st_Info.f_acc1 		= MOT_getAcc1Skew();												// 加速度1[mm/s^2]
+		st_Info.f_acc3 		= MOT_getAcc3Skew();												// 加速度3[mm/s^2]
+	}
 
 	/* 距離 */
 	st_Info.f_dist		= f_num * f_1blockDist;												// 移動距離[mm]
@@ -714,8 +755,13 @@ PRIVATE void MOT_setData_MOT_ACC_CONST( FLOAT f_num, FLOAT f_fin, enMOT_GO_ST_TY
 	}
 
 	/* 加速度 */
-	st_Info.f_acc1 		= MOT_getAcc1();													// 加速度1[mm/s^2]
-	st_Info.f_acc3 		= 0;																// 加速度3[mm/s^2](未使用)
+	if( MOT_GO_ST_NORMAL == en_type ){		// 通常の走行
+		st_Info.f_acc1 		= MOT_getAcc1();												// 加速度1[mm/s^2]
+		st_Info.f_acc3 		= 0;															// 加速度3[mm/s^2](未使用)
+	}else{									// 斜め走行
+		st_Info.f_acc1 		= MOT_getAcc1Skew();											// 加速度1[mm/s^2]
+		st_Info.f_acc3 		= 0;															// 加速度3[mm/s^2]
+	}
 
 	/* 速度 */
 	st_Info.f_now		= f_MotNowSpeed;													// 現在速度	
@@ -918,8 +964,13 @@ PRIVATE void MOT_setData_MOT_CONST_DEC( FLOAT f_num, FLOAT f_fin, enMOT_GO_ST_TY
 	}
 
 	/* 加速度 */
-	st_Info.f_acc1 		= 0;																// 加速度1[mm/s^2](未使用)
-	st_Info.f_acc3 		= MOT_getAcc3();													// 加速度3[mm/s^2]
+	if( MOT_GO_ST_NORMAL == en_type ){
+		st_Info.f_acc1 		= 0;															// 加速度1[mm/s^2](未使用)
+		st_Info.f_acc3 		= MOT_getAcc3();												// 加速度3[mm/s^2]
+	}else{
+		st_Info.f_acc1 		= 0;															// 加速度1[mm/s^2](未使用)
+		st_Info.f_acc3 		= MOT_getAcc3Skew();												// 加速度3[mm/s^2]
+	}
 
 	/* 速度 */
 	st_Info.f_now		= f_MotNowSpeed;													// 現在速度	
@@ -1135,7 +1186,13 @@ PRIVATE enMOT_ST_TYPE MOT_getStType( FLOAT f_num, FLOAT f_fin, enMOT_GO_ST_TYPE 
 		/*  加速＋等速動作  */
 		/* ================ */
 		f_v1Div		= f_fin - f_MotNowSpeed;
-		f_acc1		= MOT_getAcc1();				// 加速度1[mm/s^2]
+		
+		if( MOT_GO_ST_NORMAL == en_type ){		// 加速度1[mm/s^2]
+			f_acc1		= MOT_getAcc1();		// 直進		
+		}else{
+			f_acc1		= MOT_getAcc1Skew();	// 斜め
+		}
+
 		f_t1		= f_v1Div / f_acc1;
 
 		f_l1 = ( f_MotNowSpeed + f_fin ) * 0.5f * f_t1;
@@ -1158,7 +1215,13 @@ PRIVATE enMOT_ST_TYPE MOT_getStType( FLOAT f_num, FLOAT f_fin, enMOT_GO_ST_TYPE 
 		/*  等速＋減速動作  */
 		/* ================ */
 		f_v3Div		= f_fin - f_MotNowSpeed;
-		f_acc3		= MOT_getAcc3();				// 加速度3[mm/s^2]
+
+		if( MOT_GO_ST_NORMAL ){		// 加速度3[mm/s^2]
+			f_acc3		= MOT_getAcc3();			// 直進
+		}else{
+			f_acc3		= MOT_getAcc3Skew();		// 斜め
+		}
+
 		f_t3		= f_v3Div / ( f_acc3 * -1 );
 
 		f_l3 = ( f_MotNowSpeed + f_fin ) * 0.5f * f_t3;
@@ -1188,7 +1251,13 @@ PRIVATE enMOT_ST_TYPE MOT_getStType( FLOAT f_num, FLOAT f_fin, enMOT_GO_ST_TYPE 
 		f_l1		= ( f_MotNowSpeed + f_MotTrgtSpeed ) * 0.5f * f_t1;
 
 		f_v3Div		= f_fin - f_MotTrgtSpeed;							// 台形時の速度差
-		f_acc3		= MOT_getAcc3();									// 加速度3[mm/s^2]
+
+		if( MOT_GO_ST_NORMAL ){		// 加速度3[mm/s^2]
+			f_acc3		= MOT_getAcc3();			// 直進
+		}else{
+			f_acc3		= MOT_getAcc3Skew();		// 斜め
+		}
+
 		f_t3		= -1.0f * f_v3Div / f_acc3;							// 減速時の所要時間
 		f_l3		= ( f_MotTrgtSpeed + f_fin ) * 0.5f * f_t3;
 
@@ -2229,7 +2298,7 @@ PUBLIC void MOT_goSla( enMOT_SULA_CMD en_type, stSLA *p_sla){
 	CTRL_setData( &st_data );			// データセット
 	
 	if( IS_R_SLA( en_type ) == true ){	// -方向
-		while( ( f_NowAngle > st_info.f_angle + 3.0f ) ){
+		while( ( f_NowAngle > st_info.f_angle + 2.0f ) ){
 		//while( ( f_NowAngle > st_info.f_angle + 1.0f ) || ( f_NowDist < st_data.f_dist ) ){
 			/* フェイルセーフ */
 			MOT_Failsafe(&bl_failsafe);
@@ -2413,6 +2482,51 @@ PRIVATE	BOOL MOT_setWallEdgeDIST_LoopWait( void ){
 PUBLIC void MOT_setTrgtSpeed( FLOAT f_speed){
 	
 	f_MotTrgtSpeed = f_speed;
+
+}
+
+// *************************************************************************
+//   機能		： マウスの目標速度を取得する
+//   注意		： なし
+//   メモ		： なし
+//   引数		： なし
+//   返り値		： 目標速度
+// **************************    履    歴    *******************************
+// 		v1.0		2019.11.28			TKR			新規
+// *************************************************************************/
+PUBLIC FLOAT MOT_getTrgtSpeed( void ){
+	
+	return f_MotTrgtSpeed;
+
+}
+
+// *************************************************************************
+//   機能		： 斜め走行の目標速度を設定する
+//   注意		： f_MotTrgtSpeedに代入していないのに注意
+//   メモ		： なし
+//   引数		： 目標速度
+//   返り値		： 目標速度
+// **************************    履    歴    *******************************
+// 		v1.0		2019.11.28			TKR			新規
+// *************************************************************************/
+PUBLIC void MOT_setTrgtSkewSpeed( FLOAT f_speed ){
+	
+	f_MotTrgtSkewSpeed = f_speed;
+
+}
+
+// *************************************************************************
+//   機能		： 斜め走行の目標速度を取得する
+//   注意		： なし
+//   メモ		： なし
+//   引数		： なし
+//   返り値		： 目標速度
+// **************************    履    歴    *******************************
+// 		v1.0		2019.11.28			TKR			新規
+// *************************************************************************/
+PUBLIC FLOAT MOT_getTrgtSkewSpeed( void ){
+	
+	return f_MotTrgtSkewSpeed;
 
 }
 

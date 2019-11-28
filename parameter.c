@@ -89,6 +89,17 @@ PRIVATE	BOOL				bl_cntType		= false;			// カウントタイプ(false:探索、true:最短)
 		{ 1800,			1800,		1800,			1800,		}		// 超高速(PARAM_VERY_FAST)
 	};
 
+	/* 斜め走行速度データ */
+	PRIVATE	CONST stSPEED f_SkewSpeedData[PARAM_MOVE_SPEED_MAX] = {
+		
+		//	加速度		減速度		角加速度	 角減速度
+		{ 2000,			2000,		0,			0,		},		// 超低速(PARAM_VERY_SLOW)
+		{ 2000,			2000,		0,			0,		},		// 低速(PARAM_SLOW)
+		{ 2000,			2000,		0,			0,		},		// 通常(PARAM_NORMAL)
+		{ 2000,			2000,		0,			0,		},		// 高速(PARAM_FAST)
+		{ 2000,			2000,		0,			0,		}		// 超高速(PARAM_VERY_FAST)
+	};
+
 
 /* ============== */
 /*  ゲインデータ  */
@@ -273,7 +284,7 @@ PRIVATE	BOOL				bl_cntType		= false;			// カウントタイプ(false:探索、true:最短)
 		
 		//進入距離		退避距離 
 		{ 	0,			0,		},		// 超低速(PARAM_VERY_SLOW)
-		{ 	1,			0,		},		// 低速(PARAM_SLOW)
+		{ 	0,			0,		},		// 低速(PARAM_SLOW)
 		{ 	0,			0,		},		// 通常(PARAM_NORMAL)
 		{ 	0,			0,		},		// 高速(PARAM_FAST)
 		{ 	0,			0,		}		// 超高速(PARAM_VERY_FAST)
@@ -332,13 +343,16 @@ PUBLIC	CONST stSPEED* PARAM_getSpeed( enPARAM_MODE en_mode ){
 		case PARAM_BACK_ACC:											// 加速中(後進)
 		case PARAM_BACK_CONST:											// 等速中(後進)
 		case PARAM_BACK_DEC:											// 減速中(後進)
-		case PARAM_SKEW_ACC:											// 加速中(斜め)
-		case PARAM_SKEW_CONST:											// 等速中(斜め)
-		case PARAM_SKEW_DEC:											// 減速中(斜め)
 		case PARAM_HIT_WALL:											// 壁あて制御		
 			p_adr = &f_StSpeedData[en_Speed_st];
 			break;
-			
+		
+		case PARAM_SKEW_ACC:											// 加速中(斜め)
+		case PARAM_SKEW_CONST:											// 等速中(斜め)
+		case PARAM_SKEW_DEC:											// 減速中(斜め)
+			p_adr = &f_SkewSpeedData[en_Speed_st];
+			break;
+
 		case PARAM_ACC_SMOOTH:											// 加速中(直進 cos近似)
 		case PARAM_CONST_SMOOTH:										// 等速中(直進 cos近似)
 		case PARAM_DEC_SMOOTH:											// 減速中(直進 cos近似)

@@ -90,14 +90,14 @@ PRIVATE stMAP_KNOWN		st_known = {0,FALSE};
 /*  コマンド走行  */
 /* -------------- */
 /* コマンドリスト */
-PUBLIC	UCHAR		dcom[LIST_NUM];					// 超地信旋回用
-PUBLIC	UCHAR		scom[LIST_NUM];					// スラローム用
-PUBLIC	UCHAR		tcom[LIST_NUM];					// 斜め走行用
-PUBLIC	UCHAR		mcom[LIST_NUM];					// 既知コマンド走行用
-PRIVATE	USHORT		us_totalCmd;					// トータルコマンド量
-PRIVATE	FLOAT		f_PosX;							// X座標
-PRIVATE	FLOAT		f_PosY;							// Y座標
-PRIVATE	SHORT		s_PosDir;						// 進行方向（[0]北 [1]北東 [2]東 [3]南東 [4]南 [5]南西 [6]西 [7]北西 ）
+PUBLIC	UCHAR						dcom[LIST_NUM];					// 超地信旋回用
+PUBLIC	UCHAR						scom[LIST_NUM];					// スラローム用
+PUBLIC	UCHAR						tcom[LIST_NUM];					// 斜め走行用
+PUBLIC	UCHAR						mcom[LIST_NUM];					// 既知コマンド走行用
+PRIVATE	USHORT						us_totalCmd;					// トータルコマンド量
+PRIVATE	FLOAT						f_PosX;							// X座標
+PRIVATE	FLOAT						f_PosY;							// Y座標
+PRIVATE	SHORT						s_PosDir;						// 進行方向（[0]北 [1]北東 [2]東 [3]南東 [4]南 [5]南西 [6]西 [7]北西 ）
 
 /* コマンドに応じた座標更新データ */
 PRIVATE CONST stMAP_SIM st_PosData[] = {
@@ -2300,6 +2300,7 @@ PUBLIC void MAP_drive( enMAP_DRIVE_TYPE en_driveType )
 	USHORT				us_rp = 0;				// 現在の読み込み位置
 	enMOT_TURN_CMD 		en_type;
 	BOOL				bl_isWallCut = FALSE;
+	FLOAT	 			f_tempTrgtSpeed		= 0;
 	
 	/* 超信旋回モード*/
 	if( en_driveType == MAP_DRIVE_TURN )
@@ -2446,7 +2447,10 @@ PUBLIC void MAP_drive( enMAP_DRIVE_TYPE en_driveType )
 			}
 			else if ( ( tcom[us_rp] <=  NGO71 ) && ( tcom[us_rp] >=  NGO1) )
 			{
+				f_tempTrgtSpeed	= MOT_getTrgtSpeed();											// 直進時の目標速度を一旦退避
+				MOT_setTrgtSpeed( MOT_getTrgtSkewSpeed() );										// 斜め走行時の目標速度を設定
 				MOT_goSkewBlock_FinSpeed( (FLOAT)(tcom[us_rp]-81)*0.5f, MOT_getSlaStaSpeed());	// 斜め直線走行コマンド、半区間前進（最終速度あり）
+				MOT_setTrgtSpeed( f_tempTrgtSpeed );											// 直進時の目標速度に戻す
 			}
 			else
 			{

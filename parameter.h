@@ -54,8 +54,8 @@
 // 定義（define）	チューニングが必要なパラメータ 
 //**************************************************
 /* 迷路サイズ */
-#define GOAL_MAP_X					( 1 )								// ゴールのX区画数（横方向） [区画]
-#define GOAL_MAP_Y					( 1 )								// ゴールのY区画数（縦方向） [区画]
+#define GOAL_MAP_X					( 7 )								// ゴールのX区画数（横方向） [区画]
+#define GOAL_MAP_Y					( 4 )								// ゴールのY区画数（縦方向） [区画]
 #define MAP_X_SIZE					( 16 )								// 迷路のX区画数（横方向） [区画]
 #define MAP_Y_SIZE					( 16 )								// 迷路のY区画数（縦方向） [区画]
 
@@ -96,7 +96,7 @@
 
 /* 手かざし実行の閾値 */
 #define	EXE_THRESH_R				( 1300 )							// 右側の閾値
-#define	EXE_THRESH_L				( 1300 )							// 左側の閾値
+#define	EXE_THRESH_L				( 800 )							// 左側の閾値
 
 /* フェイルセーフの閾値 */
 #define	FAIL_THRESH_ACC				( -35.0f )							// 加速度（この値以下で発動）
@@ -153,14 +153,14 @@
 
 /* ログ */
 #define CTRL_LOG				( 700 )								// 記録する制御ログの個数
-#define CTRL_LOG_CYCLE			( 2 )								// ↑の記録周期[msec]（1より小さい値はNG）
+#define CTRL_LOG_CYCLE			( 5 )								// ↑の記録周期[msec]（1より小さい値はNG）
 #define SET_LOG					( 100 )								// 設定した動作データのログ数
 #define DIST_LOG				( 5 )								// 距離センサのログの個数
 #define POS_LOG					( 5 )								// 記録する位置情報ログの個数
 #define POS_LOG_INTERVAL		( 5 )								// ←msec毎に記録
 
 /* その他 */
-#define TIME_THRE_WAIT			(3)									// この時間以上たつと減速ループから抜ける
+#define TIME_THRE_WAIT			(2)									// この時間以上たつと減速ループから抜ける
 		
 
 

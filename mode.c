@@ -154,15 +154,16 @@ PUBLIC void	MODE_exe( void ){
 			GYRO_clrAngle();		// 角度リセット
 			
 			/* スラロームデータ生成 */
-			PARAM_makeSla(500.0f, 150.0f, 5300.0f, SLA_90, PARAM_SLOW);		// 90度
-			PARAM_makeSla(500.0f, 100.0f, 2500.0f, SLA_45, PARAM_SLOW);			// 45度
-			PARAM_makeSla(500.0f, 150.0f, 5500.0f, SLA_135, PARAM_SLOW);		// 135度
+			PARAM_makeSla(500.0f, 150.0f, 5300.0f, SLA_90, PARAM_SLOW);			// 90度
+			PARAM_makeSla(500.0f, 100.0f, 3000.0f, SLA_45, PARAM_SLOW);			// 45度
+			PARAM_makeSla(500.0f, 150.0f, 5500.0f, SLA_135, PARAM_SLOW);				// 135度
 			PARAM_makeSla(500.0f, 250.0f, 7500.0f, SLA_N90, PARAM_SLOW);		// 斜め → 90°→ 斜め
 
 			/* 走行パラメータ */
 			PARAM_setCntType( TRUE );
 			MOT_setTrgtSpeed(1000.0f);
 			MOT_setSlaStaSpeed(500.0f);
+			MOT_setTrgtSkewSpeed(700.0f);
 			PARAM_setSpeedType( PARAM_ST, PARAM_NORMAL );		// [直進]
 			PARAM_setSpeedType( PARAM_TURN, PARAM_SLOW );		// [旋回]
 			PARAM_setSpeedType( PARAM_SLA, PARAM_SLOW );		// [スラローム]
@@ -230,8 +231,8 @@ PUBLIC void	MODE_exe( void ){
 		case MODE_6:	// ログ関係
 			LED_offAll();
 			TIME_wait(100);
-			//CTRL_showLog();		// ログの掃き出し
-			MAP_showLog();
+			CTRL_showLog();		// ログの掃き出し
+			//MAP_showLog();
 
 			break;
 			
@@ -245,30 +246,31 @@ PUBLIC void	MODE_exe( void ){
 
 			/* スラロームデータ生成 */
 			PARAM_makeSla(500.0f, 150.0f, 5300.0f, SLA_90, PARAM_SLOW);					// 90度
-			PARAM_makeSla(500.0f, 100.0f, 2500.0f, SLA_45, PARAM_SLOW);					// 45度
+			PARAM_makeSla(500.0f, 100.0f, 3000.0f, SLA_45, PARAM_SLOW);					// 45度
 //			PARAM_makeSla(800.0f, 250.0f, 13000.0f, SLA_135, PARAM_SLOW);				// 135度			
 			PARAM_makeSla(500.0f, 150.0f, 5500.0f, SLA_135, PARAM_SLOW);				// 135度
 			PARAM_makeSla(500.0f, 250.0f, 7500.0f, SLA_N90, PARAM_SLOW);				// 斜め → 90°→ 斜め
 			
 			/* 走行パラメータ */
 			PARAM_setCntType( FALSE );
-			MOT_setTrgtSpeed( 500.0f );				// 目標速度設定			
-			PARAM_setSpeedType( PARAM_ST, PARAM_SLOW );			// [直進]速度低速
+			MOT_setTrgtSpeed( 500.0f );				// 目標速度設定
+			MOT_setTrgtSkewSpeed( 1000.0f );		// 目標速度設定			
+			PARAM_setSpeedType( PARAM_ST, PARAM_SLOW );		// [直進]速度低速
 			PARAM_setSpeedType( PARAM_TURN, PARAM_SLOW );		// [旋回]速度低速
 			PARAM_setSpeedType( PARAM_SLA, PARAM_SLOW );	// [スラローム]速度低速
 
 			/* 走行(45) */
-#if 0			
+#if 1			
 			MOT_goBlock_FinSpeed(1.0f+MOVE_BACK_DIST,MAP_SEARCH_SPEED);
 			MOT_goSla(MOT_R45S_S2N,PARAM_getSra( SLA_45 ));
-			MOT_goSkewBlock_FinSpeed(3.5f,MAP_SEARCH_SPEED);
-			MOT_goSla(MOT_L45S_N2S,PARAM_getSra( SLA_45 ));
+			MOT_goSkewBlock_FinSpeed(2.0f,MAP_SEARCH_SPEED);
+			MOT_goSla(MOT_R45S_N2S,PARAM_getSra( SLA_45 ));
 			MOT_goBlock_FinSpeed(0.5,0);
 #endif			
-#if 1
+#if 0
 			/* 走行(135) */
-			MOT_setTrgtSpeed(900.0f);
-			MOT_goBlock_FinSpeed(3.5f+MOVE_BACK_DIST,MAP_SEARCH_SPEED);
+			MOT_setTrgtSpeed(1000.0f);
+			MOT_goBlock_FinSpeed(1.0f+MOVE_BACK_DIST,MAP_SEARCH_SPEED);
 			MOT_goSla(MOT_R135S_S2N,PARAM_getSra( SLA_135 ));
 			MOT_goSkewBlock_FinSpeed(3.5f,0);
 //			MOT_goSla(MOT_L135S_N2S,PARAM_getSra( SLA_135 ));

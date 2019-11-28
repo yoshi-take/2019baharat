@@ -121,7 +121,10 @@ typedef enum{
 PUBLIC void MOT_setTrgtSpeed( FLOAT f_speed );
 PUBLIC void MOT_setNowSpeed( FLOAT f_speed );
 PUBLIC void MOT_setSlaStaSpeed( FLOAT f_speed );
+PUBLIC void MOT_setTrgtSkewSpeed( FLOAT f_speed );
+PUBLIC FLOAT MOT_getTrgtSpeed( void );
 PUBLIC FLOAT MOT_getSlaStaSpeed( void );
+PUBLIC FLOAT MOT_getTrgtSkewSpeed( void );
 
 PUBLIC void MOT_goBlock_FinSpeed(FLOAT num, FLOAT f_fin);
 PUBLIC void MOT_goSkewBlock_FinSpeed(FLOAT f_num, FLOAT f_fin);
