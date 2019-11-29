@@ -2298,15 +2298,15 @@ PUBLIC void MOT_goSla( enMOT_SULA_CMD en_type, stSLA *p_sla){
 	CTRL_setData( &st_data );			// データセット
 	
 	if( IS_R_SLA( en_type ) == true ){	// -方向
-		while( ( f_NowAngle > st_info.f_angle + 2.0f ) ){
-		//while( ( f_NowAngle > st_info.f_angle + 1.0f ) || ( f_NowDist < st_data.f_dist ) ){
+		while( ( f_NowAngle > st_info.f_angle + 1.0f ) ){
+		//while( ( f_NowAngle > st_info.f_angle + 2.0f ) || ( f_NowDist < st_data.f_dist ) ){
 			/* フェイルセーフ */
 			MOT_Failsafe(&bl_failsafe);
 			if( bl_failsafe == TRUE )return;
 		}
 	
 	}else{
-		while( ( f_NowAngle < st_info.f_angle - 1.0f ) ){
+		while( ( f_NowAngle < st_info.f_angle - 0.8f ) ){
 		//while( ( f_NowAngle < st_info.f_angle -1.0f ) || ( f_NowDist < st_data.f_dist ) ){
 			/* フェイルセーフ */
 			MOT_Failsafe(&bl_failsafe);

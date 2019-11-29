@@ -875,10 +875,13 @@ PUBLIC void CTRL_getSenFB( FLOAT *p_err ){
 	}
 	else if( ( en_Type == CTRL_SKEW_ACC ) || ( en_Type == CTRL_SKEW_CONST ) || ( en_Type == CTRL_SKEW_DEC ) ){
 		
-		// DIST_getErrSkew( &l_WallErr);
+		f_kp = PARAM_getGain( Chg_ParamID(en_Type) ) -> f_FB_wall_kp;
+		f_kd = PARAM_getGain( Chg_ParamID(en_Type) ) -> f_FB_wall_kd;
+
+		DIST_getErrSkew( &l_WallErr);
 		f_err = (FLOAT)l_WallErr;
 		
-		*p_err = f_err * f_kp + ( f_err - f_ErrDistBuf ) * f_kd;		// PDêßå‰
+		//*p_err = f_err * f_kp + ( f_err - f_ErrDistBuf ) * f_kd;		// PDêßå‰
 		*p_err = f_err * f_kp;
 	}
 	else if ( en_Type == CTRL_FRONT_WALL ){		// ëOï«ï‚ê≥óp

@@ -132,30 +132,40 @@
 #define L_FRONT_SKEW_ERR3_GAIN		( 0.0f )							// 左前壁、斜め走行時の補正閾値3
 
 /* ↓のセンサ値は、FUNC_DIST_AUTO_THRESHが有効ならばFALSHのデータで上書きされて、無効ならば正式値として使用される */
-#define R_FRONT_REF					( 2450 )							// 右前壁、基準値
-#define L_FRONT_REF					( 2280 )							// 左前壁、基準値
+#define R_FRONT_REF					( 2831 )							// 右前壁、基準値
+#define L_FRONT_REF					( 1348 )							// 左前壁、基準値
 //#define R_45_REF					( 580 )							// 右45度、基準値
 //#define L_45_REF					( 440 )							// 左45度、基準値
-#define R_SIDE_REF					( 928 )							// 右横壁、基準値
-#define L_SIDE_REF					( 790 )							// 左横壁、基準値
-#define R_FRONT_WALL				( 656 )							// 右前壁、壁検知値
-#define L_FRONT_WALL				( 697 )							// 左前壁、壁検知値
+#define R_SIDE_REF					( 800 )							// 右横壁、基準値
+#define L_SIDE_REF					( 817 )							// 左横壁、基準値
+#define R_FRONT_WALL				( 550 )							// 右前壁、壁検知値
+#define L_FRONT_WALL				( 480 )							// 左前壁、壁検知値
 //#define R_45_WALL					( 270 )							// 右45度、壁検知値
-#define R_SIDE_WALL					( 437 )							// 右横壁、壁検知値
+#define R_SIDE_WALL					( 418 )							// 右横壁、壁検知値
 //#define L_45_WALL					( 180 )							// 左45度、壁検知値
-#define L_SIDE_WALL					( 560 )							// 左横壁、壁検知値
-#define R_FRONT_WALL_CTRL			( 3334 )							// 右前壁、これ以上近いと制御する値
-#define L_FRONT_WALL_CTRL			( 3158 )							// 左前壁、これ以上近いと制御する値
-#define R_FRONT_WALL_NO_CTRL		( 3386 )							// 右前壁、これ以上近いと制御しない値
-#define L_FRONT_WALL_NO_CTRL		( 2598 )							// 左前壁、これ以上近いと制御しない値
+#define L_SIDE_WALL					( 510 )							// 左横壁、壁検知値
+#define R_FRONT_WALL_CTRL			( 3334 )						// 右前壁、これ以上近いと制御する値
+#define L_FRONT_WALL_CTRL			( 3158 )						// 左前壁、これ以上近いと制御する値
+#define R_FRONT_WALL_NO_CTRL		( 3386 )						// 右前壁、これ以上近いと制御しない値
+#define L_FRONT_WALL_NO_CTRL		( 2598 )						// 左前壁、これ以上近いと制御しない値
 #define R_FRONT_WALL_HIT			( 1050 )						// 右前壁、壁に当たっていてもおかしくない値（前壁とマウス間が約2mmの時の値）
 #define L_FRONT_WALL_HIT			( 1550 )						// 左前壁、壁に当たっていてもおかしくない値（前壁とマウス間が約2mmの時の値）
+
+#define R_SIDE_PILL					( 850 )						// 右横壁，これ以上柱に近いと制御
+#define L_SIDE_PILL					( 850 )						// 左横壁，これ以上柱に近いと制御
+
+#define R_FRONT_SKEW_ERR1			( 80 )
+#define L_FRONT_SKEW_ERR1			( 70 )			
+#define R_FRONT_SKEW_ERR2			( 192 )
+#define L_FRONT_SKEW_ERR2			( 160 )
+#define R_FRONT_SKEW_ERR3			( 250 )
+#define L_FRONT_SKEW_ERR3			( 250 )
 
 /* ログ */
 #define CTRL_LOG				( 700 )								// 記録する制御ログの個数
 #define CTRL_LOG_CYCLE			( 5 )								// ↑の記録周期[msec]（1より小さい値はNG）
-#define DIST_LOG				( 700 )								// 距離センサのログの個数
-#define DIST_LOG_CYCLE			( 5 )								// ↑の記録周期[msec]（1より小さい値はNG）
+#define DIST_LOG				( 1 )							// 距離センサのログの個数
+#define DIST_LOG_CYCLE			( 2 )								// ↑の記録周期[msec]（1より小さい値はNG）
 
 /* その他 */
 #define TIME_THRE_WAIT			(2)									// この時間以上たつと減速ループから抜ける

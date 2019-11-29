@@ -249,14 +249,14 @@ PUBLIC void DIST_adj( void ){
 	st_senF[DIST_SEN_R_FRONT].s_wallHit  = R_FRONT_WALL_HIT;
 	st_senF[DIST_SEN_L_FRONT].s_wallHit  = L_FRONT_WALL_HIT;
 	
-	st_senF[DIST_SEN_R_FRONT].s_skewErr1 = R_FRONT_REF;
-	st_senF[DIST_SEN_L_FRONT].s_skewErr1 = L_FRONT_REF;
+	st_senF[DIST_SEN_R_FRONT].s_skewErr1 = R_FRONT_SKEW_ERR1;
+	st_senF[DIST_SEN_L_FRONT].s_skewErr1 = L_FRONT_SKEW_ERR1;
 	
-	st_senF[DIST_SEN_R_FRONT].s_skewErr2 = R_FRONT_REF;
-	st_senF[DIST_SEN_L_FRONT].s_skewErr2 = L_FRONT_REF;
+	st_senF[DIST_SEN_R_FRONT].s_skewErr2 = R_FRONT_SKEW_ERR2;
+	st_senF[DIST_SEN_L_FRONT].s_skewErr2 = L_FRONT_SKEW_ERR2;
 
-	st_senF[DIST_SEN_R_FRONT].s_skewErr3 = R_FRONT_REF;
-	st_senF[DIST_SEN_L_FRONT].s_skewErr3 = L_FRONT_REF;
+	st_senF[DIST_SEN_R_FRONT].s_skewErr3 = R_FRONT_SKEW_ERR3;
+	st_senF[DIST_SEN_L_FRONT].s_skewErr3 = L_FRONT_SKEW_ERR3;
 
 	
 #ifdef FUNC_DIST_AUTO_THRESH
@@ -544,6 +544,55 @@ PUBLIC void DIST_getErr( LONG* p_err )
 }
 
 // *************************************************************************
+//   機能		： 柱に近すぎたらFB
+//   注意		： なし
+//   メモ		： なし
+//   引数		： なし
+//   返り値		： 制御量
+// **************************    履    歴    *******************************
+// 		v1.0		2019.11.29			TKR			新規
+// *************************************************************************/
+PUBLIC void DIST_getErrSkew( LONG* p_err ){
+
+	*p_err	= 0;
+	
+	if( st_sen[DIST_SEN_R_SIDE].s_now > R_SIDE_PILL ){
+		*p_err	= 307;
+		LED_on(LED4);
+	}else if(st_sen[DIST_SEN_L_SIDE].s_now > L_SIDE_PILL ){
+		*p_err	= -200;
+		LED_on(LED0);
+	}else{
+		// 制御しない
+		LED_offAll();
+	}
+#if 0
+	if( st_sen[DIST_SEN_R_SIDE].s_now > st_senF[DIST_SEN_R_FRONT].s_skewErr3 ){
+		*p_err	= 300;
+	
+	}else if(st_sen[DIST_SEN_L_SIDE].s_now > st_senF[DIST_SEN_L_FRONT].s_skewErr3 ){
+		*p_err	= -300;
+
+	}else if(st_sen[DIST_SEN_R_SIDE].s_now > st_senF[DIST_SEN_R_FRONT].s_skewErr2 ){
+		*p_err	= 200;
+
+	}else if(st_sen[DIST_SEN_L_SIDE].s_now > st_senF[DIST_SEN_L_FRONT].s_skewErr2 ){
+		*p_err	= -200;
+
+	}else if(st_sen[DIST_SEN_R_SIDE].s_now > st_senF[DIST_SEN_R_FRONT].s_skewErr1 ){
+		*p_err	= 100;
+
+	}else if(st_sen[DIST_SEN_L_SIDE].s_now > st_senF[DIST_SEN_L_FRONT].s_skewErr1 ){
+		*p_err	= -100;
+	
+	}else{
+
+	}
+#endif
+}
+
+
+// *************************************************************************
 //   機能		： 前壁の基準値と現在値の偏差を取得する
 //   注意		： なし
 //   メモ		： 前壁補正用
@@ -623,7 +672,7 @@ PUBLIC void DIST_Pol_Front( void )
 		/* ログ記録 */
 		if( uc_sencycle == DIST_LOG_CYCLE ){
 			st_DistSenLog[us_SenLogPt].s_frontR	= st_sen[DIST_SEN_R_FRONT].s_now;	// 右前壁
-			st_DistSenLog[us_SenLogPt].s_frontR	= st_sen[DIST_SEN_L_FRONT].s_now;	// 左前壁
+			st_DistSenLog[us_SenLogPt].s_frontL	= st_sen[DIST_SEN_L_FRONT].s_now;	// 左前壁
 		}
 	}
 
@@ -673,8 +722,8 @@ PUBLIC void DIST_Pol_Side( void )
 		
 		/* ログ記録 */
 		if( uc_sencycle == DIST_LOG_CYCLE ){
-			st_DistSenLog[us_SenLogPt].s_sideR	= st_sen[DIST_SEN_R_FRONT].s_now;	// 右横壁
-			st_DistSenLog[us_SenLogPt].s_sideL	= st_sen[DIST_SEN_L_FRONT].s_now;	// 左横壁
+			st_DistSenLog[us_SenLogPt].s_sideR	= st_sen[DIST_SEN_R_SIDE].s_now;	// 右横壁
+			st_DistSenLog[us_SenLogPt].s_sideL	= st_sen[DIST_SEN_L_SIDE].s_now;	// 左横壁
 			uc_sencycle	= 0;
 			us_SenLogPt++;
 			if(us_SenLogPt == DIST_LOG)bl_senlog = FALSE;

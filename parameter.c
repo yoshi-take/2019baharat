@@ -135,9 +135,9 @@ PRIVATE	BOOL				bl_cntType		= false;			// カウントタイプ(false:探索、true:最短)
 			{0.0f,		0.0f,		0.0f,		0.0f,		0.7f,		0.0f,		5.5f,		0.01f,		0.04f,		0.0f,		8.0f,		0.05f,		0.025f,		0.01f,	},		// PARAM_BACK_ACC
 			{0.0f,		0.0f,		0.0f,		0.0f,		0.7f,		0.0f,		5.5f,		0.01f,		0.04f,		0.0f,		8.0f,		0.05f,		0.025f,		0.01f,	},		// PARAM_BACK_CONST
 			{0.0f,		0.0f,		0.0f,		0.0f,		0.7f,		0.0f,		5.5f,		0.01f,		0.04f,		0.0f,		8.0f,		0.05f,		0.025f,		0.01f,	},		// PARAM_BACK_DEC
-			{0.055f,	0.2f,		0.0f,		0.0f,		1.0f,		0.0f,		0.0f,		0.0f,		0.2f,		0.0f,		3.0f,		0.5f,		0.0f,		0.0f,	},		// PARAM_SKEW_ACC
-			{0.0f,		0.3f,		0.0f,		0.0f,		1.0f,		0.0f,		0.0f,		0.0f,		0.2f,		0.0f,		3.0f,		0.5f,		0.0f,		0.0f,	},		// PARAM_SKEW_CONST
-			{0.0f,		0.2f,		0.0f,		0.0f,		1.0f,		0.0f,		0.0f,		0.0f,		0.2f,		0.0f,		3.0f,		0.5f,		0.0f,		0.0f,	},		// PARAM_SKEW_DEC
+			{0.055f,	0.2f,		0.0f,		0.0f,		1.0f,		0.0f,		0.0f,		0.0f,		1.0f,		0.0f,		3.0f,		1.0f,		0.0f,		0.0f,	},		// PARAM_SKEW_ACC
+			{0.0f,		0.3f,		0.0f,		0.0f,		1.0f,		0.0f,		0.0f,		0.0f,		1.0f,		0.0f,		3.0f,		1.0f,		0.0f,		0.0f,	},		// PARAM_SKEW_CONST
+			{0.0f,		0.2f,		0.0f,		0.0f,		1.0f,		0.0f,		0.0f,		0.0f,		1.0f,		0.0f,		3.0f,		1.0f,		0.0f,		0.0f,	},		// PARAM_SKEW_DEC
 			{0.12f,		0.0f,		0.0f,		0.0f,		0,			0.0f,		0,			0,			0,			0.0f,		0,			0,			0,			0,		},		// PARAM_HIT_WALL
 			{0.1f,		0.0f,		0.0f,		0.0f,		0.0f,		0.0f,		0.0f,		0.0f,		0.08f,		0.0f,		2.0f,		0.0f,		0.03f,		0.0f,	},		// PARAM_ACC_SMOOTH		
 			{0.0f,		0.0f,		0.0f,		0.0f,		0.0f,		0.0f,		0.0f,		0.0f,		0.08f,		0.0f,		2.0f,		0.0f,		0.03f,		0.0f,	},		// PARAM_CONST_SMOOTH
@@ -151,9 +151,9 @@ PRIVATE	BOOL				bl_cntType		= false;			// カウントタイプ(false:探索、true:最短)
 			{0.0f,		0.0f,		0.0f,		0.0f,		0.7f,		0.0f,		5.5f,		0.01f,		0.04f,		0.0f,		8.0f,		0.05f,		0.025f,		0.01f,	},		// PARAM_BACK_ACC
 			{0.0f,		0.0f,		0.0f,		0.0f,		0.7f,		0.0f,		5.5f,		0.01f,		0.04f,		0.0f,		8.0f,		0.05f,		0.025f,		0.01f,	},		// PARAM_BACK_CONST
 			{0.0f,		0.0f,		0.0f,		0.0f,		0.7f,		0.0f,		5.5f,		0.01f,		0.04f,		0.0f,		8.0f,		0.05f,		0.025f,		0.01f,	},		// PARAM_BACK_DEC
-			{0.055f,	0.2f,		0.0f,		0.0f,		1.0f,		0.0f,		0.0f,		0.0f,		0.2f,		0.0f,		3.0f,		0.5f,		0.07f,		0.0f,	},		// PARAM_SKEW_ACC
-			{0.0f,		0.3f,		0.0f,		0.0f,		1.0f,		0.0f,		0.0f,		0.0f,		0.2f,		0.0f,		3.0f,		0.5f,		0.07f,		0.0f,	},		// PARAM_SKEW_CONST
-			{0.0f,		0.2f,		0.0f,		0.0f,		1.0f,		0.0f,		0.0f,		0.0f,		0.2f,		0.0f,		3.0f,		0.5f,		0.07f,		0.0f,	},		// PARAM_SKEW_DEC
+			{0.055f,	0.2f,		0.0f,		0.0f,		1.0f,		0.0f,		0.0f,		0.0f,		1.0f,		0.0f,		3.0f,		1.0f,		0.0f,		0.0f,	},		// PARAM_SKEW_ACC
+			{0.0f,		0.3f,		0.0f,		0.0f,		1.0f,		0.0f,		0.0f,		0.0f,		1.0f,		0.0f,		3.0f,		1.0f,		0.0f,		0.0f,	},		// PARAM_SKEW_CONST
+			{0.0f,		0.2f,		0.0f,		0.0f,		1.0f,		0.0f,		0.0f,		0.0f,		1.0f,		0.0f,		3.0f,		1.0f,		0.0f,		0.0f,	},		// PARAM_SKEW_DEC
 			{0.12f,		0.0f,		0.0f,		0.0f,		0,			0.0f,		0,			0,			0,			0.0f,		0,			0,			0,			0,		},		// PARAM_HIT_WALL
 			{0.1f,		0.0f,		0.0f,		0.0f,		0.0f,		0.0f,		0.0f,		0.0f,		0.08f,		0.0f,		2.0f,		0.0f,		0.03f,		0.0f,	},		// PARAM_ACC_SMOOTH		
 			{0.0f,		0.0f,		0.0f,		0.0f,		0.0f,		0.0f,		0.0f,		0.0f,		0.08f,		0.0f,		2.0f,		0.0f,		0.03f,		0.0f,	},		// PARAM_CONST_SMOOTH
@@ -167,9 +167,9 @@ PRIVATE	BOOL				bl_cntType		= false;			// カウントタイプ(false:探索、true:最短)
 			{0.0f,		0.0f,		0.0f,		0.0f,		0.7f,		0.0f,		5.5f,		0.01f,		0.04f,		0.0f,		8.0f,		0.05f,		0.025f,		0.01f,	},		// PARAM_BACK_ACC
 			{0.0f,		0.0f,		0.0f,		0.0f,		0.7f,		0.0f,		5.5f,		0.01f,		0.04f,		0.0f,		8.0f,		0.05f,		0.025f,		0.01f,	},		// PARAM_BACK_CONST
 			{0.0f,		0.0f,		0.0f,		0.0f,		0.7f,		0.0f,		5.5f,		0.01f,		0.04f,		0.0f,		8.0f,		0.05f,		0.025f,		0.01f,	},		// PARAM_BACK_DEC
-			{0.055f,	0.2f,		0.0f,		0.0f,		1.0f,		0.0f,		0.0f,		0.0f,		0.2f,		0.0f,		3.0f,		0.5f,		0.07f,		0.0f,	},		// PARAM_SKEW_ACC
-			{0.0f,		0.3f,		0.0f,		0.0f,		1.0f,		0.0f,		0.0f,		0.0f,		0.2f,		0.0f,		3.0f,		0.5f,		0.07f,		0.0f,	},		// PARAM_SKEW_CONST
-			{0.0f,		0.2f,		0.0f,		0.0f,		1.0f,		0.0f,		0.0f,		0.0f,		0.2f,		0.0f,		3.0f,		0.5f,		0.07f,		0.0f,	},		// PARAM_SKEW_DEC
+			{0.055f,	0.2f,		0.0f,		0.0f,		1.0f,		0.0f,		0.0f,		0.0f,		1.0f,		0.0f,		3.0f,		1.0f,		0.0f,		0.0f,	},		// PARAM_SKEW_ACC
+			{0.0f,		0.3f,		0.0f,		0.0f,		1.0f,		0.0f,		0.0f,		0.0f,		1.0f,		0.0f,		3.0f,		1.0f,		0.0f,		0.0f,	},		// PARAM_SKEW_CONST
+			{0.0f,		0.2f,		0.0f,		0.0f,		1.0f,		0.0f,		0.0f,		0.0f,		1.0f,		0.0f,		3.0f,		1.0f,		0.0f,		0.0f,	},		// PARAM_SKEW_DEC
 			{0.12f,		0.0f,		0.0f,		0.0f,		0,			0.0f,		0,			0,			0,			0.0f,		0,			0,			0,			0,		},		// PARAM_HIT_WALL
 			{0.1f,		0.0f,		0.0f,		0.0f,		0.0f,		0.0f,		0.0f,		0.0f,		0.08f,		0.0f,		2.0f,		0.0f,		0.03f,		0.0f,	},		// PARAM_ACC_SMOOTH		
 			{0.0f,		0.0f,		0.0f,		0.0f,		0.0f,		0.0f,		0.0f,		0.0f,		0.08f,		0.0f,		2.0f,		0.0f,		0.03f,		0.0f,	},		// PARAM_CONST_SMOOTH
@@ -233,11 +233,11 @@ PRIVATE	BOOL				bl_cntType		= false;			// カウントタイプ(false:探索、true:最短)
 		
 		/* 超低速(PARAM_VERY_SLOW) */
 		{// FF_加速度	FF_速度		FF_角加速度	 FF_角速度	  速度kp	  速度ki	  位置kp	  位置ki	  角速度kp	   角速度ki		角度kp		角度ki		 壁kp	 	壁kd
-			{0.0f,		0.3f,		0.0f,		0.0f,		1.0f,		0.0f,		0.0f,		0.0f,		0.2f,		0.0f,		3.0f,		0.5f,		0.0f,		0.0f,	},		// PARAM_ENTRY_SLA
-			{0.0f,		0.3f,		0.01f,		0.18f,		1.0f,		0.0f,		0.0f,		0.0f,		0.7f,		0.0f,		0.0f,		0.0f,		0.0f,		0.0f	},		// PARAM_ACC_SLA
-			{0.0f,		0.3f,		0.0f,		0.2f,		1.0f,		0.0f,		0.0f,		0.0f,		0.7f,		0.0f,		0.0f,		0.0f,		0.0f,		0.0f	},		// PARAM_CONST_SLA
-			{0.0f,		0.3f,		0.0f,		0.0f,		1.0f,		0.0f,		0.0f,		0.0f,		0.7f,		0.0f,		0.0f,		0.0f,		0.0f,		0.0f	},		// PARAM_DEC_SLA
-			{0.0f,		0.3f,		0.0f,		0.0f,		1.0f,		0.0f,		0.0f,		0.0f,		0.2f,		0.0f,		3.0f,		0.5f,		0.0f,		0.0f,	},		// PARAM_EXIT_SLA
+			{0.0f,		0.3f,		0.0f,		0.0f,		1.0f,		0.0f,		0.0f,		0.0f,		1.0f,		0.0f,		3.0f,		1.0f,		0.0f,		0.0f,	},		// PARAM_ENTRY_SLA
+			{0.0f,		0.3f,		0.015f,		0.13f,		1.0f,		0.0f,		0.0f,		0.0f,		0.8f,		0.0f,		0.0f,		0.0f,		0.0f,		0.0f	},		// PARAM_ACC_SLA
+			{0.0f,		0.3f,		0.0f,		0.28f,		1.0f,		0.0f,		0.0f,		0.0f,		0.8f,		0.0f,		0.0f,		0.0f,		0.0f,		0.0f	},		// PARAM_CONST_SLA
+			{0.0f,		0.3f,		0.0f,		0.0f,		1.0f,		0.0f,		0.0f,		0.0f,		0.8f,		0.0f,		0.0f,		0.0f,		0.0f,		0.0f	},		// PARAM_DEC_SLA
+			{0.0f,		0.3f,		0.0f,		0.0f,		1.0f,		0.0f,		0.0f,		0.0f,		1.0f,		0.0f,		3.0f,		1.0f,		0.0f,		0.0f,	},		// PARAM_EXIT_SLA
 		},
 		
 		/* 低速(PARAM_SLOW) */
