@@ -77,11 +77,27 @@ typedef struct{
 	stDIST_FRONT_SEN	st_front[DIST_SEN_L_FRONT+1];		// センサデータ(前壁のみ)
 }stDIST_FLASH;
 
+/* 壁センサのログ用 */
+typedef struct {
+	SHORT		s_frontR;
+	SHORT		s_frontL;
+	SHORT		s_sideR;
+	SHORT		s_sideL;
+}stDIST_SEN_LOG;
+
+
 //**************************************************
 // グローバル変数
 //**************************************************
 PRIVATE stDIST_SEN			st_sen[DIST_SEN_MAX];				// 距離センサ
 PRIVATE	stDIST_FRONT_SEN	st_senF[DIST_SEN_L_FRONT+1];		// 距離センサ(前壁のみ)
+
+/* ログ */
+PRIVATE	stDIST_SEN_LOG		st_DistSenLog[DIST_LOG];			// ログ
+PRIVATE	USHORT				us_SenLogPt		= 0;				// ログ位置
+PRIVATE BOOL				bl_senlog		= false;			// ログ取得を許可（false:禁止　true:許可）
+static	UCHAR				uc_sencycle		= 0;				// ログ記録のサイクル
+
 //PRIVATE	USHORT				us_Log[DIST_LOG];					// ログ
 //PRIVATE	USHORT				us_LogPt = 0;						// ログ位置
 //PRIVATE UCHAR				us_LogSta = 0;						// ログ開始/停止（0:停止、1:開始）
@@ -571,6 +587,7 @@ PUBLIC void DIST_getErrFront( LONG* p_err )
 //   返り値		： なし
 // **************************    履    歴    *******************************
 // 		v1.0		2019.5.5			TKR			新規
+//		v1.5		2019.11.29			TKR			ログ追加
 // *************************************************************************/
 PUBLIC void DIST_Pol_Front( void )
 {
@@ -597,6 +614,19 @@ PUBLIC void DIST_Pol_Front( void )
 	st_sen[DIST_SEN_R_FRONT].s_now = (SHORT)S12AD.ADDR2 - st_sen[DIST_SEN_R_FRONT].s_offset;		// 現在値書き換え
 	st_sen[DIST_SEN_L_FRONT].s_now = (SHORT)S12AD.ADDR1 - st_sen[DIST_SEN_L_FRONT].s_offset;		// 現在値書き換え
 	
+	/* ログ */
+	if(us_SenLogPt != DIST_LOG){
+		if( bl_senlog == true ){
+			uc_sencycle++;
+		}
+
+		/* ログ記録 */
+		if( uc_sencycle == DIST_LOG_CYCLE ){
+			st_DistSenLog[us_SenLogPt].s_frontR	= st_sen[DIST_SEN_R_FRONT].s_now;	// 右前壁
+			st_DistSenLog[us_SenLogPt].s_frontR	= st_sen[DIST_SEN_L_FRONT].s_now;	// 左前壁
+		}
+	}
+
 	/* 前壁LED消灯 */
 	LED_DIST_RF = OFF;
 	LED_DIST_LF = OFF;
@@ -610,6 +640,7 @@ PUBLIC void DIST_Pol_Front( void )
 //   返り値		： なし
 // **************************    履    歴    *******************************
 // 		v1.0		2013.12.02			外川			新規
+//		v1.5		2019.11.29			TKR				ログ追加
 // *************************************************************************/
 PUBLIC void DIST_Pol_Side( void )
 {
@@ -637,6 +668,19 @@ PUBLIC void DIST_Pol_Side( void )
 	st_sen[DIST_SEN_R_SIDE].s_now = (SHORT)S12AD.ADDR3 - st_sen[DIST_SEN_R_SIDE].s_offset;		// 現在値書き換え
 	st_sen[DIST_SEN_L_SIDE].s_now = (SHORT)S12AD.ADDR0 - st_sen[DIST_SEN_L_SIDE].s_offset;		// 現在値書き換え
 	
+	/* ログ */
+	if(us_SenLogPt != DIST_LOG){
+		
+		/* ログ記録 */
+		if( uc_sencycle == DIST_LOG_CYCLE ){
+			st_DistSenLog[us_SenLogPt].s_sideR	= st_sen[DIST_SEN_R_FRONT].s_now;	// 右横壁
+			st_DistSenLog[us_SenLogPt].s_sideL	= st_sen[DIST_SEN_L_FRONT].s_now;	// 左横壁
+			uc_sencycle	= 0;
+			us_SenLogPt++;
+			if(us_SenLogPt == DIST_LOG)bl_senlog = FALSE;
+		}
+	}
+
 	/* 横壁LED消灯 */
 	LED_DIST_RS = OFF;
 	LED_DIST_LS = OFF;
@@ -717,4 +761,43 @@ PUBLIC void Dist_ClearSensorData( void )
 	}
 
 	printf("Sensor Erase Complete\n\r");
+}
+
+// *************************************************************************
+//   機能		： ログの許可（壁センサ）
+//   注意		： なし
+//   メモ		： なし
+//   引数		： なし
+//   返り値		： なし
+// **************************    履    歴    *******************************
+// 		v1.0		2019.11.4			TKR			新規
+// *************************************************************************/
+PUBLIC void DIST_LogSta( void ){
+	
+	bl_senlog = TRUE;
+
+}
+
+// *************************************************************************
+//   機能		： ログの出力（壁センサ）
+//   注意		： なし
+//   メモ		： TeraTermに出力し，csvにして保存し，MATLABに出力
+//   引数		： なし
+//   返り値		： なし
+// **************************    履    歴    *******************************
+// 		v1.0		2019.8.6			TKR			新規
+// *************************************************************************/
+PUBLIC void DIST_showLog( void ){
+	
+	USHORT	i;
+	
+	printf("index,[R_F],[L_F],[R_S],[L_S]\n\r");
+	for(i=0; i<DIST_LOG; i++){
+		printf("%4d,%4d,%4d,%4d,%4d\n\r",
+				i,(int)st_DistSenLog[i].s_frontR,
+				(int)st_DistSenLog[i].s_frontL,
+				(int)st_DistSenLog[i].s_sideR,
+				(int)st_DistSenLog[i].s_sideL);
+	}
+
 }

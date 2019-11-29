@@ -154,10 +154,8 @@
 /* ログ */
 #define CTRL_LOG				( 700 )								// 記録する制御ログの個数
 #define CTRL_LOG_CYCLE			( 5 )								// ↑の記録周期[msec]（1より小さい値はNG）
-#define SET_LOG					( 100 )								// 設定した動作データのログ数
-#define DIST_LOG				( 5 )								// 距離センサのログの個数
-#define POS_LOG					( 5 )								// 記録する位置情報ログの個数
-#define POS_LOG_INTERVAL		( 5 )								// ←msec毎に記録
+#define DIST_LOG				( 700 )								// 距離センサのログの個数
+#define DIST_LOG_CYCLE			( 5 )								// ↑の記録周期[msec]（1より小さい値はNG）
 
 /* その他 */
 #define TIME_THRE_WAIT			(2)									// この時間以上たつと減速ループから抜ける

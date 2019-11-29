@@ -56,5 +56,6 @@ PUBLIC void DIST_adj( void );
 PUBLIC BOOL DIST_isWall_FRONT( void );
 PUBLIC BOOL DIST_isWall_R_SIDE( void );
 PUBLIC BOOL DIST_isWall_L_SIDE( void );
-
+PUBLIC void DIST_LogSta( void );
+PUBLIC void DIST_showLog( void );
 #endif
