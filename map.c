@@ -2116,22 +2116,34 @@ PUBLIC void MAP_makeSkewCmdList( void )
 		//	直進 → 右45度 → 斜め
 		if( (c1<=GO32) && (c2==R90S) && (c3==L90S) )
 		{
-			if( c1-1 != 0 ) tcom[ ct_n++ ] = c1 - 1;		//	前の複合コマンドによって直線区間が消えない場合
-			tcom[ ct_n++ ] = RS45N;
-			ct_st ++;
+			if( (ct_st == 0)&&( c1-1 == 0 )){
+				tcom[ ct_n ] = scom_temp[ct_st];
+				ct_st++;
+				ct_n++;
+			}else{
+				if( c1-1 != 0 ) tcom[ ct_n++ ] = c1 - 1;		//	前の複合コマンドによって直線区間が消えない場合
+				tcom[ ct_n++ ] = RS45N;
+				ct_st ++;
 
-			x = (USHORT)(NGO1 - 1);		//	斜めモード
-			flag = 0;
+				x = (USHORT)(NGO1 - 1);		//	斜めモード
+				flag = 0;
+			}
 		}
 		//	直進 → 左45度 → 斜め
 		else if( (c1<=GO32) && (c2==L90S) && (c3==R90S) )
 		{
-			if( c1-1 != 0 ) tcom[ ct_n++ ] = c1 - 1;		//	前の複合コマンドによって直線区間が消えない場合
-			tcom[ ct_n++ ] = LS45N;
-			ct_st ++;
+			if( (ct_st == 0)&&( c1-1 == 0 )){
+				tcom[ ct_n ] = scom_temp[ct_st];
+				ct_st++;
+				ct_n++;
+			}else{
+				if( c1-1 != 0 ) tcom[ ct_n++ ] = c1 - 1;		//	前の複合コマンドによって直線区間が消えない場合
+				tcom[ ct_n++ ] = LS45N;
+				ct_st ++;
 
-			x = (USHORT)(NGO1 - 1);		//	斜めモード
-			flag = 0;
+				x = (USHORT)(NGO1 - 1);		//	斜めモード
+				flag = 0;
+			}
 		}
 
 		//	直進 → 右90度 → 直進

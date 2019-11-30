@@ -55,7 +55,7 @@
 //**************************************************
 /* 迷路サイズ */
 #define GOAL_MAP_X					( 7 )								// ゴールのX区画数（横方向） [区画]
-#define GOAL_MAP_Y					( 4 )								// ゴールのY区画数（縦方向） [区画]
+#define GOAL_MAP_Y					( 7 )								// ゴールのY区画数（縦方向） [区画]
 #define MAP_X_SIZE					( 16 )								// 迷路のX区画数（横方向） [区画]
 #define MAP_Y_SIZE					( 16 )								// 迷路のY区画数（縦方向） [区画]
 
@@ -76,7 +76,7 @@
 #define MOVE_BACK_DIST_SURA			( 0.27f ) 							// 壁当て動作で後退した距離 [区画]
 
 /* 探索時の尻当て周期 */
-#define MAP_SLA_NUM_MAX				( 20 )								// 最大連続スラロームを何回まで許可するか
+#define MAP_SLA_NUM_MAX				( 10 )								// 最大連続スラロームを何回まで許可するか
 #define MAP_TURN_NUM_MAX			( 1 )								// 最大連続旋回を何回まで許可するか
 
 /* 迷路中での待ち時間 */

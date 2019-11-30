@@ -2294,11 +2294,11 @@ PUBLIC void MOT_goSla( enMOT_SULA_CMD en_type, stSLA *p_sla){
 	st_data.f_nowAngle		= st_info.f_angle1_2;		// 現在角度
 	st_data.f_angle			= st_info.f_angle;			// 目標角度
 	st_data.f_time			= p_sla->us_accAngvelTime * 0.001;
-		
+
 	CTRL_setData( &st_data );			// データセット
 	
 	if( IS_R_SLA( en_type ) == true ){	// -方向
-		while( ( f_NowAngle > st_info.f_angle + 1.0f ) ){
+		while( ( f_NowAngle > st_info.f_angle ) ){
 		//while( ( f_NowAngle > st_info.f_angle + 2.0f ) || ( f_NowDist < st_data.f_dist ) ){
 			/* フェイルセーフ */
 			MOT_Failsafe(&bl_failsafe);
@@ -2306,7 +2306,7 @@ PUBLIC void MOT_goSla( enMOT_SULA_CMD en_type, stSLA *p_sla){
 		}
 	
 	}else{
-		while( ( f_NowAngle < st_info.f_angle - 0.8f ) ){
+		while( ( f_NowAngle < st_info.f_angle ) ){
 		//while( ( f_NowAngle < st_info.f_angle -1.0f ) || ( f_NowDist < st_data.f_dist ) ){
 			/* フェイルセーフ */
 			MOT_Failsafe(&bl_failsafe);
