@@ -104,6 +104,8 @@
 /* 距離 */
 #define MOT_BACK_SEN_ADJ			( 73.0f )							// 壁～柱+aまで（センサオートチューニングに使用する）
 #define MOT_WALL_EDGE_DIST			( 33.0f )							// 壁切れセンサOFF～壁まで
+#define	MOT_WALL_FRONT_REV_R		( 200 )								// 前壁補正の閾値（右）
+#define	MOT_WALL_FRONT_REV_L		( 200 )								// 前壁補正の閾値（左）
 
 /* 距離センサ(環境変化以外) */
 #define SEN_WAIT_CNT				( 175 )								// センサの発光安定待ち（実験値）

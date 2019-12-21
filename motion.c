@@ -20,6 +20,7 @@
 #include <hal_dcm.h>						// DCM
 #include <hal_dcmCtrl.h>					// DCM_CTRL
 #include <hal_gyro.h>						// GYRO
+#include <hal_dist.h>						// DIST
 
 #include <motion.h>                         // motion
 #include <parameter.h>						// parameter
@@ -97,7 +98,8 @@ PRIVATE BOOL						bl_IsWallEdge		= false;				//•ÇØ‚êŒŸ’m(true:ŒŸ’m@false:”ñŒŸ’
 PRIVATE FLOAT						f_WallEdgeAddDist	= 0;					//•ÇØ‚ê•â³Œã‚ÌˆÚ“®‹——£
 
 /* ‚»‚Ì‘¼ */
-extern PUBLIC	VUCHAR		uc_CntSec;		// “à•”Œv[sec]
+extern PUBLIC	VUCHAR				uc_CntSec;				// “à•”Œv[sec]
+extern PUBLIC 	stDIST_SEN			st_sen[DIST_SEN_MAX];	// ‹——£ƒZƒ“ƒTC‘O•Ç•â³—p
 
 //**************************************************
 // ƒvƒƒgƒ^ƒCƒvéŒ¾iƒtƒ@ƒCƒ‹“à‚Å•K—v‚È‚à‚Ì‚¾‚¯‹Lqj
@@ -2194,12 +2196,35 @@ PUBLIC void MOT_goSla( enMOT_SULA_CMD en_type, stSLA *p_sla){
 	DCM_staMotAll();				// ƒ‚[ƒ^ON
 
 //	LED_onAll();
+#if 0
 	while( f_NowDist < f_entryLen ){				// w’è‹——£“’B‘Ò‚¿
 			/* ƒtƒFƒCƒ‹ƒZ[ƒt */
 			MOT_Failsafe(&bl_failsafe);
 			if( bl_failsafe == TRUE )return;
+
 	}
-	
+#endif
+
+#if 1
+	if( TRUE == DIST_isWall_FRONT() ){		// ‘O•Ç‚ª‚ ‚é‚Æ‚«‚Í‘O•Ç‚Ìè‡’l’´‚¦‚½‚Æ‚«’¼i“®ì‚â‚ß‚é
+		while( (st_sen[DIST_SEN_R_FRONT].s_now < MOT_WALL_FRONT_REV_R) &&
+				(st_sen[DIST_SEN_L_FRONT].s_now < MOT_WALL_FRONT_REV_L) ){
+		
+			/* ƒtƒFƒCƒ‹ƒZ[ƒt */
+			MOT_Failsafe(&bl_failsafe);
+			if( bl_failsafe == TRUE )return;
+		}
+
+	}else{
+		while( f_NowDist < f_entryLen ){				// w’è‹——£“’B‘Ò‚¿
+		
+			/* ƒtƒFƒCƒ‹ƒZ[ƒt */
+			MOT_Failsafe(&bl_failsafe);
+			if( bl_failsafe == TRUE )return;
+		}
+	}
+
+#endif
 	
 	/* -------- */
 	/* @‰Á‘¬@ */

@@ -52,16 +52,6 @@ typedef struct{
 	SHORT		s_skewErr3;					///< @var : 斜め走行時の補正閾値3                    ( AD 値 )
 }stDIST_FRONT_SEN;
 
-/* 距離センサ情報（全センサ共通） */
-typedef struct{
-	SHORT		s_now;						// LED 点灯中の距離センサの現在値           ( AD 値 )
-	SHORT		s_old;						// LED 点灯中の距離センサの1つ前の値        ( AD 値 )
-	SHORT		s_limit;					// 距離センサの閾値                         ( AD 値 ) ( この値より大きい場合、壁ありと判断する )
-	SHORT		s_ref;						// 区画の中心に置いた時の距離センサの基準値 ( AD 値 )
-	SHORT		s_offset;					// LED 消灯中の距離センサの値               ( AD 値 )
-	SHORT		s_ctrl;						// 制御有効化する際の閾値                   ( AD 値 ) 主に前壁で使用
-	SHORT		s_noCtrl;					// 壁に近すぎるため制御無効化する際の閾値   ( AD 値 ) 主に前壁で使用
-}stDIST_SEN;
 
 /* 距離センサ情報（全センサ共通、データフラッシュ用構造体のみに使用） */
 typedef struct{
@@ -89,7 +79,7 @@ typedef struct {
 //**************************************************
 // グローバル変数
 //**************************************************
-PRIVATE stDIST_SEN			st_sen[DIST_SEN_MAX];				// 距離センサ
+PUBLIC 	stDIST_SEN			st_sen[DIST_SEN_MAX];				// 距離センサ
 PRIVATE	stDIST_FRONT_SEN	st_senF[DIST_SEN_L_FRONT+1];		// 距離センサ(前壁のみ)
 
 /* ログ */
